@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zehnkampfrechner</title>
+
+    <!-- Verweise auf die Manifest-Datei -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Theme color für die mobile Ansicht -->
+    <meta name="theme-color" content="#262626">
+
+    <!-- Icons -->
+    <link rel="icon" href="imgs/appIcon.png" sizes="192x192">
+    <link rel="icon" href="imgs/appIcon.png" sizes="512x512">
+
+    <style>
+        .background-dark {
+            background-color: #262626;
+        }
+        
+        .center{
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .labels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 50px;
+        }
+
+        .label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 25px;
+        }
+
+        .input {
+            width: 70px;
+            margin-left: 10px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .inputcomparison {
+            width: 55px;
+            margin-left: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #result1, #result2, #result3, #result4, #result5, #result6, #result7, #result8, #result9, #result10 {
+            width: 70px;
+            text-align: right;
+            font-size: 25px;
+        }
+
+        ::placeholder {
+            color: 	#A9A9A9;
+            font-style: italic;
+        }
+
+        /* Menü */
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #5b5b5b;
+            z-index: 1;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .menu a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            color: white;
+        }
+
+        .menu .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: white;
+        }
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="background-dark">
+    <!-- Menü -->
+    <div id="mySidebar" class="menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    </div>
+            
+    <div id="main" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size:30px; cursor:pointer; color: white; margin-right: 20px;" onclick="toggleNav()">&#9776;</span>
+        <div style="display: flex; align-items: center;">
+            <img src="imgs/new_profile.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openProfileWindow()">
+            <img src="imgs/comparison.png" style="width: 64px; height: 32px; margin-right: 10px;" onclick="openAthleteComparison()">
+        </div>
+    </div>
+           
+    <div class="center">
+        Zehnkampfrechner
+    </div>
+
+    <div class="labels-container">
+        <div class="label" style="display: flex; justify-content: space-between; width: 100%;">
+            <span style="flex: 1; text-align: left;">Disziplin</span>
+            <span style="flex: 1; text-align: center;">Ergebnis</span>
+            <span style="flex: 1; text-align: right;">Punkte</span>
+        </div>
+              
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">100m</span>
+            <input class="input" type="text" name="100m" oninput="calculatePoints('100m','result1', 1, 25.4347, 18, 1.81);" style="flex: 1; font-size: 20px;" placeholder="11.05">
+            <div id="result1" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+        
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Weit</span>
+            <input class="input" type="text" name="Weit" oninput="calculatePoints('Weit', 'result2', 2, 0.14354, 220, 1.4);" style="flex: 1; font-size: 20px;" placeholder="7.25">
+            <div id="result2" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Kugel</span>
+            <input class="input" type="text" name="Kugel" oninput="calculatePoints('Kugel', 'result3', 3, 51.39, 1.5, 1.05);" style="flex: 1; font-size: 20px;" placeholder="14.75">
+            <div id="result3" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Hoch</span>
+            <input class="input" type="text" name="Hoch" oninput="calculatePoints('Hoch', 'result4', 2, 0.8465, 75, 1.42);" style="flex: 1; font-size: 20px;" placeholder="2.03">
+            <div id="result4" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">400m</span>
+            <input class="input" type="text" name="400m" oninput="calculatePoints('400m', 'result5', 1, 1.53775, 82, 1.81);" style="flex: 1; font-size: 20px;" placeholder="48.25">
+            <div id="result5" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">110mH</span>
+            <input class="input" type="text" name="110mH" oninput="calculatePoints('110mH', 'result6', 1, 5.74352, 28.5, 1.92);" style="flex: 1; font-size: 20px;" placeholder="14.25">
+            <div id="result6" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Diskus</span>
+            <input class="input" type="text" name="Diskus" oninput="calculatePoints('Diskus', 'result7', 3, 12.91, 4, 1.1);" style="flex: 1; font-size: 20px;" placeholder="47.50">
+            <div id="result7" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Stab</span>
+            <input class="input" type="text" name="Stab" oninput="calculatePoints('Stab', 'result8', 2, 0.2797, 100, 1.35);" style="flex: 1; font-size: 20px;" placeholder="5.05">
+            <div id="result8" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">Speer</span>
+            <input class="input" type="text" name="Speer" oninput="calculatePoints('Speer', 'result9', 3, 10.14, 7, 1.08);" style="flex: 1; font-size: 20px;" placeholder="55.25">
+            <div id="result9" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+
+        <div class="label" style="display: flex; align-items: center;">
+            <span style="flex: 1; font-size: 25px;">1500m</span>
+            <input class="input" type="text" name="1500m" oninput="calculatePoints('1500m', 'result10', 4, 0.03768, 480, 1.85);" style="flex: 1; font-size: 20px;" placeholder="4:45.25">
+            <div id="result10" style="flex: 1; font-size: 25px; text-align: right;">0</div>
+        </div>
+        <div class="label" style="display: flex; justify-content: space-between; width: 100%; margin-top: 20px;">
+            <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
+            <div id="total" style="flex: 1; text-align: right; font-size: 25px;">0</div>
+        </div>
+    </div>
+
+    <script>
+        // Profile speichern
+        function saveProfilesToLocalStorage() {
+            localStorage.setItem('profiles', JSON.stringify(profiles));
+        }
+
+        // Profile laden
+        function loadProfilesFromLocalStorage() {
+            profiles.splice(0, profiles.length);
+            console.log('Profile:' ,profiles);
+            const savedProfiles = localStorage.getItem('profiles');
+            console.log('Saved Profiles:', savedProfiles);
+            if (savedProfiles) {
+                JSON.parse(savedProfiles).forEach(profile => {
+                    if (!profiles.some(p => p.name === profile.name)) {
+                        profiles.push(profile);
+                    }
+                });
+            }
+            console.log('Loaded profiles:', profiles);
+        }
+
+        function toggleNav() {
+            var sidebar = document.getElementById("mySidebar");
+            var mainContent = document.getElementById("main");
+
+            // Überprüfen, ob die Sidebar derzeit geöffnet ist
+            if (sidebar.style.width === "200px") {
+                // Sidebar schließen
+                closeNav();
+            } else {
+                // Sidebar öffnen
+                openNav();
+            }
+        }
+
+        function openNav() {
+            var sidebar = document.getElementById("mySidebar");
+            sidebar.style.display = "block";
+            sidebar.style.width = "200px";
+            document.getElementById("main").style.marginLeft = "200px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            // Öffnen Standardprofil nach Löschung
+            if (profileDeleted) {
+                handleProfileButtonClick(defaultTitle);
+                profileDeleted = false;
+            }
+        }
+        
+        function calculatePoints(inputName, resultId, disciplineType, A, B, C) {
+            var inputElement = document.getElementsByName(inputName)[0];
+            var resultElement = document.getElementById(resultId);
+            var inputValue = inputElement.value;
+            var profileName = document.querySelector('.center').textContent;
+
+            const profileIndex = getProfileIndex(profileName);
+
+            // Berechnung des resultIndex
+            const athlete = inputName.split('_').pop(); // Extrahiere den Athletennamen aus dem inputName
+            const resultIndexBase = parseInt(resultId.replace("result", " ")) - 1;
+            
+            // Wenn der Athlet der zweite ist, addiere 10 zu resultIndexBase
+            const resultIndex = profileName.includes(athlete) && profileName.split(" vs. ")[1] === athlete ? resultIndexBase + 10 : resultIndexBase;
+
+            if (inputValue === "") {
+                resultElement.innerHTML = "0";
+                profiles[profileIndex].results[resultIndex] = "0";
+                profiles[profileIndex].values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
+            } else {
+                var performance = 0;
+                // Laufdisziplinen
+                if (disciplineType === 1) {
+                    performance = parseFloat(inputValue);
+                    var points = A * Math.pow((B - performance), C);
+                    resultElement.innerHTML = Math.floor(points);
+                }
+                // Sprungdisziplinen
+                else if (disciplineType === 2) {
+                    // Ergebnis in cm
+                    performance = parseFloat(inputValue) * 100;
+                    var points = A * Math.pow((performance - B), C);
+                    resultElement.innerHTML = Math.floor(points);
+                }
+                // Wurfdisziplinen
+                else if (disciplineType === 3) {
+                    performance = parseFloat(inputValue);
+                    var points = A * Math.pow((performance - B), C);
+                    resultElement.innerHTML = Math.floor(points);
+                }
+                // 1500m
+                else if (disciplineType === 4) {
+                    var timeComponents = inputValue.split(':');
+                    var minutes = parseFloat(timeComponents[0]);
+                    var seconds = parseFloat(timeComponents[1]);
+                    performance = minutes * 60 + seconds;
+                    var points = A * Math.pow((B - performance), C);
+                    resultElement.innerHTML = Math.floor(points);
+                }
+
+                profiles[profileIndex].results[resultIndex] = resultElement.innerHTML;
+                profiles[profileIndex].values[resultIndex] = inputValue;
+            }
+            saveProfilesToLocalStorage();
+
+            // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
+            if (profileName.includes(" vs.")) {
+                const [athlete1, athlete2] = profileName.split(" vs. ");
+                
+                if (inputName.includes(athlete1)) {
+                    calculateTotalPoints(profileName, athlete1);
+                } else if (inputName.includes(athlete2)) {
+                    calculateTotalPoints(profileName, athlete2);
+                }
+            } else {
+                // Standardverhalten für nicht-Vergleichsprofile
+                calculateTotalPoints(profileName);
+            }
+        }
+
+
+        function calculateTotalPoints(profileName, athlete = null) {
+            const profile = profiles.find(p => p.name === profileName);
+
+            if (profile) {
+                if (athlete) {
+                    const athleteIndex = profileName.split(" vs. ").indexOf(athlete);
+                    const startIndex = athleteIndex * 10;
+                    const resultValues = profile.results.slice(startIndex, startIndex + 10).filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined);
+                    const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
+                    profile.totalPoints[athlete] = totalPoints;
+
+                    const totalElement = document.getElementById(`totalPoints_${athlete}`);
+                    if (totalElement) {
+                        totalElement.innerHTML = totalPoints;
+                    }
+                } else {
+                    const resultValues = profile.results.filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined);
+                    const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
+                    profile.totalPoints = totalPoints;
+
+                    const totalElement = document.getElementById('total');
+                    if (totalElement) {
+                        totalElement.innerHTML = totalPoints;
+                    }
+                }
+
+            }
+        }
+
+        // Function new_profile
+        function openProfileWindow() {
+            // Create a modal window
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.zIndex = '1';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+
+            // Create the inner content
+            var content = document.createElement('div');
+            content.style.backgroundColor = '#a0a0a0';
+            content.style.padding = '20px';
+            content.style.border = '1px solid #ddd';
+            content.style.width = '50%';
+            content.style.borderRadius = '5px';
+            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+
+            // Close button
+            var closeButton = document.createElement('span');
+            closeButton.textContent = 'x';
+            closeButton.style.float = 'right';
+            closeButton.style.cursor = 'pointer';
+            closeButton.style.fontWeight = 'bold';
+            closeButton.style.color = 'white';
+            closeButton.style.fontSize = '20px';
+            closeButton.style.marginBottom = '20px';
+            closeButton.onclick = function() {
+                document.body.removeChild(modal);
+            };
+            content.appendChild(closeButton);
+                        
+            // Input field
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.placeholder = 'Name des Athleten';
+            inputField.style.width = '90%';
+            inputField.style.padding = '10px';
+            inputField.style.fontSize = '16px';
+            inputField.style.marginBottom = '20px';
+            inputField.style.border = '1px solid #ddd';
+            inputField.style.borderRadius = '4px';
+            content.appendChild(inputField);
+
+            // OK button
+            var okButton = document.createElement('button');
+            okButton.textContent = 'OK';
+            okButton.style.backgroundColor = '#4CAF50';
+            okButton.style.color = 'white';
+            okButton.style.padding = '10px 20px';
+            okButton.style.border = 'none';
+            okButton.style.borderRadius = '4px';
+            okButton.style.cursor = 'pointer';
+            okButton.style.float = 'right';
+            okButton.onclick = function() {
+                var athleteName = inputField.value;
+                addProfileToSidebar(athleteName);
+                document.body.removeChild(modal);
+                handleProfileButtonClick(athleteName);
+            };
+            content.appendChild(okButton);
+
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+        }
+
+        // Funktion zum Hinzufügen neuer Profile
+        function handleProfileButtonClick(profileName) {
+            if (profileName !== defaultTitle) {
+                closeNav();
+                document.querySelector('.center').textContent = profileName;
+                displayProfileResults(profileName);
+                // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
+                if (profileName.includes(" vs.")) {
+                    // Zerlegen des Inputnamens, um die Athletennamen zu extrahieren
+                    const [athlete1, athlete2] = profileName.split(" vs. ");
+                    calculateTotalPoints(profileName, athlete1);
+                    calculateTotalPoints(profileName, athlete2);
+                } 
+                else {
+                    // Standardverhalten für nicht-Vergleichsprofile
+                    calculateTotalPoints(profileName);
+                }
+                profileDeleted = false;
+            } else {
+                navigateToHome();
+            }
+        }
+
+        // Beispielprofil-Daten
+        const profiles = [];
+
+        function getProfileIndex(profileName) {
+            return profiles.findIndex(p => p.name === profileName);
+        }
+
+        function getInputName(index) {
+            return [
+                '100m', 'Weit', 'Kugel', 'Hoch', '400m',
+                '110mH', 'Diskus', 'Stab', 'Speer', '1500m'
+            ][index - 1];
+        }
+
+        function displayProfileResults(profileName) {
+            const profile = profiles.find(p => p.name === profileName);
+            if (!profile) return;
+
+            // Leeren der vorhandenen Labels
+            const labelsContainer = document.querySelector('.labels-container');
+            labelsContainer.innerHTML = '';
+
+            if (profile.type === 'single') {
+                // Funktion zum Anzeigen von Einzelprofilen
+                displaySingleProfile(profile);
+            } else if (profile.type === 'comparison') {
+                // Funktion zum Anzeigen von Vergleichsprofilen
+                displayComparisonProfile(profile);
+            }
+        }
+
+        function displaySingleProfile(profile) {
+            const labelsContainer = document.querySelector('.labels-container');
+            
+            // Überschriften für Vergleichsprofile hinzufügen
+            const headerLabel = document.createElement('div');
+            headerLabel.className = 'label';
+            headerLabel.style.display = 'flex';
+            headerLabel.style.justifyContent = 'space-between';
+            headerLabel.style.width = '100%';
+            headerLabel.innerHTML = `
+                <span style="flex: 1; text-align: left;">Disziplin</span>
+                <span style="flex: 1; text-align: center;">Ergebnis</span>
+                <span style="flex: 1; text-align: right;">Punkte</span>
+            `;
+            labelsContainer.appendChild(headerLabel);
+
+            // Erstellen der Disziplin-Labels und Eingabefelder
+            for (let i = 0; i < 10; i++) {
+                const inputName = getInputName(i + 1);
+                const value = profile.values[i];
+                const points = profile.results[i];
+
+                const label = document.createElement('div');
+                label.className = 'label';
+                label.style.display = 'flex';
+                label.style.alignItems = 'center';
+                label.innerHTML = `
+                    <span style="flex: 1; font-size: 25px;">${inputName}</span>
+                    <input class="input" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <div id="result${i + 1}" style="flex: 1; font-size: 25px; text-align: right;">${points !== "" ? points : 0}</div>
+                `;
+
+                labelsContainer.appendChild(label);
+            }
+
+            // Gesamtpunktzahl-Anzeige hinzufügen
+            const totalLabel = document.createElement('div');
+            totalLabel.className = 'label';
+            totalLabel.style.display = 'flex';
+            totalLabel.style.justifyContent = 'space-between';
+            totalLabel.style.width = '100%';
+            totalLabel.innerHTML = `
+                <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
+                <div id="total" style="flex: 1; text-align: right; font-size: 25px;">${profile.totalPoints}</div>
+            `;
+            labelsContainer.appendChild(totalLabel);
+        }
+
+        function displayComparisonProfile(profile) {
+            const labelsContainer = document.querySelector('.labels-container');
+            labelsContainer.innerHTML = '';
+
+            const headerLabel = document.createElement('div');
+            headerLabel.className = 'label';
+            headerLabel.style.display = 'flex';
+            headerLabel.style.justifyContent = 'space-between';
+            headerLabel.style.width = '100%';
+            headerLabel.innerHTML = `
+                <span style="flex: 1; text-align: left;">Disziplin</span>
+                <span style="flex: 1; text-align: center;">Ergebnis</span>
+                <span style="flex: 1; text-align: right;">Punkte</span>
+            `;
+            labelsContainer.appendChild(headerLabel);
+
+            const [athlete1, athlete2] = profile.name.split(" vs. ");
+
+            for (let i = 0; i < 10; i++) {
+                const inputName = getInputName(i + 1);
+                const valueAthlete1 = profile.values[i];
+                const valueAthlete2 = profile.values[i + 10];
+                const pointsAthlete1 = profile.results[i];
+                const pointsAthlete2 = profile.results[i + 10];
+
+                const label = document.createElement('div');
+                label.className = 'label';
+                label.style.display = 'flex';
+                label.style.alignItems = 'center';
+                label.innerHTML = `
+                    <span style="flex: 1; font-size: 22px;">${inputName}</span>
+                    <input class="inputcomparison" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="flex: 1; font-size: 16px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <input class="inputcomparison" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="flex: 1; font-size: 16px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <div id="result${i + 1}_${athlete1}" style="flex: 1; font-size: 20px; text-align: center;">${pointsAthlete1 !== "" ? pointsAthlete1 : 0}</div>
+                    <span style="font-size: 20px; margin: 5px">vs.</span>
+                    <div id="result${i + 1}_${athlete2}" style="flex: 1; font-size: 20px; text-align: center;">${pointsAthlete2 !== "" ? pointsAthlete2 : 0}</div>
+                `;
+
+                labelsContainer.appendChild(label);
+            }
+
+            const totalLabel = document.createElement('div');
+            totalLabel.className = 'label';
+            totalLabel.style.display = 'flex';
+            totalLabel.style.justifyContent = 'space-between';
+            totalLabel.style.width = '100%';
+            totalLabel.innerHTML = `
+                <span style="flex: 1; text-align: left; font-size: 22px;">Gesamtpunktzahl</span>
+                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 22px;">${profile.totalPoints[athlete1]}</span>
+                <span style="font-size: 20px; margin: 5px">vs.</span>
+                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 22px;">${profile.totalPoints[athlete2]}</span>
+            `;
+            labelsContainer.appendChild(totalLabel);
+        }
+
+        // Hier können Sie die Funktion addProfileToSidebar anpassen, um neue Profile mit ihren eigenen Ergebnis-Arrays hinzuzufügen
+        function addProfileToSidebar(profileName, type = 'single') {
+            const sidebar = document.getElementById('mySidebar');
+
+            // Prüfen ob Profil bereits in Sidebar existiert
+            if (!Array.from(sidebar.children).some(child => child.textContent.includes(profileName))) {
+                // Erstellen eines Containers für das Profil und den Lösch-Button
+                const profileContainer = document.createElement('div');
+                profileContainer.style.display = 'flex';
+                profileContainer.style.alignItems = 'center';
+                profileContainer.style.justifyContent = 'space-between';
+                profileContainer.style.backgroundColor = '#5b5b5b';
+                profileContainer.style.marginBottom = '5px'; // Abstand zwischen den Profilen
+
+                // Erstellen des Profil-Buttons
+                const newButton = document.createElement('button');
+                newButton.textContent = profileName;
+                newButton.style.flexGrow = '1';
+                newButton.style.fontSize = '20px';
+                newButton.style.color = 'white';
+                newButton.style.backgroundColor = '#5b5b5b';
+                newButton.style.border = 'none';
+                newButton.onclick = function() {
+                    handleProfileButtonClick(profileName);
+                };
+                profileContainer.appendChild(newButton);
+
+                // Erstellen des Lösch-Buttons
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '🗑️'; // Mülleimer-Symbol
+                deleteButton.style.fontSize = '20px';
+                deleteButton.style.color = 'white';
+                deleteButton.style.backgroundColor = '#5b5b5b';
+                deleteButton.style.border = 'none';
+                deleteButton.style.marginRight = '10px';
+                deleteButton.onclick = function() {
+                    confirmProfileDeletion(profileName);
+                };
+                profileContainer.appendChild(deleteButton);
+
+                // Hinzufügen des Containers zur Sidebar
+                sidebar.appendChild(profileContainer);
+            }
+
+            // Prüfen ob Profil bereits in `profiles` existiert
+            if (!profiles.some(p => p.name === profileName)) {
+                let resultsArray = Array(10).fill('');
+                let valuesArray = Array(10).fill('');
+
+                // Wenn es sich um ein Vergleichsprofil handelt, erweitern Sie die Arrays
+                if (type === 'comparison') {
+                    resultsArray = Array(20).fill('');
+                    valuesArray = Array(20).fill('');
+                }
+
+                // Hinzufügen des Profils zur internen Profil-Liste
+                profiles.push({ name: profileName, results: resultsArray, values: valuesArray, type: type });
+                saveProfilesToLocalStorage(); // Speichern der Profile im `localStorage`
+            } 
+        }
+        
+        var defaultTitle = "Zehnkampfrechner";
+
+        // Wenn man auf "Zehnkampfrechner klickt"
+        function navigateToHome() {
+            var sidebar = document.getElementById("mySidebar");
+            sidebar.style.display = "none";
+            document.getElementById("main").style.marginLeft = "0";
+
+            var currentProfile = document.querySelector('.center').textContent;
+            if (currentProfile !== defaultTitle) {
+                document.querySelector('.center').textContent = defaultTitle;
+                displayProfileResults(defaultTitle);
+                calculateTotalPoints(defaultTitle);
+            } else {
+                displayProfileResults(defaultTitle);
+            }
+        }
+
+        // Initialisierung der Standardwerte beim Laden der Seite
+        window.onload = function () {
+            // Leere die Sidebar, um doppelte Einträge zu vermeiden
+            const sidebar = document.getElementById('mySidebar');
+            sidebar.innerHTML = '';
+            
+            loadProfilesFromLocalStorage();  // Profile laden
+            
+            if (profiles.length > 0) {
+                // Stelle sicher, dass das erste Profil geladen wird, aber das "Zehnkampfrechner"-Profil ignoriert wird, falls es noch existiert
+                const initialProfile = profiles.find(profile => profile.name !== defaultTitle);
+                if (initialProfile) {
+                    displayProfileResults(initialProfile.name);
+                    calculateTotalPoints(initialProfile.name);
+                }
+            }
+
+            profiles.forEach(profile => {
+                // Überspringe das "Zehnkampfrechner"-Profil, wenn es existiert
+                if (profile.name !== defaultTitle) {
+                    addProfileToSidebar(profile.name, profile.type);  // Profile zur Sidebar hinzufügen
+                }
+            });       
+        };
+
+        // Speichern der Daten beim Verlassen der Seite
+        window.addEventListener("beforeunload", function() {
+            saveProfilesToLocalStorage();
+        });
+
+        function openAthleteComparison(athlete1, athlete2) {
+            // Erstellen Sie ein benutzerdefiniertes Modal für den Athletenvergleich
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.zIndex = '1';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+
+            // Erstellen Sie den inneren Inhalt des Modals
+            var content = document.createElement('div');
+            content.style.backgroundColor = '#a0a0a0';
+            content.style.padding = '20px';
+            content.style.border = '1px solid #ddd';
+            content.style.width = '50%';
+            content.style.borderRadius = '5px';
+            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+
+            // Schließen Sie den Schließen-Button ein
+            var closeButton = document.createElement('span');
+            closeButton.textContent = 'x';
+            closeButton.style.float = 'right';
+            closeButton.style.cursor = 'pointer';
+            closeButton.style.fontWeight = 'bold';
+            closeButton.style.color = 'white';
+            closeButton.style.fontSize = '20px';
+            closeButton.style.marginBottom = '20px';
+            closeButton.onclick = function () {
+                document.body.removeChild(modal);
+            };
+            content.appendChild(closeButton);
+
+            // Fügen Sie Text und Dropdown-Menüs hinzu
+            var text = document.createElement('p');
+            text.textContent = 'Wählen Sie zwei Athleten';
+            content.appendChild(text);
+
+            var dropdown1 = createAthleteDropdown('athlete1');
+            var dropdown2 = createAthleteDropdown('athlete2');
+            
+            content.appendChild(dropdown1);
+            content.appendChild(dropdown2);
+
+            // OK-Button
+            var okButton = document.createElement('button');
+            okButton.textContent = 'OK';
+            okButton.style.backgroundColor = '#4CAF50';
+            okButton.style.color = 'white';
+            okButton.style.padding = '10px 20px';
+            okButton.style.border = 'none';
+            okButton.style.borderRadius = '4px';
+            okButton.style.cursor = 'pointer';
+            okButton.onclick = function () {
+                var selectedAthlete1 = dropdown1.value;
+                var selectedAthlete2 = dropdown2.value;
+                // Hier können Sie die weitere Logik für den Vergleich der ausgewählten Athleten implementieren
+                document.body.removeChild(modal);
+                createAthleteComparisonProfile(selectedAthlete1, selectedAthlete2);
+            };
+            content.appendChild(okButton);
+
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+        }
+
+        function getDisciplineType(index) {
+            if (index === 1 || index === 5 || index === 6) {
+                return 1; // Laufdisziplin
+            } else if (index === 2 || index === 4 || index === 8) {
+                return 2; // Sprungdisziplin
+            } else if (index === 3 || index === 7 || index === 9) {
+                return 3; // Wurfdisziplin
+            }
+            else {
+                return 4; // 1500m
+            }
+        }
+
+        function getABCValues(index, athlete) {
+            if (index === 1) {
+                return [25.43471, 18, 1.81];
+            }
+            else if (index === 2) {
+                return [0.14354,220,1.4];
+            }
+            else if (index === 3) {
+                return [51.39,1.5,1.05];
+            }
+            else if (index === 4) {
+                return [0.8465,75,1.42];
+            }
+            else if (index === 5) {
+                return [1.53775,82,1.81];
+            }
+            else if (index === 6) {
+                return [5.74352,28.5,1.92];
+            }
+            else if (index === 7) {
+                return [12.91,4,1.10];
+            }
+            else if (index === 8) {
+                return [0.2797,100,1.35];
+            }
+            else if (index === 9) {
+                return [10.14,7,1.08];
+            }
+            else if (index === 10) {
+                return [0.03768,480,1.85];
+            }
+        }
+
+        function getDefaultPlaceholder(index) {
+            const placeholders = [
+                '11.05', '7.25', '14.75', '2.03', '48.25',
+                '14.25', '47.50', '5.05', '55.25', '4:45.25'
+            ];
+
+            return placeholders[index - 1];
+        }
+
+        function createAthleteComparisonProfile(athlete1, athlete2) {
+            const profileName = `${athlete1} vs. ${athlete2}`;
+
+            // Erstellen Sie ein neues Profil für den Vergleich
+            addProfileToSidebar(profileName, 'comparison');
+            // Abrufen der einzelnen Athletenprofile
+            const athlete1Profile = profiles.find(p => p.name === athlete1);
+            const athlete2Profile = profiles.find(p => p.name === athlete2);
+
+            // Abrufen des neu erstellten Vergleichsprofils
+            const comparisonProfile = profiles.find(p => p.name === profileName);
+
+            // Initialisieren der Arrays für Werte und Ergebnisse
+            comparisonProfile.values = new Array(20).fill('');
+            comparisonProfile.results = new Array(20).fill('0');
+
+            comparisonProfile.totalPoints = {};
+            comparisonProfile.totalPoints[athlete1] = 0;
+            comparisonProfile.totalPoints[athlete2] = 0;
+
+            // Befüllen der Arrays
+            for (let i = 0; i < 10; i++) {
+                comparisonProfile.values[i] = athlete1Profile.values[i] || '';
+                comparisonProfile.values[i + 10] = athlete2Profile.values[i] || '';
+
+                comparisonProfile.results[i] = athlete1Profile.results[i] || '0';
+                comparisonProfile.results[i + 10] = athlete2Profile.results[i] || '0';
+            }
+            // Ändern Sie die Überschrift entsprechend
+            document.querySelector('.center').textContent = profileName;
+
+            displayComparisonProfile(comparisonProfile);
+            calculateTotalPoints(profileName, athlete1);
+            calculateTotalPoints(profileName, athlete2);
+        }
+        
+        function calculateTotalPointsForComparison(athleteName) {
+            const profile = profiles.find(p => p.name === athleteName);
+
+            if (profile) {
+                const resultValues = profile.results.filter(result => result !== "");
+                const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
+                profile.totalPoints = totalPoints; // Speichern Sie die Gesamtpunktzahl im Profil
+            }
+        }
+
+        function createAthleteDropdown(id) {
+            var dropdown = document.getElementById(id);
+
+            // Wenn das Dropdown-Menü bereits existiert, leere es, sonst erstelle ein neues
+            if (dropdown) {
+                dropdown.innerHTML = ''; // Dropdown leeren
+            }
+            
+            else {
+                dropdown = document.createElement('select');
+                dropdown.id = id;
+                dropdown.style.width = '90%';
+                dropdown.style.padding = '10px';
+                dropdown.style.fontSize = '16px';
+                dropdown.style.marginBottom = '20px';
+                dropdown.style.border = '1px solid #ddd';
+                dropdown.style.borderRadius = '4px';
+            }
+            
+            // Füge die erstellten Profile als Optionen hinzu (Vergleichsprofile ausgeschlossen)
+            profiles.filter(profile => !profile.name.includes("vs.")).forEach(function (profile) {
+                // Überprüfe, ob der Profilname bereits im Dropdown existiert
+                var alreadyExists = Array.from(dropdown.options).some(option => option.value === profile.name);
+
+                // Nur hinzufügen, wenn das Profil noch nicht im Dropdown ist
+                if (!alreadyExists) {
+                    var option = document.createElement('option');
+                    option.value = profile.name;
+                    option.text = profile.name;
+                    dropdown.add(option);
+                }
+            });
+
+            return dropdown;
+        }
+        
+        let profileDeleted = false;
+
+        // Profile löschen
+        function confirmProfileDeletion(profileName) {
+            var modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.zIndex = '1';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+
+            var content = document.createElement('div');
+            content.style.backgroundColor = '#a0a0a0';
+            content.style.padding = '20px';
+            content.style.border = '1px solid #ddd';
+            content.style.width = '50%';
+            content.style.borderRadius = '5px';
+            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+            
+            var text = document.createElement('p');
+            text.innerHTML = 'Möchten Sie das Profil <strong>' + profileName + '</strong> wirklich löschen?';
+            text.style.fontSize = '16px'; // Stil des Textes
+            content.appendChild(text);
+
+            var yesButton = document.createElement('button');
+            yesButton.textContent = 'Ja';
+            yesButton.style.backgroundColor = '#4CAF50';
+            yesButton.style.color = 'white';
+            yesButton.style.padding = '10px 20px';
+            yesButton.style.border = 'none';
+            yesButton.style.borderRadius = '4px';
+            yesButton.style.cursor = 'pointer';
+            yesButton.onclick = function() {
+                deleteProfile(profileName);
+                document.body.removeChild(modal);
+            };
+            content.appendChild(yesButton);
+
+            var noButton = document.createElement('button');
+            noButton.textContent = 'Nein';
+            noButton.style.backgroundColor = '#4CAF50';
+            noButton.style.color = 'white';
+            noButton.style.padding = '10px 20px';
+            noButton.style.border = 'none';
+            noButton.style.borderRadius = '4px';
+            noButton.style.cursor = 'pointer';
+            noButton.style.marginLeft = '20px';
+            noButton.onclick = function() {
+                document.body.removeChild(modal);
+            };
+            content.appendChild(noButton);
+
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+        }
+
+        function deleteProfile(profileName) {
+            // Entfernen Sie das Profil aus der internen Profil-Liste
+            const index = profiles.findIndex(profile => profile.name === profileName);
+            if (index !== -1) {
+                profiles.splice(index, 1);
+            }
+            saveProfilesToLocalStorage();
+
+            // Entfernen Sie nur das exakte Einzelprofil und nicht Vergleichsprofile
+            const sidebar = document.getElementById('mySidebar');
+            Array.from(sidebar.children).forEach(child => {
+                // Überprüfen, ob das Sidebar-Element exakt mit dem Profilnamen übereinstimmt
+                if (child.querySelector('button').textContent === profileName) {
+                    sidebar.removeChild(child);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            console.log('Service Worker registriert mit Scope: ', registration.scope);
+            }, function(err) {
+            console.log('Service Worker Registrierung fehlgeschlagen: ', err);
+            });
+        });
+        }
+    </script>
+</body>
+</html>
