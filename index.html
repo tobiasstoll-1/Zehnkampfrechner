@@ -852,13 +852,14 @@
                 comparisonProfile.results[i] = athlete1Profile.results[i] || '0';
                 comparisonProfile.results[i + 10] = athlete2Profile.results[i] || '0';
             }
+
+            saveProfilesToLocalStorage();
             // Ändern Sie die Überschrift entsprechend
             document.querySelector('.center').textContent = profileName;
 
             displayComparisonProfile(comparisonProfile);
             calculateTotalPoints(profileName, athlete1);
             calculateTotalPoints(profileName, athlete2);
-            saveProfilesToLocalStorage();
         }
         
         function createAthleteDropdown(id) {
