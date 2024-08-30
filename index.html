@@ -128,6 +128,7 @@
         <div style="display: flex; align-items: center;">
             <img src="imgs/new_profile.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openProfileWindow()">
             <img src="imgs/comparison.png" style="width: 64px; height: 32px; margin-right: 10px;" onclick="openAthleteComparison()">
+            <img src="imgs/table_icon.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openRanking()">
         </div>
     </div>
            
@@ -857,18 +858,9 @@
             displayComparisonProfile(comparisonProfile);
             calculateTotalPoints(profileName, athlete1);
             calculateTotalPoints(profileName, athlete2);
+            saveProfilesToLocalStorage();
         }
         
-        function calculateTotalPointsForComparison(athleteName) {
-            const profile = profiles.find(p => p.name === athleteName);
-
-            if (profile) {
-                const resultValues = profile.results.filter(result => result !== "");
-                const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
-                profile.totalPoints = totalPoints; // Speichern Sie die Gesamtpunktzahl im Profil
-            }
-        }
-
         function createAthleteDropdown(id) {
             var dropdown = document.getElementById(id);
 
