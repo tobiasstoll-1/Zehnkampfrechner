@@ -976,6 +976,20 @@
                 }
             });
         }
+
+        //Sidebar schließen
+        let startX = 0;
+
+        document.addEventListener('touchstart', function(event) {
+            startX = event.touches[0].clientX; // Speichere die Startposition des Touch-Events
+        });
+
+        document.addEventListener('touchend', function(event) {
+            let endX = event.changedTouches[0].clientX; // Speichere die Endposition des Touch-Events
+            if (startX - endX > 100) { // Prüfe, ob der Swipe nach links war
+                closeNav();
+            }
+        });
     </script>
 
     <script>
