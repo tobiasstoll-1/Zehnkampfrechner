@@ -29,11 +29,23 @@
             font-weight: bold;
         }
 
-        .labels-container {
+        .icon-container {
             display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .icon-container img {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+
+        .labels-container {
+            display: none;
             flex-direction: column;
             align-items: flex-start;
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .label {
@@ -125,7 +137,7 @@
             
     <div id="main" style="display: flex; justify-content: space-between; align-items: center;">
         <span style="font-size:30px; cursor:pointer; color: white; margin-right: 20px;" onclick="toggleNav()">&#9776;</span>
-        <div style="display: flex; align-items: center;">
+        <div id="top-icons" style="display: flex; align-items: center;">
             <img src="imgs/new_profile.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openProfileWindow()">
             <img src="imgs/comparison.png" style="width: 64px; height: 32px; margin-right: 10px;" onclick="openAthleteComparison()">
             <img src="imgs/table_icon.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openRanking()">
@@ -134,6 +146,13 @@
            
     <div class="center">
         Zehnkampfrechner
+    </div>
+
+    <!-- Icon Container für die Startseite -->
+    <div class="icon-container">
+        <img src="imgs/new_profile.png" style="width: 32px; height: 32px;" onclick="openProfileWindow()">
+        <img src="imgs/comparison.png" style="width: 64px; height: 32px;" onclick="openAthleteComparison()">
+        <img src="imgs/table_icon.png" style="width: 32px; height: 32px;" onclick="openRanking()">
     </div>
 
     <div class="labels-container">
@@ -439,6 +458,11 @@
                 closeNav();
                 document.querySelector('.center').textContent = profileName;
                 displayProfileResults(profileName);
+                // Anzeigen der Disziplinen beim Wechseln zu einem Profil
+                document.querySelector('.labels-container').style.display = 'flex';
+                document.querySelector('.icon-container').style.display = 'none'; // Icons auf Profilseite ausblenden
+                // Zeige die oberen Icons an, wenn ein Profil ausgewählt wird
+                document.getElementById('top-icons').style.display = 'flex';
                 // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
                 if (profileName.includes(" vs.")) {
                     // Zerlegen des Inputnamens, um die Athletennamen zu extrahieren
@@ -619,12 +643,17 @@
 
                 // Erstellen des Lösch-Buttons
                 const deleteButton = document.createElement('button');
-                deleteButton.innerHTML = '🗑️'; // Mülleimer-Symbol
-                deleteButton.style.fontSize = '20px';
-                deleteButton.style.color = 'white';
-                deleteButton.style.backgroundColor = '#5b5b5b';
+                deleteButton.style.backgroundColor = '#262626';
                 deleteButton.style.border = 'none';
                 deleteButton.style.marginRight = '10px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.style.borderRadius = '5px';
+                // Füge das Bild-Element hinzu
+                const deleteIcon = document.createElement('img');
+                deleteIcon.src = 'imgs/delete_profile.png'; // Der Dateipfad für das Bild
+                deleteIcon.style.width = '20px'; // Größe des Bildes anpassen
+                deleteIcon.style.height = '20px';
+                deleteButton.appendChild(deleteIcon);
                 deleteButton.onclick = function() {
                     confirmProfileDeletion(profileName);
                 };
@@ -657,7 +686,11 @@
         function navigateToHome() {
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
-            document.getElementById("main").style.marginLeft = "0";
+            document.querySelector('.center').textContent = defaultTitle;
+            document.querySelector('.labels-container').style.display = 'none'; // Disziplinen ausblenden
+            document.querySelector('.icon-container').style.display = 'flex'; // Icons anzeigen
+            // Blende die oberen Icons nur auf der Startseite aus
+            document.getElementById('top-icons').style.display = 'none';
 
             var currentProfile = document.querySelector('.center').textContent;
             if (currentProfile !== defaultTitle) {
@@ -691,7 +724,8 @@
                 if (profile.name !== defaultTitle) {
                     addProfileToSidebar(profile.name, profile.type);  // Profile zur Sidebar hinzufügen
                 }
-            });       
+            });
+            navigateToHome();   
         };
 
         // Speichern der Daten beim Verlassen der Seite
