@@ -589,14 +589,13 @@
                 label.style.display = 'flex';
                 label.style.alignItems = 'center';
                 label.innerHTML = `
-                    <span style="flex: 1; font-size: 22px;">${inputName}</span>
-                    <input class="inputcomparison" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="flex: 1; font-size: 16px;" placeholder="${getDefaultPlaceholder(i + 1)}">
-                    <input class="inputcomparison" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="flex: 1; font-size: 16px;" placeholder="${getDefaultPlaceholder(i + 1)}">
-                    <div id="result${i + 1}_${athlete1}" style="flex: 1; font-size: 20px; text-align: center;">${pointsAthlete1 !== "" ? pointsAthlete1 : 0}</div>
+                    <span style="flex: 1; font-size: 25px;">${inputName}</span>
+                    <input class="inputcomparison" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <input class="inputcomparison" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <div id="result${i + 1}_${athlete1}" style="flex: 1; font-size: 25px; text-align: center;">${pointsAthlete1 !== "" ? pointsAthlete1 : 0}</div>
                     <span style="font-size: 20px; margin: 5px">vs.</span>
-                    <div id="result${i + 1}_${athlete2}" style="flex: 1; font-size: 20px; text-align: center;">${pointsAthlete2 !== "" ? pointsAthlete2 : 0}</div>
+                    <div id="result${i + 1}_${athlete2}" style="flex: 1; font-size: 25px; text-align: center;">${pointsAthlete2 !== "" ? pointsAthlete2 : 0}</div>
                 `;
-
                 labelsContainer.appendChild(label);
             }
 
@@ -606,10 +605,10 @@
             totalLabel.style.justifyContent = 'space-between';
             totalLabel.style.width = '100%';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 22px;">Gesamtpunktzahl</span>
-                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 22px;">${profile.totalPoints[athlete1]}</span>
+                <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
+                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 25px;">${profile.totalPoints[athlete1]}</span>
                 <span style="font-size: 20px; margin: 5px">vs.</span>
-                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 22px;">${profile.totalPoints[athlete2]}</span>
+                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 25px;">${profile.totalPoints[athlete2]}</span>
             `;
             labelsContainer.appendChild(totalLabel);
         }
