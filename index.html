@@ -1049,14 +1049,12 @@
             });
         }
 
-        const transparentOverlay = document.getElementById('transparentOverlay');
-
-        transparentOverlay.addEventListener('touchstart', function (e) {
+        document.body.addEventListener('touchstart', function (e) {
             initialX = e.touches[0].clientX;
             initialY = e.touches[0].clientY;
         });
 
-        transparentOverlay.addEventListener('touchmove', function (e) {
+        document.body.addEventListener('touchmove', function (e) {
             if (!initialX || !initialY) return;
 
             let currentX = e.touches[0].clientX;
@@ -1065,14 +1063,16 @@
             let diffX = currentX - initialX;
             let diffY = currentY - initialY;
 
+            // Prüfen, ob die horizontale Bewegung größer ist als die vertikale
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (diffX > 0) {
-                    openNav(); // Öffnen der Sidebar
-                }
-                else {
-                    closeNav();
+                    openNav(); // Öffnen der Sidebar durch Swipen nach rechts
+                } else {
+                    closeNav(); // Schließen der Sidebar durch Swipen nach links
                 }
             }
+
+            // Zurücksetzen der initialen Werte
             initialX = null;
             initialY = null;
         });
