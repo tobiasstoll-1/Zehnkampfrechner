@@ -94,7 +94,7 @@
             width: 200px;
             height: 100%;
             background-color: #5b5b5b;
-            z-index: 1;
+            z-index: 2;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
@@ -121,6 +121,19 @@
             margin-left: 50px;
             color: white;
         }
+
+        /* Overlay styles */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 200px; /* Starts right next to the sidebar */
+            width: calc(100% - 200px); /* Covers the area to the right of the sidebar */
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Halbtransparent */
+            z-index: 1; /* Set lower than the sidebar */
+        }
+
         #main {
             transition: margin-left .5s;
             padding: 16px;
@@ -134,9 +147,12 @@
     <div id="mySidebar" class="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     </div>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="closeNav()"></div>
             
     <div id="main" style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size:30px; cursor:pointer; color: white; margin-right: 20px;" onclick="toggleNav()">&#9776;</span>
+        <span style="font-size:30px; cursor:pointer; color: white; margin-right: 20px; z-index: 2;" onclick="toggleNav()">&#9776;</span>
         <div id="top-icons" style="display: flex; align-items: center;">
             <img src="imgs/new_profile.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openProfileWindow()">
             <img src="imgs/comparison.png" style="width: 64px; height: 32px; margin-right: 10px;" onclick="openAthleteComparison()">
@@ -268,11 +284,13 @@
             sidebar.style.display = "block";
             sidebar.style.width = "200px";
             document.getElementById("main").style.marginLeft = "200px";
+            document.getElementById("overlay").style.display = "block"; // Show overlay
         }
 
         function closeNav() {
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
+            document.getElementById("overlay").style.display = "none"; // Hide overlay
             // Öffnen Standardprofil nach Löschung
             if (profileDeleted) {
                 handleProfileButtonClick(defaultTitle);
@@ -1008,6 +1026,38 @@
                     sidebar.removeChild(child);
                 }
             });
+        }
+
+        // Variablen für Swipe-Erkennung
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // Füge Event Listener zum gesamten Body hinzu, um Swipe-Gesten zu erkennen
+        document.body.addEventListener('touchstart', handleTouchStart, false);
+        document.body.addEventListener('touchmove', handleTouchMove, false);
+        document.body.addEventListener('touchend', handleTouchEnd, false);
+
+        function handleTouchStart(event) {
+            touchStartX = event.touches[0].clientX; // Speichert die Startposition der Berührung
+        }
+
+        function handleTouchMove(event) {
+            touchEndX = event.touches[0].clientX; // Speichert die Position während der Bewegung
+        }
+
+        function handleTouchEnd() {
+            // Berechnet die Differenz zwischen Start- und Endposition
+            const touchDiff = touchEndX - touchStartX;
+
+            // Wenn der Swipe nach rechts geht (positiver Wert) und die Sidebar geschlossen ist
+            if (touchDiff > 50 && document.getElementById("mySidebar").style.width !== "200px") {
+                openNav(); // Öffnet die Sidebar
+            }
+
+            // Wenn der Swipe nach links geht (negativer Wert) und die Sidebar geöffnet ist
+            if (touchDiff < -50 && document.getElementById("mySidebar").style.width === "200px") {
+                closeNav(); // Schließt die Sidebar
+            }
         }
     </script>
 
