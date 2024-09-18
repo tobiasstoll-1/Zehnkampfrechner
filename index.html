@@ -284,7 +284,13 @@
             sidebar.style.display = "block";
             sidebar.style.width = "200px";
             document.getElementById("main").style.marginLeft = "200px";
-            document.getElementById("overlay").style.display = "block"; // Show overlay
+            // Overlay nach 0.5s sichtbar machen
+            setTimeout(function() {
+                var overlay = document.getElementById('overlay');
+                if (overlay) {
+                    overlay.style.display = 'block';
+                }
+            }, 500);
         }
 
         function closeNav() {
@@ -721,6 +727,9 @@
 
         // Initialisierung der Standardwerte beim Laden der Seite
         window.onload = function () {
+            // Setze CSS-Übergänge für die Sidebar und das Overlay
+            document.getElementById('mySidebar').style.transition = 'width 0.5s ease';
+            document.getElementById('overlay').style.transition = 'opacity 0.5s ease';
             // Leere die Sidebar, um doppelte Einträge zu vermeiden
             const sidebar = document.getElementById('mySidebar');
             sidebar.innerHTML = '';
