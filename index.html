@@ -19,6 +19,16 @@
         .background-dark {
             background-color: #262626;
         }
+
+        #transparentOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Hinter allen anderen Elementen */
+            background: transparent; /* Unsichtbar */
+        }
         
         .center{
             display: flex;
@@ -143,6 +153,8 @@
 </head>
 
 <body class="background-dark">
+    <div id="transparentOverlay"></div>
+
     <!-- Menü -->
     <div id="mySidebar" class="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -1037,44 +1049,30 @@
             });
         }
 
-        // Swipe-Listener für das gesamte Dokument
-        document.body.addEventListener('touchstart', handleTouchStart, false);
-        document.body.addEventListener('touchmove', handleTouchMove, false);
+        const transparentOverlay = document.getElementById('transparentOverlay');
 
-        var xDown = null;
-        var yDown = null;
+        transparentOverlay.addEventListener('touchstart', function (e) {
+            initialX = e.touches[0].clientX;
+            initialY = e.touches[0].clientY;
+        });
 
-        function handleTouchStart(evt) {
-            xDown = evt.touches[0].clientX;
-            yDown = evt.touches[0].clientY;
-        }
+        transparentOverlay.addEventListener('touchmove', function (e) {
+            if (!initialX || !initialY) return;
 
-        function handleTouchMove(evt) {
-            if (!xDown || !yDown) {
-                return;
-            }
+            let currentX = e.touches[0].clientX;
+            let currentY = e.touches[0].clientY;
 
-            var xUp = evt.touches[0].clientX;
-            var yUp = evt.touches[0].clientY;
+            let diffX = currentX - initialX;
+            let diffY = currentY - initialY;
 
-            var xDiff = xDown - xUp;
-            var yDiff = yDown - yUp;
-
-            if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                // Horizontaler Swipe
-                if (xDiff > 0) {
-                    // Nach links wischen -> Schließe die Sidebar
-                    closeNav();
-                } else {
-                    // Nach rechts wischen -> Öffne die Sidebar
-                    openNav();
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
+                    openNav(); // Öffnen der Sidebar
                 }
             }
-
-            // Zurücksetzen
-            xDown = null;
-            yDown = null;
-        }
+            initialX = null;
+            initialY = null;
+        });
     </script>
 
     <script>
