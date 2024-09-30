@@ -249,9 +249,9 @@
             <input class="input" type="text" name="1500m" oninput="calculatePoints('1500m', 'result10', 4, 0.03768, 480, 1.85);" style="flex: 1; font-size: 20px;" placeholder="4:45.25">
             <div id="result10" style="flex: 1; font-size: 25px; text-align: right;">0</div>
         </div>
-        <div class="label" style="display: flex; justify-content: space-between; width: 100%; margin-top: 20px;">
+        <div class="label" style="display: flex; justify-content: space-between; width: 100%; margin-top: 20px; font-weight: bold;">
             <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
-            <div id="total" style="flex: 1; text-align: right; font-size: 25px;">0</div>
+            <div id="total" style="flex: 1; text-align: right; font-size: 25px; font-weight: bold;">0</div>
         </div>
     </div>
 
@@ -589,8 +589,8 @@
             totalLabel.style.justifyContent = 'space-between';
             totalLabel.style.width = '100%';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
-                <div id="total" style="flex: 1; text-align: right; font-size: 25px;">${profile.totalPoints}</div>
+                <span style="flex: 1; text-align: left; font-size: 25px; font-weight: bold;">Gesamtpunktzahl</span>
+                <div id="total" style="flex: 1; text-align: right; font-size: 25px; font-weight: bold;">${profile.totalPoints}</div>
             `;
             labelsContainer.appendChild(totalLabel);
         }
@@ -641,10 +641,10 @@
             totalLabel.style.justifyContent = 'space-between';
             totalLabel.style.width = '100%';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
-                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 25px;">${profile.totalPoints[athlete1]}</span>
+                <span style="flex: 1; text-align: left; font-size: 25px; font-weight: bold;">Gesamtpunktzahl</span>
+                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 25px; font-weight: bold;">${profile.totalPoints[athlete1]}</span>
                 <span style="font-size: 20px; margin: 5px">vs.</span>
-                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 25px;">${profile.totalPoints[athlete2]}</span>
+                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 25px; font-weight: bold;">${profile.totalPoints[athlete2]}</span>
             `;
             labelsContainer.appendChild(totalLabel);
         }
