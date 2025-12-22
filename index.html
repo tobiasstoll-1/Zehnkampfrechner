@@ -974,6 +974,8 @@
 
         // Profile löschen
         function confirmProfileDeletion(profileName) {
+            closeNav();
+
             var modal = document.createElement('div');
             modal.style.position = 'fixed';
             modal.style.zIndex = '1';
@@ -1032,6 +1034,9 @@
         }
 
         function deleteProfile(profileName) {
+            // Name des zurzeit angezeigten Profils
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+
             // Entfernen Sie das Profil aus der internen Profil-Liste
             const index = profiles.findIndex(profile => profile.name === profileName);
             if (index !== -1) {
@@ -1047,6 +1052,9 @@
                     sidebar.removeChild(child);
                 }
             });
+            if (currentTitle === profileName) {
+                navigateToHome();
+            }            
         }
 
         document.body.addEventListener('touchstart', function (e) {
