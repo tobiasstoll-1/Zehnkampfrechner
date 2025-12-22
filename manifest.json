@@ -2,11 +2,11 @@
     "name": "Zehnkampfrechner",
     "short_name": "Zehnkampf",
     "description": "Zehnkampfrechner",
-    "start_url": "./",
+    "start_url": "/Zehnkampfrechner/",
     "display": "standalone",
     "background_color": "#262626",
     "theme_color": "#262626",
-    "scope": "./",
+    "scope": "/Zehnkampfrechner/",
     "icons": [
       {
         "src": "imgs/appIcon.png",
