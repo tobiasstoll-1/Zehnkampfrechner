@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,6 +132,30 @@
             color: white;
         }
 
+        #profileList {
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #5b5b5b;
+            margin-bottom: 5px;
+        }
+
+        .profile-item.dragging {
+            opacity: 0.6;
+        }
+
+        .profile-drop-indicator {
+            height: 0;
+            border-top: 2px solid #f1f1f1;
+            margin: 4px 8px;
+            pointer-events: none;
+        }
+
         /* Overlay styles */
         #overlay {
             display: none;
@@ -158,6 +182,7 @@
     <!-- Menü -->
     <div id="mySidebar" class="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <div id="profileList"></div>
     </div>
 
     <!-- Overlay -->
@@ -268,13 +293,149 @@
             const savedProfiles = localStorage.getItem('profiles');
             console.log('Saved Profiles:', savedProfiles);
             if (savedProfiles) {
-                JSON.parse(savedProfiles).forEach(profile => {
-                    if (!profiles.some(p => p.name === profile.name)) {
-                        profiles.push(profile);
-                    }
-                });
+                try {
+                    JSON.parse(savedProfiles).forEach(profile => {
+                        if (!profile || typeof profile.name !== 'string' || !profile.name.trim()) {
+                            return;
+                        }
+
+                        ensureProfileShape(profile);
+
+                        if (!profiles.some(p => p.name === profile.name)) {
+                            profiles.push(profile);
+                        }
+                    });
+                } catch (error) {
+                    console.error('Profile konnten nicht aus dem localStorage geladen werden:', error);
+                    localStorage.removeItem('profiles');
+                }
             }
             console.log('Loaded profiles:', profiles);
+        }
+
+        function normalizePerformanceInput(inputValue) {
+            return (inputValue || '').trim().replace(',', '.');
+        }
+
+        function parsePerformanceValue(inputValue, disciplineType) {
+            const normalizedValue = normalizePerformanceInput(inputValue);
+
+            if (!normalizedValue) {
+                return null;
+            }
+
+            if (disciplineType === 4) {
+                const timeMatch = normalizedValue.match(/^(\d+):([0-5]?\d(?:\.\d+)?)$/);
+                if (!timeMatch) {
+                    return null;
+                }
+
+                const minutes = parseInt(timeMatch[1], 10);
+                const seconds = parseFloat(timeMatch[2]);
+                const totalSeconds = minutes * 60 + seconds;
+
+                return Number.isFinite(totalSeconds) ? totalSeconds : null;
+            }
+
+            const numericValue = parseFloat(normalizedValue);
+            if (!Number.isFinite(numericValue) || numericValue < 0) {
+                return null;
+            }
+
+            if (disciplineType === 2) {
+                return numericValue * 100;
+            }
+
+            return numericValue;
+        }
+
+        function calculateDecathlonPoints(disciplineType, performance, A, B, C) {
+            if (!Number.isFinite(performance)) {
+                return 0;
+            }
+
+            let baseValue = 0;
+
+            if (disciplineType === 1 || disciplineType === 4) {
+                baseValue = B - performance;
+            } else {
+                baseValue = performance - B;
+            }
+
+            if (baseValue <= 0) {
+                return 0;
+            }
+
+            const points = A * Math.pow(baseValue, C);
+            if (!Number.isFinite(points) || points < 0) {
+                return 0;
+            }
+
+            return Math.floor(points);
+        }
+
+        function getComparisonAthletes(profileName) {
+            if (typeof profileName !== 'string') {
+                return [];
+            }
+
+            return profileName.includes(' vs. ') ? profileName.split(' vs. ') : [];
+        }
+
+        function getResultIndexForInput(profileName, inputName, resultId) {
+            const resultIndexBase = parseInt(resultId.replace('result', ''), 10) - 1;
+            const comparisonAthletes = getComparisonAthletes(profileName);
+
+            if (comparisonAthletes.length !== 2) {
+                return resultIndexBase;
+            }
+
+            const athleteName = inputName.includes('_') ? inputName.substring(inputName.indexOf('_') + 1) : '';
+            return athleteName === comparisonAthletes[1] ? resultIndexBase + 10 : resultIndexBase;
+        }
+
+        function ensureProfileShape(profile) {
+            const expectedLength = profile.type === 'comparison' ? 20 : 10;
+
+            if (!Array.isArray(profile.results)) {
+                profile.results = [];
+            }
+            if (!Array.isArray(profile.values)) {
+                profile.values = [];
+            }
+
+            while (profile.results.length < expectedLength) {
+                profile.results.push('0');
+            }
+            while (profile.values.length < expectedLength) {
+                profile.values.push('');
+            }
+
+            profile.results = profile.results.slice(0, expectedLength).map(result => result === '' ? '0' : String(result));
+            profile.values = profile.values.slice(0, expectedLength).map(value => value == null ? '' : String(value));
+
+            if (profile.type === 'comparison') {
+                const [athlete1, athlete2] = getComparisonAthletes(profile.name);
+                if (!profile.totalPoints || typeof profile.totalPoints !== 'object') {
+                    profile.totalPoints = {};
+                }
+                if (athlete1 && typeof profile.totalPoints[athlete1] !== 'number') {
+                    profile.totalPoints[athlete1] = 0;
+                }
+                if (athlete2 && typeof profile.totalPoints[athlete2] !== 'number') {
+                    profile.totalPoints[athlete2] = 0;
+                }
+            } else if (typeof profile.totalPoints !== 'number') {
+                profile.totalPoints = 0;
+            }
+        }
+
+        function sanitizeProfileName(profileName) {
+            if (typeof profileName !== 'string') {
+                return '';
+            }
+
+            return profileName.trim().replace(/\s+/g, ' ');
         }
 
         function toggleNav() {
@@ -319,60 +480,37 @@
         function calculatePoints(inputName, resultId, disciplineType, A, B, C) {
             var inputElement = document.getElementsByName(inputName)[0];
             var resultElement = document.getElementById(resultId);
+            if (!inputElement || !resultElement) {
+                return;
+            }
+
             var inputValue = inputElement.value;
             var profileName = document.querySelector('.center').textContent;
 
             const profileIndex = getProfileIndex(profileName);
+            if (profileIndex === -1) {
+                return;
+            }
 
-            // Berechnung des resultIndex
-            const athlete = inputName.split('_').pop(); // Extrahiere den Athletennamen aus dem inputName
-            const resultIndexBase = parseInt(resultId.replace("result", " ")) - 1;
-            
-            // Wenn der Athlet der zweite ist, addiere 10 zu resultIndexBase
-            const resultIndex = profileName.includes(athlete) && profileName.split(" vs. ")[1] === athlete ? resultIndexBase + 10 : resultIndexBase;
+            const normalizedValue = normalizePerformanceInput(inputValue);
+            const resultIndex = getResultIndexForInput(profileName, inputName, resultId);
 
-            if (inputValue === "") {
-                resultElement.innerHTML = "0";
+            if (normalizedValue === "") {
+                resultElement.textContent = "0";
                 profiles[profileIndex].results[resultIndex] = "0";
                 profiles[profileIndex].values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
             } else {
-                var performance = 0;
-                // Laufdisziplinen
-                if (disciplineType === 1) {
-                    performance = parseFloat(inputValue);
-                    var points = A * Math.pow((B - performance), C);
-                    resultElement.innerHTML = Math.floor(points);
-                }
-                // Sprungdisziplinen
-                else if (disciplineType === 2) {
-                    // Ergebnis in cm
-                    performance = parseFloat(inputValue) * 100;
-                    var points = A * Math.pow((performance - B), C);
-                    resultElement.innerHTML = Math.floor(points);
-                }
-                // Wurfdisziplinen
-                else if (disciplineType === 3) {
-                    performance = parseFloat(inputValue);
-                    var points = A * Math.pow((performance - B), C);
-                    resultElement.innerHTML = Math.floor(points);
-                }
-                // 1500m
-                else if (disciplineType === 4) {
-                    var timeComponents = inputValue.split(':');
-                    var minutes = parseFloat(timeComponents[0]);
-                    var seconds = parseFloat(timeComponents[1]);
-                    performance = minutes * 60 + seconds;
-                    var points = A * Math.pow((B - performance), C);
-                    resultElement.innerHTML = Math.floor(points);
-                }
+                const performance = parsePerformanceValue(normalizedValue, disciplineType);
+                const points = calculateDecathlonPoints(disciplineType, performance, A, B, C);
 
-                profiles[profileIndex].results[resultIndex] = resultElement.innerHTML;
-                profiles[profileIndex].values[resultIndex] = inputValue;
+                resultElement.textContent = String(points);
+                profiles[profileIndex].results[resultIndex] = String(points);
+                profiles[profileIndex].values[resultIndex] = normalizedValue;
             }
             saveProfilesToLocalStorage();
 
             // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
-            if (profileName.includes(" vs.")) {
+            if (profileName.includes(" vs. ")) {
                 const [athlete1, athlete2] = profileName.split(" vs. ");
                 
                 if (inputName.includes(athlete1)) {
@@ -391,8 +529,12 @@
             const profile = profiles.find(p => p.name === profileName);
 
             if (profile) {
+                ensureProfileShape(profile);
                 if (athlete) {
                     const athleteIndex = profileName.split(" vs. ").indexOf(athlete);
+                    if (athleteIndex === -1) {
+                        return;
+                    }
                     const startIndex = athleteIndex * 10;
                     const resultValues = profile.results.slice(startIndex, startIndex + 10).filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined);
                     const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
@@ -414,6 +556,15 @@
                 }
 
             }
+        }
+
+        function bindEnterKeyToOk(modal, okButton) {
+            modal.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    okButton.click();
+                }
+            });
         }
 
         // Function new_profile
@@ -477,15 +628,36 @@
             okButton.style.cursor = 'pointer';
             okButton.style.float = 'right';
             okButton.onclick = function() {
-                var athleteName = inputField.value;
-                addProfileToSidebar(athleteName);
+                var athleteName = sanitizeProfileName(inputField.value);
+                if (!athleteName) {
+                    alert('Bitte geben Sie einen Profilnamen ein.');
+                    inputField.focus();
+                    return;
+                }
+                if (athleteName.includes(' vs. ')) {
+                    alert('Der Profilname darf "vs." nicht enthalten.');
+                    inputField.focus();
+                    return;
+                }
+
+                const createdProfileName = addProfileToSidebar(athleteName);
+                if (!createdProfileName) {
+                    inputField.focus();
+                    inputField.select();
+                    return;
+                }
                 document.body.removeChild(modal);
-                handleProfileButtonClick(athleteName);
+                handleProfileButtonClick(createdProfileName);
             };
             content.appendChild(okButton);
 
             modal.appendChild(content);
             document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
+            setTimeout(function() {
+                inputField.focus();
+                inputField.select();
+            }, 0);
         }
 
         // Funktion zum Hinzufügen neuer Profile
@@ -518,6 +690,8 @@
 
         // Beispielprofil-Daten
         const profiles = [];
+        let draggedProfileName = null;
+        let dropIndicator = null;
 
         function getProfileIndex(profileName) {
             return profiles.findIndex(p => p.name === profileName);
@@ -533,6 +707,7 @@
         function displayProfileResults(profileName) {
             const profile = profiles.find(p => p.name === profileName);
             if (!profile) return;
+            ensureProfileShape(profile);
 
             // Leeren der vorhandenen Labels
             const labelsContainer = document.querySelector('.labels-container');
@@ -598,6 +773,7 @@
         function displayComparisonProfile(profile) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
+            ensureProfileShape(profile);
 
             const headerLabel = document.createElement('div');
             headerLabel.className = 'label';
@@ -648,20 +824,172 @@
             `;
             labelsContainer.appendChild(totalLabel);
         }
+        function getProfileListElement() {
+            const sidebar = document.getElementById('mySidebar');
+            let profileList = document.getElementById('profileList');
+
+            if (!profileList) {
+                profileList = document.createElement('div');
+                profileList.id = 'profileList';
+                sidebar.appendChild(profileList);
+            }
+
+            return profileList;
+        }
+
+        function getProfileItems(includeDragging = true) {
+            const profileList = getProfileListElement();
+            const allItems = Array.from(profileList.querySelectorAll('.profile-item'));
+            if (includeDragging) return allItems;
+            return allItems.filter(item => !item.classList.contains('dragging'));
+        }
+
+        function findProfileItemByName(profileName) {
+            return getProfileItems(true).find(item => item.dataset.profileName === profileName) || null;
+        }
+
+        function ensureDropIndicator() {
+            if (!dropIndicator) {
+                dropIndicator = document.createElement('div');
+                dropIndicator.className = 'profile-drop-indicator';
+            }
+            return dropIndicator;
+        }
+
+        function removeDropIndicator() {
+            if (dropIndicator && dropIndicator.parentNode) {
+                dropIndicator.parentNode.removeChild(dropIndicator);
+            }
+        }
+
+        function getDropIndexByY(clientY) {
+            const items = getProfileItems(false);
+            for (let i = 0; i < items.length; i++) {
+                const rect = items[i].getBoundingClientRect();
+                if (clientY < rect.top + (rect.height / 2)) {
+                    return i;
+                }
+            }
+            return items.length;
+        }
+
+        function placeDropIndicator(dropIndex) {
+            const profileList = getProfileListElement();
+            const indicator = ensureDropIndicator();
+            const items = getProfileItems(false);
+            const targetItem = items[dropIndex];
+
+            removeDropIndicator();
+
+            if (targetItem) {
+                profileList.insertBefore(indicator, targetItem);
+            } else {
+                profileList.appendChild(indicator);
+            }
+        }
+
+        function reorderProfilesBySidebarOrder() {
+            const orderedNames = getProfileItems(true).map(item => item.dataset.profileName);
+            const profileMap = new Map(profiles.map(profile => [profile.name, profile]));
+            const reorderedProfiles = [];
+
+            orderedNames.forEach(name => {
+                if (profileMap.has(name)) {
+                    reorderedProfiles.push(profileMap.get(name));
+                    profileMap.delete(name);
+                }
+            });
+
+            profiles.splice(0, profiles.length, ...reorderedProfiles, ...Array.from(profileMap.values()));
+            saveProfilesToLocalStorage();
+        }
+
+        function initializeSidebarDragAndDrop() {
+            const profileList = getProfileListElement();
+            if (profileList.dataset.dndInitialized === 'true') return;
+
+            profileList.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                if (!draggedProfileName) return;
+                placeDropIndicator(getDropIndexByY(event.clientY));
+            });
+
+            profileList.addEventListener('drop', function(event) {
+                event.preventDefault();
+                if (!draggedProfileName) return;
+
+                const draggedItem = findProfileItemByName(draggedProfileName);
+                if (!draggedItem) {
+                    removeDropIndicator();
+                    draggedProfileName = null;
+                    return;
+                }
+
+                const dropIndex = getDropIndexByY(event.clientY);
+                const itemsWithoutDragged = getProfileItems(false).filter(item => item.dataset.profileName !== draggedProfileName);
+                const referenceItem = itemsWithoutDragged[dropIndex];
+
+                if (referenceItem) {
+                    profileList.insertBefore(draggedItem, referenceItem);
+                } else {
+                    profileList.appendChild(draggedItem);
+                }
+
+                draggedItem.classList.remove('dragging');
+                removeDropIndicator();
+                draggedProfileName = null;
+                reorderProfilesBySidebarOrder();
+            });
+
+            profileList.addEventListener('dragleave', function(event) {
+                if (!profileList.contains(event.relatedTarget)) {
+                    removeDropIndicator();
+                }
+            });
+
+            profileList.dataset.dndInitialized = 'true';
+        }
 
         // Hier können Sie die Funktion addProfileToSidebar anpassen, um neue Profile mit ihren eigenen Ergebnis-Arrays hinzuzufügen
         function addProfileToSidebar(profileName, type = 'single') {
-            const sidebar = document.getElementById('mySidebar');
+            profileName = sanitizeProfileName(profileName);
+            if (!profileName) {
+                return null;
+            }
+
+            if (profileName === defaultTitle) {
+                alert('Dieser Profilname ist bereits reserviert.');
+                return null;
+            }
+
+            if (type === 'single' && profileName.includes(' vs. ')) {
+                alert('Der Profilname darf "vs." nicht enthalten.');
+                return null;
+            }
+
+            const profileList = getProfileListElement();
+            const existingProfile = profiles.find(p => p.name === profileName);
 
             // Prüfen ob Profil bereits in Sidebar existiert
-            if (!Array.from(sidebar.children).some(child => child.textContent.includes(profileName))) {
+            if (!getProfileItems(true).some(item => item.dataset.profileName === profileName)) {
                 // Erstellen eines Containers für das Profil und den Lösch-Button
                 const profileContainer = document.createElement('div');
-                profileContainer.style.display = 'flex';
-                profileContainer.style.alignItems = 'center';
-                profileContainer.style.justifyContent = 'space-between';
-                profileContainer.style.backgroundColor = '#5b5b5b';
-                profileContainer.style.marginBottom = '5px'; // Abstand zwischen den Profilen
+                profileContainer.className = 'profile-item';
+                profileContainer.dataset.profileName = profileName;
+                profileContainer.draggable = true;
+
+                profileContainer.addEventListener('dragstart', function(event) {
+                    draggedProfileName = profileName;
+                    profileContainer.classList.add('dragging');
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', profileName);
+                });
+
+                profileContainer.addEventListener('dragend', function() {
+                    profileContainer.classList.remove('dragging');
+                    removeDropIndicator();
+                    draggedProfileName = null;
+                });
 
                 // Erstellen des Profil-Buttons
                 const newButton = document.createElement('button');
@@ -671,6 +999,7 @@
                 newButton.style.color = 'white';
                 newButton.style.backgroundColor = '#5b5b5b';
                 newButton.style.border = 'none';
+                newButton.style.cursor = 'pointer';
                 newButton.onclick = function() {
                     handleProfileButtonClick(profileName);
                 };
@@ -695,11 +1024,11 @@
                 profileContainer.appendChild(deleteButton);
 
                 // Hinzufügen des Containers zur Sidebar
-                sidebar.appendChild(profileContainer);
+                profileList.appendChild(profileContainer);
             }
 
             // Prüfen ob Profil bereits in `profiles` existiert
-            if (!profiles.some(p => p.name === profileName)) {
+            if (!existingProfile) {
                 let resultsArray = Array(10).fill('');
                 let valuesArray = Array(10).fill('');
 
@@ -712,9 +1041,13 @@
                 // Hinzufügen des Profils zur internen Profil-Liste
                 profiles.push({ name: profileName, results: resultsArray, values: valuesArray, type: type });
                 saveProfilesToLocalStorage(); // Speichern der Profile im `localStorage`
-            } 
+            } else {
+                ensureProfileShape(existingProfile);
+            }
+
+            return profileName;
         }
-        
+
         var defaultTitle = "Zehnkampfrechner";
 
         // Wenn man auf "Zehnkampfrechner klickt"
@@ -742,9 +1075,10 @@
             // Setze CSS-Übergänge für die Sidebar und das Overlay
             document.getElementById('mySidebar').style.transition = 'width 0.5s ease';
             document.getElementById('overlay').style.transition = 'opacity 0.5s ease';
-            // Leere die Sidebar, um doppelte Einträge zu vermeiden
-            const sidebar = document.getElementById('mySidebar');
-            sidebar.innerHTML = '';
+            // Leere die Profil-Liste, um doppelte Einträge zu vermeiden
+            const profileList = getProfileListElement();
+            profileList.innerHTML = '';
+            initializeSidebarDragAndDrop();
             
             loadProfilesFromLocalStorage();  // Profile laden
             
@@ -839,6 +1173,7 @@
 
             modal.appendChild(content);
             document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
         }
 
         function getDisciplineType(index) {
@@ -897,6 +1232,19 @@
         }
 
         function createAthleteComparisonProfile(athlete1, athlete2) {
+            athlete1 = sanitizeProfileName(athlete1);
+            athlete2 = sanitizeProfileName(athlete2);
+
+            if (!athlete1 || !athlete2) {
+                alert('Bitte wählen Sie zwei Athleten aus.');
+                return;
+            }
+
+            if (athlete1 === athlete2) {
+                alert('Bitte wählen Sie zwei unterschiedliche Athleten aus.');
+                return;
+            }
+
             const profileName = `${athlete1} vs. ${athlete2}`;
 
             // Erstellen Sie ein neues Profil für den Vergleich
@@ -904,9 +1252,16 @@
             // Abrufen der einzelnen Athletenprofile
             const athlete1Profile = profiles.find(p => p.name === athlete1);
             const athlete2Profile = profiles.find(p => p.name === athlete2);
+            if (!athlete1Profile || !athlete2Profile) {
+                alert('Mindestens eines der ausgewählten Profile existiert nicht mehr.');
+                return;
+            }
 
             // Abrufen des neu erstellten Vergleichsprofils
             const comparisonProfile = profiles.find(p => p.name === profileName);
+            if (!comparisonProfile) {
+                return;
+            }
 
             // Initialisieren der Arrays für Werte und Ergebnisse
             comparisonProfile.values = new Array(20).fill('');
@@ -954,7 +1309,7 @@
             }
             
             // Füge die erstellten Profile als Optionen hinzu (Vergleichsprofile ausgeschlossen)
-            profiles.filter(profile => !profile.name.includes("vs.")).forEach(function (profile) {
+            profiles.filter(profile => profile.type === 'single' && profile.name !== defaultTitle).forEach(function (profile) {
                 // Überprüfe, ob der Profilname bereits im Dropdown existiert
                 var alreadyExists = Array.from(dropdown.options).some(option => option.value === profile.name);
 
@@ -1036,26 +1391,35 @@
         function deleteProfile(profileName) {
             // Name des zurzeit angezeigten Profils
             const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            const currentComparisonAthletes = getComparisonAthletes(currentTitle);
 
             // Entfernen Sie das Profil aus der internen Profil-Liste
-            const index = profiles.findIndex(profile => profile.name === profileName);
-            if (index !== -1) {
-                profiles.splice(index, 1);
-            }
-            saveProfilesToLocalStorage();
+            const profileList = getProfileListElement();
+            const profilesToDelete = profiles
+                .filter(profile => profile.name === profileName || getComparisonAthletes(profile.name).includes(profileName))
+                .map(profile => profile.name);
 
-            // Entfernen Sie nur das exakte Einzelprofil und nicht Vergleichsprofile
-            const sidebar = document.getElementById('mySidebar');
-            Array.from(sidebar.children).forEach(child => {
-                // Überprüfen, ob das Sidebar-Element exakt mit dem Profilnamen übereinstimmt
-                if (child.querySelector('button').textContent === profileName) {
-                    sidebar.removeChild(child);
+            profilesToDelete.forEach(name => {
+                const index = profiles.findIndex(profile => profile.name === name);
+                if (index !== -1) {
+                    profiles.splice(index, 1);
+                }
+
+                const profileItem = findProfileItemByName(name);
+                if (profileItem) {
+                    profileList.removeChild(profileItem);
                 }
             });
-            if (currentTitle === profileName) {
+
+            saveProfilesToLocalStorage();
+
+            if (currentTitle === profileName || currentComparisonAthletes.includes(profileName)) {
                 navigateToHome();
-            }            
+            }
         }
+
+        let initialX = null;
+        let initialY = null;
 
         document.body.addEventListener('touchstart', function (e) {
             initialX = e.touches[0].clientX;
@@ -1063,7 +1427,7 @@
         });
 
         document.body.addEventListener('touchmove', function (e) {
-            if (!initialX || !initialY) return;
+            if (initialX === null || initialY === null) return;
 
             let currentX = e.touches[0].clientX;
             let currentY = e.touches[0].clientY;
@@ -1099,3 +1463,4 @@
     </script>
 </body>
 </html>
+
