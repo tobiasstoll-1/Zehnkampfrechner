@@ -16,8 +16,27 @@
     <link rel="icon" href="imgs/appIcon.png" sizes="512x512">
 
     <style>
+        :root {
+            --accent: #8fd0a3;
+            --accent-strong: #63a97b;
+            --surface-soft: rgba(255, 255, 255, 0.06);
+            --surface-mid: rgba(255, 255, 255, 0.1);
+            --surface-strong: rgba(255, 255, 255, 0.16);
+            --border-soft: rgba(255, 255, 255, 0.08);
+            --border-mid: rgba(255, 255, 255, 0.18);
+            --text-main: #f4f6f8;
+            --text-soft: rgba(232, 237, 241, 0.72);
+            --text-muted: rgba(220, 226, 233, 0.48);
+            --shadow-soft: 0 16px 30px rgba(0, 0, 0, 0.16);
+            --shadow-mid: 0 20px 42px rgba(0, 0, 0, 0.22);
+            --radius-card: 22px;
+        }
+
         .background-dark {
             background-color: #262626;
+            background-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
+            min-height: 100vh;
+            color: var(--text-main);
         }
 
         #transparentOverlay {
@@ -31,23 +50,226 @@
         }
         
         .center{
-            display: flex;
-            justify-content: center;
+            display: none;
             color: white;
             font-family: 'Roboto', sans-serif;
             font-size: 28px;
             font-weight: bold;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 0.01em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .home-top-title {
+            display: none;
+            flex: 1;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 34px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin: 0 16px;
+            padding: 10px 0 12px 0;
+            border-bottom: 1px solid var(--border-soft);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.02) 100%);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+
+        .app-topbar-menu {
+            flex: 0 0 auto;
+        }
+
+        .app-topbar-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            flex: 0 0 auto;
+            margin-left: auto;
+            padding-right: 2px;
+        }
+
+        .home-intro {
+            width: calc(100% - 32px);
+            max-width: 720px;
+            margin: 22px auto 0 auto;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         .icon-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 0;
         }
 
-        .icon-container img {
-            margin: 0 10px;
+        .home-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 12px;
+            aspect-ratio: 1 / 1;
+            min-height: 0;
+            padding: 20px 16px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius-card);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.045) 100%);
+            box-shadow: var(--shadow-soft);
+            color: white;
+            text-align: center;
             cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .home-action:hover {
+            transform: translateY(-3px);
+            border-color: rgba(143, 208, 163, 0.3);
+            background: linear-gradient(180deg, rgba(143, 208, 163, 0.12) 0%, rgba(255, 255, 255, 0.065) 100%);
+            box-shadow: var(--shadow-mid);
+        }
+
+        .home-action-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .home-action-icon img {
+            display: block;
+            width: min(100%, 22vh);
+            height: min(100%, 22vh);
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .home-action-comparison .home-action-icon img {
+            width: min(100%, 24vh);
+            height: auto;
+            max-height: min(48%, 15vh);
+        }
+
+        .home-action-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            min-height: 22px;
+            letter-spacing: 0.01em;
+        }
+
+        .home-action-placeholder {
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.14);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .home-action-placeholder:hover {
+            transform: none;
+            border-color: rgba(255, 255, 255, 0.12);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+        }
+
+        .home-action-placeholder .home-action-icon {
+            color: rgba(255, 255, 255, 0.42);
+            font-size: 52px;
+            font-weight: bold;
+        }
+
+        .install-hint {
+            display: none;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 14px;
+            padding: 14px 14px 12px 14px;
+            border: 1px solid rgba(143, 208, 163, 0.18);
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(143, 208, 163, 0.1) 0%, rgba(255, 255, 255, 0.04) 100%);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .install-hint.is-visible {
+            display: flex;
+        }
+
+        .install-hint-copy {
+            min-width: 0;
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .install-hint-title {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.25;
+        }
+
+        .install-hint-text {
+            margin-top: 4px;
+            color: var(--text-soft);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .install-hint-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .install-hint-button,
+        .install-hint-dismiss {
+            border: none;
+            border-radius: 12px;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+        }
+
+        .install-hint-button {
+            min-height: 36px;
+            padding: 8px 12px;
+            background: rgba(38, 38, 38, 0.92);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .install-hint-dismiss {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .install-hint-button:hover,
+        .install-hint-dismiss:hover {
+            transform: translateY(-1px);
         }
 
 
@@ -56,6 +278,7 @@
             flex-direction: column;
             align-items: flex-start;
             margin-top: 30px;
+            animation: view-fade-in 0.24s ease;
         }
 
         .label {
@@ -63,9 +286,9 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            color: white;
+            margin-top: 0;
+            margin-bottom: 0;
+            color: var(--text-main);
             font-family: 'Roboto', sans-serif;
             font-size: 25px;
         }
@@ -73,15 +296,39 @@
         .input {
             width: 70px;
             margin-left: 10px;
+            min-height: 40px;
+            padding: 6px 8px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #f7fafc;
             font-size: 20px;
             text-align: center;
+            transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
         }
 
         .inputcomparison {
             width: 55px;
             margin-left: 10px;
+            min-height: 38px;
+            padding: 6px 8px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #f7fafc;
             font-size: 16px;
             text-align: center;
+            transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+        }
+
+        .input:focus,
+        .inputcomparison:focus {
+            outline: none;
+            border-color: rgba(143, 208, 163, 0.52);
+            box-shadow: 0 0 0 3px rgba(143, 208, 163, 0.14);
+            background: rgba(255, 255, 255, 0.24);
         }
 
         #result1, #result2, #result3, #result4, #result5, #result6, #result7, #result8, #result9, #result10 {
@@ -91,7 +338,7 @@
         }
 
         ::placeholder {
-            color: 	#A9A9A9;
+            color: rgba(223, 229, 235, 0.4);
             font-style: italic;
         }
 
@@ -103,11 +350,12 @@
             left: 0;
             width: 200px;
             height: 100%;
-            background-color: #5b5b5b;
+            background: linear-gradient(180deg, #555d66 0%, #4f5761 100%);
             z-index: 2;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
+            box-shadow: 18px 0 30px rgba(0, 0, 0, 0.2);
         }
 
         .menu a {
@@ -130,6 +378,11 @@
             font-size: 36px;
             margin-left: 50px;
             color: white;
+            min-width: 44px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #profileList {
@@ -137,12 +390,162 @@
             position: relative;
         }
 
+        .sidebar-section {
+            margin-top: 20px;
+        }
+
+        .sidebar-section-title {
+            padding: 0 14px 8px 14px;
+            color: rgba(255, 255, 255, 0.68);
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .ranking-sidebar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
         .profile-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #5b5b5b;
+            background-color: transparent;
             margin-bottom: 5px;
+        }
+
+        .sidebar-entry {
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.16s ease;
+        }
+
+        .sidebar-entry:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(1px);
+        }
+
+        .sidebar-entry.is-active {
+            background-color: rgba(120, 190, 138, 0.18);
+            box-shadow: inset 3px 0 0 #8fd0a3;
+        }
+
+        .sidebar-main-button {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            padding: 0 0 0 12px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            text-align: left;
+            cursor: pointer;
+            min-height: 46px;
+        }
+
+        .sidebar-main-button img {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        .sidebar-main-button span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .sidebar-action-button {
+            border: none;
+            background-color: #262626;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 8px;
+            padding: 4px 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            min-width: 36px;
+            min-height: 36px;
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .icon-action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            min-width: 32px;
+            min-height: 32px;
+        }
+
+        .icon-action-button img {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
+        .sidebar-action-button.icon-action-button {
+            background-color: #262626;
+            border-radius: 5px;
+            margin-right: 8px;
+            padding: 4px 8px;
+        }
+
+        .sidebar-action-button:hover {
+            background-color: #1f2328;
+            transform: translateY(-1px);
+        }
+
+        .sidebar-empty {
+            margin: 8px 12px 0 12px;
+            padding: 14px 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.16);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-soft);
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .sidebar-empty-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: rgba(38, 38, 38, 0.88);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .sidebar-empty-button:hover {
+            background: rgba(31, 35, 40, 0.96);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-empty-button img {
+            width: 16px;
+            height: 16px;
         }
 
         .profile-item.dragging {
@@ -171,6 +574,580 @@
         #main {
             transition: margin-left .5s;
             padding: 16px;
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 14px;
+        }
+
+        #top-icons img {
+            display: block;
+            width: 32px;
+            height: 32px;
+            padding: 8px;
+            box-sizing: content-box;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.07);
+            cursor: pointer;
+            transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        #top-icons img:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+        }
+
+        #top-icons img[src$="comparison.png"] {
+            width: 64px;
+            height: 32px;
+        }
+
+        .ranking-view {
+            position: relative;
+            z-index: 0;
+            width: calc(100% - 32px);
+            margin: 8px 16px 0 16px;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .ranking-scroll {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(143, 208, 163, 0.44) rgba(255, 255, 255, 0.05);
+        }
+
+        .ranking-table {
+            width: max-content;
+            min-width: 100%;
+        }
+
+        .ranking-row {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(92px, 1fr));
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .ranking-row + .ranking-row {
+            margin-top: 10px;
+        }
+
+        .ranking-cell {
+            min-height: 76px;
+            padding: 10px 10px;
+            box-sizing: border-box;
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+        }
+
+        .ranking-header .ranking-cell {
+            min-height: 64px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #f3f5f7;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-athlete {
+            position: sticky;
+            left: 0;
+            z-index: 3;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            background: linear-gradient(90deg, #3a4450 0%, #34404b 100%);
+            box-shadow: 10px 0 20px rgba(0, 0, 0, 0.16);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ranking-header .ranking-athlete {
+            z-index: 5;
+            background: linear-gradient(90deg, #4b5766 0%, #44505e 100%);
+        }
+
+        .ranking-total {
+            position: sticky;
+            right: 0;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-weight: bold;
+            background: linear-gradient(90deg, #355e46 0%, #2e543f 100%);
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.18);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ranking-header .ranking-total {
+            z-index: 6;
+            background: linear-gradient(90deg, #407555 0%, #38684c 100%);
+        }
+
+        .ranking-place {
+            font-size: 13px;
+            font-weight: bold;
+            color: #a8d7b7;
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+        }
+
+        .ranking-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ranking-value-cell.is-best {
+            background: rgba(120, 190, 138, 0.42);
+        }
+
+        .ranking-value-cell.is-second-best {
+            background: rgba(120, 190, 138, 0.24);
+        }
+
+        .ranking-value-cell.is-third-best {
+            background: rgba(120, 190, 138, 0.14);
+        }
+
+        .ranking-discipline-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .ranking-value-cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .ranking-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .ranking-subvalue {
+            font-size: 12px;
+            color: #d6dde4;
+            white-space: nowrap;
+        }
+
+        .ranking-points {
+            font-size: 13px;
+            color: #c8d0d8;
+        }
+
+        .ranking-total-points {
+            font-size: 20px;
+            color: white;
+        }
+
+        .ranking-total-meta {
+            font-size: 12px;
+            color: #d6dde4;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .ranking-empty {
+            padding: 24px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #d4d8dd;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .view-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 14px;
+            padding: 2px 0 6px 0;
+            box-sizing: border-box;
+            animation: view-fade-in 0.22s ease;
+        }
+
+        .view-header-main {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        .view-header-title {
+            min-width: 0;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 0.01em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-view-surface {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .profile-data-row {
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .profile-data-row + .profile-data-row {
+            border-top: 1px solid rgba(255, 255, 255, 0.045);
+        }
+
+        .profile-table-header {
+            padding-bottom: 10px;
+            margin-bottom: 4px;
+            color: var(--text-soft);
+            font-size: 18px;
+            letter-spacing: 0.01em;
+        }
+
+        .profile-total-summary {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(143, 208, 163, 0.1) 0%, rgba(255, 255, 255, 0.045) 100%);
+            border: 1px solid rgba(143, 208, 163, 0.18);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .single-points-cell {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .single-cumulative {
+            font-size: 12px;
+            color: var(--text-soft);
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0 12px 0;
+            margin-bottom: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: transparent;
+            transition: background 0.18s ease;
+        }
+
+        .comparison-header.is-stuck {
+            background-color: #262626;
+            background-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
+        }
+
+        .comparison-athlete-head {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-athlete-head.is-left {
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-athlete-head.is-right {
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-athlete-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        .comparison-header-center {
+            padding-bottom: 4px;
+        }
+
+        .comparison-header-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text-soft);
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.08em;
+            text-transform: lowercase;
+        }
+
+        .comparison-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comparison-discipline-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            align-items: stretch;
+            gap: 12px;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .comparison-list .comparison-discipline-row:first-child {
+            border-top: none;
+            padding-top: 4px;
+        }
+
+        .comparison-athlete-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .comparison-athlete-column.is-left {
+            align-items: center;
+            text-align: center;
+            background: rgba(143, 208, 163, 0.06);
+        }
+
+        .comparison-athlete-column.is-right {
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.045);
+        }
+
+        .comparison-athlete-column.is-leading {
+            border-color: rgba(143, 208, 163, 0.24);
+            background: rgba(143, 208, 163, 0.12);
+        }
+
+        .comparison-discipline-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            min-width: 56px;
+            text-align: center;
+        }
+
+        .comparison-discipline-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--text-main);
+            letter-spacing: 0.01em;
+        }
+
+        .comparison-performance {
+            width: 100%;
+        }
+
+        .comparison-performance-input {
+            width: 100%;
+            margin-left: 0;
+            text-align: center;
+        }
+
+        .comparison-points {
+            font-size: 13px;
+            color: var(--text-soft);
+            width: 100%;
+            text-align: center;
+        }
+
+        .comparison-total-summary {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(143, 208, 163, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+        }
+
+        .comparison-total-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+            align-items: center;
+            gap: 12px;
+        }
+
+        .comparison-total-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            min-width: 0;
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-total-block.is-right {
+            align-items: center;
+            text-align: center;
+        }
+
+        .comparison-total-points {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f4fbf6;
+            text-align: center;
+        }
+
+        .home-intro,
+        .ranking-view {
+            animation: view-fade-in 0.26s ease;
+        }
+
+        @keyframes view-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        button:focus-visible,
+        .home-action:focus-visible,
+        .sidebar-main-button:focus-visible,
+        .sidebar-action-button:focus-visible,
+        .icon-action-button:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(143, 208, 163, 0.2);
+        }
+
+        @media (max-width: 820px) {
+            .icon-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .home-intro {
+                padding: 22px 18px;
+            }
+
+            .center {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .label {
+                font-size: 21px;
+            }
+
+            .menu {
+                width: 216px;
+            }
+
+            .sidebar-main-button {
+                min-height: 50px;
+                font-size: 19px;
+            }
+
+            .sidebar-action-button {
+                min-width: 40px;
+                min-height: 40px;
+            }
+
+            #top-icons img {
+                padding: 9px;
+            }
+
+            .input {
+                width: 78px;
+                min-height: 42px;
+                font-size: 16px;
+            }
+
+            .inputcomparison {
+                width: 62px;
+                min-height: 40px;
+                font-size: 16px;
+            }
+
+            .single-cumulative {
+                font-size: 12px;
+            }
+
+            .comparison-header {
+                gap: 10px;
+            }
+
+            .comparison-athlete-name {
+                font-size: 18px;
+            }
+
+            .comparison-discipline-row {
+                gap: 8px;
+            }
+
+            .comparison-athlete-column {
+                padding: 10px 10px;
+            }
+
+            .comparison-discipline-center {
+                min-width: 56px;
+            }
+
+            .comparison-discipline-name {
+                font-size: 13px;
+            }
+
+            .comparison-total-points {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .home-intro {
+                width: calc(100% - 24px);
+            }
         }
     </style>
     <link rel="stylesheet" href="style.css">
@@ -182,18 +1159,23 @@
     <!-- Menü -->
     <div id="mySidebar" class="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <div id="profileList"></div>
+        <div id="profileSection" class="sidebar-section">
+            <div class="sidebar-section-title">Profile</div>
+            <div id="profileList"></div>
+        </div>
     </div>
 
     <!-- Overlay -->
     <div id="overlay" onclick="closeNav()"></div>
             
-    <div id="main" style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size:30px; cursor:pointer; color: white; margin-right: 20px; z-index: 2;" onclick="toggleNav()">&#9776;</span>
-        <div id="top-icons" style="display: flex; align-items: center;">
-            <img src="imgs/new_profile.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openProfileWindow()">
-            <img src="imgs/comparison.png" style="width: 64px; height: 32px; margin-right: 10px;" onclick="openAthleteComparison()">
-            <img src="imgs/table_icon.png" style="width: 32px; height: 32px; margin-right: 10px;" onclick="openRanking()">
+    <div id="main" class="app-topbar">
+        <span class="app-topbar-menu" style="font-size:30px; cursor:pointer; color: white; margin-right: 20px; z-index: 2;" onclick="toggleNav()">&#9776;</span>
+        <div id="home-top-title" class="home-top-title">Zehnkampfrechner</div>
+        <div id="top-icons" class="app-topbar-actions" style="display: flex; align-items: center;">
+            <img id="context-edit-icon" src="imgs/edit.png" style="display: none;" alt="Bearbeiten">
+            <img src="imgs/new_profile.png" onclick="openProfileWindow()">
+            <img src="imgs/comparison.png" onclick="openAthleteComparison()">
+            <img src="imgs/table_icon.png" onclick="openRanking()">
         </div>
     </div>
            
@@ -201,11 +1183,46 @@
         Zehnkampfrechner
     </div>
 
-    <!-- Icon Container für die Startseite -->
-    <div class="icon-container">
-        <img src="imgs/new_profile.png" style="width: 32px; height: 32px;" onclick="openProfileWindow()">
-        <img src="imgs/comparison.png" style="width: 64px; height: 32px;" onclick="openAthleteComparison()">
-        <img src="imgs/table_icon.png" style="width: 32px; height: 32px;" onclick="openRanking()">
+    <div id="home-intro" class="home-intro">
+        <!-- Icon Container für die Startseite -->
+        <div class="icon-container">
+            <button class="home-action" type="button" onclick="openProfileWindow()">
+                <span class="home-action-icon">
+                    <img src="imgs/new_profile.png" alt="Neues Profil">
+                </span>
+                <span class="home-action-title">Neues Profil</span>
+            </button>
+
+            <button class="home-action home-action-comparison" type="button" onclick="openAthleteComparison()">
+                <span class="home-action-icon">
+                    <img src="imgs/comparison.png" alt="Vergleich">
+                </span>
+                <span class="home-action-title">Direkter Vergleich</span>
+            </button>
+
+            <button class="home-action" type="button" onclick="openRanking()">
+                <span class="home-action-icon">
+                    <img src="imgs/table_icon.png" alt="Ranking">
+                </span>
+                <span class="home-action-title">Ranking erstellen</span>
+            </button>
+
+            <div class="home-action home-action-placeholder">
+                <span class="home-action-icon">+</span>
+                <span class="home-action-title">Bald verfügbar</span>
+            </div>
+        </div>
+
+        <div id="installHint" class="install-hint" aria-live="polite">
+            <div class="install-hint-copy">
+                <div class="install-hint-title">Zum Startbildschirm hinzufügen</div>
+                <div id="installHintText" class="install-hint-text"></div>
+            </div>
+            <div class="install-hint-actions">
+                <button id="installHintButton" type="button" class="install-hint-button">Installieren</button>
+                <button id="installHintDismiss" type="button" class="install-hint-dismiss" aria-label="Hinweis schließen">×</button>
+            </div>
+        </div>
     </div>
 
     <div class="labels-container">
@@ -281,6 +1298,13 @@
     </div>
 
     <script>
+        const viewScrollPositions = {};
+        let currentViewKey = 'home';
+        let deferredInstallPrompt = null;
+        const installHintDismissKey = 'installHintDismissed';
+        let activeComparisonHeader = null;
+        let comparisonHeaderStickY = 0;
+
         // Profile speichern
         function saveProfilesToLocalStorage() {
             localStorage.setItem('profiles', JSON.stringify(profiles));
@@ -440,10 +1464,9 @@
 
         function toggleNav() {
             var sidebar = document.getElementById("mySidebar");
-            var mainContent = document.getElementById("main");
 
             // Überprüfen, ob die Sidebar derzeit geöffnet ist
-            if (sidebar.style.width === "200px") {
+            if (parseInt(sidebar.style.width || '0', 10) > 0) {
                 // Sidebar schließen
                 closeNav();
             } else {
@@ -453,14 +1476,18 @@
         }
 
         function openNav() {
+            saveCurrentViewScrollPosition();
             var sidebar = document.getElementById("mySidebar");
+            var sidebarWidth = getSidebarWidth();
             sidebar.style.display = "block";
-            sidebar.style.width = "200px";
-            document.getElementById("main").style.marginLeft = "200px";
+            sidebar.style.width = sidebarWidth + "px";
+            document.getElementById("main").style.marginLeft = sidebarWidth + "px";
             // Overlay nach 0.5s sichtbar machen
             setTimeout(function() {
                 var overlay = document.getElementById('overlay');
                 if (overlay) {
+                    overlay.style.left = sidebarWidth + 'px';
+                    overlay.style.width = 'calc(100% - ' + sidebarWidth + 'px)';
                     overlay.style.display = 'block';
                 }
             }, 500);
@@ -470,6 +1497,7 @@
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("overlay").style.display = "none"; // Hide overlay
+            restoreViewScrollPosition(currentViewKey);
             // Öffnen Standardprofil nach Löschung
             if (profileDeleted) {
                 handleProfileButtonClick(defaultTitle);
@@ -494,23 +1522,25 @@
 
             const normalizedValue = normalizePerformanceInput(inputValue);
             const resultIndex = getResultIndexForInput(profileName, inputName, resultId);
+            const isComparisonProfile = profileName.includes(" vs. ");
+            const isSingleProfile = !isComparisonProfile;
 
             if (normalizedValue === "") {
-                resultElement.textContent = "0";
+                resultElement.textContent = isComparisonProfile || isSingleProfile ? "0 P" : "0";
                 profiles[profileIndex].results[resultIndex] = "0";
                 profiles[profileIndex].values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
             } else {
                 const performance = parsePerformanceValue(normalizedValue, disciplineType);
                 const points = calculateDecathlonPoints(disciplineType, performance, A, B, C);
 
-                resultElement.textContent = String(points);
+                resultElement.textContent = isComparisonProfile || isSingleProfile ? `${points} P` : String(points);
                 profiles[profileIndex].results[resultIndex] = String(points);
                 profiles[profileIndex].values[resultIndex] = normalizedValue;
             }
             saveProfilesToLocalStorage();
 
             // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
-            if (profileName.includes(" vs. ")) {
+            if (isComparisonProfile) {
                 const [athlete1, athlete2] = profileName.split(" vs. ");
                 
                 if (inputName.includes(athlete1)) {
@@ -518,6 +1548,7 @@
                 } else if (inputName.includes(athlete2)) {
                     calculateTotalPoints(profileName, athlete2);
                 }
+                updateComparisonRowStates(profileName);
             } else {
                 // Standardverhalten für nicht-Vergleichsprofile
                 calculateTotalPoints(profileName);
@@ -536,26 +1567,84 @@
                         return;
                     }
                     const startIndex = athleteIndex * 10;
-                    const resultValues = profile.results.slice(startIndex, startIndex + 10).filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined);
-                    const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
+                    const totalPoints = getTotalPointsFromResults(profile.results.slice(startIndex, startIndex + 10));
                     profile.totalPoints[athlete] = totalPoints;
 
                     const totalElement = document.getElementById(`totalPoints_${athlete}`);
                     if (totalElement) {
-                        totalElement.innerHTML = totalPoints;
+                        totalElement.innerHTML = `${totalPoints} P`;
                     }
                 } else {
-                    const resultValues = profile.results.filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined);
-                    const totalPoints = resultValues.reduce((total, result) => total + parseInt(result), 0);
+                    const totalPoints = getTotalPointsFromResults(profile.results);
                     profile.totalPoints = totalPoints;
 
                     const totalElement = document.getElementById('total');
                     if (totalElement) {
-                        totalElement.innerHTML = totalPoints;
+                        totalElement.innerHTML = `${totalPoints} P`;
                     }
+
+                    updateSingleProfileCumulative(profileName);
                 }
 
             }
+        }
+
+        function updateSingleProfileCumulative(profileName) {
+            const profile = profiles.find(function(entry) {
+                return entry.name === profileName;
+            });
+
+            if (!profile || profile.type !== 'single') {
+                return;
+            }
+
+            const cumulativePoints = getCumulativePoints(profile.results.slice(0, 10));
+            cumulativePoints.forEach(function(points, index) {
+                const cumulativeElement = document.getElementById(`singleCumulative${index + 1}`);
+                if (cumulativeElement) {
+                    cumulativeElement.textContent = `${points} P`;
+                }
+            });
+        }
+
+        function updateComparisonRowStates(profileName) {
+            const profile = profiles.find(function(entry) {
+                return entry.name === profileName;
+            });
+            if (!profile || profile.type !== 'comparison') {
+                return;
+            }
+
+            for (let i = 0; i < 10; i++) {
+                const leftColumn = document.getElementById(`comparisonLeftColumn${i + 1}`);
+                const rightColumn = document.getElementById(`comparisonRightColumn${i + 1}`);
+                const leftPoints = parseInt(profile.results[i] || '0', 10);
+                const rightPoints = parseInt(profile.results[i + 10] || '0', 10);
+
+                if (leftColumn) {
+                    leftColumn.classList.remove('is-leading');
+                }
+                if (rightColumn) {
+                    rightColumn.classList.remove('is-leading');
+                }
+
+                if (leftPoints > rightPoints) {
+                    if (leftColumn) {
+                        leftColumn.classList.add('is-leading');
+                    }
+                } else if (rightPoints > leftPoints) {
+                    if (rightColumn) {
+                        rightColumn.classList.add('is-leading');
+                    }
+                }
+            }
+        }
+
+
+        function getTotalPointsFromResults(results) {
+            return (results || [])
+                .filter(result => result !== "" && !isNaN(result) && result !== null && result !== undefined)
+                .reduce((total, result) => total + parseInt(result, 10), 0);
         }
 
         function bindEnterKeyToOk(modal, okButton) {
@@ -567,66 +1656,393 @@
             });
         }
 
-        // Function new_profile
-        function openProfileWindow() {
-            // Create a modal window
+        function closeModal(modal) {
+            if (modal && modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        }
+
+        function animateViewEntrance(element) {
+            if (!element) {
+                return;
+            }
+            element.style.animation = 'none';
+            void element.offsetWidth;
+            element.style.animation = 'view-fade-in 0.26s ease';
+        }
+
+        function isRunningStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
+
+        function isMobileInstallContext() {
+            return window.innerWidth <= 680 || window.matchMedia('(pointer: coarse)').matches;
+        }
+
+        function isIosDevice() {
+            return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+        }
+
+        function hideInstallHint(persist = false) {
+            const hint = document.getElementById('installHint');
+            if (!hint) {
+                return;
+            }
+            hint.classList.remove('is-visible');
+            if (persist) {
+                localStorage.setItem(installHintDismissKey, '1');
+            }
+        }
+
+        function updateInstallHintVisibility() {
+            const hint = document.getElementById('installHint');
+            const text = document.getElementById('installHintText');
+            const button = document.getElementById('installHintButton');
+            if (!hint || !text || !button) {
+                return;
+            }
+
+            const wasDismissed = localStorage.getItem(installHintDismissKey) === '1';
+            const shouldShow = isMobileInstallContext() && !isRunningStandalone() && !wasDismissed;
+
+            if (!shouldShow) {
+                hideInstallHint(false);
+                return;
+            }
+
+            if (deferredInstallPrompt) {
+                text.textContent = 'Die App kann direkt auf dem Homescreen abgelegt werden und ist dann noch schneller erreichbar.';
+                button.style.display = 'inline-flex';
+                button.textContent = 'Installieren';
+            } else if (isIosDevice()) {
+                text.textContent = 'In Safari kannst du unten auf Teilen tippen und dann "Zum Home-Bildschirm" wählen.';
+                button.style.display = 'none';
+            } else {
+                text.textContent = 'Du kannst diese Seite als App auf dem Startbildschirm speichern, wenn dein Browser das unterstützt.';
+                button.style.display = 'none';
+            }
+
+            hint.classList.add('is-visible');
+        }
+
+        async function handleInstallHintAction() {
+            if (!deferredInstallPrompt) {
+                return;
+            }
+
+            deferredInstallPrompt.prompt();
+            const choiceResult = await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            if (choiceResult && choiceResult.outcome === 'accepted') {
+                hideInstallHint(true);
+            } else {
+                updateInstallHintVisibility();
+            }
+        }
+
+        function getSidebarWidth() {
+            return window.innerWidth <= 680 ? 216 : 200;
+        }
+
+        function saveCurrentViewScrollPosition() {
+            viewScrollPositions[currentViewKey] = window.scrollY || window.pageYOffset || 0;
+        }
+
+        function restoreViewScrollPosition(viewKey) {
+            const targetPosition = viewScrollPositions[viewKey] || 0;
+            requestAnimationFrame(function() {
+                window.scrollTo(0, targetPosition);
+            });
+        }
+
+        function scrollInputIntoView(input) {
+            if (!input) {
+                return;
+            }
+
+            setTimeout(function() {
+                input.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'nearest'
+                });
+            }, 160);
+        }
+
+        function moveFocusToNextInput(currentInput) {
+            const allInputs = Array.from(document.querySelectorAll('.labels-container input.input, .labels-container input.inputcomparison'));
+            const currentIndex = allInputs.indexOf(currentInput);
+            if (currentIndex === -1) {
+                return;
+            }
+
+            const nextInput = allInputs[currentIndex + 1];
+            if (nextInput) {
+                nextInput.focus();
+                nextInput.select();
+                scrollInputIntoView(nextInput);
+            } else {
+                currentInput.blur();
+            }
+        }
+
+        function enhanceViewInputs(container) {
+            if (!container) {
+                return;
+            }
+
+            const inputs = Array.from(container.querySelectorAll('input.input, input.inputcomparison'));
+            inputs.forEach(function(input) {
+                input.addEventListener('focus', function() {
+                    scrollInputIntoView(input);
+                });
+
+                input.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        moveFocusToNextInput(input);
+                    }
+                });
+            });
+        }
+
+        function updateComparisonHeaderStickyState() {
+            if (!activeComparisonHeader) {
+                return;
+            }
+
+            const shouldStick = (window.scrollY || window.pageYOffset || 0) > comparisonHeaderStickY;
+            activeComparisonHeader.classList.toggle('is-stuck', shouldStick);
+        }
+
+        function setupComparisonHeaderSticky(header) {
+            activeComparisonHeader = header || null;
+            if (!activeComparisonHeader) {
+                return;
+            }
+
+            requestAnimationFrame(function() {
+                const rect = activeComparisonHeader.getBoundingClientRect();
+                comparisonHeaderStickY = (window.scrollY || window.pageYOffset || 0) + rect.top;
+                updateComparisonHeaderStickyState();
+            });
+        }
+
+        function createUnifiedModal(titleText, widthValue) {
             var modal = document.createElement('div');
             modal.style.position = 'fixed';
-            modal.style.zIndex = '1';
-            modal.style.left = '0';
-            modal.style.top = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+            modal.style.zIndex = '10';
+            modal.style.inset = '0';
+            modal.style.padding = '24px';
+            modal.style.boxSizing = 'border-box';
+            modal.style.background = 'rgba(6, 10, 18, 0.62)';
+            modal.style.backdropFilter = 'blur(8px)';
             modal.style.display = 'flex';
             modal.style.justifyContent = 'center';
             modal.style.alignItems = 'center';
 
-            // Create the inner content
             var content = document.createElement('div');
-            content.style.backgroundColor = '#a0a0a0';
-            content.style.padding = '20px';
-            content.style.border = '1px solid #ddd';
-            content.style.width = '50%';
-            content.style.borderRadius = '5px';
-            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+            content.style.width = widthValue || 'min(92vw, 520px)';
+            content.style.maxWidth = '100%';
+            content.style.maxHeight = 'min(86vh, 760px)';
+            content.style.overflowY = 'auto';
+            content.style.boxSizing = 'border-box';
+            content.style.padding = '28px';
+            content.style.border = '1px solid rgba(255, 255, 255, 0.14)';
+            content.style.borderRadius = '24px';
+            content.style.background = 'linear-gradient(180deg, rgba(233, 238, 245, 0.985) 0%, rgba(212, 220, 231, 0.97) 100%)';
+            content.style.boxShadow = '0 30px 64px rgba(0, 0, 0, 0.34)';
+            content.style.display = 'flex';
+            content.style.flexDirection = 'column';
+            content.style.gap = '18px';
+            content.style.position = 'relative';
+            content.style.color = '#1b2633';
 
-            // Close button
-            var closeButton = document.createElement('span');
-            closeButton.textContent = 'x';
-            closeButton.style.float = 'right';
+            var header = document.createElement('div');
+            header.style.display = 'flex';
+            header.style.alignItems = 'flex-start';
+            header.style.justifyContent = 'space-between';
+            header.style.gap = '16px';
+            header.style.paddingBottom = '4px';
+            header.style.borderBottom = '1px solid rgba(24, 33, 44, 0.08)';
+
+            var headingGroup = document.createElement('div');
+            headingGroup.style.display = 'flex';
+            headingGroup.style.flexDirection = 'column';
+            headingGroup.style.gap = '6px';
+
+            var title = document.createElement('h3');
+            title.textContent = titleText;
+            title.style.margin = '0';
+            title.style.fontSize = '24px';
+            title.style.lineHeight = '1.1';
+            title.style.color = '#18212c';
+            headingGroup.appendChild(title);
+
+            header.appendChild(headingGroup);
+
+            var closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.textContent = '×';
+            closeButton.setAttribute('aria-label', 'Fenster schließen');
+            closeButton.style.width = '40px';
+            closeButton.style.height = '40px';
+            closeButton.style.border = '1px solid rgba(24, 33, 44, 0.14)';
+            closeButton.style.borderRadius = '999px';
+            closeButton.style.background = 'rgba(255, 255, 255, 0.5)';
+            closeButton.style.color = '#233242';
+            closeButton.style.fontSize = '28px';
+            closeButton.style.lineHeight = '1';
             closeButton.style.cursor = 'pointer';
-            closeButton.style.fontWeight = 'bold';
-            closeButton.style.color = 'white';
-            closeButton.style.fontSize = '20px';
-            closeButton.style.marginBottom = '20px';
+            closeButton.style.flexShrink = '0';
             closeButton.onclick = function() {
-                document.body.removeChild(modal);
+                closeModal(modal);
             };
-            content.appendChild(closeButton);
-                        
-            // Input field
+            header.appendChild(closeButton);
+
+            content.appendChild(header);
+            modal.appendChild(content);
+
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal(modal);
+                }
+            });
+
+            modal.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeModal(modal);
+                }
+            });
+
+            return {
+                modal: modal,
+                content: content
+            };
+        }
+
+        function styleModalField(field) {
+            field.style.width = '100%';
+            field.style.boxSizing = 'border-box';
+            field.style.padding = '14px 16px';
+            field.style.fontSize = '16px';
+            field.style.color = '#18212c';
+            field.style.background = 'rgba(255, 255, 255, 0.72)';
+            field.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            field.style.borderRadius = '14px';
+            field.style.outline = 'none';
+            field.style.boxShadow = 'inset 0 1px 0 rgba(255, 255, 255, 0.55)';
+            field.style.transition = 'border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease';
+            field.onfocus = function() {
+                field.style.borderColor = 'rgba(83, 131, 98, 0.42)';
+                field.style.boxShadow = '0 0 0 3px rgba(143, 208, 163, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.62)';
+                field.style.background = 'rgba(255, 255, 255, 0.92)';
+            };
+            field.onblur = function() {
+                field.style.borderColor = 'rgba(69, 87, 107, 0.18)';
+                field.style.boxShadow = 'inset 0 1px 0 rgba(255, 255, 255, 0.55)';
+                field.style.background = 'rgba(255, 255, 255, 0.72)';
+            };
+        }
+
+        function createModalSection() {
+            var section = document.createElement('div');
+            section.style.display = 'flex';
+            section.style.flexDirection = 'column';
+            section.style.gap = '8px';
+
+            return section;
+        }
+
+        function createPrimaryButton(label) {
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = label;
+            button.style.alignSelf = 'flex-end';
+            button.style.padding = '12px 22px';
+            button.style.border = 'none';
+            button.style.borderRadius = '14px';
+            button.style.background = 'linear-gradient(135deg, #3e7b55 0%, #2d5e40 100%)';
+            button.style.color = '#ffffff';
+            button.style.fontSize = '15px';
+            button.style.fontWeight = 'bold';
+            button.style.cursor = 'pointer';
+            button.style.boxShadow = '0 14px 28px rgba(45, 94, 64, 0.24)';
+            return button;
+        }
+
+        function createEditIconButton(onClick) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'icon-action-button';
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/edit.png';
+            icon.alt = 'Bearbeiten';
+            button.appendChild(icon);
+
+            button.onclick = onClick;
+            return button;
+        }
+
+        function appendViewHeader(container, titleText, editAction = null) {
+            const headerRow = document.createElement('div');
+            headerRow.className = 'view-header-row';
+
+            const headerMain = document.createElement('div');
+            headerMain.className = 'view-header-main';
+
+            const title = document.createElement('div');
+            title.className = 'view-header-title';
+            title.textContent = titleText;
+            headerMain.appendChild(title);
+
+            if (editAction) {
+                headerMain.appendChild(createEditIconButton(editAction));
+            }
+
+            headerRow.appendChild(headerMain);
+            container.appendChild(headerRow);
+        }
+
+        function showContextEditIcon(onClick) {
+            const editIcon = document.getElementById('context-edit-icon');
+            if (!editIcon) {
+                return;
+            }
+
+            editIcon.style.display = 'block';
+            editIcon.onclick = onClick;
+        }
+
+        function hideContextEditIcon() {
+            const editIcon = document.getElementById('context-edit-icon');
+            if (!editIcon) {
+                return;
+            }
+
+            editIcon.style.display = 'none';
+            editIcon.onclick = null;
+        }
+
+        // Function new_profile
+        function openProfileWindow() {
+            var modalParts = createUnifiedModal(
+                'Neues Profil anlegen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var inputSection = createModalSection();
             var inputField = document.createElement('input');
             inputField.type = 'text';
             inputField.placeholder = 'Name des Athleten';
-            inputField.style.width = '90%';
-            inputField.style.padding = '10px';
-            inputField.style.fontSize = '16px';
-            inputField.style.marginBottom = '20px';
-            inputField.style.border = '1px solid #ddd';
-            inputField.style.borderRadius = '4px';
-            content.appendChild(inputField);
+            styleModalField(inputField);
+            inputSection.appendChild(inputField);
+            content.appendChild(inputSection);
 
-            // OK button
-            var okButton = document.createElement('button');
-            okButton.textContent = 'OK';
-            okButton.style.backgroundColor = '#4CAF50';
-            okButton.style.color = 'white';
-            okButton.style.padding = '10px 20px';
-            okButton.style.border = 'none';
-            okButton.style.borderRadius = '4px';
-            okButton.style.cursor = 'pointer';
-            okButton.style.float = 'right';
+            var okButton = createPrimaryButton('Profil erstellen');
             okButton.onclick = function() {
                 var athleteName = sanitizeProfileName(inputField.value);
                 if (!athleteName) {
@@ -646,12 +2062,11 @@
                     inputField.select();
                     return;
                 }
-                document.body.removeChild(modal);
+                closeModal(modal);
                 handleProfileButtonClick(createdProfileName);
             };
             content.appendChild(okButton);
 
-            modal.appendChild(content);
             document.body.appendChild(modal);
             bindEnterKeyToOk(modal, okButton);
             setTimeout(function() {
@@ -663,12 +2078,15 @@
         // Funktion zum Hinzufügen neuer Profile
         function handleProfileButtonClick(profileName) {
             if (profileName !== defaultTitle) {
+                saveCurrentViewScrollPosition();
                 closeNav();
                 document.querySelector('.center').textContent = profileName;
+                currentViewKey = `profile:${profileName}`;
                 displayProfileResults(profileName);
                 // Anzeigen der Disziplinen beim Wechseln zu einem Profil
                 document.querySelector('.labels-container').style.display = 'flex';
-                document.querySelector('.icon-container').style.display = 'none'; // Icons auf Profilseite ausblenden
+                document.getElementById('home-intro').style.display = 'none'; // Startbereich auf Profilseite ausblenden
+                document.getElementById('home-top-title').style.display = 'none';
                 // Zeige die oberen Icons an, wenn ein Profil ausgewählt wird
                 document.getElementById('top-icons').style.display = 'flex';
                 // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
@@ -677,21 +2095,67 @@
                     const [athlete1, athlete2] = profileName.split(" vs. ");
                     calculateTotalPoints(profileName, athlete1);
                     calculateTotalPoints(profileName, athlete2);
+                    hideContextEditIcon();
                 } 
                 else {
                     // Standardverhalten für nicht-Vergleichsprofile
                     calculateTotalPoints(profileName);
+                    hideContextEditIcon();
                 }
                 profileDeleted = false;
+                setActiveSidebarItem('profile', profileName);
+                animateViewEntrance(document.querySelector('.labels-container'));
+                restoreViewScrollPosition(currentViewKey);
             } else {
                 navigateToHome();
             }
         }
-
         // Beispielprofil-Daten
         const profiles = [];
+        const rankings = [];
         let draggedProfileName = null;
         let dropIndicator = null;
+
+        function saveRankingsToLocalStorage() {
+            localStorage.setItem('rankings', JSON.stringify(rankings));
+        }
+
+        function loadRankingsFromLocalStorage() {
+            rankings.splice(0, rankings.length);
+            const savedRankings = localStorage.getItem('rankings');
+
+            if (!savedRankings) {
+                return;
+            }
+
+            try {
+                JSON.parse(savedRankings).forEach(ranking => {
+                    if (!ranking || typeof ranking.name !== 'string') {
+                        return;
+                    }
+
+                    const sanitizedName = sanitizeProfileName(ranking.name);
+                    if (!sanitizedName) {
+                        return;
+                    }
+
+                    const selectedProfiles = Array.isArray(ranking.selectedProfiles)
+                        ? ranking.selectedProfiles
+                            .map(profileName => sanitizeProfileName(profileName))
+                            .filter(profileName => !!profileName)
+                        : [];
+
+                    rankings.push({
+                        name: sanitizedName,
+                        selectedProfiles: selectedProfiles,
+                        createdAt: ranking.createdAt || new Date().toISOString()
+                    });
+                });
+            } catch (error) {
+                console.error('Rankings konnten nicht aus dem localStorage geladen werden:', error);
+                localStorage.removeItem('rankings');
+            }
+        }
 
         function getProfileIndex(profileName) {
             return profiles.findIndex(p => p.name === profileName);
@@ -722,21 +2186,248 @@
             }
         }
 
+        function getRankingByName(rankingName) {
+            return rankings.find(ranking => ranking.name === rankingName) || null;
+        }
+
+        function getSortedRankingEntries(ranking) {
+            if (!ranking || !Array.isArray(ranking.selectedProfiles)) {
+                return [];
+            }
+
+            return ranking.selectedProfiles
+                .map(profileName => profiles.find(profile => profile.name === profileName && profile.type === 'single'))
+                .filter(Boolean)
+                .map(profile => {
+                    ensureProfileShape(profile);
+                    const totalPoints = getTotalPointsFromResults(profile.results.slice(0, 10));
+                    profile.totalPoints = totalPoints;
+
+                    return {
+                        name: profile.name,
+                        values: profile.values.slice(0, 10),
+                        results: profile.results.slice(0, 10),
+                        totalPoints: totalPoints
+                    };
+                })
+                .sort((entryA, entryB) => {
+                    if (entryB.totalPoints !== entryA.totalPoints) {
+                        return entryB.totalPoints - entryA.totalPoints;
+                    }
+
+                    return entryA.name.localeCompare(entryB.name, 'de');
+                });
+        }
+
+        function buildDescendingRanks(values) {
+            const sortedValues = Array.from(new Set(values.slice().sort(function(a, b) {
+                return b - a;
+            })));
+
+            return values.map(function(value) {
+                return sortedValues.indexOf(value) + 1;
+            });
+        }
+
+        function getCumulativePoints(results) {
+            let runningTotal = 0;
+            return results.map(function(result) {
+                runningTotal += parseInt(result || '0', 10);
+                return runningTotal;
+            });
+        }
+
+        function openRankingResults(rankingName) {
+            const ranking = getRankingByName(rankingName);
+            if (!ranking) {
+                return;
+            }
+
+            saveCurrentViewScrollPosition();
+            document.querySelector('.center').textContent = ranking.name;
+            currentViewKey = `ranking:${ranking.name}`;
+            document.querySelector('.labels-container').style.display = 'block';
+            document.querySelector('.labels-container').style.alignItems = 'stretch';
+            document.getElementById('home-intro').style.display = 'none';
+            document.getElementById('home-top-title').style.display = 'none';
+            document.getElementById('top-icons').style.display = 'flex';
+            hideContextEditIcon();
+            closeNav();
+            setActiveSidebarItem('ranking', ranking.name);
+
+            displayRankingResults(ranking);
+            animateViewEntrance(document.querySelector('.labels-container'));
+            restoreViewScrollPosition(currentViewKey);
+        }
+
+        function displayRankingResults(ranking) {
+            const labelsContainer = document.querySelector('.labels-container');
+            labelsContainer.innerHTML = '';
+            activeComparisonHeader = null;
+            appendViewHeader(labelsContainer, ranking.name, function() {
+                openRankingWindow(ranking.name);
+            });
+
+            const entries = getSortedRankingEntries(ranking);
+            if (entries.length === 0) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'ranking-empty';
+                emptyState.textContent = 'Für dieses Ranking sind aktuell keine Einzelprofile verfügbar.';
+                labelsContainer.appendChild(emptyState);
+                return;
+            }
+
+            const rankingView = document.createElement('div');
+            rankingView.className = 'ranking-view';
+
+            const scrollWrapper = document.createElement('div');
+            scrollWrapper.className = 'ranking-scroll';
+
+            const table = document.createElement('div');
+            table.className = 'ranking-table';
+            const disciplinePointsByIndex = Array.from({ length: 10 }, function(_, disciplineIndex) {
+                return entries.map(function(entry) {
+                    return parseInt(entry.results[disciplineIndex] || '0', 10);
+                });
+            });
+            const disciplineRanksByIndex = disciplinePointsByIndex.map(function(pointValues) {
+                return buildDescendingRanks(pointValues);
+            });
+            const cumulativePointsByEntry = entries.map(function(entry) {
+                return getCumulativePoints(entry.results);
+            });
+            const cumulativeRanksByIndex = Array.from({ length: 10 }, function(_, disciplineIndex) {
+                return buildDescendingRanks(cumulativePointsByEntry.map(function(cumulativeValues) {
+                    return cumulativeValues[disciplineIndex];
+                }));
+            });
+            const disciplineTopRanksByIndex = disciplinePointsByIndex.map(function(pointValues) {
+                const uniqueValues = Array.from(new Set(pointValues.filter(function(value) {
+                    return value > 0;
+                }).sort(function(a, b) {
+                    return b - a;
+                }))).slice(0, 3);
+                return uniqueValues;
+            });
+
+            const headerRow = document.createElement('div');
+            headerRow.className = 'ranking-row ranking-header';
+
+            const athleteHeader = document.createElement('div');
+            athleteHeader.className = 'ranking-cell ranking-athlete';
+            athleteHeader.textContent = '';
+            headerRow.appendChild(athleteHeader);
+
+            for (let i = 1; i <= 10; i++) {
+                const disciplineHeader = document.createElement('div');
+                disciplineHeader.className = 'ranking-cell ranking-discipline-header';
+                disciplineHeader.textContent = getInputName(i);
+                headerRow.appendChild(disciplineHeader);
+            }
+
+            const totalHeader = document.createElement('div');
+            totalHeader.className = 'ranking-cell ranking-total';
+            totalHeader.textContent = 'Punkte';
+            headerRow.appendChild(totalHeader);
+            table.appendChild(headerRow);
+
+            entries.forEach((entry, index) => {
+                const row = document.createElement('div');
+                row.className = 'ranking-row';
+                const totalLeader = entries[0].totalPoints;
+                const totalBehind = totalLeader - entry.totalPoints;
+
+                const athleteCell = document.createElement('div');
+                athleteCell.className = 'ranking-cell ranking-athlete';
+
+                const place = document.createElement('div');
+                place.className = 'ranking-place';
+                place.textContent = `${index + 1}.`;
+                athleteCell.appendChild(place);
+
+                const name = document.createElement('div');
+                name.className = 'ranking-name';
+                name.textContent = entry.name;
+                athleteCell.appendChild(name);
+                row.appendChild(athleteCell);
+
+                entry.values.forEach((value, valueIndex) => {
+                    const valueCell = document.createElement('div');
+                    valueCell.className = 'ranking-cell ranking-value-cell';
+                    const currentPoints = parseInt(entry.results[valueIndex] || '0', 10);
+                    const disciplineRank = disciplineRanksByIndex[valueIndex][index];
+                    const cumulativePoints = cumulativePointsByEntry[index][valueIndex];
+                    const cumulativeRank = cumulativeRanksByIndex[valueIndex][index];
+
+                    if (entries.length > 1 && currentPoints > 0) {
+                        const topValues = disciplineTopRanksByIndex[valueIndex];
+                        if (topValues[0] === currentPoints) {
+                            valueCell.classList.add('is-best');
+                        } else if (entries.length >= 4 && topValues[1] === currentPoints) {
+                            valueCell.classList.add('is-second-best');
+                        } else if (entries.length >= 4 && topValues[2] === currentPoints) {
+                            valueCell.classList.add('is-third-best');
+                        }
+                    }
+
+                    const points = document.createElement('div');
+                    points.className = 'ranking-value';
+                    points.textContent = `${currentPoints} P`;
+                    valueCell.appendChild(points);
+
+                    const performance = document.createElement('div');
+                    performance.className = 'ranking-subvalue';
+                    performance.textContent = `${value || '—'} (${disciplineRank}.)`;
+                    valueCell.appendChild(performance);
+
+                    const cumulative = document.createElement('div');
+                    cumulative.className = 'ranking-subvalue';
+                    cumulative.textContent = `${cumulativePoints} P (${cumulativeRank}.)`;
+                    valueCell.appendChild(cumulative);
+
+                    row.appendChild(valueCell);
+                });
+
+                const totalCell = document.createElement('div');
+                totalCell.className = 'ranking-cell ranking-total';
+                totalCell.style.flexDirection = 'column';
+                totalCell.style.gap = '4px';
+                totalCell.style.justifyContent = 'center';
+                totalCell.style.alignItems = 'flex-end';
+
+                const totalValue = document.createElement('div');
+                totalValue.className = 'ranking-total-points';
+                totalValue.textContent = `${entry.totalPoints} P`;
+                totalCell.appendChild(totalValue);
+
+                if (index !== 0) {
+                    const totalMeta = document.createElement('div');
+                    totalMeta.className = 'ranking-total-meta';
+                    totalMeta.textContent = `-${totalBehind} P`;
+                    totalCell.appendChild(totalMeta);
+                }
+
+                row.appendChild(totalCell);
+                table.appendChild(row);
+            });
+
+            scrollWrapper.appendChild(table);
+            rankingView.appendChild(scrollWrapper);
+            labelsContainer.appendChild(rankingView);
+            animateViewEntrance(rankingView);
+        }
+
         function displaySingleProfile(profile) {
             const labelsContainer = document.querySelector('.labels-container');
-            
-            // Überschriften für Vergleichsprofile hinzufügen
-            const headerLabel = document.createElement('div');
-            headerLabel.className = 'label';
-            headerLabel.style.display = 'flex';
-            headerLabel.style.justifyContent = 'space-between';
-            headerLabel.style.width = '100%';
-            headerLabel.innerHTML = `
-                <span style="flex: 1; text-align: left;">Disziplin</span>
-                <span style="flex: 1; text-align: center;">Ergebnis</span>
-                <span style="flex: 1; text-align: right;">Punkte</span>
-            `;
-            labelsContainer.appendChild(headerLabel);
+            labelsContainer.innerHTML = '';
+            activeComparisonHeader = null;
+            appendViewHeader(labelsContainer, profile.name, function() {
+                openProfileRenameWindow(profile.name);
+            });
+
+            const contentSurface = document.createElement('div');
+            contentSurface.className = 'profile-view-surface';
+            labelsContainer.appendChild(contentSurface);
 
             // Erstellen der Disziplin-Labels und Eingabefelder
             for (let i = 0; i < 10; i++) {
@@ -745,29 +2436,35 @@
                 const points = profile.results[i];
 
                 const label = document.createElement('div');
-                label.className = 'label';
+                label.className = 'label profile-data-row';
                 label.style.display = 'flex';
                 label.style.alignItems = 'center';
                 label.innerHTML = `
                     <span style="flex: 1; font-size: 25px;">${inputName}</span>
-                    <input class="input" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
-                    <div id="result${i + 1}" style="flex: 1; font-size: 25px; text-align: right;">${points !== "" ? points : 0}</div>
+                    <input class="input" inputmode="decimal" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <div class="single-points-cell">
+                        <div id="result${i + 1}" style="font-size: 25px; text-align: right;">${points !== "" ? `${points} P` : '0 P'}</div>
+                        <div id="singleCumulative${i + 1}" class="single-cumulative"></div>
+                    </div>
                 `;
 
-                labelsContainer.appendChild(label);
+                contentSurface.appendChild(label);
             }
 
             // Gesamtpunktzahl-Anzeige hinzufügen
             const totalLabel = document.createElement('div');
-            totalLabel.className = 'label';
+            totalLabel.className = 'label profile-total-summary';
             totalLabel.style.display = 'flex';
             totalLabel.style.justifyContent = 'space-between';
             totalLabel.style.width = '100%';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 25px; font-weight: bold;">Gesamtpunktzahl</span>
-                <div id="total" style="flex: 1; text-align: right; font-size: 25px; font-weight: bold;">${profile.totalPoints}</div>
+                <span style="flex: 1; text-align: left; font-size: 22px; font-weight: bold;">Gesamtpunktzahl</span>
+                <div id="total" style="flex: 1; text-align: right; font-size: 30px; font-weight: bold; color: #f4fbf6;">${profile.totalPoints} P</div>
             `;
-            labelsContainer.appendChild(totalLabel);
+            contentSurface.appendChild(totalLabel);
+            updateSingleProfileCumulative(profile.name);
+            enhanceViewInputs(contentSurface);
+            animateViewEntrance(labelsContainer);
         }
 
         function displayComparisonProfile(profile) {
@@ -775,19 +2472,31 @@
             labelsContainer.innerHTML = '';
             ensureProfileShape(profile);
 
-            const headerLabel = document.createElement('div');
-            headerLabel.className = 'label';
-            headerLabel.style.display = 'flex';
-            headerLabel.style.justifyContent = 'space-between';
-            headerLabel.style.width = '100%';
-            headerLabel.innerHTML = `
-                <span style="flex: 1; text-align: left;">Disziplin</span>
-                <span style="flex: 1; text-align: center;">Ergebnis</span>
-                <span style="flex: 1; text-align: right;">Punkte</span>
-            `;
-            labelsContainer.appendChild(headerLabel);
+            const contentSurface = document.createElement('div');
+            contentSurface.className = 'profile-view-surface';
+            labelsContainer.appendChild(contentSurface);
 
             const [athlete1, athlete2] = profile.name.split(" vs. ");
+
+            const comparisonHeader = document.createElement('div');
+            comparisonHeader.className = 'comparison-header';
+            comparisonHeader.innerHTML = `
+                <div class="comparison-athlete-head is-left">
+                    <div class="comparison-athlete-name">${athlete1}</div>
+                </div>
+                <div class="comparison-header-center">
+                    <div class="comparison-header-badge">vs</div>
+                </div>
+                <div class="comparison-athlete-head is-right">
+                    <div class="comparison-athlete-name">${athlete2}</div>
+                </div>
+            `;
+            contentSurface.appendChild(comparisonHeader);
+            setupComparisonHeaderSticky(comparisonHeader);
+
+            const comparisonList = document.createElement('div');
+            comparisonList.className = 'comparison-list';
+            contentSurface.appendChild(comparisonList);
 
             for (let i = 0; i < 10; i++) {
                 const inputName = getInputName(i + 1);
@@ -797,44 +2506,339 @@
                 const pointsAthlete2 = profile.results[i + 10];
 
                 const label = document.createElement('div');
-                label.className = 'label';
-                label.style.display = 'flex';
-                label.style.alignItems = 'center';
+                label.className = 'comparison-discipline-row';
                 label.innerHTML = `
-                    <span style="flex: 1; font-size: 25px;">${inputName}</span>
-                    <input class="inputcomparison" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="flex: 1; font-size: 18px;" placeholder="${getDefaultPlaceholder(i + 1)}">
-                    <input class="inputcomparison" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="flex: 1; font-size: 18px;" placeholder="${getDefaultPlaceholder(i + 1)}">
-                    <div id="result${i + 1}_${athlete1}" style="flex: 1; font-size: 25px; text-align: center;">${pointsAthlete1 !== "" ? pointsAthlete1 : 0}</div>
-                    <span style="font-size: 20px; margin: 5px">vs.</span>
-                    <div id="result${i + 1}_${athlete2}" style="flex: 1; font-size: 25px; text-align: center;">${pointsAthlete2 !== "" ? pointsAthlete2 : 0}</div>
+                    <div id="comparisonLeftColumn${i + 1}" class="comparison-athlete-column is-left">
+                        <div class="comparison-performance">
+                            <input class="inputcomparison comparison-performance-input comparison-input-first" inputmode="decimal" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                        </div>
+                        <div id="result${i + 1}_${athlete1}" class="comparison-points">${pointsAthlete1 !== "" ? pointsAthlete1 : 0} P</div>
+                    </div>
+                    <div class="comparison-discipline-center">
+                        <div class="comparison-discipline-name">${inputName}</div>
+                    </div>
+                    <div id="comparisonRightColumn${i + 1}" class="comparison-athlete-column is-right">
+                        <div class="comparison-performance">
+                            <input class="inputcomparison comparison-performance-input comparison-input-second" inputmode="decimal" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                        </div>
+                        <div id="result${i + 1}_${athlete2}" class="comparison-points">${pointsAthlete2 !== "" ? pointsAthlete2 : 0} P</div>
+                    </div>
                 `;
-                labelsContainer.appendChild(label);
+                comparisonList.appendChild(label);
             }
 
             const totalLabel = document.createElement('div');
-            totalLabel.className = 'label';
-            totalLabel.style.display = 'flex';
-            totalLabel.style.justifyContent = 'space-between';
-            totalLabel.style.width = '100%';
+            totalLabel.className = 'comparison-total-summary';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 25px; font-weight: bold;">Gesamtpunktzahl</span>
-                <span id="totalPoints_${athlete1}" style="flex: 1; text-align: center; font-size: 25px; font-weight: bold;">${profile.totalPoints[athlete1]}</span>
-                <span style="font-size: 20px; font-weight: bold; margin: 5px;">vs.</span>
-                <span id="totalPoints_${athlete2}" style="flex: 1; text-align: center; font-size: 25px; font-weight: bold;">${profile.totalPoints[athlete2]}</span>
+                <div class="comparison-total-row">
+                    <div class="comparison-total-block">
+                        <div id="totalPoints_${athlete1}" class="comparison-total-points">${profile.totalPoints[athlete1]} P</div>
+                    </div>
+                    <div></div>
+                    <div class="comparison-total-block is-right">
+                        <div id="totalPoints_${athlete2}" class="comparison-total-points">${profile.totalPoints[athlete2]} P</div>
+                    </div>
+                </div>
             `;
-            labelsContainer.appendChild(totalLabel);
+            contentSurface.appendChild(totalLabel);
+            enhanceViewInputs(contentSurface);
+            updateComparisonRowStates(profile.name);
+            animateViewEntrance(labelsContainer);
         }
         function getProfileListElement() {
             const sidebar = document.getElementById('mySidebar');
+            let profileSection = document.getElementById('profileSection');
             let profileList = document.getElementById('profileList');
 
-            if (!profileList) {
+            if (!profileSection) {
+                profileSection = document.createElement('div');
+                profileSection.id = 'profileSection';
+                profileSection.className = 'sidebar-section';
+
+                const title = document.createElement('div');
+                title.className = 'sidebar-section-title';
+                title.textContent = 'Profile';
+                profileSection.appendChild(title);
+
                 profileList = document.createElement('div');
                 profileList.id = 'profileList';
-                sidebar.appendChild(profileList);
+                profileSection.appendChild(profileList);
+                sidebar.appendChild(profileSection);
+            } else if (!profileList) {
+                profileList = document.createElement('div');
+                profileList.id = 'profileList';
+                profileSection.appendChild(profileList);
             }
 
             return profileList;
+        }
+
+        function getRankingListElement() {
+            const sidebar = document.getElementById('mySidebar');
+            let rankingSection = document.getElementById('rankingSection');
+            let rankingList = document.getElementById('rankingList');
+
+            if (!rankingSection) {
+                rankingSection = document.createElement('div');
+                rankingSection.id = 'rankingSection';
+                rankingSection.className = 'sidebar-section';
+
+                const title = document.createElement('div');
+                title.className = 'sidebar-section-title';
+                title.textContent = 'Rankings';
+                rankingSection.appendChild(title);
+
+                rankingList = document.createElement('div');
+                rankingList.id = 'rankingList';
+                rankingSection.appendChild(rankingList);
+                sidebar.appendChild(rankingSection);
+            } else if (!rankingList) {
+                rankingList = document.createElement('div');
+                rankingList.id = 'rankingList';
+                rankingSection.appendChild(rankingList);
+            }
+
+            return rankingList;
+        }
+
+        function createSidebarEmptyState(type) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'sidebar-empty';
+            emptyState.dataset.emptyType = type;
+
+            const text = document.createElement('div');
+            text.textContent = type === 'profile'
+                ? 'Noch keine Profile angelegt.'
+                : 'Noch keine Rankings gespeichert.';
+            emptyState.appendChild(text);
+
+            if (type === 'profile') {
+                const addButton = document.createElement('button');
+                addButton.type = 'button';
+                addButton.className = 'sidebar-empty-button';
+                addButton.onclick = function() {
+                    openProfileWindow();
+                };
+
+                const icon = document.createElement('img');
+                icon.src = 'imgs/new_profile.png';
+                icon.alt = 'Profil hinzufügen';
+                addButton.appendChild(icon);
+
+                const label = document.createElement('span');
+                label.textContent = 'Neues Profil';
+                addButton.appendChild(label);
+                emptyState.appendChild(addButton);
+            }
+
+            return emptyState;
+        }
+
+        function updateSidebarEmptyStates() {
+            const profileList = getProfileListElement();
+            const rankingList = getRankingListElement();
+
+            const profileItems = profileList.querySelectorAll('.profile-item');
+            const existingProfileEmpty = profileList.querySelector('.sidebar-empty[data-empty-type="profile"]');
+            if (profileItems.length === 0 && !existingProfileEmpty) {
+                profileList.appendChild(createSidebarEmptyState('profile'));
+            } else if (profileItems.length > 0 && existingProfileEmpty) {
+                existingProfileEmpty.remove();
+            }
+
+            const rankingItems = rankingList.querySelectorAll('.ranking-sidebar-item');
+            const existingRankingEmpty = rankingList.querySelector('.sidebar-empty[data-empty-type="ranking"]');
+            if (rankingItems.length === 0 && !existingRankingEmpty) {
+                rankingList.appendChild(createSidebarEmptyState('ranking'));
+            } else if (rankingItems.length > 0 && existingRankingEmpty) {
+                existingRankingEmpty.remove();
+            }
+        }
+
+        function findRankingItemByName(rankingName) {
+            const rankingList = getRankingListElement();
+            return Array.from(rankingList.querySelectorAll('.ranking-sidebar-item'))
+                .find(item => item.dataset.rankingName === rankingName) || null;
+        }
+
+        function updateSidebarEntryLabel(button, labelText) {
+            const label = button.querySelector('span');
+            if (label) {
+                label.textContent = labelText;
+            }
+        }
+
+        function clearActiveSidebarEntries() {
+            document.querySelectorAll('.sidebar-entry.is-active').forEach(function(item) {
+                item.classList.remove('is-active');
+            });
+        }
+
+        function setActiveSidebarItem(type, name) {
+            clearActiveSidebarEntries();
+
+            if (!name || name === defaultTitle) {
+                return;
+            }
+
+            if (type === 'ranking') {
+                const rankingItem = findRankingItemByName(name);
+                if (rankingItem) {
+                    rankingItem.classList.add('is-active');
+                }
+                return;
+            }
+
+            const profileItem = findProfileItemByName(name);
+            if (profileItem) {
+                profileItem.classList.add('is-active');
+            }
+        }
+
+        function isReservedProfileName(profileName, originalName) {
+            return profiles.some(function(profile) {
+                return profile.name === profileName && profile.name !== originalName;
+            }) || rankings.some(function(ranking) {
+                return ranking.name === profileName;
+            }) || profileName === defaultTitle;
+        }
+
+        function isReservedRankingName(rankingName, originalName) {
+            return rankings.some(function(ranking) {
+                return ranking.name === rankingName && ranking.name !== originalName;
+            }) || profiles.some(function(profile) {
+                return profile.name === rankingName;
+            }) || rankingName === defaultTitle;
+        }
+
+        function updateRankingSidebarName(oldName, newName) {
+            const rankingItem = findRankingItemByName(oldName);
+            if (!rankingItem) {
+                return;
+            }
+
+            rankingItem.dataset.rankingName = newName;
+            const button = rankingItem.querySelector('.sidebar-main-button');
+            if (button) {
+                updateSidebarEntryLabel(button, newName);
+                button.onclick = function() {
+                    openRankingResults(newName);
+                };
+            }
+
+            const editButton = rankingItem.querySelector('.ranking-edit-button');
+            if (editButton) {
+                editButton.onclick = function() {
+                    openRankingWindow(newName);
+                };
+            }
+
+            const deleteButton = rankingItem.querySelector('.ranking-delete-button');
+            if (deleteButton) {
+                deleteButton.onclick = function() {
+                    confirmRankingDeletion(newName);
+                };
+            }
+        }
+
+        function updateProfileSidebarName(oldName, newName) {
+            const profileItem = findProfileItemByName(oldName);
+            if (!profileItem) {
+                return;
+            }
+
+            profileItem.dataset.profileName = newName;
+            const button = profileItem.querySelector('.sidebar-main-button');
+            if (button) {
+                updateSidebarEntryLabel(button, newName);
+                button.onclick = function() {
+                    handleProfileButtonClick(newName);
+                };
+            }
+
+            const editButton = profileItem.querySelector('.profile-edit-button');
+            if (editButton) {
+                editButton.onclick = function() {
+                    openProfileRenameWindow(newName);
+                };
+            }
+
+            const deleteButton = profileItem.querySelector('.profile-delete-button');
+            if (deleteButton) {
+                deleteButton.onclick = function() {
+                    confirmProfileDeletion(newName);
+                };
+            }
+        }
+
+        function addRankingToSidebar(rankingName) {
+            rankingName = sanitizeProfileName(rankingName);
+            if (!rankingName || findRankingItemByName(rankingName)) {
+                return;
+            }
+
+            const rankingList = getRankingListElement();
+            const rankingContainer = document.createElement('div');
+            rankingContainer.className = 'ranking-sidebar-item sidebar-entry';
+            rankingContainer.dataset.rankingName = rankingName;
+
+            const rankingButton = document.createElement('button');
+            rankingButton.className = 'sidebar-main-button';
+            rankingButton.onclick = function() {
+                openRankingResults(rankingName);
+            };
+
+            const rankingButtonIcon = document.createElement('img');
+            rankingButtonIcon.src = 'imgs/table_icon.png';
+            rankingButton.appendChild(rankingButtonIcon);
+
+            const rankingButtonLabel = document.createElement('span');
+            rankingButtonLabel.textContent = rankingName;
+            rankingButton.appendChild(rankingButtonLabel);
+
+            rankingContainer.appendChild(rankingButton);
+
+            const editButton = createEditIconButton(function() {
+                openRankingWindow(rankingName);
+            });
+            editButton.classList.add('sidebar-action-button', 'ranking-edit-button');
+            rankingContainer.appendChild(editButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'sidebar-action-button ranking-delete-button';
+
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = 'imgs/delete_profile.png';
+            deleteIcon.style.width = '20px';
+            deleteIcon.style.height = '20px';
+            deleteButton.appendChild(deleteIcon);
+            deleteButton.onclick = function() {
+                confirmRankingDeletion(rankingName);
+            };
+            rankingContainer.appendChild(deleteButton);
+
+            rankingList.appendChild(rankingContainer);
+            updateSidebarEmptyStates();
+        }
+
+        function deleteRanking(rankingName) {
+            const rankingIndex = rankings.findIndex(ranking => ranking.name === rankingName);
+            if (rankingIndex !== -1) {
+                rankings.splice(rankingIndex, 1);
+            }
+
+            const rankingItem = findRankingItemByName(rankingName);
+            if (rankingItem && rankingItem.parentNode) {
+                rankingItem.parentNode.removeChild(rankingItem);
+            }
+
+            saveRankingsToLocalStorage();
+            updateSidebarEmptyStates();
+
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            if (currentTitle === rankingName) {
+                navigateToHome();
+            }
         }
 
         function getProfileItems(includeDragging = true) {
@@ -974,7 +2978,7 @@
             if (!getProfileItems(true).some(item => item.dataset.profileName === profileName)) {
                 // Erstellen eines Containers für das Profil und den Lösch-Button
                 const profileContainer = document.createElement('div');
-                profileContainer.className = 'profile-item';
+                profileContainer.className = 'profile-item sidebar-entry';
                 profileContainer.dataset.profileName = profileName;
                 profileContainer.draggable = true;
 
@@ -993,25 +2997,32 @@
 
                 // Erstellen des Profil-Buttons
                 const newButton = document.createElement('button');
-                newButton.textContent = profileName;
-                newButton.style.flexGrow = '1';
-                newButton.style.fontSize = '20px';
-                newButton.style.color = 'white';
-                newButton.style.backgroundColor = '#5b5b5b';
-                newButton.style.border = 'none';
-                newButton.style.cursor = 'pointer';
+                newButton.className = 'sidebar-main-button';
                 newButton.onclick = function() {
                     handleProfileButtonClick(profileName);
                 };
+
+                const profileIcon = document.createElement('img');
+                profileIcon.src = 'imgs/profile.png';
+                newButton.appendChild(profileIcon);
+
+                const profileLabel = document.createElement('span');
+                profileLabel.textContent = profileName;
+                newButton.appendChild(profileLabel);
+
                 profileContainer.appendChild(newButton);
+
+                if (type === 'single') {
+                    const editButton = createEditIconButton(function() {
+                        openProfileRenameWindow(profileName);
+                    });
+                    editButton.classList.add('sidebar-action-button', 'profile-edit-button');
+                    profileContainer.appendChild(editButton);
+                }
 
                 // Erstellen des Lösch-Buttons
                 const deleteButton = document.createElement('button');
-                deleteButton.style.backgroundColor = '#262626';
-                deleteButton.style.border = 'none';
-                deleteButton.style.marginRight = '10px';
-                deleteButton.style.cursor = 'pointer';
-                deleteButton.style.borderRadius = '5px';
+                deleteButton.className = 'sidebar-action-button profile-delete-button';
                 // Füge das Bild-Element hinzu
                 const deleteIcon = document.createElement('img');
                 deleteIcon.src = 'imgs/delete_profile.png'; // Der Dateipfad für das Bild
@@ -1045,6 +3056,8 @@
                 ensureProfileShape(existingProfile);
             }
 
+            updateSidebarEmptyStates();
+
             return profileName;
         }
 
@@ -1052,13 +3065,20 @@
 
         // Wenn man auf "Zehnkampfrechner klickt"
         function navigateToHome() {
+            saveCurrentViewScrollPosition();
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
+            activeComparisonHeader = null;
             document.querySelector('.center').textContent = defaultTitle;
+            currentViewKey = 'home';
             document.querySelector('.labels-container').style.display = 'none'; // Disziplinen ausblenden
-            document.querySelector('.icon-container').style.display = 'flex'; // Icons anzeigen
+            document.getElementById('home-intro').style.display = 'block'; // Startbereich anzeigen
+            document.getElementById('home-top-title').style.display = 'block';
             // Blende die oberen Icons nur auf der Startseite aus
             document.getElementById('top-icons').style.display = 'none';
+            hideContextEditIcon();
+            updateInstallHintVisibility();
+            animateViewEntrance(document.getElementById('home-intro'));
 
             var currentProfile = document.querySelector('.center').textContent;
             if (currentProfile !== defaultTitle) {
@@ -1068,6 +3088,8 @@
             } else {
                 displayProfileResults(defaultTitle);
             }
+            clearActiveSidebarEntries();
+            restoreViewScrollPosition(currentViewKey);
         }
 
         // Initialisierung der Standardwerte beim Laden der Seite
@@ -1075,12 +3097,25 @@
             // Setze CSS-Übergänge für die Sidebar und das Overlay
             document.getElementById('mySidebar').style.transition = 'width 0.5s ease';
             document.getElementById('overlay').style.transition = 'opacity 0.5s ease';
+            const installHintButton = document.getElementById('installHintButton');
+            const installHintDismiss = document.getElementById('installHintDismiss');
+            if (installHintButton) {
+                installHintButton.onclick = handleInstallHintAction;
+            }
+            if (installHintDismiss) {
+                installHintDismiss.onclick = function() {
+                    hideInstallHint(true);
+                };
+            }
             // Leere die Profil-Liste, um doppelte Einträge zu vermeiden
             const profileList = getProfileListElement();
             profileList.innerHTML = '';
+            const rankingList = getRankingListElement();
+            rankingList.innerHTML = '';
             initializeSidebarDragAndDrop();
             
             loadProfilesFromLocalStorage();  // Profile laden
+            loadRankingsFromLocalStorage();
             
             if (profiles.length > 0) {
                 // Stelle sicher, dass das erste Profil geladen wird, aber das "Zehnkampfrechner"-Profil ignoriert wird, falls es noch existiert
@@ -1097,81 +3132,314 @@
                     addProfileToSidebar(profile.name, profile.type);  // Profile zur Sidebar hinzufügen
                 }
             });
+            rankings.forEach(ranking => {
+                addRankingToSidebar(ranking.name);
+            });
+            updateSidebarEmptyStates();
+            updateInstallHintVisibility();
             navigateToHome();   
         };
+
+        window.addEventListener('beforeinstallprompt', function(event) {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            updateInstallHintVisibility();
+        });
+
+        window.addEventListener('appinstalled', function() {
+            deferredInstallPrompt = null;
+            hideInstallHint(true);
+        });
+
+        window.addEventListener('resize', function() {
+            updateInstallHintVisibility();
+            updateComparisonHeaderStickyState();
+        });
+
+        window.addEventListener('scroll', function() {
+            updateComparisonHeaderStickyState();
+        }, { passive: true });
 
         // Speichern der Daten beim Verlassen der Seite
         window.addEventListener("beforeunload", function() {
             saveProfilesToLocalStorage();
+            saveRankingsToLocalStorage();
         });
 
-        function openAthleteComparison(athlete1, athlete2) {
-            // Erstellen Sie ein benutzerdefiniertes Modal für den Athletenvergleich
-            var modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.zIndex = '1';
-            modal.style.left = '0';
-            modal.style.top = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
-            modal.style.display = 'flex';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
+        function getSelectableProfiles() {
+            return profiles.filter(profile => profile.type === 'single' && profile.name !== defaultTitle);
+        }
 
-            // Erstellen Sie den inneren Inhalt des Modals
-            var content = document.createElement('div');
-            content.style.backgroundColor = '#a0a0a0';
-            content.style.padding = '20px';
-            content.style.border = '1px solid #ddd';
-            content.style.width = '50%';
-            content.style.borderRadius = '5px';
-            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+        function openRanking() {
+            openRankingWindow();
+        }
 
-            // Schließen Sie den Schließen-Button ein
-            var closeButton = document.createElement('span');
-            closeButton.textContent = 'x';
-            closeButton.style.float = 'right';
-            closeButton.style.cursor = 'pointer';
-            closeButton.style.fontWeight = 'bold';
-            closeButton.style.color = 'white';
-            closeButton.style.fontSize = '20px';
-            closeButton.style.marginBottom = '20px';
-            closeButton.onclick = function () {
-                document.body.removeChild(modal);
+        function openRankingWindow(existingRankingName = null) {
+            const selectableProfiles = getSelectableProfiles();
+            const existingRanking = existingRankingName ? getRankingByName(existingRankingName) : null;
+
+            if (selectableProfiles.length === 0) {
+                alert('Bitte legen Sie zuerst mindestens ein Einzelprofil an.');
+                return;
+            }
+
+            var modalParts = createUnifiedModal(
+                existingRanking ? 'Ranking bearbeiten' : 'Ranking erstellen',
+                'min(92vw, 560px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var rankingNameSection = createModalSection();
+            var rankingNameInput = document.createElement('input');
+            rankingNameInput.type = 'text';
+            rankingNameInput.placeholder = 'Name des Rankings';
+            styleModalField(rankingNameInput);
+            rankingNameInput.value = existingRanking ? existingRanking.name : '';
+            rankingNameSection.appendChild(rankingNameInput);
+            content.appendChild(rankingNameSection);
+
+            var selectionSection = createModalSection();
+            var dropdownWrapper = document.createElement('div');
+            dropdownWrapper.style.position = 'relative';
+            dropdownWrapper.style.width = '100%';
+            selectionSection.appendChild(dropdownWrapper);
+            content.appendChild(selectionSection);
+
+            var dropdownButton = document.createElement('button');
+            dropdownButton.type = 'button';
+            dropdownButton.className = 'ranking-dropdown-button';
+            dropdownButton.style.display = 'flex';
+            dropdownButton.style.alignItems = 'center';
+            dropdownButton.style.justifyContent = 'space-between';
+            dropdownButton.style.width = '100%';
+            dropdownButton.style.padding = '14px 16px';
+            dropdownButton.style.fontSize = '16px';
+            dropdownButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            dropdownButton.style.borderRadius = '14px';
+            dropdownButton.style.backgroundColor = 'rgba(255, 255, 255, 0.72)';
+            dropdownButton.style.color = '#18212c';
+            dropdownButton.style.cursor = 'pointer';
+            dropdownButton.style.boxSizing = 'border-box';
+            dropdownButton.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.55)';
+            dropdownWrapper.appendChild(dropdownButton);
+
+            var dropdownButtonLabel = document.createElement('div');
+            dropdownButtonLabel.style.display = 'flex';
+            dropdownButtonLabel.style.flexDirection = 'column';
+            dropdownButtonLabel.style.alignItems = 'flex-start';
+            dropdownButtonLabel.style.gap = '3px';
+            dropdownButtonLabel.style.minWidth = '0';
+            dropdownButton.appendChild(dropdownButtonLabel);
+
+            var dropdownButtonValue = document.createElement('span');
+            dropdownButtonValue.style.fontSize = '15px';
+            dropdownButtonValue.style.fontWeight = 'bold';
+            dropdownButtonValue.style.color = '#18212c';
+            dropdownButtonValue.style.whiteSpace = 'nowrap';
+            dropdownButtonValue.style.overflow = 'hidden';
+            dropdownButtonValue.style.textOverflow = 'ellipsis';
+            dropdownButtonValue.style.maxWidth = '100%';
+            dropdownButtonLabel.appendChild(dropdownButtonValue);
+
+            var dropdownChevron = document.createElement('span');
+            dropdownChevron.textContent = '▼';
+            dropdownChevron.style.fontSize = '12px';
+            dropdownChevron.style.color = '#5b6a78';
+            dropdownChevron.style.marginLeft = '12px';
+            dropdownChevron.style.flexShrink = '0';
+            dropdownButton.appendChild(dropdownChevron);
+
+            var dropdownContent = document.createElement('div');
+            dropdownContent.style.display = 'none';
+            dropdownContent.style.position = 'relative';
+            dropdownContent.style.marginTop = '8px';
+            dropdownContent.style.width = '100%';
+            dropdownContent.style.boxSizing = 'border-box';
+            dropdownContent.style.flexDirection = 'column';
+            dropdownContent.style.gap = '12px';
+            dropdownContent.style.padding = '14px';
+            dropdownContent.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            dropdownContent.style.borderRadius = '18px';
+            dropdownContent.style.backgroundColor = 'rgba(229, 235, 242, 0.98)';
+            dropdownContent.style.boxShadow = '0 20px 36px rgba(17, 25, 40, 0.18)';
+            dropdownContent.style.zIndex = '5';
+            dropdownWrapper.appendChild(dropdownContent);
+
+            var selectAllWrapper = document.createElement('label');
+            selectAllWrapper.style.display = 'flex';
+            selectAllWrapper.style.alignItems = 'center';
+            selectAllWrapper.style.gap = '10px';
+            selectAllWrapper.style.cursor = 'pointer';
+            selectAllWrapper.style.padding = '10px 12px';
+            selectAllWrapper.style.borderRadius = '12px';
+            selectAllWrapper.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+
+            var selectAllCheckbox = document.createElement('input');
+            selectAllCheckbox.type = 'checkbox';
+            selectAllWrapper.appendChild(selectAllCheckbox);
+
+            var selectAllText = document.createElement('span');
+            selectAllText.textContent = 'Alle auswählen';
+            selectAllText.style.fontWeight = 'bold';
+            selectAllWrapper.appendChild(selectAllText);
+            dropdownContent.appendChild(selectAllWrapper);
+
+            var profileList = document.createElement('div');
+            profileList.style.display = 'flex';
+            profileList.style.flexDirection = 'column';
+            profileList.style.gap = '6px';
+            profileList.style.padding = '8px';
+            profileList.style.backgroundColor = 'rgba(204, 214, 225, 0.72)';
+            profileList.style.borderRadius = '14px';
+            profileList.style.border = '1px solid rgba(69, 87, 107, 0.14)';
+            profileList.style.maxHeight = '210px';
+            profileList.style.overflowY = 'auto';
+            dropdownContent.appendChild(profileList);
+
+            const profileCheckboxes = [];
+
+            function updateSelectAllState() {
+                const selectedCount = profileCheckboxes.filter(checkbox => checkbox.checked).length;
+                selectAllCheckbox.checked = selectedCount > 0 && selectedCount === profileCheckboxes.length;
+                selectAllCheckbox.indeterminate = selectedCount > 0 && selectedCount < profileCheckboxes.length;
+                dropdownButtonValue.textContent = selectedCount === 1 ? '1 Profil' : selectedCount + ' Profile';
+            }
+
+            selectableProfiles.forEach(profile => {
+                var profileOption = document.createElement('label');
+                profileOption.style.display = 'flex';
+                profileOption.style.alignItems = 'center';
+                profileOption.style.gap = '10px';
+                profileOption.style.cursor = 'pointer';
+                profileOption.style.padding = '10px 12px';
+                profileOption.style.borderRadius = '12px';
+                profileOption.style.backgroundColor = 'rgba(255, 255, 255, 0.76)';
+                profileOption.style.color = '#18212c';
+
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = profile.name;
+                checkbox.checked = existingRanking ? existingRanking.selectedProfiles.includes(profile.name) : true;
+                checkbox.addEventListener('change', updateSelectAllState);
+                profileCheckboxes.push(checkbox);
+                profileOption.appendChild(checkbox);
+
+                var profileName = document.createElement('span');
+                profileName.textContent = profile.name;
+                profileOption.appendChild(profileName);
+
+                profileList.appendChild(profileOption);
+            });
+
+            selectAllCheckbox.addEventListener('change', function() {
+                profileCheckboxes.forEach(checkbox => {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateSelectAllState();
+            });
+
+            function setDropdownOpenState(isOpen) {
+                dropdownContent.style.display = isOpen ? 'flex' : 'none';
+                dropdownButton.style.backgroundColor = isOpen ? 'rgba(244, 247, 250, 0.95)' : 'rgba(255, 255, 255, 0.72)';
+                dropdownButton.style.borderColor = isOpen ? 'rgba(62, 123, 85, 0.5)' : 'rgba(69, 87, 107, 0.18)';
+                dropdownChevron.textContent = isOpen ? '▲' : '▼';
+            }
+
+            dropdownButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const isOpen = dropdownContent.style.display === 'flex';
+                setDropdownOpenState(!isOpen);
+            });
+
+            dropdownContent.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+
+            modal.addEventListener('click', function(event) {
+                if (!dropdownWrapper.contains(event.target)) {
+                    setDropdownOpenState(false);
+                }
+            });
+
+            var confirmButton = createPrimaryButton(existingRanking ? 'Ranking speichern' : 'Ranking anlegen');
+            confirmButton.onclick = function() {
+                const rankingName = sanitizeProfileName(rankingNameInput.value);
+                const selectedProfiles = profileCheckboxes
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value);
+
+                if (!rankingName) {
+                    alert('Bitte vergeben Sie einen Namen für das Ranking.');
+                    rankingNameInput.focus();
+                    return;
+                }
+
+                if (selectedProfiles.length === 0) {
+                    alert('Bitte wählen Sie mindestens ein Profil aus.');
+                    return;
+                }
+
+                if (isReservedRankingName(rankingName, existingRanking ? existingRanking.name : null)) {
+                    alert('Ein Ranking mit diesem Namen existiert bereits.');
+                    rankingNameInput.focus();
+                    return;
+                }
+
+                if (existingRanking) {
+                    const previousName = existingRanking.name;
+                    existingRanking.name = rankingName;
+                    existingRanking.selectedProfiles = selectedProfiles;
+                    updateRankingSidebarName(previousName, rankingName);
+                } else {
+                    rankings.push({
+                        name: rankingName,
+                        selectedProfiles: selectedProfiles,
+                        createdAt: new Date().toISOString()
+                    });
+                    addRankingToSidebar(rankingName);
+                }
+
+                saveRankingsToLocalStorage();
+                closeModal(modal);
+                openRankingResults(rankingName);
             };
-            content.appendChild(closeButton);
+            content.appendChild(confirmButton);
+            document.body.appendChild(modal);
+            rankingNameInput.focus();
+            bindEnterKeyToOk(modal, confirmButton);
+            updateSelectAllState();
+            selectAllCheckbox.checked = true;
+        }
 
-            // Fügen Sie Text und Dropdown-Menüs hinzu
-            var text = document.createElement('p');
-            text.textContent = 'Wählen Sie zwei Athleten';
-            content.appendChild(text);
+        function openAthleteComparison(athlete1, athlete2) {
+            var modalParts = createUnifiedModal(
+                'Vergleichsprofil erstellen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
 
             var dropdown1 = createAthleteDropdown('athlete1');
             var dropdown2 = createAthleteDropdown('athlete2');
-            
-            content.appendChild(dropdown1);
-            content.appendChild(dropdown2);
 
-            // OK-Button
-            var okButton = document.createElement('button');
-            okButton.textContent = 'OK';
-            okButton.style.backgroundColor = '#4CAF50';
-            okButton.style.color = 'white';
-            okButton.style.padding = '10px 20px';
-            okButton.style.border = 'none';
-            okButton.style.borderRadius = '4px';
-            okButton.style.cursor = 'pointer';
+            var firstAthleteSection = createModalSection();
+            firstAthleteSection.appendChild(dropdown1);
+            content.appendChild(firstAthleteSection);
+
+            var secondAthleteSection = createModalSection();
+            secondAthleteSection.appendChild(dropdown2);
+            content.appendChild(secondAthleteSection);
+
+            var okButton = createPrimaryButton('Vergleich erstellen');
             okButton.onclick = function () {
                 var selectedAthlete1 = dropdown1.value;
                 var selectedAthlete2 = dropdown2.value;
-                // Hier können Sie die weitere Logik für den Vergleich der ausgewählten Athleten implementieren
-                document.body.removeChild(modal);
+                closeModal(modal);
                 createAthleteComparisonProfile(selectedAthlete1, selectedAthlete2);
             };
             content.appendChild(okButton);
 
-            modal.appendChild(content);
             document.body.appendChild(modal);
             bindEnterKeyToOk(modal, okButton);
         }
@@ -1281,12 +3549,7 @@
             }
 
             saveProfilesToLocalStorage();
-            // Ändern Sie die Überschrift entsprechend
-            document.querySelector('.center').textContent = profileName;
-
-            displayComparisonProfile(comparisonProfile);
-            calculateTotalPoints(profileName, athlete1);
-            calculateTotalPoints(profileName, athlete2);
+            handleProfileButtonClick(profileName);
         }
         
         function createAthleteDropdown(id) {
@@ -1300,12 +3563,13 @@
             else {
                 dropdown = document.createElement('select');
                 dropdown.id = id;
-                dropdown.style.width = '90%';
-                dropdown.style.padding = '10px';
-                dropdown.style.fontSize = '16px';
-                dropdown.style.marginBottom = '20px';
-                dropdown.style.border = '1px solid #ddd';
-                dropdown.style.borderRadius = '4px';
+                styleModalField(dropdown);
+                dropdown.style.appearance = 'none';
+                dropdown.style.backgroundImage = 'linear-gradient(45deg, transparent 50%, #5b6a78 50%), linear-gradient(135deg, #5b6a78 50%, transparent 50%)';
+                dropdown.style.backgroundPosition = 'calc(100% - 22px) calc(50% - 3px), calc(100% - 16px) calc(50% - 3px)';
+                dropdown.style.backgroundSize = '6px 6px, 6px 6px';
+                dropdown.style.backgroundRepeat = 'no-repeat';
+                dropdown.style.paddingRight = '42px';
             }
             
             // Füge die erstellten Profile als Optionen hinzu (Vergleichsprofile ausgeschlossen)
@@ -1324,6 +3588,177 @@
 
             return dropdown;
         }
+
+        function renameSingleProfile(oldName, newName) {
+            const sanitizedNewName = sanitizeProfileName(newName);
+            if (!sanitizedNewName) {
+                alert('Bitte geben Sie einen Profilnamen ein.');
+                return false;
+            }
+
+            if (sanitizedNewName.includes(' vs. ')) {
+                alert('Der Profilname darf "vs." nicht enthalten.');
+                return false;
+            }
+
+            if (isReservedProfileName(sanitizedNewName, oldName)) {
+                alert('Ein Profil oder Ranking mit diesem Namen existiert bereits.');
+                return false;
+            }
+
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            const currentRanking = getRankingByName(currentTitle);
+            const profile = profiles.find(function(existingProfile) {
+                return existingProfile.name === oldName && existingProfile.type === 'single';
+            });
+
+            if (!profile) {
+                return false;
+            }
+
+            profile.name = sanitizedNewName;
+            updateProfileSidebarName(oldName, sanitizedNewName);
+
+            profiles
+                .filter(function(existingProfile) {
+                    return existingProfile.type === 'comparison' && getComparisonAthletes(existingProfile.name).includes(oldName);
+                })
+                .forEach(function(comparisonProfile) {
+                    const athletes = getComparisonAthletes(comparisonProfile.name).map(function(athleteName) {
+                        return athleteName === oldName ? sanitizedNewName : athleteName;
+                    });
+                    const updatedComparisonName = athletes.join(' vs. ');
+                    const previousComparisonName = comparisonProfile.name;
+                    comparisonProfile.name = updatedComparisonName;
+                    updateProfileSidebarName(previousComparisonName, updatedComparisonName);
+                });
+
+            rankings.forEach(function(ranking) {
+                ranking.selectedProfiles = (ranking.selectedProfiles || []).map(function(profileName) {
+                    return profileName === oldName ? sanitizedNewName : profileName;
+                });
+            });
+
+            saveProfilesToLocalStorage();
+            saveRankingsToLocalStorage();
+
+            if (currentTitle === oldName) {
+                handleProfileButtonClick(sanitizedNewName);
+            } else {
+                const currentComparisonAthletes = getComparisonAthletes(currentTitle);
+                if (currentComparisonAthletes.includes(oldName)) {
+                    const updatedComparisonName = currentComparisonAthletes
+                        .map(function(athleteName) {
+                            return athleteName === oldName ? sanitizedNewName : athleteName;
+                        })
+                        .join(' vs. ');
+                    handleProfileButtonClick(updatedComparisonName);
+                } else if (currentRanking) {
+                    openRankingResults(currentRanking.name);
+                }
+            }
+
+            return true;
+        }
+
+        function openProfileRenameWindow(profileName) {
+            const profile = profiles.find(function(existingProfile) {
+                return existingProfile.name === profileName && existingProfile.type === 'single';
+            });
+
+            if (!profile) {
+                return;
+            }
+
+            closeNav();
+
+            var modalParts = createUnifiedModal(
+                'Profil bearbeiten',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var inputSection = createModalSection();
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.placeholder = 'Name des Athleten';
+            inputField.value = profile.name;
+            styleModalField(inputField);
+            inputSection.appendChild(inputField);
+            content.appendChild(inputSection);
+
+            var okButton = createPrimaryButton('Speichern');
+            okButton.onclick = function() {
+                if (renameSingleProfile(profileName, inputField.value)) {
+                    closeModal(modal);
+                } else {
+                    inputField.focus();
+                    inputField.select();
+                }
+            };
+            content.appendChild(okButton);
+
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
+            setTimeout(function() {
+                inputField.focus();
+                inputField.select();
+            }, 0);
+        }
+
+        function confirmRankingDeletion(rankingName) {
+            closeNav();
+
+            var modalParts = createUnifiedModal(
+                'Ranking löschen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var textSection = createModalSection();
+            var text = document.createElement('p');
+            text.innerHTML = 'Möchten Sie das Ranking <strong>' + rankingName + '</strong> wirklich löschen?';
+            text.style.margin = '0';
+            text.style.fontSize = '16px';
+            text.style.lineHeight = '1.5';
+            text.style.color = '#243342';
+            textSection.appendChild(text);
+            content.appendChild(textSection);
+
+            var buttonRow = document.createElement('div');
+            buttonRow.style.display = 'flex';
+            buttonRow.style.justifyContent = 'flex-end';
+            buttonRow.style.gap = '12px';
+
+            var cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Abbrechen';
+            cancelButton.style.padding = '12px 18px';
+            cancelButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            cancelButton.style.borderRadius = '14px';
+            cancelButton.style.background = 'rgba(255, 255, 255, 0.55)';
+            cancelButton.style.color = '#233242';
+            cancelButton.style.cursor = 'pointer';
+            cancelButton.onclick = function() {
+                closeModal(modal);
+            };
+            buttonRow.appendChild(cancelButton);
+
+            var deleteButton = createPrimaryButton('Löschen');
+            deleteButton.style.background = 'linear-gradient(135deg, #8e4343 0%, #6d3131 100%)';
+            deleteButton.style.boxShadow = '0 14px 28px rgba(109, 49, 49, 0.22)';
+            deleteButton.onclick = function() {
+                deleteRanking(rankingName);
+                closeModal(modal);
+            };
+            buttonRow.appendChild(deleteButton);
+
+            content.appendChild(buttonRow);
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, deleteButton);
+        }
         
         let profileDeleted = false;
 
@@ -1331,67 +3766,61 @@
         function confirmProfileDeletion(profileName) {
             closeNav();
 
-            var modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.zIndex = '1';
-            modal.style.left = '0';
-            modal.style.top = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
-            modal.style.display = 'flex';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
+            var modalParts = createUnifiedModal(
+                'Profil löschen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
 
-            var content = document.createElement('div');
-            content.style.backgroundColor = '#a0a0a0';
-            content.style.padding = '20px';
-            content.style.border = '1px solid #ddd';
-            content.style.width = '50%';
-            content.style.borderRadius = '5px';
-            content.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            
+            var textSection = createModalSection();
             var text = document.createElement('p');
             text.innerHTML = 'Möchten Sie das Profil <strong>' + profileName + '</strong> wirklich löschen?';
-            text.style.fontSize = '16px'; // Stil des Textes
-            content.appendChild(text);
+            text.style.margin = '0';
+            text.style.fontSize = '16px';
+            text.style.lineHeight = '1.5';
+            text.style.color = '#243342';
+            textSection.appendChild(text);
+            content.appendChild(textSection);
 
-            var yesButton = document.createElement('button');
-            yesButton.textContent = 'Ja';
-            yesButton.style.backgroundColor = '#4CAF50';
-            yesButton.style.color = 'white';
-            yesButton.style.padding = '10px 20px';
-            yesButton.style.border = 'none';
-            yesButton.style.borderRadius = '4px';
-            yesButton.style.cursor = 'pointer';
-            yesButton.onclick = function() {
+            var buttonRow = document.createElement('div');
+            buttonRow.style.display = 'flex';
+            buttonRow.style.justifyContent = 'flex-end';
+            buttonRow.style.gap = '12px';
+
+            var cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Abbrechen';
+            cancelButton.style.padding = '12px 18px';
+            cancelButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            cancelButton.style.borderRadius = '14px';
+            cancelButton.style.background = 'rgba(255, 255, 255, 0.55)';
+            cancelButton.style.color = '#233242';
+            cancelButton.style.cursor = 'pointer';
+            cancelButton.onclick = function() {
+                closeModal(modal);
+            };
+            buttonRow.appendChild(cancelButton);
+
+            var deleteButton = createPrimaryButton('Löschen');
+            deleteButton.style.background = 'linear-gradient(135deg, #8e4343 0%, #6d3131 100%)';
+            deleteButton.style.boxShadow = '0 14px 28px rgba(109, 49, 49, 0.22)';
+            deleteButton.onclick = function() {
                 deleteProfile(profileName);
-                document.body.removeChild(modal);
+                closeModal(modal);
             };
-            content.appendChild(yesButton);
+            buttonRow.appendChild(deleteButton);
 
-            var noButton = document.createElement('button');
-            noButton.textContent = 'Nein';
-            noButton.style.backgroundColor = '#4CAF50';
-            noButton.style.color = 'white';
-            noButton.style.padding = '10px 20px';
-            noButton.style.border = 'none';
-            noButton.style.borderRadius = '4px';
-            noButton.style.cursor = 'pointer';
-            noButton.style.marginLeft = '20px';
-            noButton.onclick = function() {
-                document.body.removeChild(modal);
-            };
-            content.appendChild(noButton);
-
-            modal.appendChild(content);
+            content.appendChild(buttonRow);
             document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, deleteButton);
         }
 
         function deleteProfile(profileName) {
             // Name des zurzeit angezeigten Profils
             const currentTitle = document.querySelector('.center')?.textContent?.trim();
             const currentComparisonAthletes = getComparisonAthletes(currentTitle);
+            const currentRanking = getRankingByName(currentTitle);
 
             // Entfernen Sie das Profil aus der internen Profil-Liste
             const profileList = getProfileListElement();
@@ -1412,9 +3841,28 @@
             });
 
             saveProfilesToLocalStorage();
+            updateSidebarEmptyStates();
+
+            for (let i = rankings.length - 1; i >= 0; i--) {
+                rankings[i].selectedProfiles = (rankings[i].selectedProfiles || [])
+                    .filter(selectedProfileName => !profilesToDelete.includes(selectedProfileName));
+
+                if (rankings[i].selectedProfiles.length === 0) {
+                    deleteRanking(rankings[i].name);
+                }
+            }
+
+            saveRankingsToLocalStorage();
 
             if (currentTitle === profileName || currentComparisonAthletes.includes(profileName)) {
                 navigateToHome();
+            } else if (currentRanking) {
+                const updatedRanking = getRankingByName(currentRanking.name);
+                if (updatedRanking) {
+                    openRankingResults(updatedRanking.name);
+                } else {
+                    navigateToHome();
+                }
             }
         }
 
@@ -1463,4 +3911,3 @@
     </script>
 </body>
 </html>
-
