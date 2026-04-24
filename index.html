@@ -90,6 +90,10 @@
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
+        .app-topbar.is-content-view {
+            padding-right: 2px;
+        }
+
         .app-topbar-menu {
             flex: 0 0 auto;
         }
@@ -101,7 +105,8 @@
             gap: 6px;
             flex: 0 0 auto;
             margin-left: auto;
-            padding-right: 2px;
+            padding-right: 0;
+            margin-right: -15px;
         }
 
         .home-intro {
@@ -290,6 +295,11 @@
             margin-left: auto;
             margin-right: auto;
             animation: view-fade-in 0.24s ease;
+        }
+
+        .labels-container.is-ranking-layout {
+            width: calc(100% - 12px);
+            max-width: none;
         }
 
         .label {
@@ -716,7 +726,14 @@
             min-width: 0;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+            white-space: normal;
+            line-height: 1.15;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            max-height: 2.3em;
+            overflow-wrap: break-word;
         }
 
         .ranking-value-cell.is-best {
@@ -756,7 +773,8 @@
         .ranking-subvalue {
             font-size: 12px;
             color: #d6dde4;
-            white-space: nowrap;
+            white-space: normal;
+            line-height: 1.1;
         }
 
         .ranking-points {
@@ -1137,6 +1155,52 @@
         }
 
         @media (max-width: 680px) {
+            .app-topbar.is-content-view {
+                padding-right: 0;
+            }
+
+            .ranking-view {
+                width: 100%;
+                margin: 6px 0 0 0;
+            }
+
+            .ranking-row {
+                grid-template-columns: minmax(74px, 20vw) repeat(10, minmax(44px, calc((65vw - 12px) / 10))) minmax(56px, 15vw);
+            }
+
+            .ranking-row + .ranking-row {
+                margin-top: 6px;
+            }
+
+            .ranking-cell {
+                min-height: 60px;
+                padding: 6px 4px;
+            }
+
+            .ranking-header .ranking-cell {
+                min-height: 52px;
+                font-size: 12px;
+            }
+
+            .ranking-place {
+                font-size: 11px;
+            }
+
+            .ranking-name,
+            .ranking-value,
+            .ranking-total-points {
+                font-size: 13px;
+            }
+
+            .ranking-subvalue,
+            .ranking-total-meta {
+                font-size: 10px;
+            }
+
+            .ranking-athlete {
+                gap: 6px;
+            }
+
             .app-topbar {
                 gap: 8px;
                 padding: 10px 12px 12px 12px;
@@ -1254,8 +1318,50 @@
         }
 
         @media (max-width: 540px) {
+            .app-topbar.is-content-view {
+                padding-right: 0;
+            }
+
             .home-intro {
                 width: calc(100% - 24px);
+            }
+
+            .ranking-view {
+                width: calc(100% + 2px);
+                margin: 4px -1px 0 -1px;
+            }
+
+            .ranking-row {
+                grid-template-columns: minmax(68px, 20vw) repeat(10, minmax(40px, calc((65vw - 8px) / 10))) minmax(52px, 15vw);
+            }
+
+            .ranking-cell {
+                min-height: 56px;
+                padding: 5px 3px;
+            }
+
+            .ranking-header .ranking-cell {
+                min-height: 48px;
+                font-size: 11px;
+            }
+
+            .ranking-name,
+            .ranking-value,
+            .ranking-total-points {
+                font-size: 12px;
+            }
+
+            .ranking-subvalue,
+            .ranking-total-meta {
+                font-size: 9px;
+            }
+
+            .app-topbar-actions {
+                margin-right: -14px;
+            }
+
+            .labels-container.is-ranking-layout {
+                width: calc(100% - 4px);
             }
 
             .app-topbar {
@@ -2160,6 +2266,8 @@
             if (profileName !== defaultTitle) {
                 saveCurrentViewScrollPosition();
                 closeNav();
+                document.getElementById('main').classList.add('is-content-view');
+                document.querySelector('.labels-container').classList.remove('is-ranking-layout');
                 document.querySelector('.center').textContent = profileName;
                 currentViewKey = `profile:${profileName}`;
                 displayProfileResults(profileName);
@@ -2325,10 +2433,12 @@
             }
 
             saveCurrentViewScrollPosition();
+            document.getElementById('main').classList.add('is-content-view');
             document.querySelector('.center').textContent = ranking.name;
             currentViewKey = `ranking:${ranking.name}`;
             document.querySelector('.labels-container').style.display = 'block';
             document.querySelector('.labels-container').style.alignItems = 'stretch';
+            document.querySelector('.labels-container').classList.add('is-ranking-layout');
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
             document.getElementById('top-icons').style.display = 'flex';
@@ -3134,9 +3244,11 @@
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
             activeComparisonHeader = null;
+            document.getElementById('main').classList.remove('is-content-view');
             document.querySelector('.center').textContent = defaultTitle;
             currentViewKey = 'home';
             document.querySelector('.labels-container').style.display = 'none'; // Disziplinen ausblenden
+            document.querySelector('.labels-container').classList.remove('is-ranking-layout');
             document.getElementById('home-intro').style.display = 'block'; // Startbereich anzeigen
             document.getElementById('home-top-title').style.display = 'block';
             // Blende die oberen Icons nur auf der Startseite aus
