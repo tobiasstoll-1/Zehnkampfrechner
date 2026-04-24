@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -65,10 +65,11 @@
 
         .home-top-title {
             display: none;
-            flex: 1;
+            flex: 1 1 auto;
+            min-width: 0;
             color: white;
             font-family: 'Roboto', sans-serif;
-            font-size: 34px;
+            font-size: 30px;
             font-weight: bold;
             text-align: center;
             white-space: nowrap;
@@ -78,11 +79,12 @@
 
         .app-topbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             gap: 16px;
-            margin: 0 16px;
-            padding: 10px 0 12px 0;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px 16px 12px 16px;
             border-bottom: 1px solid var(--border-soft);
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.02) 100%);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -121,12 +123,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             width: 100%;
             gap: 12px;
             aspect-ratio: 1 / 1;
             min-height: 0;
-            padding: 20px 16px;
+            padding: 16px 14px 18px 14px;
             box-sizing: border-box;
             border: 1px solid var(--border-soft);
             border-radius: var(--radius-card);
@@ -150,32 +152,37 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            flex: 1;
+            flex: 1 1 auto;
             min-height: 0;
             overflow: hidden;
         }
 
         .home-action-icon img {
             display: block;
-            width: min(100%, 22vh);
-            height: min(100%, 22vh);
+            width: min(100%, 28vh);
+            height: min(100%, 28vh);
             max-width: 100%;
-            max-height: 100%;
+            max-height: 82%;
             object-fit: contain;
         }
 
         .home-action-comparison .home-action-icon img {
-            width: min(100%, 24vh);
+            width: min(100%, 31vh);
             height: auto;
-            max-height: min(48%, 15vh);
+            max-height: min(72%, 18vh);
         }
 
         .home-action-title {
             font-family: 'Roboto', sans-serif;
             font-size: 24px;
             font-weight: bold;
-            min-height: 22px;
+            min-height: 28px;
             letter-spacing: 0.01em;
+            margin-top: auto;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
         }
 
         .home-action-placeholder {
@@ -276,8 +283,12 @@
         .labels-container {
             display: none;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: stretch;
             margin-top: 30px;
+            width: calc(100% - 32px);
+            max-width: 920px;
+            margin-left: auto;
+            margin-right: auto;
             animation: view-fade-in 0.24s ease;
         }
 
@@ -811,6 +822,16 @@
             box-sizing: border-box;
         }
 
+        .single-profile-surface {
+            width: calc(100% + 16px);
+            margin-left: -8px;
+        }
+
+        .comparison-profile-surface {
+            width: calc(100% + 12px);
+            margin-left: -6px;
+        }
+
         .profile-data-row {
             gap: 10px;
             padding: 8px 0;
@@ -829,12 +850,40 @@
         }
 
         .profile-total-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            max-width: 100%;
+            align-self: stretch;
+            box-sizing: border-box;
             margin-top: 14px;
             padding: 14px 16px;
             border-radius: 16px;
             background: linear-gradient(180deg, rgba(143, 208, 163, 0.1) 0%, rgba(255, 255, 255, 0.045) 100%);
             border: 1px solid rgba(143, 208, 163, 0.18);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .profile-total-label {
+            flex: 1 1 auto;
+            min-width: 0;
+            font-size: clamp(18px, 2.4vw, 22px);
+            font-weight: bold;
+        }
+
+        .profile-total-value {
+            flex: 0 1 auto;
+            min-width: 0;
+            max-width: 55%;
+            font-size: clamp(22px, 4vw, 30px);
+            font-weight: bold;
+            color: #f4fbf6;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .single-points-cell {
@@ -943,7 +992,7 @@
             flex-direction: column;
             gap: 8px;
             min-width: 0;
-            padding: 12px 14px;
+            padding: 10px 10px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -951,13 +1000,13 @@
         }
 
         .comparison-athlete-column.is-left {
-            align-items: center;
+            align-items: stretch;
             text-align: center;
             background: rgba(143, 208, 163, 0.06);
         }
 
         .comparison-athlete-column.is-right {
-            align-items: center;
+            align-items: stretch;
             text-align: center;
             background: rgba(255, 255, 255, 0.045);
         }
@@ -985,12 +1034,22 @@
         }
 
         .comparison-performance {
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
             width: 100%;
+            padding: 0 1px;
+            box-sizing: border-box;
         }
 
         .comparison-performance-input {
-            width: 100%;
-            margin-left: 0;
+            display: block;
+            width: calc(100% - 2px) !important;
+            margin: 0 auto !important;
+            min-width: 0;
+            min-height: 42px;
+            padding: 6px 10px;
+            box-sizing: border-box;
             text-align: center;
         }
 
@@ -1068,15 +1127,25 @@
             }
 
             .home-intro {
-                padding: 22px 18px;
+                padding: 0;
             }
 
-            .center {
-                font-size: 30px;
+            .home-action {
+                padding: 14px 12px 16px 12px;
+                gap: 8px;
             }
         }
 
         @media (max-width: 680px) {
+            .app-topbar {
+                gap: 8px;
+                padding: 10px 12px 12px 12px;
+            }
+
+            .home-top-title {
+                font-size: 24px;
+            }
+
             .label {
                 font-size: 21px;
             }
@@ -1099,6 +1168,22 @@
                 padding: 9px;
             }
 
+            .home-action-icon img {
+                width: min(100%, 30vh);
+                height: min(100%, 30vh);
+                max-height: 84%;
+            }
+
+            .home-action-comparison .home-action-icon img {
+                width: min(100%, 34vh);
+                max-height: min(74%, 19vh);
+            }
+
+            .home-action-title {
+                font-size: 19px;
+                min-height: 24px;
+            }
+
             .input {
                 width: 78px;
                 min-height: 42px;
@@ -1113,6 +1198,30 @@
 
             .single-cumulative {
                 font-size: 12px;
+            }
+
+            .profile-total-summary {
+                gap: 10px;
+                padding: 12px 14px;
+            }
+
+            .single-profile-surface {
+                width: calc(100% + 20px);
+                margin-left: -10px;
+            }
+
+            .comparison-profile-surface {
+                width: calc(100% + 18px);
+                margin-left: -9px;
+            }
+
+            .profile-total-label {
+                font-size: 18px;
+            }
+
+            .profile-total-value {
+                max-width: 50%;
+                font-size: clamp(18px, 5vw, 24px);
             }
 
             .comparison-header {
@@ -1148,6 +1257,26 @@
             .home-intro {
                 width: calc(100% - 24px);
             }
+
+            .app-topbar {
+                gap: 6px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .home-action {
+                padding: 12px 10px 14px 10px;
+            }
+
+            .single-profile-surface {
+                width: calc(100% + 24px);
+                margin-left: -12px;
+            }
+
+            .comparison-profile-surface {
+                width: calc(100% + 22px);
+                margin-left: -11px;
+            }
         }
     </style>
     <link rel="stylesheet" href="style.css">
@@ -1169,7 +1298,7 @@
     <div id="overlay" onclick="closeNav()"></div>
             
     <div id="main" class="app-topbar">
-        <span class="app-topbar-menu" style="font-size:30px; cursor:pointer; color: white; margin-right: 20px; z-index: 2;" onclick="toggleNav()">&#9776;</span>
+        <span id="topbarMenuButton" class="app-topbar-menu" style="font-size:30px; cursor:pointer; color: white; z-index: 2;" onclick="toggleNav()">&#9776;</span>
         <div id="home-top-title" class="home-top-title">Zehnkampfrechner</div>
         <div id="top-icons" class="app-topbar-actions" style="display: flex; align-items: center;">
             <img id="context-edit-icon" src="imgs/edit.png" style="display: none;" alt="Bearbeiten">
@@ -1225,77 +1354,7 @@
         </div>
     </div>
 
-    <div class="labels-container">
-        <div class="label" style="display: flex; justify-content: space-between; width: 100%;">
-            <span style="flex: 1; text-align: left;">Disziplin</span>
-            <span style="flex: 1; text-align: center;">Ergebnis</span>
-            <span style="flex: 1; text-align: right;">Punkte</span>
-        </div>
-              
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">100m</span>
-            <input class="input" type="text" name="100m" oninput="calculatePoints('100m','result1', 1, 25.4347, 18, 1.81);" style="flex: 1; font-size: 20px;" placeholder="11.05">
-            <div id="result1" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-        
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Weit</span>
-            <input class="input" type="text" name="Weit" oninput="calculatePoints('Weit', 'result2', 2, 0.14354, 220, 1.4);" style="flex: 1; font-size: 20px;" placeholder="7.25">
-            <div id="result2" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Kugel</span>
-            <input class="input" type="text" name="Kugel" oninput="calculatePoints('Kugel', 'result3', 3, 51.39, 1.5, 1.05);" style="flex: 1; font-size: 20px;" placeholder="14.75">
-            <div id="result3" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Hoch</span>
-            <input class="input" type="text" name="Hoch" oninput="calculatePoints('Hoch', 'result4', 2, 0.8465, 75, 1.42);" style="flex: 1; font-size: 20px;" placeholder="2.03">
-            <div id="result4" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">400m</span>
-            <input class="input" type="text" name="400m" oninput="calculatePoints('400m', 'result5', 1, 1.53775, 82, 1.81);" style="flex: 1; font-size: 20px;" placeholder="48.25">
-            <div id="result5" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">110mH</span>
-            <input class="input" type="text" name="110mH" oninput="calculatePoints('110mH', 'result6', 1, 5.74352, 28.5, 1.92);" style="flex: 1; font-size: 20px;" placeholder="14.25">
-            <div id="result6" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Diskus</span>
-            <input class="input" type="text" name="Diskus" oninput="calculatePoints('Diskus', 'result7', 3, 12.91, 4, 1.1);" style="flex: 1; font-size: 20px;" placeholder="47.50">
-            <div id="result7" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Stab</span>
-            <input class="input" type="text" name="Stab" oninput="calculatePoints('Stab', 'result8', 2, 0.2797, 100, 1.35);" style="flex: 1; font-size: 20px;" placeholder="5.05">
-            <div id="result8" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">Speer</span>
-            <input class="input" type="text" name="Speer" oninput="calculatePoints('Speer', 'result9', 3, 10.14, 7, 1.08);" style="flex: 1; font-size: 20px;" placeholder="55.25">
-            <div id="result9" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-
-        <div class="label" style="display: flex; align-items: center;">
-            <span style="flex: 1; font-size: 25px;">1500m</span>
-            <input class="input" type="text" name="1500m" oninput="calculatePoints('1500m', 'result10', 4, 0.03768, 480, 1.85);" style="flex: 1; font-size: 20px;" placeholder="4:45.25">
-            <div id="result10" style="flex: 1; font-size: 25px; text-align: right;">0</div>
-        </div>
-        <div class="label" style="display: flex; justify-content: space-between; width: 100%; margin-top: 20px; font-weight: bold;">
-            <span style="flex: 1; text-align: left; font-size: 25px;">Gesamtpunktzahl</span>
-            <div id="total" style="flex: 1; text-align: right; font-size: 25px; font-weight: bold;">0</div>
-        </div>
-    </div>
+    <div class="labels-container"></div>
 
     <script>
         const viewScrollPositions = {};
@@ -1703,7 +1762,7 @@
             }
 
             const wasDismissed = localStorage.getItem(installHintDismissKey) === '1';
-            const shouldShow = isMobileInstallContext() && !isRunningStandalone() && !wasDismissed;
+            const shouldShow = isMobileInstallContext() && !isRunningStandalone() && !wasDismissed && !isIosDevice();
 
             if (!shouldShow) {
                 hideInstallHint(false);
@@ -1714,9 +1773,6 @@
                 text.textContent = 'Die App kann direkt auf dem Homescreen abgelegt werden und ist dann noch schneller erreichbar.';
                 button.style.display = 'inline-flex';
                 button.textContent = 'Installieren';
-            } else if (isIosDevice()) {
-                text.textContent = 'In Safari kannst du unten auf Teilen tippen und dann "Zum Home-Bildschirm" wählen.';
-                button.style.display = 'none';
             } else {
                 text.textContent = 'Du kannst diese Seite als App auf dem Startbildschirm speichern, wenn dein Browser das unterstützt.';
                 button.style.display = 'none';
@@ -1742,6 +1798,30 @@
 
         function getSidebarWidth() {
             return window.innerWidth <= 680 ? 216 : 200;
+        }
+
+        function updateResponsiveAppTitles() {
+            const topbar = document.getElementById('main');
+            const homeTitle = document.getElementById('home-top-title');
+            const menuButton = document.getElementById('topbarMenuButton');
+            const topIcons = document.getElementById('top-icons');
+            const contentTitle = document.querySelector('.center');
+
+            if (topbar && homeTitle && menuButton && topIcons) {
+                const topbarStyles = window.getComputedStyle(topbar);
+                const gap = parseFloat(topbarStyles.gap || '0') || 0;
+                const paddingLeft = parseFloat(topbarStyles.paddingLeft || '0') || 0;
+                const paddingRight = parseFloat(topbarStyles.paddingRight || '0') || 0;
+                const availableWidth = topbar.clientWidth - paddingLeft - paddingRight - menuButton.offsetWidth - topIcons.offsetWidth - (gap * 2);
+                const titleSize = Math.max(13, Math.min(34, availableWidth / 9.2));
+                homeTitle.style.fontSize = `${titleSize}px`;
+            }
+
+            if (contentTitle) {
+                const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 360;
+                const titleSize = Math.max(18, Math.min(28, viewportWidth / 13.5));
+                contentTitle.style.fontSize = `${titleSize}px`;
+            }
         }
 
         function saveCurrentViewScrollPosition() {
@@ -2106,6 +2186,7 @@
                 setActiveSidebarItem('profile', profileName);
                 animateViewEntrance(document.querySelector('.labels-container'));
                 restoreViewScrollPosition(currentViewKey);
+                updateResponsiveAppTitles();
             } else {
                 navigateToHome();
             }
@@ -2258,6 +2339,7 @@
             displayRankingResults(ranking);
             animateViewEntrance(document.querySelector('.labels-container'));
             restoreViewScrollPosition(currentViewKey);
+            updateResponsiveAppTitles();
         }
 
         function displayRankingResults(ranking) {
@@ -2426,7 +2508,7 @@
             });
 
             const contentSurface = document.createElement('div');
-            contentSurface.className = 'profile-view-surface';
+            contentSurface.className = 'profile-view-surface single-profile-surface';
             labelsContainer.appendChild(contentSurface);
 
             // Erstellen der Disziplin-Labels und Eingabefelder
@@ -2454,12 +2536,9 @@
             // Gesamtpunktzahl-Anzeige hinzufügen
             const totalLabel = document.createElement('div');
             totalLabel.className = 'label profile-total-summary';
-            totalLabel.style.display = 'flex';
-            totalLabel.style.justifyContent = 'space-between';
-            totalLabel.style.width = '100%';
             totalLabel.innerHTML = `
-                <span style="flex: 1; text-align: left; font-size: 22px; font-weight: bold;">Gesamtpunktzahl</span>
-                <div id="total" style="flex: 1; text-align: right; font-size: 30px; font-weight: bold; color: #f4fbf6;">${profile.totalPoints} P</div>
+                <span class="profile-total-label">Gesamtpunktzahl</span>
+                <div id="total" class="profile-total-value">${profile.totalPoints} P</div>
             `;
             contentSurface.appendChild(totalLabel);
             updateSingleProfileCumulative(profile.name);
@@ -2473,7 +2552,7 @@
             ensureProfileShape(profile);
 
             const contentSurface = document.createElement('div');
-            contentSurface.className = 'profile-view-surface';
+            contentSurface.className = 'profile-view-surface comparison-profile-surface';
             labelsContainer.appendChild(contentSurface);
 
             const [athlete1, athlete2] = profile.name.split(" vs. ");
@@ -2798,12 +2877,6 @@
 
             rankingContainer.appendChild(rankingButton);
 
-            const editButton = createEditIconButton(function() {
-                openRankingWindow(rankingName);
-            });
-            editButton.classList.add('sidebar-action-button', 'ranking-edit-button');
-            rankingContainer.appendChild(editButton);
-
             const deleteButton = document.createElement('button');
             deleteButton.className = 'sidebar-action-button ranking-delete-button';
 
@@ -3012,14 +3085,6 @@
 
                 profileContainer.appendChild(newButton);
 
-                if (type === 'single') {
-                    const editButton = createEditIconButton(function() {
-                        openProfileRenameWindow(profileName);
-                    });
-                    editButton.classList.add('sidebar-action-button', 'profile-edit-button');
-                    profileContainer.appendChild(editButton);
-                }
-
                 // Erstellen des Lösch-Buttons
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'sidebar-action-button profile-delete-button';
@@ -3090,6 +3155,7 @@
             }
             clearActiveSidebarEntries();
             restoreViewScrollPosition(currentViewKey);
+            updateResponsiveAppTitles();
         }
 
         // Initialisierung der Standardwerte beim Laden der Seite
@@ -3138,6 +3204,7 @@
             updateSidebarEmptyStates();
             updateInstallHintVisibility();
             navigateToHome();   
+            updateResponsiveAppTitles();
         };
 
         window.addEventListener('beforeinstallprompt', function(event) {
@@ -3154,6 +3221,7 @@
         window.addEventListener('resize', function() {
             updateInstallHintVisibility();
             updateComparisonHeaderStickyState();
+            updateResponsiveAppTitles();
         });
 
         window.addEventListener('scroll', function() {
@@ -3870,7 +3938,17 @@
         let initialY = null;
 
         document.body.addEventListener('touchstart', function (e) {
-            initialX = e.touches[0].clientX;
+            const sidebarOpen = parseInt(document.getElementById('mySidebar').style.width || '0', 10) > 0;
+            const startX = e.touches[0].clientX;
+            const edgeSwipeZone = 24;
+
+            if (!sidebarOpen && startX > edgeSwipeZone) {
+                initialX = null;
+                initialY = null;
+                return;
+            }
+
+            initialX = startX;
             initialY = e.touches[0].clientY;
         });
 
@@ -3886,9 +3964,9 @@
             // Prüfen, ob die horizontale Bewegung größer ist als die vertikale
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (diffX > 0) {
-                    openNav(); // Öffnen der Sidebar durch Swipen nach rechts
-                } else {
-                    closeNav(); // Schließen der Sidebar durch Swipen nach links
+                    openNav();
+                } else if (parseInt(document.getElementById('mySidebar').style.width || '0', 10) > 0) {
+                    closeNav();
                 }
             }
 
