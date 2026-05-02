@@ -1,23 +1,22 @@
 {
-    "name": "Zehnkampfrechner",
-    "short_name": "Zehnkampf",
-    "description": "Zehnkampfrechner",
-    "start_url": "/Zehnkampfrechner/",
-    "display": "standalone",
-    "background_color": "#262626",
-    "theme_color": "#262626",
-    "scope": "/Zehnkampfrechner/",
-    "icons": [
-      {
-        "src": "imgs/appIcon.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "imgs/appIcon.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
-  
+  "name": "Zehnkampfrechner",
+  "short_name": "Zehnkampf",
+  "description": "Zehnkampfrechner",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#262626",
+  "theme_color": "#262626",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "imgs/appIcon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "imgs/appIcon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

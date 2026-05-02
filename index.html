@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,13 @@
         :root {
             --accent: #8fd0a3;
             --accent-strong: #63a97b;
+            --performance-input-width: clamp(110px, 32vw, 128px);
+            --focus-ring: 0 0 0 3px rgba(143, 208, 163, 0.18);
+            --motion-standard: 220ms cubic-bezier(0.22, 1, 0.36, 1);
+            --motion-entrance: 320ms cubic-bezier(0.16, 1, 0.3, 1);
+            --page-bg-color: #262626;
+            --page-bg-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
+            --sticky-title-height: 44px;
             --surface-soft: rgba(255, 255, 255, 0.06);
             --surface-mid: rgba(255, 255, 255, 0.1);
             --surface-strong: rgba(255, 255, 255, 0.16);
@@ -32,23 +39,25 @@
             --radius-card: 22px;
         }
 
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         .background-dark {
-            background-color: #262626;
-            background-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
+            background-color: var(--page-bg-color);
+            background-image: var(--page-bg-image);
+            background-repeat: no-repeat;
+            background-size: 100vw 100vh;
+            background-position: center top;
+            background-attachment: fixed;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             color: var(--text-main);
         }
 
-        #transparentOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Hinter allen anderen Elementen */
-            background: transparent; /* Unsichtbar */
-        }
-        
         .center{
             display: none;
             color: white;
@@ -85,13 +94,38 @@
             box-sizing: border-box;
             margin: 0;
             padding: 10px 16px 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 30;
             border-bottom: 1px solid var(--border-soft);
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.02) 100%);
             box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
         }
 
         .app-topbar.is-content-view {
             padding-right: 2px;
+        }
+
+        #stickyTitleBackdrop {
+            display: none;
+            position: sticky;
+            top: 0;
+            height: var(--sticky-title-height);
+            margin-bottom: calc(var(--sticky-title-height) * -1);
+            z-index: 15;
+            pointer-events: none;
+            background-color: var(--page-bg-color);
+            background-image: var(--page-bg-image);
+            background-repeat: no-repeat;
+            background-size: 100vw 100vh;
+            background-position: center top;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        body.content-view-active #stickyTitleBackdrop {
+            display: block;
         }
 
         .app-topbar-menu {
@@ -115,6 +149,20 @@
             margin: 22px auto 0 auto;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        .content-scroll-area {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior-y: contain;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: max(18px, env(safe-area-inset-bottom));
+        }
+
+        body.sidebar-open .content-scroll-area {
+            overflow: hidden;
         }
 
         .icon-container {
@@ -142,7 +190,7 @@
             color: white;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            transition: transform var(--motion-standard), border-color var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard), filter var(--motion-standard);
         }
 
         .home-action:hover {
@@ -297,6 +345,10 @@
             animation: view-fade-in 0.24s ease;
         }
 
+        body.content-view-active .labels-container {
+            margin-top: 0;
+        }
+
         .labels-container.is-ranking-layout {
             width: calc(100% - 12px);
             max-width: none;
@@ -315,10 +367,10 @@
         }
 
         .input {
-            width: 70px;
+            width: var(--performance-input-width);
             margin-left: 10px;
-            min-height: 40px;
-            padding: 6px 8px;
+            min-height: 42px;
+            padding: 6px 10px;
             box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.28);
             border-radius: 10px;
@@ -326,7 +378,9 @@
             color: #f7fafc;
             font-size: 20px;
             text-align: center;
-            transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            transition: border-color var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard), transform var(--motion-standard);
         }
 
         .inputcomparison {
@@ -341,15 +395,20 @@
             color: #f7fafc;
             font-size: 16px;
             text-align: center;
-            transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+            transition: border-color var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .input:hover,
+        .inputcomparison:hover {
+            background: rgba(255, 255, 255, 0.24);
         }
 
         .input:focus,
         .inputcomparison:focus {
             outline: none;
             border-color: rgba(143, 208, 163, 0.52);
-            box-shadow: 0 0 0 3px rgba(143, 208, 163, 0.14);
-            background: rgba(255, 255, 255, 0.24);
+            box-shadow: var(--focus-ring);
+            background: rgba(255, 255, 255, 0.23);
         }
 
         #result1, #result2, #result3, #result4, #result5, #result6, #result7, #result8, #result9, #result10 {
@@ -372,8 +431,9 @@
             width: 200px;
             height: 100%;
             background: linear-gradient(180deg, #555d66 0%, #4f5761 100%);
-            z-index: 2;
+            z-index: 50;
             overflow-x: hidden;
+            overflow-y: auto;
             transition: 0.5s;
             padding-top: 60px;
             box-shadow: 18px 0 30px rgba(0, 0, 0, 0.2);
@@ -395,9 +455,9 @@
         .menu .closebtn {
             position: absolute;
             top: 0;
-            right: 25px;
+            right: 0;
             font-size: 36px;
-            margin-left: 50px;
+            margin-left: 0;
             color: white;
             min-width: 44px;
             min-height: 44px;
@@ -441,7 +501,7 @@
         }
 
         .sidebar-entry {
-            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.16s ease;
+            transition: background-color var(--motion-standard), box-shadow var(--motion-standard), transform var(--motion-standard);
         }
 
         .sidebar-entry:hover {
@@ -469,6 +529,7 @@
             text-align: left;
             cursor: pointer;
             min-height: 46px;
+            transition: transform var(--motion-standard), color var(--motion-standard);
         }
 
         .sidebar-main-button img {
@@ -476,6 +537,11 @@
             height: 18px;
             flex-shrink: 0;
             object-fit: contain;
+        }
+
+        .sidebar-main-button:hover {
+            color: #f5faf7;
+            transform: translateX(1px);
         }
 
         .sidebar-main-button span {
@@ -496,7 +562,7 @@
             font-size: 12px;
             min-width: 36px;
             min-height: 36px;
-            transition: background-color 0.18s ease, transform 0.18s ease;
+            transition: background-color var(--motion-standard), transform var(--motion-standard), box-shadow var(--motion-standard);
         }
 
         .icon-action-button {
@@ -511,12 +577,18 @@
             box-shadow: none;
             min-width: 32px;
             min-height: 32px;
+            transition: transform var(--motion-standard), filter var(--motion-standard);
         }
 
         .icon-action-button img {
             width: 20px;
             height: 20px;
             display: block;
+        }
+
+        .icon-action-button:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
         }
 
         .sidebar-action-button.icon-action-button {
@@ -556,7 +628,7 @@
             font-family: 'Roboto', sans-serif;
             font-size: 13px;
             cursor: pointer;
-            transition: background-color 0.18s ease, transform 0.18s ease;
+            transition: background-color var(--motion-standard), transform var(--motion-standard), box-shadow var(--motion-standard);
         }
 
         .sidebar-empty-button:hover {
@@ -589,7 +661,7 @@
             width: calc(100% - 200px); /* Covers the area to the right of the sidebar */
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Halbtransparent */
-            z-index: 1; /* Set lower than the sidebar */
+            z-index: 40; /* Set lower than the sidebar */
         }
 
         #main {
@@ -610,7 +682,7 @@
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.07);
             cursor: pointer;
-            transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+            transition: transform var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard), filter var(--motion-standard);
         }
 
         #top-icons img:hover {
@@ -633,12 +705,34 @@
             font-family: 'Roboto', sans-serif;
         }
 
+        .ranking-view::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 8px;
+            width: 18px;
+            pointer-events: none;
+            z-index: 8;
+            opacity: 0;
+            transition: opacity var(--motion-standard);
+        }
+
+        .ranking-view::before {
+            left: 0;
+            background: linear-gradient(90deg, rgba(31, 35, 40, 0.75) 0%, rgba(31, 35, 40, 0) 100%);
+        }
+
+        .ranking-view.can-scroll-left::before {
+            opacity: 1;
+        }
+
         .ranking-scroll {
             width: 100%;
             overflow-x: auto;
             padding-bottom: 8px;
             scrollbar-width: thin;
             scrollbar-color: rgba(143, 208, 163, 0.44) rgba(255, 255, 255, 0.05);
+            scroll-behavior: smooth;
         }
 
         .ranking-table {
@@ -664,6 +758,7 @@
             border-right: 1px solid rgba(255, 255, 255, 0.06);
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(4px);
+            transition: background-color var(--motion-standard), transform var(--motion-standard), box-shadow var(--motion-standard), border-color var(--motion-standard);
         }
 
         .ranking-header .ranking-cell {
@@ -764,6 +859,10 @@
             text-align: center;
         }
 
+        .ranking-value-cell.is-updated {
+            animation: value-flash 0.56s ease;
+        }
+
         .ranking-value {
             font-size: 16px;
             font-weight: bold;
@@ -808,9 +907,14 @@
             justify-content: center;
             width: 100%;
             margin-bottom: 14px;
-            padding: 2px 0 6px 0;
+            padding: 6px 0 8px 0;
             box-sizing: border-box;
             animation: view-fade-in 0.22s ease;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: transparent;
+            transition: transform var(--motion-standard), opacity var(--motion-standard);
         }
 
         .view-header-main {
@@ -841,8 +945,8 @@
         }
 
         .single-profile-surface {
-            width: calc(100% + 16px);
-            margin-left: -8px;
+            width: calc(100% + 24px);
+            margin-left: -12px;
         }
 
         .comparison-profile-surface {
@@ -882,6 +986,7 @@
             background: linear-gradient(180deg, rgba(143, 208, 163, 0.1) 0%, rgba(255, 255, 255, 0.045) 100%);
             border: 1px solid rgba(143, 208, 163, 0.18);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: transform var(--motion-standard), box-shadow var(--motion-standard), border-color var(--motion-standard), background-color var(--motion-standard);
         }
 
         .profile-total-label {
@@ -906,10 +1011,28 @@
 
         .single-points-cell {
             display: flex;
-            flex: 1;
+            flex: 1 1 0;
             flex-direction: column;
             align-items: flex-end;
             gap: 3px;
+            min-width: 84px;
+        }
+
+        .single-points-value {
+            display: block;
+            min-width: 84px;
+            white-space: nowrap;
+            line-height: 1.1;
+        }
+
+        .single-points-value.is-updated,
+        .single-cumulative.is-updated,
+        .comparison-points.is-updated,
+        .comparison-total-points.is-updated,
+        .ranking-total-points.is-updated,
+        .ranking-total-meta.is-updated,
+        .profile-total-value.is-updated {
+            animation: value-flash 0.56s ease;
         }
 
         .single-cumulative {
@@ -923,19 +1046,15 @@
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            gap: 14px;
-            padding: 10px 0 12px 0;
-            margin-bottom: 10px;
+            gap: 12px;
+            padding: 8px 0 10px 0;
+            margin-bottom: 6px;
             position: sticky;
             top: 0;
-            z-index: 1;
+            z-index: 20;
             background: transparent;
             transition: background 0.18s ease;
-        }
-
-        .comparison-header.is-stuck {
-            background-color: #262626;
-            background-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
+            font-family: 'Roboto', sans-serif;
         }
 
         .comparison-athlete-head {
@@ -988,33 +1107,34 @@
         .comparison-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
+            font-family: 'Roboto', sans-serif;
         }
 
         .comparison-discipline-row {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
             align-items: stretch;
-            gap: 12px;
-            padding: 12px 0;
+            gap: 10px;
+            padding: 8px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .comparison-list .comparison-discipline-row:first-child {
             border-top: none;
-            padding-top: 4px;
+            padding-top: 2px;
         }
 
         .comparison-athlete-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             min-width: 0;
-            padding: 10px 10px;
+            padding: 8px 10px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+            transition: background-color var(--motion-standard), border-color var(--motion-standard), transform var(--motion-standard), box-shadow var(--motion-standard);
         }
 
         .comparison-athlete-column.is-left {
@@ -1069,6 +1189,8 @@
             padding: 6px 10px;
             box-sizing: border-box;
             text-align: center;
+            font-family: 'Roboto', sans-serif;
+            transition: border-color var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard), transform var(--motion-standard);
         }
 
         .comparison-points {
@@ -1084,6 +1206,8 @@
             border-radius: 16px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(143, 208, 163, 0.1) 100%);
             border: 1px solid rgba(255, 255, 255, 0.11);
+            font-family: 'Roboto', sans-serif;
+            transition: transform var(--motion-standard), box-shadow var(--motion-standard), border-color var(--motion-standard), background-color var(--motion-standard);
         }
 
         .comparison-total-row {
@@ -1116,13 +1240,13 @@
 
         .home-intro,
         .ranking-view {
-            animation: view-fade-in 0.26s ease;
+            animation: view-fade-in var(--motion-entrance) cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes view-fade-in {
             from {
                 opacity: 0;
-                transform: translateY(6px);
+                transform: translateY(10px) scale(0.992);
             }
             to {
                 opacity: 1;
@@ -1130,13 +1254,91 @@
             }
         }
 
+        @keyframes value-flash {
+            0% {
+                transform: translateY(0);
+                filter: brightness(1);
+            }
+            35% {
+                transform: translateY(-1px);
+                filter: brightness(1.08);
+            }
+            100% {
+                transform: translateY(0);
+                filter: brightness(1);
+            }
+        }
+
+        @keyframes summary-glow {
+            0% {
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 rgba(143, 208, 163, 0);
+                border-color: rgba(143, 208, 163, 0.18);
+            }
+            45% {
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 10px 28px rgba(143, 208, 163, 0.18);
+                border-color: rgba(143, 208, 163, 0.32);
+            }
+            100% {
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 rgba(143, 208, 163, 0);
+                border-color: rgba(143, 208, 163, 0.18);
+            }
+        }
+
+        @keyframes modal-backdrop-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modal-backdrop-out {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes modal-sheet-in {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(0.985);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes modal-sheet-out {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+        }
+
+        .profile-total-summary.is-updated,
+        .comparison-total-summary.is-updated {
+            animation: summary-glow 0.72s ease;
+        }
+
         button:focus-visible,
         .home-action:focus-visible,
         .sidebar-main-button:focus-visible,
         .sidebar-action-button:focus-visible,
-        .icon-action-button:focus-visible {
+        .icon-action-button:focus-visible,
+        #top-icons img:focus-visible,
+        .input:focus-visible,
+        .inputcomparison:focus-visible {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(143, 208, 163, 0.2);
+            box-shadow: var(--focus-ring);
         }
 
         @media (max-width: 820px) {
@@ -1155,6 +1357,10 @@
         }
 
         @media (max-width: 680px) {
+            :root {
+                --sticky-title-height: 42px;
+            }
+
             .app-topbar.is-content-view {
                 padding-right: 0;
             }
@@ -1270,8 +1476,8 @@
             }
 
             .single-profile-surface {
-                width: calc(100% + 20px);
-                margin-left: -10px;
+                width: calc(100% + 28px);
+                margin-left: -14px;
             }
 
             .comparison-profile-surface {
@@ -1289,7 +1495,7 @@
             }
 
             .comparison-header {
-                gap: 10px;
+                gap: 8px;
             }
 
             .comparison-athlete-name {
@@ -1297,11 +1503,11 @@
             }
 
             .comparison-discipline-row {
-                gap: 8px;
+                gap: 6px;
             }
 
             .comparison-athlete-column {
-                padding: 10px 10px;
+                padding: 7px 8px;
             }
 
             .comparison-discipline-center {
@@ -1318,6 +1524,10 @@
         }
 
         @media (max-width: 540px) {
+            :root {
+                --sticky-title-height: 40px;
+            }
+
             .app-topbar.is-content-view {
                 padding-right: 0;
             }
@@ -1375,8 +1585,8 @@
             }
 
             .single-profile-surface {
-                width: calc(100% + 24px);
-                margin-left: -12px;
+                width: calc(100% + 32px);
+                margin-left: -16px;
             }
 
             .comparison-profile-surface {
@@ -1385,12 +1595,9 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="background-dark">
-    <div id="transparentOverlay"></div>
-
     <!-- Menü -->
     <div id="mySidebar" class="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -1407,68 +1614,69 @@
         <span id="topbarMenuButton" class="app-topbar-menu" style="font-size:30px; cursor:pointer; color: white; z-index: 2;" onclick="toggleNav()">&#9776;</span>
         <div id="home-top-title" class="home-top-title">Zehnkampfrechner</div>
         <div id="top-icons" class="app-topbar-actions" style="display: flex; align-items: center;">
-            <img id="context-edit-icon" src="imgs/edit.png" style="display: none;" alt="Bearbeiten">
             <img src="imgs/new_profile.png" onclick="openProfileWindow()">
             <img src="imgs/comparison.png" onclick="openAthleteComparison()">
             <img src="imgs/table_icon.png" onclick="openRanking()">
         </div>
     </div>
-           
-    <div class="center">
-        Zehnkampfrechner
-    </div>
+    
+    <div id="contentScrollArea" class="content-scroll-area">
+        <div id="stickyTitleBackdrop"></div>
+               
+        <div class="center">
+            Zehnkampfrechner
+        </div>
 
-    <div id="home-intro" class="home-intro">
-        <!-- Icon Container für die Startseite -->
-        <div class="icon-container">
-            <button class="home-action" type="button" onclick="openProfileWindow()">
-                <span class="home-action-icon">
-                    <img src="imgs/new_profile.png" alt="Neues Profil">
-                </span>
-                <span class="home-action-title">Neues Profil</span>
-            </button>
+        <div id="home-intro" class="home-intro">
+            <!-- Icon Container für die Startseite -->
+            <div class="icon-container">
+                <button class="home-action" type="button" onclick="openProfileWindow()">
+                    <span class="home-action-icon">
+                        <img src="imgs/new_profile.png" alt="Neues Profil">
+                    </span>
+                    <span class="home-action-title">Neues Profil</span>
+                </button>
 
-            <button class="home-action home-action-comparison" type="button" onclick="openAthleteComparison()">
-                <span class="home-action-icon">
-                    <img src="imgs/comparison.png" alt="Vergleich">
-                </span>
-                <span class="home-action-title">Direkter Vergleich</span>
-            </button>
+                <button class="home-action home-action-comparison" type="button" onclick="openAthleteComparison()">
+                    <span class="home-action-icon">
+                        <img src="imgs/comparison.png" alt="Vergleich">
+                    </span>
+                    <span class="home-action-title">Direkter Vergleich</span>
+                </button>
 
-            <button class="home-action" type="button" onclick="openRanking()">
-                <span class="home-action-icon">
-                    <img src="imgs/table_icon.png" alt="Ranking">
-                </span>
-                <span class="home-action-title">Ranking erstellen</span>
-            </button>
+                <button class="home-action" type="button" onclick="openRanking()">
+                    <span class="home-action-icon">
+                        <img src="imgs/table_icon.png" alt="Ranking">
+                    </span>
+                    <span class="home-action-title">Ranking erstellen</span>
+                </button>
 
-            <div class="home-action home-action-placeholder">
-                <span class="home-action-icon">+</span>
-                <span class="home-action-title">Bald verfügbar</span>
+                <div class="home-action home-action-placeholder">
+                    <span class="home-action-icon">+</span>
+                    <span class="home-action-title">Bald verfügbar</span>
+                </div>
+            </div>
+
+            <div id="installHint" class="install-hint" aria-live="polite">
+                <div class="install-hint-copy">
+                    <div class="install-hint-title">Zum Startbildschirm hinzufügen</div>
+                    <div id="installHintText" class="install-hint-text"></div>
+                </div>
+                <div class="install-hint-actions">
+                    <button id="installHintButton" type="button" class="install-hint-button">Installieren</button>
+                    <button id="installHintDismiss" type="button" class="install-hint-dismiss" aria-label="Hinweis schließen">×</button>
+                </div>
             </div>
         </div>
 
-        <div id="installHint" class="install-hint" aria-live="polite">
-            <div class="install-hint-copy">
-                <div class="install-hint-title">Zum Startbildschirm hinzufügen</div>
-                <div id="installHintText" class="install-hint-text"></div>
-            </div>
-            <div class="install-hint-actions">
-                <button id="installHintButton" type="button" class="install-hint-button">Installieren</button>
-                <button id="installHintDismiss" type="button" class="install-hint-dismiss" aria-label="Hinweis schließen">×</button>
-            </div>
-        </div>
+        <div class="labels-container"></div>
     </div>
-
-    <div class="labels-container"></div>
 
     <script>
         const viewScrollPositions = {};
         let currentViewKey = 'home';
         let deferredInstallPrompt = null;
         const installHintDismissKey = 'installHintDismissed';
-        let activeComparisonHeader = null;
-        let comparisonHeaderStickY = 0;
 
         // Profile speichern
         function saveProfilesToLocalStorage() {
@@ -1646,6 +1854,8 @@
             var sidebarWidth = getSidebarWidth();
             sidebar.style.display = "block";
             sidebar.style.width = sidebarWidth + "px";
+            sidebar.scrollTop = 0;
+            document.body.classList.add('sidebar-open');
             document.getElementById("main").style.marginLeft = sidebarWidth + "px";
             // Overlay nach 0.5s sichtbar machen
             setTimeout(function() {
@@ -1662,6 +1872,7 @@
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("overlay").style.display = "none"; // Hide overlay
+            document.body.classList.remove('sidebar-open');
             restoreViewScrollPosition(currentViewKey);
             // Öffnen Standardprofil nach Löschung
             if (profileDeleted) {
@@ -1691,14 +1902,14 @@
             const isSingleProfile = !isComparisonProfile;
 
             if (normalizedValue === "") {
-                resultElement.textContent = isComparisonProfile || isSingleProfile ? "0 P" : "0";
+                setAnimatedText(resultElement, isComparisonProfile || isSingleProfile ? "0 P" : "0");
                 profiles[profileIndex].results[resultIndex] = "0";
                 profiles[profileIndex].values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
             } else {
                 const performance = parsePerformanceValue(normalizedValue, disciplineType);
                 const points = calculateDecathlonPoints(disciplineType, performance, A, B, C);
 
-                resultElement.textContent = isComparisonProfile || isSingleProfile ? `${points} P` : String(points);
+                setAnimatedText(resultElement, isComparisonProfile || isSingleProfile ? `${points} P` : String(points));
                 profiles[profileIndex].results[resultIndex] = String(points);
                 profiles[profileIndex].values[resultIndex] = normalizedValue;
             }
@@ -1737,7 +1948,8 @@
 
                     const totalElement = document.getElementById(`totalPoints_${athlete}`);
                     if (totalElement) {
-                        totalElement.innerHTML = `${totalPoints} P`;
+                        setAnimatedText(totalElement, `${totalPoints} P`);
+                        pulseSummaryContainer(totalElement.closest('.comparison-total-summary'));
                     }
                 } else {
                     const totalPoints = getTotalPointsFromResults(profile.results);
@@ -1745,7 +1957,8 @@
 
                     const totalElement = document.getElementById('total');
                     if (totalElement) {
-                        totalElement.innerHTML = `${totalPoints} P`;
+                        setAnimatedText(totalElement, `${totalPoints} P`);
+                        pulseSummaryContainer(totalElement.closest('.profile-total-summary'));
                     }
 
                     updateSingleProfileCumulative(profileName);
@@ -1767,7 +1980,7 @@
             cumulativePoints.forEach(function(points, index) {
                 const cumulativeElement = document.getElementById(`singleCumulative${index + 1}`);
                 if (cumulativeElement) {
-                    cumulativeElement.textContent = `${points} P`;
+                    setAnimatedText(cumulativeElement, `${points} P`);
                 }
             });
         }
@@ -1823,7 +2036,20 @@
 
         function closeModal(modal) {
             if (modal && modal.parentNode) {
-                modal.parentNode.removeChild(modal);
+                if (modal.dataset.closing === '1') {
+                    return;
+                }
+                modal.dataset.closing = '1';
+                modal.style.animation = 'modal-backdrop-out 180ms ease forwards';
+                const content = modal.firstElementChild;
+                if (content) {
+                    content.style.animation = 'modal-sheet-out 180ms ease forwards';
+                }
+                window.setTimeout(function() {
+                    if (modal.parentNode) {
+                        modal.parentNode.removeChild(modal);
+                    }
+                }, 180);
             }
         }
 
@@ -1833,7 +2059,7 @@
             }
             element.style.animation = 'none';
             void element.offsetWidth;
-            element.style.animation = 'view-fade-in 0.26s ease';
+            element.style.animation = 'view-fade-in var(--motion-entrance) cubic-bezier(0.16, 1, 0.3, 1)';
         }
 
         function isRunningStandalone() {
@@ -1906,6 +2132,71 @@
             return window.innerWidth <= 680 ? 216 : 200;
         }
 
+        function getContentScrollArea() {
+            return document.getElementById('contentScrollArea');
+        }
+
+        function pulseElement(element, className) {
+            if (!element || !className) {
+                return;
+            }
+
+            element.classList.remove(className);
+            void element.offsetWidth;
+            element.classList.add(className);
+            window.setTimeout(function() {
+                if (element) {
+                    element.classList.remove(className);
+                }
+            }, 760);
+        }
+
+        function pulseSummaryContainer(element) {
+            if (!element) {
+                return;
+            }
+
+            pulseElement(element, 'is-updated');
+        }
+
+        function setAnimatedText(element, nextText, className = 'is-updated') {
+            if (!element) {
+                return;
+            }
+
+            if (element.textContent !== nextText) {
+                element.textContent = nextText;
+                pulseElement(element, className);
+            } else {
+                element.textContent = nextText;
+            }
+        }
+
+        function updateRankingScrollState(rankingView, scrollWrapper) {
+            if (!rankingView || !scrollWrapper) {
+                return;
+            }
+
+            const maxScrollLeft = Math.max(0, scrollWrapper.scrollWidth - scrollWrapper.clientWidth);
+            const scrollLeft = scrollWrapper.scrollLeft;
+            rankingView.classList.toggle('can-scroll-left', scrollLeft > 6);
+            rankingView.classList.toggle('can-scroll-right', scrollLeft < maxScrollLeft - 6);
+            rankingView.classList.toggle('is-scrollable', maxScrollLeft > 6);
+        }
+
+        function attachRankingScrollEnhancements(rankingView, scrollWrapper) {
+            if (!rankingView || !scrollWrapper) {
+                return;
+            }
+
+            const syncState = function() {
+                updateRankingScrollState(rankingView, scrollWrapper);
+            };
+
+            scrollWrapper.addEventListener('scroll', syncState, { passive: true });
+            requestAnimationFrame(syncState);
+        }
+
         function updateResponsiveAppTitles() {
             const topbar = document.getElementById('main');
             const homeTitle = document.getElementById('home-top-title');
@@ -1931,13 +2222,17 @@
         }
 
         function saveCurrentViewScrollPosition() {
-            viewScrollPositions[currentViewKey] = window.scrollY || window.pageYOffset || 0;
+            const contentScrollArea = getContentScrollArea();
+            viewScrollPositions[currentViewKey] = contentScrollArea ? contentScrollArea.scrollTop : 0;
         }
 
         function restoreViewScrollPosition(viewKey) {
             const targetPosition = viewScrollPositions[viewKey] || 0;
             requestAnimationFrame(function() {
-                window.scrollTo(0, targetPosition);
+                const contentScrollArea = getContentScrollArea();
+                if (contentScrollArea) {
+                    contentScrollArea.scrollTop = targetPosition;
+                }
             });
         }
 
@@ -1992,32 +2287,10 @@
             });
         }
 
-        function updateComparisonHeaderStickyState() {
-            if (!activeComparisonHeader) {
-                return;
-            }
-
-            const shouldStick = (window.scrollY || window.pageYOffset || 0) > comparisonHeaderStickY;
-            activeComparisonHeader.classList.toggle('is-stuck', shouldStick);
-        }
-
-        function setupComparisonHeaderSticky(header) {
-            activeComparisonHeader = header || null;
-            if (!activeComparisonHeader) {
-                return;
-            }
-
-            requestAnimationFrame(function() {
-                const rect = activeComparisonHeader.getBoundingClientRect();
-                comparisonHeaderStickY = (window.scrollY || window.pageYOffset || 0) + rect.top;
-                updateComparisonHeaderStickyState();
-            });
-        }
-
         function createUnifiedModal(titleText, widthValue) {
             var modal = document.createElement('div');
             modal.style.position = 'fixed';
-            modal.style.zIndex = '10';
+            modal.style.zIndex = '60';
             modal.style.inset = '0';
             modal.style.padding = '24px';
             modal.style.boxSizing = 'border-box';
@@ -2026,14 +2299,15 @@
             modal.style.display = 'flex';
             modal.style.justifyContent = 'center';
             modal.style.alignItems = 'center';
+            modal.style.animation = 'modal-backdrop-in 220ms ease forwards';
 
             var content = document.createElement('div');
             content.style.width = widthValue || 'min(92vw, 520px)';
             content.style.maxWidth = '100%';
-            content.style.maxHeight = 'min(86vh, 760px)';
+            content.style.maxHeight = window.innerWidth <= 680 ? 'min(88vh, 760px)' : 'min(86vh, 760px)';
             content.style.overflowY = 'auto';
             content.style.boxSizing = 'border-box';
-            content.style.padding = '28px';
+            content.style.padding = window.innerWidth <= 680 ? '24px 22px 26px 22px' : '28px';
             content.style.border = '1px solid rgba(255, 255, 255, 0.14)';
             content.style.borderRadius = '24px';
             content.style.background = 'linear-gradient(180deg, rgba(233, 238, 245, 0.985) 0%, rgba(212, 220, 231, 0.97) 100%)';
@@ -2043,6 +2317,7 @@
             content.style.gap = '18px';
             content.style.position = 'relative';
             content.style.color = '#1b2633';
+            content.style.animation = 'modal-sheet-in 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards';
 
             var header = document.createElement('div');
             header.style.display = 'flex';
@@ -2118,10 +2393,10 @@
             field.style.borderRadius = '14px';
             field.style.outline = 'none';
             field.style.boxShadow = 'inset 0 1px 0 rgba(255, 255, 255, 0.55)';
-            field.style.transition = 'border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease';
+            field.style.transition = 'border-color var(--motion-standard), box-shadow var(--motion-standard), background-color var(--motion-standard), transform var(--motion-standard)';
             field.onfocus = function() {
                 field.style.borderColor = 'rgba(83, 131, 98, 0.42)';
-                field.style.boxShadow = '0 0 0 3px rgba(143, 208, 163, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.62)';
+                field.style.boxShadow = 'var(--focus-ring), inset 0 1px 0 rgba(255, 255, 255, 0.62)';
                 field.style.background = 'rgba(255, 255, 255, 0.92)';
             };
             field.onblur = function() {
@@ -2154,6 +2429,15 @@
             button.style.fontWeight = 'bold';
             button.style.cursor = 'pointer';
             button.style.boxShadow = '0 14px 28px rgba(45, 94, 64, 0.24)';
+            button.style.transition = 'transform var(--motion-standard), box-shadow var(--motion-standard), filter var(--motion-standard)';
+            button.onmouseenter = function() {
+                button.style.transform = 'translateY(-1px)';
+                button.style.boxShadow = '0 18px 32px rgba(45, 94, 64, 0.28)';
+            };
+            button.onmouseleave = function() {
+                button.style.transform = 'translateY(0)';
+                button.style.boxShadow = '0 14px 28px rgba(45, 94, 64, 0.24)';
+            };
             return button;
         }
 
@@ -2189,26 +2473,6 @@
 
             headerRow.appendChild(headerMain);
             container.appendChild(headerRow);
-        }
-
-        function showContextEditIcon(onClick) {
-            const editIcon = document.getElementById('context-edit-icon');
-            if (!editIcon) {
-                return;
-            }
-
-            editIcon.style.display = 'block';
-            editIcon.onclick = onClick;
-        }
-
-        function hideContextEditIcon() {
-            const editIcon = document.getElementById('context-edit-icon');
-            if (!editIcon) {
-                return;
-            }
-
-            editIcon.style.display = 'none';
-            editIcon.onclick = null;
         }
 
         // Function new_profile
@@ -2266,6 +2530,7 @@
             if (profileName !== defaultTitle) {
                 saveCurrentViewScrollPosition();
                 closeNav();
+                document.body.classList.add('content-view-active');
                 document.getElementById('main').classList.add('is-content-view');
                 document.querySelector('.labels-container').classList.remove('is-ranking-layout');
                 document.querySelector('.center').textContent = profileName;
@@ -2283,12 +2548,10 @@
                     const [athlete1, athlete2] = profileName.split(" vs. ");
                     calculateTotalPoints(profileName, athlete1);
                     calculateTotalPoints(profileName, athlete2);
-                    hideContextEditIcon();
                 } 
                 else {
                     // Standardverhalten für nicht-Vergleichsprofile
                     calculateTotalPoints(profileName);
-                    hideContextEditIcon();
                 }
                 profileDeleted = false;
                 setActiveSidebarItem('profile', profileName);
@@ -2433,6 +2696,7 @@
             }
 
             saveCurrentViewScrollPosition();
+            document.body.classList.add('content-view-active');
             document.getElementById('main').classList.add('is-content-view');
             document.querySelector('.center').textContent = ranking.name;
             currentViewKey = `ranking:${ranking.name}`;
@@ -2442,7 +2706,6 @@
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
             document.getElementById('top-icons').style.display = 'flex';
-            hideContextEditIcon();
             closeNav();
             setActiveSidebarItem('ranking', ranking.name);
 
@@ -2455,7 +2718,6 @@
         function displayRankingResults(ranking) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
-            activeComparisonHeader = null;
             appendViewHeader(labelsContainer, ranking.name, function() {
                 openRankingWindow(ranking.name);
             });
@@ -2606,13 +2868,13 @@
             scrollWrapper.appendChild(table);
             rankingView.appendChild(scrollWrapper);
             labelsContainer.appendChild(rankingView);
+            attachRankingScrollEnhancements(rankingView, scrollWrapper);
             animateViewEntrance(rankingView);
         }
 
         function displaySingleProfile(profile) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
-            activeComparisonHeader = null;
             appendViewHeader(labelsContainer, profile.name, function() {
                 openProfileRenameWindow(profile.name);
             });
@@ -2632,10 +2894,10 @@
                 label.style.display = 'flex';
                 label.style.alignItems = 'center';
                 label.innerHTML = `
-                    <span style="flex: 1; font-size: 25px;">${inputName}</span>
-                    <input class="input" inputmode="decimal" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 1; font-size: 20px;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <span style="flex: 1 1 0; font-size: 25px;">${inputName}</span>
+                    <input class="input" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 0 0 var(--performance-input-width); font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
                     <div class="single-points-cell">
-                        <div id="result${i + 1}" style="font-size: 25px; text-align: right;">${points !== "" ? `${points} P` : '0 P'}</div>
+                        <div id="result${i + 1}" class="single-points-value" style="font-size: 25px; text-align: right;">${points !== "" ? `${points} P` : '0 P'}</div>
                         <div id="singleCumulative${i + 1}" class="single-cumulative"></div>
                     </div>
                 `;
@@ -2681,7 +2943,6 @@
                 </div>
             `;
             contentSurface.appendChild(comparisonHeader);
-            setupComparisonHeaderSticky(comparisonHeader);
 
             const comparisonList = document.createElement('div');
             comparisonList.className = 'comparison-list';
@@ -2699,7 +2960,7 @@
                 label.innerHTML = `
                     <div id="comparisonLeftColumn${i + 1}" class="comparison-athlete-column is-left">
                         <div class="comparison-performance">
-                            <input class="inputcomparison comparison-performance-input comparison-input-first" inputmode="decimal" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                            <input class="inputcomparison comparison-performance-input comparison-input-first" type="text" name="${inputName}_${athlete1}" value="${valueAthlete1}" oninput="calculatePoints('${inputName}_${athlete1}', 'result${i + 1}_${athlete1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete1)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
                         </div>
                         <div id="result${i + 1}_${athlete1}" class="comparison-points">${pointsAthlete1 !== "" ? pointsAthlete1 : 0} P</div>
                     </div>
@@ -2708,7 +2969,7 @@
                     </div>
                     <div id="comparisonRightColumn${i + 1}" class="comparison-athlete-column is-right">
                         <div class="comparison-performance">
-                            <input class="inputcomparison comparison-performance-input comparison-input-second" inputmode="decimal" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                            <input class="inputcomparison comparison-performance-input comparison-input-second" type="text" name="${inputName}_${athlete2}" value="${valueAthlete2}" oninput="calculatePoints('${inputName}_${athlete2}', 'result${i + 1}_${athlete2}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1, athlete2)});" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
                         </div>
                         <div id="result${i + 1}_${athlete2}" class="comparison-points">${pointsAthlete2 !== "" ? pointsAthlete2 : 0} P</div>
                     </div>
@@ -3243,7 +3504,7 @@
             saveCurrentViewScrollPosition();
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
-            activeComparisonHeader = null;
+            document.body.classList.remove('content-view-active');
             document.getElementById('main').classList.remove('is-content-view');
             document.querySelector('.center').textContent = defaultTitle;
             currentViewKey = 'home';
@@ -3253,7 +3514,6 @@
             document.getElementById('home-top-title').style.display = 'block';
             // Blende die oberen Icons nur auf der Startseite aus
             document.getElementById('top-icons').style.display = 'none';
-            hideContextEditIcon();
             updateInstallHintVisibility();
             animateViewEntrance(document.getElementById('home-intro'));
 
@@ -3332,13 +3592,14 @@
 
         window.addEventListener('resize', function() {
             updateInstallHintVisibility();
-            updateComparisonHeaderStickyState();
+            document.querySelectorAll('.ranking-view').forEach(function(rankingView) {
+                const scrollWrapper = rankingView.querySelector('.ranking-scroll');
+                if (scrollWrapper) {
+                    updateRankingScrollState(rankingView, scrollWrapper);
+                }
+            });
             updateResponsiveAppTitles();
         });
-
-        window.addEventListener('scroll', function() {
-            updateComparisonHeaderStickyState();
-        }, { passive: true });
 
         // Speichern der Daten beim Verlassen der Seite
         window.addEventListener("beforeunload", function() {
@@ -4091,8 +4352,13 @@
     <script>
         if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-            navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+            navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'none' }).then(function(registration) {
             console.log('Service Worker registriert mit Scope: ', registration.scope);
+            registration.update();
+
+            window.addEventListener('online', function() {
+                registration.update();
+            });
             }, function(err) {
             console.log('Service Worker Registrierung fehlgeschlagen: ', err);
             });
