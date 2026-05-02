@@ -867,23 +867,27 @@
             font-size: 16px;
             font-weight: bold;
             color: #ffffff;
+            white-space: nowrap;
         }
 
         .ranking-subvalue {
             font-size: 12px;
             color: #d6dde4;
-            white-space: normal;
+            white-space: nowrap;
             line-height: 1.1;
+            letter-spacing: -0.01em;
         }
 
         .ranking-points {
             font-size: 13px;
             color: #c8d0d8;
+            white-space: nowrap;
         }
 
         .ranking-total-points {
             font-size: 20px;
             color: white;
+            white-space: nowrap;
         }
 
         .ranking-total-meta {
@@ -1356,6 +1360,54 @@
             }
         }
 
+        @media (max-width: 980px) and (orientation: landscape) and (pointer: coarse) {
+            .ranking-view {
+                width: 100%;
+                margin: 6px 0 0 0;
+            }
+
+            .ranking-row {
+                grid-template-columns: minmax(72px, 18vw) repeat(10, minmax(48px, calc((69vw - 12px) / 10))) minmax(58px, 14vw);
+            }
+
+            .ranking-row + .ranking-row {
+                margin-top: 6px;
+            }
+
+            .ranking-cell {
+                min-height: 58px;
+                padding: 6px 4px;
+            }
+
+            .ranking-header .ranking-cell {
+                min-height: 50px;
+                font-size: 12px;
+            }
+
+            .ranking-place {
+                font-size: 11px;
+            }
+
+            .ranking-name,
+            .ranking-value,
+            .ranking-total-points {
+                font-size: 13px;
+            }
+
+            .ranking-subvalue,
+            .ranking-total-meta {
+                font-size: 9px;
+            }
+
+            .ranking-athlete {
+                gap: 6px;
+            }
+
+            .labels-container.is-ranking-layout {
+                width: calc(100% - 8px);
+            }
+        }
+
         @media (max-width: 680px) {
             :root {
                 --sticky-title-height: 42px;
@@ -1371,7 +1423,7 @@
             }
 
             .ranking-row {
-                grid-template-columns: minmax(74px, 20vw) repeat(10, minmax(44px, calc((65vw - 12px) / 10))) minmax(56px, 15vw);
+                grid-template-columns: minmax(74px, 20vw) repeat(10, minmax(50px, calc((67vw - 12px) / 10))) minmax(60px, 15vw);
             }
 
             .ranking-row + .ranking-row {
@@ -1400,7 +1452,7 @@
 
             .ranking-subvalue,
             .ranking-total-meta {
-                font-size: 10px;
+                font-size: 9px;
             }
 
             .ranking-athlete {
@@ -1542,7 +1594,7 @@
             }
 
             .ranking-row {
-                grid-template-columns: minmax(68px, 20vw) repeat(10, minmax(40px, calc((65vw - 8px) / 10))) minmax(52px, 15vw);
+                grid-template-columns: minmax(68px, 20vw) repeat(10, minmax(46px, calc((67vw - 8px) / 10))) minmax(56px, 15vw);
             }
 
             .ranking-cell {
@@ -1563,7 +1615,7 @@
 
             .ranking-subvalue,
             .ranking-total-meta {
-                font-size: 9px;
+                font-size: 8px;
             }
 
             .app-topbar-actions {
