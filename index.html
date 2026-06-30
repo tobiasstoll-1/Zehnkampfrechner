@@ -52,6 +52,7 @@
             background-size: 100vw 100vh;
             background-position: center top;
             background-attachment: fixed;
+            height: 100dvh;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -158,11 +159,48 @@
             overflow-x: hidden;
             overscroll-behavior-y: contain;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: max(18px, env(safe-area-inset-bottom));
+            padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
+            scroll-padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
+            box-sizing: border-box;
         }
 
         body.sidebar-open .content-scroll-area {
             overflow: hidden;
+        }
+
+        html.sidebar-open,
+        body.sidebar-open {
+            overscroll-behavior: contain;
+        }
+
+        html.ranking-view-active,
+        body.ranking-view-active {
+            height: auto;
+            overflow-y: auto;
+        }
+
+        html.ranking-view-active.sidebar-open,
+        body.ranking-view-active.sidebar-open {
+            height: 100dvh;
+            overflow: hidden;
+        }
+
+        html.ranking-view-active body {
+            min-height: 100vh;
+        }
+
+        body.ranking-view-active .app-topbar {
+            position: relative;
+            top: auto;
+        }
+
+        body.ranking-view-active #stickyTitleBackdrop {
+            display: none;
+        }
+
+        body.ranking-view-active .content-scroll-area {
+            overflow: visible;
+            padding-bottom: 0;
         }
 
         .icon-container {
@@ -359,6 +397,7 @@
         .labels-container.is-ranking-layout {
             width: calc(100% - 12px);
             max-width: none;
+            padding-bottom: max(110px, env(safe-area-inset-bottom));
         }
 
         .labels-container.is-document-layout {
@@ -469,15 +508,21 @@
             display: none;
             position: fixed;
             top: 0;
+            bottom: 0;
             left: 0;
             width: 200px;
-            height: 100%;
+            height: 100dvh;
+            max-height: 100dvh;
+            box-sizing: border-box;
             background: linear-gradient(180deg, #555d66 0%, #4f5761 100%);
             z-index: 50;
             overflow-x: hidden;
             overflow-y: auto;
+            overscroll-behavior-y: contain;
+            -webkit-overflow-scrolling: touch;
             transition: 0.5s;
             padding-top: 60px;
+            padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
             box-shadow: 18px 0 30px rgba(0, 0, 0, 0.2);
         }
 
@@ -794,6 +839,8 @@
         }
 
         .ranking-cell {
+            position: relative;
+            overflow: hidden;
             min-height: 76px;
             padding: 10px 10px;
             box-sizing: border-box;
@@ -874,15 +921,15 @@
         }
 
         .ranking-value-cell.is-best {
-            background: rgba(120, 190, 138, 0.42);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .ranking-value-cell.is-second-best {
-            background: rgba(120, 190, 138, 0.24);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .ranking-value-cell.is-third-best {
-            background: rgba(120, 190, 138, 0.14);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .ranking-discipline-header {
@@ -918,6 +965,35 @@
             white-space: nowrap;
             line-height: 1.1;
             letter-spacing: -0.01em;
+        }
+
+        .ranking-discipline-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 13px;
+            height: 13px;
+            margin-left: 3px;
+            padding: 0 2px;
+            box-sizing: border-box;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .ranking-discipline-rank.is-gold {
+            background: #f4c542;
+            color: #111820;
+        }
+
+        .ranking-discipline-rank.is-silver {
+            background: #cfd7df;
+            color: #111820;
+        }
+
+        .ranking-discipline-rank.is-bronze {
+            background: #d99033;
+            color: #111820;
         }
 
         .ranking-points {
@@ -961,6 +1037,12 @@
             z-index: 20;
             background: transparent;
             transition: transform var(--motion-standard), opacity var(--motion-standard);
+        }
+
+        body.ranking-view-active .view-header-row {
+            position: relative;
+            top: auto;
+            z-index: 1;
         }
 
         .view-header-main {
@@ -1661,7 +1743,7 @@
             }
 
             .app-topbar-actions {
-                margin-right: -14px;
+                margin-right: 0;
             }
 
             .labels-container.is-ranking-layout {
@@ -1953,6 +2035,7 @@
             sidebar.style.width = sidebarWidth + "px";
             sidebar.scrollTop = 0;
             document.body.classList.add('sidebar-open');
+            document.documentElement.classList.add('sidebar-open');
             document.getElementById("main").style.marginLeft = sidebarWidth + "px";
             // Overlay nach 0.5s sichtbar machen
             setTimeout(function() {
@@ -1970,6 +2053,7 @@
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("overlay").style.display = "none"; // Hide overlay
             document.body.classList.remove('sidebar-open');
+            document.documentElement.classList.remove('sidebar-open');
             restoreViewScrollPosition(currentViewKey);
             // Öffnen Standardprofil nach Löschung
             if (profileDeleted) {
@@ -2233,6 +2317,15 @@
             return document.getElementById('contentScrollArea');
         }
 
+        function setRankingViewActive(isActive) {
+            document.body.classList.toggle('ranking-view-active', isActive);
+            document.documentElement.classList.toggle('ranking-view-active', isActive);
+        }
+
+        function isRankingViewKey(viewKey) {
+            return typeof viewKey === 'string' && viewKey.indexOf('ranking:') === 0;
+        }
+
         function pulseElement(element, className) {
             if (!element || !className) {
                 return;
@@ -2319,6 +2412,11 @@
         }
 
         function saveCurrentViewScrollPosition() {
+            if (isRankingViewKey(currentViewKey)) {
+                viewScrollPositions[currentViewKey] = window.scrollY || document.documentElement.scrollTop || 0;
+                return;
+            }
+
             const contentScrollArea = getContentScrollArea();
             viewScrollPositions[currentViewKey] = contentScrollArea ? contentScrollArea.scrollTop : 0;
         }
@@ -2327,6 +2425,15 @@
             const targetPosition = viewScrollPositions[viewKey] || 0;
             requestAnimationFrame(function() {
                 const contentScrollArea = getContentScrollArea();
+                if (isRankingViewKey(viewKey)) {
+                    if (contentScrollArea) {
+                        contentScrollArea.scrollTop = 0;
+                    }
+                    window.scrollTo(0, targetPosition);
+                    return;
+                }
+
+                window.scrollTo(0, 0);
                 if (contentScrollArea) {
                     contentScrollArea.scrollTop = targetPosition;
                 }
@@ -2628,6 +2735,7 @@
                 saveCurrentViewScrollPosition();
                 closeNav();
                 document.body.classList.add('content-view-active');
+                setRankingViewActive(false);
                 document.getElementById('main').classList.add('is-content-view');
                 document.querySelector('.labels-container').classList.remove('is-ranking-layout');
                 document.querySelector('.labels-container').classList.remove('is-document-layout');
@@ -2795,6 +2903,7 @@
 
             saveCurrentViewScrollPosition();
             document.body.classList.add('content-view-active');
+            setRankingViewActive(true);
             document.getElementById('main').classList.add('is-content-view');
             document.querySelector('.center').textContent = ranking.name;
             currentViewKey = `ranking:${ranking.name}`;
@@ -2817,6 +2926,7 @@
         function openFaustregelnView() {
             saveCurrentViewScrollPosition();
             document.body.classList.add('content-view-active');
+            setRankingViewActive(false);
             document.getElementById('main').classList.add('is-content-view');
             document.querySelector('.center').textContent = 'Faustregeln';
             currentViewKey = 'document:faustregeln';
@@ -2934,6 +3044,7 @@
             entries.forEach((entry, index) => {
                 const row = document.createElement('div');
                 row.className = 'ranking-row';
+
                 const totalLeader = entries[0].totalPoints;
                 const totalBehind = totalLeader - entry.totalPoints;
 
@@ -2977,7 +3088,33 @@
 
                     const performance = document.createElement('div');
                     performance.className = 'ranking-subvalue';
-                    performance.textContent = `${value || '—'} (${disciplineRank}.)`;
+                    performance.appendChild(document.createTextNode(value || '—'));
+
+                    const isHighlightedDisciplineRank = currentPoints > 0 && disciplineRank >= 1 && disciplineRank <= 3;
+
+                    if (isHighlightedDisciplineRank) {
+                        performance.appendChild(document.createTextNode(' '));
+                    } else {
+                        performance.appendChild(document.createTextNode(' ('));
+                    }
+
+                    const disciplineRankElement = document.createElement('span');
+                    disciplineRankElement.textContent = isHighlightedDisciplineRank ? disciplineRank : `${disciplineRank}.`;
+                    if (isHighlightedDisciplineRank) {
+                        disciplineRankElement.className = 'ranking-discipline-rank';
+                    }
+
+                    if (isHighlightedDisciplineRank && disciplineRank === 1) {
+                        disciplineRankElement.classList.add('is-gold');
+                    } else if (isHighlightedDisciplineRank && disciplineRank === 2) {
+                        disciplineRankElement.classList.add('is-silver');
+                    } else if (isHighlightedDisciplineRank && disciplineRank === 3) {
+                        disciplineRankElement.classList.add('is-bronze');
+                    }
+                    performance.appendChild(disciplineRankElement);
+                    if (!isHighlightedDisciplineRank) {
+                        performance.appendChild(document.createTextNode(')'));
+                    }
                     valueCell.appendChild(performance);
 
                     const cumulative = document.createElement('div');
@@ -3651,6 +3788,7 @@
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
             document.body.classList.remove('content-view-active');
+            setRankingViewActive(false);
             document.getElementById('main').classList.remove('is-content-view');
             document.querySelector('.center').textContent = defaultTitle;
             currentViewKey = 'home';
