@@ -37,8 +37,6 @@
             --shadow-soft: 0 16px 30px rgba(0, 0, 0, 0.16);
             --shadow-mid: 0 20px 42px rgba(0, 0, 0, 0.22);
             --radius-card: 22px;
-            --app-topbar-height: 0px;
-            --view-header-height: 0px;
         }
 
         html,
@@ -54,7 +52,6 @@
             background-size: 100vw 100vh;
             background-position: center top;
             background-attachment: fixed;
-            height: 100dvh;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -96,7 +93,7 @@
             width: 100%;
             box-sizing: border-box;
             margin: 0;
-            padding: 10px 4px 12px 16px;
+            padding: 10px 16px 12px 16px;
             position: sticky;
             top: 0;
             z-index: 30;
@@ -107,7 +104,7 @@
         }
 
         .app-topbar.is-content-view {
-            padding-right: 0;
+            padding-right: 2px;
         }
 
         #stickyTitleBackdrop {
@@ -131,27 +128,6 @@
             display: block;
         }
 
-        html.content-view-active,
-        body.content-view-active {
-            height: 100%;
-            min-height: 0;
-            overflow: hidden;
-        }
-
-        html.content-view-active.sidebar-open,
-        body.content-view-active.sidebar-open {
-            height: 100dvh;
-            overflow: hidden;
-        }
-
-        body.content-view-active .content-scroll-area {
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 0;
-            padding-bottom: max(128px, calc(env(safe-area-inset-bottom) + 96px));
-            scroll-padding-bottom: max(128px, calc(env(safe-area-inset-bottom) + 96px));
-        }
-
         .app-topbar-menu {
             flex: 0 0 auto;
         }
@@ -164,7 +140,7 @@
             flex: 0 0 auto;
             margin-left: auto;
             padding-right: 0;
-            margin-right: 0;
+            margin-right: -15px;
         }
 
         .home-intro {
@@ -182,48 +158,11 @@
             overflow-x: hidden;
             overscroll-behavior-y: contain;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
-            scroll-padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
-            box-sizing: border-box;
+            padding-bottom: max(18px, env(safe-area-inset-bottom));
         }
 
         body.sidebar-open .content-scroll-area {
             overflow: hidden;
-        }
-
-        html.sidebar-open,
-        body.sidebar-open {
-            overscroll-behavior: contain;
-        }
-
-        html.ranking-view-active,
-        body.ranking-view-active {
-            height: auto;
-            overflow-y: auto;
-        }
-
-        html.ranking-view-active.sidebar-open,
-        body.ranking-view-active.sidebar-open {
-            height: 100dvh;
-            overflow: hidden;
-        }
-
-        html.ranking-view-active body {
-            min-height: 100vh;
-        }
-
-        body.ranking-view-active .app-topbar {
-            position: relative;
-            top: auto;
-        }
-
-        body.ranking-view-active #stickyTitleBackdrop {
-            display: none;
-        }
-
-        body.ranking-view-active .content-scroll-area {
-            overflow: visible;
-            padding-bottom: 0;
         }
 
         .icon-container {
@@ -317,13 +256,6 @@
             color: rgba(255, 255, 255, 0.42);
             font-size: 52px;
             font-weight: bold;
-        }
-
-        .home-action-faustregeln .home-action-icon img {
-            width: min(100%, 26vh);
-            height: min(100%, 26vh);
-            max-height: 78%;
-            object-fit: contain;
         }
 
         .install-hint {
@@ -420,42 +352,6 @@
         .labels-container.is-ranking-layout {
             width: calc(100% - 12px);
             max-width: none;
-            padding-bottom: max(110px, env(safe-area-inset-bottom));
-        }
-
-        .labels-container.is-document-layout {
-            width: calc(100% - 32px);
-            max-width: 1080px;
-        }
-
-        .document-view-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            padding: 18px;
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-card);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.045) 100%);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .document-view-image-scroll {
-            width: 100%;
-            max-height: 72vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            border: 1px solid var(--border-mid);
-            border-radius: 18px;
-            background: rgba(15, 18, 21, 0.72);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .document-view-image {
-            display: block;
-            width: 100%;
-            height: auto;
-            object-fit: contain;
         }
 
         .label {
@@ -522,7 +418,7 @@
         }
 
         ::placeholder {
-            color: rgba(91, 106, 120, 0.7);
+            color: rgba(177, 187, 198, 0.82);
             font-style: italic;
         }
 
@@ -531,30 +427,16 @@
             display: none;
             position: fixed;
             top: 0;
-            bottom: 0;
             left: 0;
             width: 200px;
-            height: auto;
-            max-height: none;
-            box-sizing: border-box;
+            height: 100%;
             background: linear-gradient(180deg, #555d66 0%, #4f5761 100%);
             z-index: 50;
-            overflow-x: hidden;
-            overflow-y: auto;
-            overscroll-behavior-y: contain;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
             transition: 0.5s;
-            padding-top: 60px;
-            padding-bottom: max(140px, calc(env(safe-area-inset-bottom) + 104px));
-            scroll-padding-bottom: max(140px, calc(env(safe-area-inset-bottom) + 104px));
+            padding-top: 0;
             box-shadow: 18px 0 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu::after {
-            content: "";
-            display: block;
-            height: max(80px, calc(env(safe-area-inset-bottom) + 48px));
-            flex: 0 0 auto;
+            flex-direction: column;
         }
 
         .menu a {
@@ -571,9 +453,7 @@
         }
 
         .menu .closebtn {
-            position: absolute;
-            top: 0;
-            right: 0;
+            position: static;
             font-size: 36px;
             margin-left: 0;
             color: white;
@@ -582,15 +462,96 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            border: none;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            cursor: pointer;
         }
 
-        #profileList {
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex: 0 0 auto;
+        }
+
+        .sidebar-header-main {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .sidebar-header-title {
+            min-width: 0;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-header-back {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0;
+            cursor: pointer;
+            flex: 0 0 auto;
+            transform: translateY(-1px);
+        }
+
+        .sidebar-header-back.is-visible {
+            display: inline-flex;
+        }
+
+        #sidebarContent {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 10px 0 max(14px, env(safe-area-inset-bottom));
+            position: relative;
+        }
+
+        #profileList,
+        #comparisonList,
+        #competitionList,
+        #rankingList {
             margin-top: 12px;
             position: relative;
         }
 
         .sidebar-section {
             margin-top: 20px;
+        }
+
+        .sidebar-section:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-right: 10px;
         }
 
         .sidebar-section-title {
@@ -603,6 +564,45 @@
             text-transform: uppercase;
         }
 
+        .sidebar-section-control {
+            border: none;
+            background: rgba(38, 38, 38, 0.84);
+            color: white;
+            border-radius: 10px;
+            padding: 7px 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .sidebar-section-control:hover {
+            background: rgba(31, 35, 40, 0.96);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-context-close {
+            width: calc(100% - 24px);
+            margin: 0 12px 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            border-radius: 12px;
+            padding: 11px 12px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .sidebar-context-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(1px);
+        }
+
         .ranking-sidebar-item {
             display: flex;
             align-items: center;
@@ -610,97 +610,9 @@
             margin-bottom: 5px;
         }
 
-        .archive-profile-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        #archiveSection {
-            margin-top: 28px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .archive-create-ranking {
-            margin: 4px 8px 10px 12px;
-            width: calc(100% - 20px);
-            justify-content: center;
-            text-align: center;
-        }
-
-        .archive-sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 8px 12px 6px;
-        }
-
-        .archive-back-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-            cursor: pointer;
-            font-size: 24px;
-            line-height: 1;
-            padding: 0 0 2px 0;
-            transition: background-color var(--motion-standard), transform var(--motion-standard);
-        }
-
-        .archive-back-button:hover {
-            background: rgba(255, 255, 255, 0.14);
-            transform: translateX(-1px);
-        }
-
-        .archive-sidebar-title {
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: white;
-            font-family: 'Roboto', sans-serif;
-            font-size: 20px;
-            font-weight: bold;
-            line-height: 34px;
-        }
-
-        .archive-folder {
-            margin-top: 5px;
-        }
-
-        .archive-folder-entry {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .profile-manage-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .profile-manage-action {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            align-self: stretch !important;
-            flex: 1 1 0;
-            min-width: 0;
-            padding: 12px 14px !important;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .profile-item {
+        .profile-item,
+        .competition-item,
+        .comparison-sidebar-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -853,9 +765,8 @@
             opacity: 0.6;
         }
 
-        .archive-folder-entry.dragging,
-        .archive-profile-item.dragging {
-            opacity: 0.6;
+        .competition-item.dragging {
+            opacity: 0.65;
         }
 
         .profile-drop-indicator {
@@ -863,6 +774,72 @@
             border-top: 2px solid #f1f1f1;
             margin: 4px 8px;
             pointer-events: none;
+        }
+
+        .competition-drop-indicator {
+            height: 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.86);
+            margin: 4px 12px;
+            pointer-events: none;
+        }
+
+        .ranking-drop-indicator {
+            height: 0;
+            border-top: 2px solid rgba(255, 255, 255, 0.86);
+            margin: 4px 8px;
+            pointer-events: none;
+        }
+
+        .sidebar-content-animate-forward {
+            animation: sidebar-context-forward 240ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-content-animate-backward {
+            animation: sidebar-context-backward 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-drop-tray {
+            display: none;
+            flex: 0 0 auto;
+            padding: 10px 10px max(12px, env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(180deg, rgba(84, 92, 102, 0.96) 0%, rgba(72, 79, 87, 0.98) 100%);
+            box-shadow: 0 -14px 26px rgba(0, 0, 0, 0.16);
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .sidebar-drop-tray.is-visible {
+            display: flex;
+        }
+
+        .sidebar-drop-tray-title {
+            color: rgba(255, 255, 255, 0.74);
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0 4px;
+        }
+
+        .sidebar-drop-target {
+            border: 1px dashed rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), border-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .sidebar-drop-target.is-active,
+        .sidebar-drop-target:hover {
+            background: rgba(143, 208, 163, 0.16);
+            border-color: rgba(143, 208, 163, 0.4);
+            transform: translateY(-1px);
         }
 
         /* Overlay styles */
@@ -879,7 +856,7 @@
 
         #main {
             transition: margin-left .5s;
-            padding: 16px 0 16px 16px;
+            padding: 16px;
             display: grid;
             grid-template-columns: 44px minmax(0, 1fr) auto;
             align-items: center;
@@ -965,8 +942,6 @@
         }
 
         .ranking-cell {
-            position: relative;
-            overflow: hidden;
             min-height: 76px;
             padding: 10px 10px;
             box-sizing: border-box;
@@ -1047,15 +1022,15 @@
         }
 
         .ranking-value-cell.is-best {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(120, 190, 138, 0.42);
         }
 
         .ranking-value-cell.is-second-best {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(120, 190, 138, 0.24);
         }
 
         .ranking-value-cell.is-third-best {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(120, 190, 138, 0.14);
         }
 
         .ranking-discipline-header {
@@ -1067,10 +1042,8 @@
         }
 
         .ranking-value-cell {
-            display: grid;
-            grid-template-rows: 19px 14px 14px;
-            align-content: center;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             gap: 4px;
             text-align: center;
@@ -1085,56 +1058,14 @@
             font-weight: bold;
             color: #ffffff;
             white-space: nowrap;
-            line-height: 19px;
         }
 
         .ranking-subvalue {
             font-size: 12px;
             color: #d6dde4;
             white-space: nowrap;
-            line-height: 14px;
+            line-height: 1.1;
             letter-spacing: -0.01em;
-        }
-
-        .ranking-performance {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            height: 14px;
-        }
-
-        .ranking-cumulative {
-            height: 14px;
-        }
-
-        .ranking-discipline-rank {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 12px;
-            height: 12px;
-            margin-left: 3px;
-            padding: 0 2px;
-            box-sizing: border-box;
-            font-size: 10px;
-            font-weight: bold;
-            line-height: 12px;
-        }
-
-        .ranking-discipline-rank.is-gold {
-            background: #f4c542;
-            color: #111820;
-        }
-
-        .ranking-discipline-rank.is-silver {
-            background: #cfd7df;
-            color: #111820;
-        }
-
-        .ranking-discipline-rank.is-bronze {
-            background: #d99033;
-            color: #111820;
         }
 
         .ranking-points {
@@ -1175,19 +1106,9 @@
             animation: view-fade-in 0.22s ease;
             position: sticky;
             top: 0;
-            z-index: 24;
-            background-color: var(--page-bg-color);
-            background-image: var(--page-bg-image);
-            background-repeat: no-repeat;
-            background-size: 100vw 100vh;
-            background-position: center top;
+            z-index: 20;
+            background: transparent;
             transition: transform var(--motion-standard), opacity var(--motion-standard);
-        }
-
-        body.ranking-view-active .view-header-row {
-            position: relative;
-            top: auto;
-            z-index: 1;
         }
 
         .view-header-main {
@@ -1323,13 +1244,9 @@
             padding: 8px 0 10px 0;
             margin-bottom: 6px;
             position: sticky;
-            top: var(--view-header-height);
-            z-index: 23;
-            background-color: var(--page-bg-color);
-            background-image: var(--page-bg-image);
-            background-repeat: no-repeat;
-            background-size: 100vw 100vh;
-            background-position: center top;
+            top: 0;
+            z-index: 20;
+            background: transparent;
             transition: background 0.18s ease;
             font-family: 'Roboto', sans-serif;
         }
@@ -1601,6 +1518,28 @@
             }
         }
 
+        @keyframes sidebar-context-forward {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes sidebar-context-backward {
+            from {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .profile-total-summary.is-updated,
         .comparison-total-summary.is-updated {
             animation: summary-glow 0.72s ease;
@@ -1734,7 +1673,7 @@
 
             .app-topbar {
                 gap: 8px;
-                padding: 10px 4px 12px 12px;
+                padding: 10px 12px 12px 12px;
             }
 
             .home-top-title {
@@ -1892,7 +1831,7 @@
             }
 
             .app-topbar-actions {
-                margin-right: 0;
+                margin-right: -14px;
             }
 
             .labels-container.is-ranking-layout {
@@ -1902,7 +1841,7 @@
             .app-topbar {
                 gap: 6px;
                 padding-left: 10px;
-                padding-right: 4px;
+                padding-right: 10px;
             }
 
             .home-action {
@@ -1925,16 +1864,15 @@
 <body class="background-dark">
     <!-- Menü -->
     <div id="mySidebar" class="menu">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <div id="profileSection" class="sidebar-section">
-            <div class="sidebar-section-title">Profile</div>
-            <div id="profileList"></div>
+        <div class="sidebar-header">
+            <div class="sidebar-header-main">
+                <button id="sidebarBackButton" type="button" class="sidebar-header-back" onclick="setCompetitionContext(null)">❮</button>
+                <div id="sidebarHeaderTitle" class="sidebar-header-title"></div>
+            </div>
+            <button type="button" class="closebtn" onclick="closeNav()">×</button>
         </div>
-        <div id="rankingSection" class="sidebar-section">
-            <div class="sidebar-section-title">Rankings</div>
-            <div id="rankingList"></div>
-        </div>
-        <div id="archiveSection" class="sidebar-section"></div>
+        <div id="sidebarContent"></div>
+        <div id="sidebarDropTray" class="sidebar-drop-tray"></div>
     </div>
 
     <!-- Overlay -->
@@ -1947,7 +1885,6 @@
             <img src="imgs/new_profile.png" onclick="openProfileWindow()">
             <img src="imgs/comparison.png" onclick="openAthleteComparison()">
             <img src="imgs/table_icon.png" onclick="openRanking()">
-            <img src="imgs/thumbrules.png" onclick="openFaustregelnView()">
         </div>
     </div>
     
@@ -1982,11 +1919,11 @@
                     <span class="home-action-title">Ranking erstellen</span>
                 </button>
 
-                <button class="home-action home-action-faustregeln" type="button" onclick="openFaustregelnView()">
+                <button class="home-action" type="button" onclick="openCompetitionWindow()">
                     <span class="home-action-icon">
-                        <img src="imgs/thumbrules.png" alt="Faustregeln">
+                        <img src="imgs/folder.png" alt="Wettkampf">
                     </span>
-                    <span class="home-action-title">Faustregeln</span>
+                    <span class="home-action-title">Wettkampf erstellen</span>
                 </button>
             </div>
 
@@ -2010,34 +1947,42 @@
         let currentViewKey = 'home';
         let deferredInstallPrompt = null;
         const installHintDismissKey = 'installHintDismissed';
+        const sidebarStateStorageKey = 'sidebarCompetitionState';
+        let currentCompetitionId = null;
+        let lastSelectedCompetitionId = null;
+        let lastRenderedCompetitionId = null;
+        let draggedProfileName = null;
+        let draggedSidebarCompetitionId = null;
+        let draggedRankingName = null;
+        let competitionDropIndicator = null;
+        let rankingDropIndicator = null;
 
-        // Profile speichern
-        function saveProfilesToLocalStorage() {
-            localStorage.setItem('profiles', JSON.stringify(profiles));
+        function saveSidebarStateToLocalStorage() {
+            localStorage.setItem(sidebarStateStorageKey, JSON.stringify({
+                currentCompetitionId: currentCompetitionId,
+                lastSelectedCompetitionId: lastSelectedCompetitionId
+            }));
         }
 
-        function saveArchiveFolderOrderToLocalStorage() {
-            localStorage.setItem('archiveFolderOrder', JSON.stringify(archiveFolderOrder));
-        }
-
-        function loadArchiveFolderOrderFromLocalStorage() {
-            archiveFolderOrder.splice(0, archiveFolderOrder.length);
-            const savedOrder = localStorage.getItem('archiveFolderOrder');
-            if (!savedOrder) {
+        function loadSidebarStateFromLocalStorage() {
+            const savedState = localStorage.getItem(sidebarStateStorageKey);
+            if (!savedState) {
                 return;
             }
 
             try {
-                JSON.parse(savedOrder).forEach(function(folderName) {
-                    const normalizedFolderName = normalizeArchiveFolderName(folderName);
-                    if (normalizedFolderName && !archiveFolderOrder.includes(normalizedFolderName)) {
-                        archiveFolderOrder.push(normalizedFolderName);
-                    }
-                });
+                const parsed = JSON.parse(savedState);
+                currentCompetitionId = parsed && typeof parsed.currentCompetitionId === 'string' ? parsed.currentCompetitionId : null;
+                lastSelectedCompetitionId = parsed && typeof parsed.lastSelectedCompetitionId === 'string' ? parsed.lastSelectedCompetitionId : null;
             } catch (error) {
-                console.error('Archivordner-Reihenfolge konnte nicht geladen werden:', error);
-                localStorage.removeItem('archiveFolderOrder');
+                console.error('Sidebar-Zustand konnte nicht geladen werden:', error);
+                localStorage.removeItem(sidebarStateStorageKey);
             }
+        }
+
+        // Profile speichern
+        function saveProfilesToLocalStorage() {
+            localStorage.setItem('profiles', JSON.stringify(profiles));
         }
 
         // Profile laden
@@ -2167,8 +2112,7 @@
 
             profile.results = profile.results.slice(0, expectedLength).map(result => result === '' ? '0' : String(result));
             profile.values = profile.values.slice(0, expectedLength).map(value => value == null ? '' : String(value));
-            profile.archived = profile.archived === true;
-            profile.archiveFolder = profile.archived ? normalizeArchiveFolderName(profile.archiveFolder) : '';
+            profile.competitionId = getCompetitionById(profile.competitionId) ? profile.competitionId : null;
 
             if (profile.type === 'comparison') {
                 const [athlete1, athlete2] = getComparisonAthletes(profile.name);
@@ -2194,61 +2138,134 @@
             return profileName.trim().replace(/\s+/g, ' ');
         }
 
-        function normalizeArchiveFolderName(folderName) {
-            const sanitizedFolderName = sanitizeProfileName(folderName);
-            return sanitizedFolderName.replace(/[\\/]+/g, '-');
+        function createCompetitionId() {
+            return 'competition_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
         }
 
-        function getArchiveFolderLabel(folderName) {
-            return normalizeArchiveFolderName(folderName) || 'Ohne Ordner';
+        function sanitizeCompetitionId(competitionId) {
+            return typeof competitionId === 'string' && competitionId.trim() ? competitionId.trim() : null;
         }
 
-        function isActiveSingleProfile(profile) {
-            return profile && profile.type === 'single' && profile.name !== defaultTitle && profile.archived !== true;
+        function getCompetitionById(competitionId) {
+            return competitions.find(function(competition) {
+                return competition.id === competitionId;
+            }) || null;
         }
 
-        function isArchivedSingleProfile(profile) {
-            return profile && profile.type === 'single' && profile.name !== defaultTitle && profile.archived === true;
+        function ensureCompetitionShape(competition) {
+            if (!competition || typeof competition !== 'object') {
+                return null;
+            }
+
+            const name = sanitizeProfileName(competition.name);
+            if (!name) {
+                return null;
+            }
+
+            competition.id = sanitizeCompetitionId(competition.id) || createCompetitionId();
+            competition.name = name;
+            return competition;
         }
 
-        function getActiveSingleProfiles() {
-            return profiles.filter(isActiveSingleProfile);
+        function saveCompetitionsToLocalStorage() {
+            localStorage.setItem('competitions', JSON.stringify(competitions));
         }
 
-        function getArchivedSingleProfiles() {
-            return profiles.filter(isArchivedSingleProfile);
-        }
+        function loadCompetitionsFromLocalStorage() {
+            competitions.splice(0, competitions.length);
+            const savedCompetitions = localStorage.getItem('competitions');
+            if (!savedCompetitions) {
+                return;
+            }
 
-        function getArchiveFolderProfiles(folderName) {
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            return getArchivedSingleProfiles().filter(function(profile) {
-                return normalizeArchiveFolderName(profile.archiveFolder) === normalizedFolderName;
-            });
-        }
+            try {
+                JSON.parse(savedCompetitions).forEach(function(competition) {
+                    const normalizedCompetition = ensureCompetitionShape(competition);
+                    if (!normalizedCompetition) {
+                        return;
+                    }
 
-        function getArchiveFolderNames() {
-            const folderNames = Array.from(new Set(
-                getArchivedSingleProfiles()
-                    .map(function(profile) {
-                        return normalizeArchiveFolderName(profile.archiveFolder);
-                    })
-                    .filter(function(folderName) {
-                        return folderName !== '';
-                    })
-            ));
-
-            const orderedFolders = archiveFolderOrder.filter(function(folderName) {
-                return folderNames.includes(folderName);
-            });
-            const unorderedFolders = folderNames
-                .filter(function(folderName) {
-                    return !orderedFolders.includes(folderName);
-                })
-                .sort(function(folderA, folderB) {
-                    return folderA.localeCompare(folderB, 'de');
+                    if (!competitions.some(function(existingCompetition) {
+                        return existingCompetition.id === normalizedCompetition.id;
+                    })) {
+                        competitions.push(normalizedCompetition);
+                    }
                 });
+            } catch (error) {
+                console.error('Wettkämpfe konnten nicht aus dem localStorage geladen werden:', error);
+                localStorage.removeItem('competitions');
+            }
+        }
 
-            return orderedFolders.concat(unorderedFolders);
+        function getRootCompetitionLabel() {
+            return 'Ohne Wettkampf';
+        }
+
+        function getPreferredCompetitionId(fallbackCompetitionId = null) {
+            const candidateIds = [
+                sanitizeCompetitionId(fallbackCompetitionId),
+                sanitizeCompetitionId(currentCompetitionId),
+                sanitizeCompetitionId(lastSelectedCompetitionId)
+            ].filter(Boolean);
+
+            for (const candidateId of candidateIds) {
+                if (getCompetitionById(candidateId)) {
+                    return candidateId;
+                }
+            }
+
+            return '';
+        }
+
+        function setCompetitionContext(competitionId) {
+            const previousCompetitionId = currentCompetitionId;
+            currentCompetitionId = sanitizeCompetitionId(competitionId);
+            if (currentCompetitionId && getCompetitionById(currentCompetitionId)) {
+                lastSelectedCompetitionId = currentCompetitionId;
+            } else if (currentCompetitionId && !getCompetitionById(currentCompetitionId)) {
+                currentCompetitionId = null;
+            }
+
+            saveSidebarStateToLocalStorage();
+            renderSidebar(previousCompetitionId !== currentCompetitionId ? (currentCompetitionId ? 'forward' : 'backward') : '');
+        }
+
+        function getProfileCompetitionId(profile) {
+            return profile && getCompetitionById(profile.competitionId) ? profile.competitionId : null;
+        }
+
+        function getRankingCompetitionId(ranking) {
+            return ranking && getCompetitionById(ranking.competitionId) ? ranking.competitionId : null;
+        }
+
+        function getProfilesForCompetition(competitionId, profileType = null) {
+            return profiles.filter(function(profile) {
+                const matchesCompetition = getProfileCompetitionId(profile) === sanitizeCompetitionId(competitionId);
+                const matchesType = !profileType || profile.type === profileType;
+                return matchesCompetition && matchesType && profile.name !== defaultTitle;
+            });
+        }
+
+        function getRankingsForCompetition(competitionId) {
+            return rankings.filter(function(ranking) {
+                return getRankingCompetitionId(ranking) === sanitizeCompetitionId(competitionId);
+            });
+        }
+
+        function getSelectableProfiles(competitionId = null) {
+            return profiles.filter(function(profile) {
+                return profile.type === 'single'
+                    && profile.name !== defaultTitle
+                    && getProfileCompetitionId(profile) === sanitizeCompetitionId(competitionId);
+            });
+        }
+
+        function setLastSelectedCompetitionId(competitionId) {
+            const normalizedCompetitionId = sanitizeCompetitionId(competitionId);
+            lastSelectedCompetitionId = normalizedCompetitionId && getCompetitionById(normalizedCompetitionId)
+                ? normalizedCompetitionId
+                : null;
+            saveSidebarStateToLocalStorage();
         }
 
         function toggleNav() {
@@ -2268,11 +2285,14 @@
             saveCurrentViewScrollPosition();
             var sidebar = document.getElementById("mySidebar");
             var sidebarWidth = getSidebarWidth();
-            sidebar.style.display = "block";
+            sidebar.style.display = "flex";
             sidebar.style.width = sidebarWidth + "px";
-            sidebar.scrollTop = 0;
+            const sidebarContent = document.getElementById('sidebarContent');
+            if (sidebarContent) {
+                sidebarContent.scrollTop = 0;
+            }
+            renderSidebar();
             document.body.classList.add('sidebar-open');
-            document.documentElement.classList.add('sidebar-open');
             document.getElementById("main").style.marginLeft = sidebarWidth + "px";
             // Overlay nach 0.5s sichtbar machen
             setTimeout(function() {
@@ -2290,7 +2310,7 @@
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("overlay").style.display = "none"; // Hide overlay
             document.body.classList.remove('sidebar-open');
-            document.documentElement.classList.remove('sidebar-open');
+            hideSidebarDropTray();
             restoreViewScrollPosition(currentViewKey);
             // Öffnen Standardprofil nach Löschung
             if (profileDeleted) {
@@ -2554,20 +2574,6 @@
             return document.getElementById('contentScrollArea');
         }
 
-        function setContentViewActive(isActive) {
-            document.body.classList.toggle('content-view-active', isActive);
-            document.documentElement.classList.toggle('content-view-active', isActive);
-        }
-
-        function setRankingViewActive(isActive) {
-            document.body.classList.toggle('ranking-view-active', isActive);
-            document.documentElement.classList.toggle('ranking-view-active', isActive);
-        }
-
-        function isRankingViewKey(viewKey) {
-            return typeof viewKey === 'string' && viewKey.indexOf('ranking:') === 0;
-        }
-
         function pulseElement(element, className) {
             if (!element || !className) {
                 return;
@@ -2651,26 +2657,9 @@
                 const titleSize = Math.max(18, Math.min(28, viewportWidth / 13.5));
                 contentTitle.style.fontSize = `${titleSize}px`;
             }
-
-            updateStickyOffsets();
-        }
-
-        function updateStickyOffsets() {
-            const root = document.documentElement;
-            const viewHeader = document.querySelector('.view-header-row');
-            const isRankingView = document.body.classList.contains('ranking-view-active');
-            const viewHeaderHeight = viewHeader && !isRankingView ? Math.ceil(viewHeader.getBoundingClientRect().height) : 0;
-
-            root.style.setProperty('--app-topbar-height', '0px');
-            root.style.setProperty('--view-header-height', `${viewHeaderHeight}px`);
         }
 
         function saveCurrentViewScrollPosition() {
-            if (isRankingViewKey(currentViewKey)) {
-                viewScrollPositions[currentViewKey] = window.scrollY || document.documentElement.scrollTop || 0;
-                return;
-            }
-
             const contentScrollArea = getContentScrollArea();
             viewScrollPositions[currentViewKey] = contentScrollArea ? contentScrollArea.scrollTop : 0;
         }
@@ -2679,15 +2668,6 @@
             const targetPosition = viewScrollPositions[viewKey] || 0;
             requestAnimationFrame(function() {
                 const contentScrollArea = getContentScrollArea();
-                if (isRankingViewKey(viewKey)) {
-                    if (contentScrollArea) {
-                        contentScrollArea.scrollTop = 0;
-                    }
-                    window.scrollTo(0, targetPosition);
-                    return;
-                }
-
-                window.scrollTo(0, 0);
                 if (contentScrollArea) {
                     contentScrollArea.scrollTop = targetPosition;
                 }
@@ -2782,7 +2762,7 @@
             header.style.alignItems = 'flex-start';
             header.style.justifyContent = 'space-between';
             header.style.gap = '16px';
-            header.style.paddingBottom = '4px';
+            header.style.paddingBottom = '10px';
             header.style.borderBottom = '1px solid rgba(24, 33, 44, 0.08)';
 
             var headingGroup = document.createElement('div');
@@ -2814,6 +2794,7 @@
             closeButton.style.lineHeight = '1';
             closeButton.style.cursor = 'pointer';
             closeButton.style.flexShrink = '0';
+            closeButton.style.marginTop = '-6px';
             closeButton.onclick = function() {
                 closeModal(modal);
             };
@@ -2986,13 +2967,17 @@
         // Funktion zum Hinzufügen neuer Profile
         function handleProfileButtonClick(profileName) {
             if (profileName !== defaultTitle) {
+                const selectedProfile = profiles.find(function(profile) {
+                    return profile.name === profileName;
+                });
+                if (selectedProfile) {
+                    setCompetitionContext(selectedProfile.competitionId);
+                }
                 saveCurrentViewScrollPosition();
                 closeNav();
-                setContentViewActive(true);
-                setRankingViewActive(false);
+                document.body.classList.add('content-view-active');
                 document.getElementById('main').classList.add('is-content-view');
                 document.querySelector('.labels-container').classList.remove('is-ranking-layout');
-                document.querySelector('.labels-container').classList.remove('is-document-layout');
                 document.querySelector('.center').textContent = profileName;
                 currentViewKey = `profile:${profileName}`;
                 displayProfileResults(profileName);
@@ -3016,22 +3001,17 @@
                 profileDeleted = false;
                 setActiveSidebarItem('profile', profileName);
                 animateViewEntrance(document.querySelector('.labels-container'));
-                updateResponsiveAppTitles();
                 restoreViewScrollPosition(currentViewKey);
+                updateResponsiveAppTitles();
             } else {
                 navigateToHome();
             }
         }
         // Beispielprofil-Daten
         const profiles = [];
+        const competitions = [];
         const rankings = [];
-        const archiveFolderOrder = [];
-        let draggedProfileName = null;
-        let draggedArchiveFolderName = null;
-        let draggedArchiveProfileName = null;
         let dropIndicator = null;
-        let sidebarMode = 'main';
-        let activeArchiveFolder = '';
 
         function saveRankingsToLocalStorage() {
             localStorage.setItem('rankings', JSON.stringify(rankings));
@@ -3065,8 +3045,7 @@
                     rankings.push({
                         name: sanitizedName,
                         selectedProfiles: selectedProfiles,
-                        type: ranking.type === 'archive' ? 'archive' : 'active',
-                        archiveFolder: ranking.type === 'archive' ? normalizeArchiveFolderName(ranking.archiveFolder) : '',
+                        competitionId: getCompetitionById(ranking.competitionId) ? ranking.competitionId : null,
                         createdAt: ranking.createdAt || new Date().toISOString()
                     });
                 });
@@ -3114,22 +3093,9 @@
                 return [];
             }
 
-            const isArchiveRanking = ranking.type === 'archive';
-            const archiveFolderName = normalizeArchiveFolderName(ranking.archiveFolder);
-
             return ranking.selectedProfiles
                 .map(profileName => profiles.find(profile => profile.name === profileName && profile.type === 'single'))
-                .filter(function(profile) {
-                    if (!profile) {
-                        return false;
-                    }
-
-                    if (isArchiveRanking) {
-                        return profile.archived === true && normalizeArchiveFolderName(profile.archiveFolder) === archiveFolderName;
-                    }
-
-                    return profile.archived !== true;
-                })
+                .filter(Boolean)
                 .map(profile => {
                     ensureProfileShape(profile);
                     const totalPoints = getTotalPointsFromResults(profile.results.slice(0, 10));
@@ -3175,16 +3141,15 @@
                 return;
             }
 
+            setCompetitionContext(ranking.competitionId);
             saveCurrentViewScrollPosition();
-            setContentViewActive(true);
-            setRankingViewActive(true);
+            document.body.classList.add('content-view-active');
             document.getElementById('main').classList.add('is-content-view');
             document.querySelector('.center').textContent = ranking.name;
             currentViewKey = `ranking:${ranking.name}`;
             document.querySelector('.labels-container').style.display = 'block';
             document.querySelector('.labels-container').style.alignItems = 'stretch';
             document.querySelector('.labels-container').classList.add('is-ranking-layout');
-            document.querySelector('.labels-container').classList.remove('is-document-layout');
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
             document.getElementById('top-icons').style.display = 'flex';
@@ -3197,58 +3162,10 @@
             updateResponsiveAppTitles();
         }
 
-        function openFaustregelnView() {
-            saveCurrentViewScrollPosition();
-            setContentViewActive(true);
-            setRankingViewActive(false);
-            document.getElementById('main').classList.add('is-content-view');
-            document.querySelector('.center').textContent = 'Faustregeln';
-            currentViewKey = 'document:faustregeln';
-
-            const labelsContainer = document.querySelector('.labels-container');
-            labelsContainer.style.display = 'block';
-            labelsContainer.style.alignItems = 'stretch';
-            labelsContainer.classList.remove('is-ranking-layout');
-            labelsContainer.classList.add('is-document-layout');
-
-            document.getElementById('home-intro').style.display = 'none';
-            document.getElementById('home-top-title').style.display = 'none';
-            document.getElementById('top-icons').style.display = 'flex';
-
-            closeNav();
-            clearActiveSidebarEntries();
-            displayFaustregelnView();
-            animateViewEntrance(labelsContainer);
-            restoreViewScrollPosition(currentViewKey);
-            updateResponsiveAppTitles();
-        }
-
-        function displayFaustregelnView() {
-            const labelsContainer = document.querySelector('.labels-container');
-            labelsContainer.innerHTML = '';
-            appendViewHeader(labelsContainer, 'Faustregeln');
-
-            const panel = document.createElement('section');
-            panel.className = 'document-view-panel';
-
-            const imageScroll = document.createElement('div');
-            imageScroll.className = 'document-view-image-scroll';
-
-            const image = document.createElement('img');
-            image.className = 'document-view-image';
-            image.src = 'imgs/Faustregeln.png';
-            image.alt = 'Faustregeln';
-            imageScroll.appendChild(image);
-
-            panel.appendChild(imageScroll);
-
-            labelsContainer.appendChild(panel);
-        }
-
         function displayRankingResults(ranking) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
-            appendViewHeader(labelsContainer, ranking.name, ranking.type === 'archive' ? null : function() {
+            appendViewHeader(labelsContainer, ranking.name, function() {
                 openRankingWindow(ranking.name);
             });
 
@@ -3318,7 +3235,6 @@
             entries.forEach((entry, index) => {
                 const row = document.createElement('div');
                 row.className = 'ranking-row';
-
                 const totalLeader = entries[0].totalPoints;
                 const totalBehind = totalLeader - entry.totalPoints;
 
@@ -3361,38 +3277,12 @@
                     valueCell.appendChild(points);
 
                     const performance = document.createElement('div');
-                    performance.className = 'ranking-subvalue ranking-performance';
-                    performance.appendChild(document.createTextNode(value || '—'));
-
-                    const isHighlightedDisciplineRank = currentPoints > 0 && disciplineRank >= 1 && disciplineRank <= 3;
-
-                    if (isHighlightedDisciplineRank) {
-                        performance.appendChild(document.createTextNode(' '));
-                    } else {
-                        performance.appendChild(document.createTextNode(' ('));
-                    }
-
-                    const disciplineRankElement = document.createElement('span');
-                    disciplineRankElement.textContent = isHighlightedDisciplineRank ? disciplineRank : `${disciplineRank}.`;
-                    if (isHighlightedDisciplineRank) {
-                        disciplineRankElement.className = 'ranking-discipline-rank';
-                    }
-
-                    if (isHighlightedDisciplineRank && disciplineRank === 1) {
-                        disciplineRankElement.classList.add('is-gold');
-                    } else if (isHighlightedDisciplineRank && disciplineRank === 2) {
-                        disciplineRankElement.classList.add('is-silver');
-                    } else if (isHighlightedDisciplineRank && disciplineRank === 3) {
-                        disciplineRankElement.classList.add('is-bronze');
-                    }
-                    performance.appendChild(disciplineRankElement);
-                    if (!isHighlightedDisciplineRank) {
-                        performance.appendChild(document.createTextNode(')'));
-                    }
+                    performance.className = 'ranking-subvalue';
+                    performance.textContent = `${value || '—'} (${disciplineRank}.)`;
                     valueCell.appendChild(performance);
 
                     const cumulative = document.createElement('div');
-                    cumulative.className = 'ranking-subvalue ranking-cumulative';
+                    cumulative.className = 'ranking-subvalue';
                     cumulative.textContent = `${cumulativePoints} P (${cumulativeRank}.)`;
                     valueCell.appendChild(cumulative);
 
@@ -3584,7 +3474,6 @@
             const sidebar = document.getElementById('mySidebar');
             let rankingSection = document.getElementById('rankingSection');
             let rankingList = document.getElementById('rankingList');
-            const archiveSection = document.getElementById('archiveSection');
 
             if (!rankingSection) {
                 rankingSection = document.createElement('div');
@@ -3599,11 +3488,7 @@
                 rankingList = document.createElement('div');
                 rankingList.id = 'rankingList';
                 rankingSection.appendChild(rankingList);
-                if (archiveSection) {
-                    sidebar.insertBefore(rankingSection, archiveSection);
-                } else {
-                    sidebar.appendChild(rankingSection);
-                }
+                sidebar.appendChild(rankingSection);
             } else if (!rankingList) {
                 rankingList = document.createElement('div');
                 rankingList.id = 'rankingList';
@@ -3613,672 +3498,15 @@
             return rankingList;
         }
 
-        function getArchiveSectionElement() {
-            const sidebar = document.getElementById('mySidebar');
-            let archiveSection = document.getElementById('archiveSection');
-
-            if (!archiveSection) {
-                archiveSection = document.createElement('div');
-                archiveSection.id = 'archiveSection';
-                archiveSection.className = 'sidebar-section';
-                sidebar.appendChild(archiveSection);
-            }
-
-            return archiveSection;
-        }
-
-        function findArchiveProfileItemByName(profileName) {
-            const archiveSection = getArchiveSectionElement();
-            return Array.from(archiveSection.querySelectorAll('.archive-profile-item'))
-                .find(item => item.dataset.profileName === profileName) || null;
-        }
-
-        function getArchiveFolderItems(includeDragging = true) {
-            const archiveSection = getArchiveSectionElement();
-            const items = Array.from(archiveSection.querySelectorAll('.archive-folder-entry'));
-            if (includeDragging) {
-                return items;
-            }
-            return items.filter(function(item) {
-                return !item.classList.contains('dragging');
-            });
-        }
-
-        function getArchiveProfileItems(includeDragging = true) {
-            const archiveSection = getArchiveSectionElement();
-            const items = Array.from(archiveSection.querySelectorAll('.archive-profile-item'));
-            if (includeDragging) {
-                return items;
-            }
-            return items.filter(function(item) {
-                return !item.classList.contains('dragging');
-            });
-        }
-
-        function getDropIndexByYForItems(items, clientY) {
-            for (let i = 0; i < items.length; i++) {
-                const rect = items[i].getBoundingClientRect();
-                if (clientY < rect.top + (rect.height / 2)) {
-                    return i;
-                }
-            }
-            return items.length;
-        }
-
-        function placeArchiveDropIndicator(container, items, dropIndex) {
-            const indicator = ensureDropIndicator();
-            const targetItem = items[dropIndex];
-
-            removeDropIndicator();
-
-            if (targetItem) {
-                container.insertBefore(indicator, targetItem);
-            } else {
-                container.appendChild(indicator);
-            }
-        }
-
-        function reorderArchiveFoldersBySidebarOrder() {
-            const orderedFolders = getArchiveFolderItems()
-                .map(function(item) {
-                    return normalizeArchiveFolderName(item.dataset.folderName);
-                })
-                .filter(function(folderName) {
-                    return folderName !== '';
-                });
-
-            archiveFolderOrder.splice(0, archiveFolderOrder.length, ...orderedFolders);
-            saveArchiveFolderOrderToLocalStorage();
-        }
-
-        function reorderArchivedProfilesBySidebarOrder(folderName) {
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            const orderedNames = getArchiveProfileItems(true).map(function(item) {
-                return item.dataset.profileName;
-            });
-            const profileMap = new Map(profiles.map(function(profile) {
-                return [profile.name, profile];
-            }));
-            const reorderedFolderProfiles = [];
-            const remainingProfiles = [];
-
-            orderedNames.forEach(function(profileName) {
-                const profile = profileMap.get(profileName);
-                if (profile) {
-                    reorderedFolderProfiles.push(profile);
-                    profileMap.delete(profileName);
-                }
-            });
-
-            profiles.forEach(function(profile) {
-                if (!profileMap.has(profile.name)) {
-                    return;
-                }
-
-                if (profile.archived === true && normalizeArchiveFolderName(profile.archiveFolder) === normalizedFolderName) {
-                    return;
-                }
-
-                remainingProfiles.push(profile);
-            });
-
-            profiles.splice(0, profiles.length, ...remainingProfiles, ...reorderedFolderProfiles);
-            saveProfilesToLocalStorage();
-        }
-
-        function setSidebarMode(nextMode, folderName = '') {
-            sidebarMode = nextMode;
-            activeArchiveFolder = nextMode === 'archive-folder' ? normalizeArchiveFolderName(folderName) : '';
-            updateSidebarEmptyStates();
-        }
-
-        function applySidebarModeVisibility() {
-            const profileSection = document.getElementById('profileSection');
-            const rankingSection = document.getElementById('rankingSection');
-            const archiveModeActive = sidebarMode !== 'main';
-
-            if (profileSection) {
-                profileSection.style.display = archiveModeActive ? 'none' : '';
-            }
-
-            if (rankingSection) {
-                rankingSection.style.display = archiveModeActive ? 'none' : '';
-            }
-        }
-
-        function createArchiveHeader(titleText, onBack) {
-            const header = document.createElement('div');
-            header.className = 'archive-sidebar-header';
-
-            const backButton = document.createElement('button');
-            backButton.type = 'button';
-            backButton.className = 'archive-back-button';
-            backButton.textContent = '‹';
-            backButton.title = 'Zurück';
-            backButton.onclick = onBack;
-            header.appendChild(backButton);
-
-            const title = document.createElement('div');
-            title.className = 'archive-sidebar-title';
-            title.textContent = titleText;
-            header.appendChild(title);
-
-            return header;
-        }
-
-        function appendArchiveRankingButton(container, folderName) {
-            const createRankingButton = document.createElement('button');
-            createRankingButton.type = 'button';
-            createRankingButton.className = 'sidebar-empty-button archive-create-ranking';
-            createRankingButton.onclick = function() {
-                openArchiveFolderRankingWindow(folderName);
-            };
-
-            const rankingIcon = document.createElement('img');
-            rankingIcon.src = 'imgs/table_icon.png';
-            rankingIcon.alt = 'Ranking';
-            rankingIcon.draggable = false;
-            createRankingButton.appendChild(rankingIcon);
-
-            const rankingLabel = document.createElement('span');
-            rankingLabel.textContent = 'Ranking erstellen';
-            createRankingButton.appendChild(rankingLabel);
-            container.appendChild(createRankingButton);
-        }
-
-        function createArchiveProfileSidebarItem(profile) {
-            const archiveItem = document.createElement('div');
-            archiveItem.className = 'archive-profile-item sidebar-entry';
-            archiveItem.dataset.profileName = profile.name;
-            archiveItem.draggable = true;
-
-            archiveItem.addEventListener('dragstart', function(event) {
-                if (event.target.closest('.sidebar-action-button')) {
-                    event.preventDefault();
-                    return;
-                }
-                draggedArchiveProfileName = profile.name;
-                archiveItem.classList.add('dragging');
-                event.dataTransfer.effectAllowed = 'move';
-                event.dataTransfer.setData('text/plain', profile.name);
-            });
-
-            archiveItem.addEventListener('dragend', function() {
-                archiveItem.classList.remove('dragging');
-                removeDropIndicator();
-                draggedArchiveProfileName = null;
-            });
-
-            const profileButton = document.createElement('button');
-            profileButton.className = 'sidebar-main-button';
-            profileButton.onclick = function() {
-                handleProfileButtonClick(profile.name);
-            };
-
-            const profileIcon = document.createElement('img');
-            profileIcon.src = 'imgs/profile.png';
-            profileIcon.draggable = false;
-            profileButton.appendChild(profileIcon);
-
-            const profileLabel = document.createElement('span');
-            profileLabel.textContent = profile.name;
-            profileButton.appendChild(profileLabel);
-            archiveItem.appendChild(profileButton);
-
-            const restoreButton = document.createElement('button');
-            restoreButton.className = 'sidebar-action-button';
-            restoreButton.textContent = '↩';
-            restoreButton.title = 'Wiederherstellen';
-            restoreButton.onclick = function() {
-                restoreArchivedProfile(profile.name);
-            };
-            archiveItem.appendChild(restoreButton);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'sidebar-action-button profile-delete-button';
-            const deleteIcon = document.createElement('img');
-            deleteIcon.src = 'imgs/delete_profile.png';
-            deleteIcon.draggable = false;
-            deleteIcon.style.width = '20px';
-            deleteIcon.style.height = '20px';
-            deleteButton.appendChild(deleteIcon);
-            deleteButton.onclick = function() {
-                confirmProfileDeletion(profile.name);
-            };
-            archiveItem.appendChild(deleteButton);
-
-            return archiveItem;
-        }
-
-        function appendArchiveFolderContents(container, folderName, folderProfiles) {
-            appendArchiveRankingButton(container, folderName);
-
-            const profileList = document.createElement('div');
-            profileList.className = 'archive-profile-list';
-            profileList.dataset.folderName = folderName;
-            container.appendChild(profileList);
-
-            folderProfiles.forEach(function(profile) {
-                profileList.appendChild(createArchiveProfileSidebarItem(profile));
-            });
-
-            initializeArchiveProfileDragAndDrop(profileList, folderName);
-
-            rankings
-                .filter(function(ranking) {
-                    return ranking.type === 'archive' && normalizeArchiveFolderName(ranking.archiveFolder) === folderName;
-                })
-                .sort(function(rankingA, rankingB) {
-                    return rankingA.name.localeCompare(rankingB.name, 'de');
-                })
-                .forEach(function(ranking) {
-                    container.appendChild(createRankingSidebarItem(ranking.name, true));
-                });
-        }
-
-        function initializeArchiveProfileDragAndDrop(profileList, folderName) {
-            if (!profileList || profileList.dataset.archiveProfileDndInitialized === 'true') {
-                return;
-            }
-
-            profileList.addEventListener('dragover', function(event) {
-                event.preventDefault();
-                if (!draggedArchiveProfileName) {
-                    return;
-                }
-
-                const items = Array.from(profileList.querySelectorAll('.archive-profile-item:not(.dragging)'));
-                placeArchiveDropIndicator(profileList, items, getDropIndexByYForItems(items, event.clientY));
-            });
-
-            profileList.addEventListener('drop', function(event) {
-                event.preventDefault();
-                if (!draggedArchiveProfileName) {
-                    return;
-                }
-
-                const draggedItem = profileList.querySelector('.archive-profile-item.dragging');
-                if (!draggedItem) {
-                    removeDropIndicator();
-                    draggedArchiveProfileName = null;
-                    return;
-                }
-
-                const items = Array.from(profileList.querySelectorAll('.archive-profile-item:not(.dragging)'));
-                const dropIndex = getDropIndexByYForItems(items, event.clientY);
-                const referenceItem = items[dropIndex];
-
-                if (referenceItem) {
-                    profileList.insertBefore(draggedItem, referenceItem);
-                } else {
-                    profileList.appendChild(draggedItem);
-                }
-
-                draggedItem.classList.remove('dragging');
-                removeDropIndicator();
-                draggedArchiveProfileName = null;
-                reorderArchivedProfilesBySidebarOrder(folderName);
-            });
-
-            profileList.addEventListener('dragleave', function(event) {
-                if (!profileList.contains(event.relatedTarget)) {
-                    removeDropIndicator();
-                }
-            });
-
-            profileList.dataset.archiveProfileDndInitialized = 'true';
-        }
-
-        function initializeArchiveFolderDragAndDrop(archiveSection) {
-            if (!archiveSection || archiveSection.dataset.archiveFolderDndInitialized === 'true') {
-                return;
-            }
-
-            archiveSection.addEventListener('dragover', function(event) {
-                if (sidebarMode !== 'archive' || !draggedArchiveFolderName) {
-                    return;
-                }
-
-                event.preventDefault();
-                const items = getArchiveFolderItems(false);
-                placeArchiveDropIndicator(archiveSection, items, getDropIndexByYForItems(items, event.clientY));
-            });
-
-            archiveSection.addEventListener('drop', function(event) {
-                if (sidebarMode !== 'archive' || !draggedArchiveFolderName) {
-                    return;
-                }
-
-                event.preventDefault();
-                const draggedItem = getArchiveFolderItems(true).find(function(item) {
-                    return item.dataset.folderName === draggedArchiveFolderName;
-                });
-
-                if (!draggedItem) {
-                    removeDropIndicator();
-                    draggedArchiveFolderName = null;
-                    return;
-                }
-
-                const items = getArchiveFolderItems(false);
-                const dropIndex = getDropIndexByYForItems(items, event.clientY);
-                const referenceItem = items[dropIndex];
-
-                if (referenceItem) {
-                    archiveSection.insertBefore(draggedItem, referenceItem);
-                } else {
-                    archiveSection.appendChild(draggedItem);
-                }
-
-                draggedItem.classList.remove('dragging');
-                removeDropIndicator();
-                draggedArchiveFolderName = null;
-                reorderArchiveFoldersBySidebarOrder();
-            });
-
-            archiveSection.addEventListener('dragleave', function(event) {
-                if (!archiveSection.contains(event.relatedTarget)) {
-                    removeDropIndicator();
-                }
-            });
-
-            archiveSection.dataset.archiveFolderDndInitialized = 'true';
-        }
-
-        function getArchiveFolderProfileNames(folderName) {
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            return getArchiveFolderProfiles(normalizedFolderName).map(function(profile) {
-                return profile.name;
-            });
-        }
-
-        function deleteArchiveFolder(folderName) {
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            const folderProfileNames = getArchiveFolderProfileNames(normalizedFolderName);
-            if (folderProfileNames.length === 0) {
-                return false;
-            }
-
-            const currentTitle = document.querySelector('.center')?.textContent?.trim();
-            const currentComparisonAthletes = getComparisonAthletes(currentTitle);
-            const currentRanking = getRankingByName(currentTitle);
-            const profilesToDelete = profiles
-                .filter(function(profile) {
-                    return folderProfileNames.includes(profile.name)
-                        || folderProfileNames.some(function(profileName) {
-                            return getComparisonAthletes(profile.name).includes(profileName);
-                        });
-                })
-                .map(function(profile) {
-                    return profile.name;
-                });
-
-            removeProfilesByName(profilesToDelete);
-
-            for (let i = rankings.length - 1; i >= 0; i--) {
-                rankings[i].selectedProfiles = (rankings[i].selectedProfiles || [])
-                    .filter(function(selectedProfileName) {
-                        return !profilesToDelete.includes(selectedProfileName);
-                    });
-
-                const isDeletedArchiveFolderRanking = rankings[i].type === 'archive'
-                    && normalizeArchiveFolderName(rankings[i].archiveFolder) === normalizedFolderName;
-
-                if (isDeletedArchiveFolderRanking || rankings[i].selectedProfiles.length === 0) {
-                    deleteRanking(rankings[i].name);
-                }
-            }
-
-            saveProfilesToLocalStorage();
-            saveRankingsToLocalStorage();
-            const folderOrderIndex = archiveFolderOrder.indexOf(normalizedFolderName);
-            if (folderOrderIndex !== -1) {
-                archiveFolderOrder.splice(folderOrderIndex, 1);
-                saveArchiveFolderOrderToLocalStorage();
-            }
-            if (sidebarMode === 'archive-folder' && activeArchiveFolder === normalizedFolderName) {
-                sidebarMode = 'archive';
-                activeArchiveFolder = '';
-            }
-            updateSidebarEmptyStates();
-
-            if (profilesToDelete.includes(currentTitle) || currentComparisonAthletes.some(function(profileName) {
-                return profilesToDelete.includes(profileName);
-            })) {
-                navigateToHome();
-            } else if (currentRanking) {
-                const updatedRanking = getRankingByName(currentRanking.name);
-                if (updatedRanking) {
-                    openRankingResults(updatedRanking.name);
-                } else {
-                    navigateToHome();
-                }
-            }
-
-            return true;
-        }
-
-        function confirmArchiveFolderDeletion(folderName) {
-            closeNav();
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            const folderLabel = getArchiveFolderLabel(normalizedFolderName);
-            const folderProfileCount = getArchiveFolderProfileNames(normalizedFolderName).length;
-            if (folderProfileCount === 0) {
-                return;
-            }
-
-            var modalParts = createUnifiedModal(
-                'Archivordner löschen',
-                'min(92vw, 520px)'
-            );
-            var modal = modalParts.modal;
-            var content = modalParts.content;
-
-            var textSection = createModalSection();
-            var text = document.createElement('p');
-            text.innerHTML = 'Möchten Sie den Archivordner <strong>' + folderLabel + '</strong> und die darin enthaltenen Profile wirklich löschen?';
-            text.style.margin = '0';
-            text.style.fontSize = '16px';
-            text.style.lineHeight = '1.5';
-            text.style.color = '#243342';
-            textSection.appendChild(text);
-            content.appendChild(textSection);
-
-            var buttonRow = document.createElement('div');
-            buttonRow.className = 'profile-manage-actions';
-            buttonRow.style.display = 'flex';
-            buttonRow.style.justifyContent = 'flex-end';
-            buttonRow.style.gap = '12px';
-
-            var cancelButton = document.createElement('button');
-            cancelButton.type = 'button';
-            cancelButton.className = 'profile-manage-action';
-            cancelButton.textContent = 'Abbrechen';
-            cancelButton.style.padding = '12px 18px';
-            cancelButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
-            cancelButton.style.borderRadius = '14px';
-            cancelButton.style.background = 'rgba(255, 255, 255, 0.55)';
-            cancelButton.style.color = '#233242';
-            cancelButton.style.cursor = 'pointer';
-            cancelButton.onclick = function() {
-                closeModal(modal);
-            };
-            buttonRow.appendChild(cancelButton);
-
-            var deleteButton = createPrimaryButton('Löschen');
-            deleteButton.classList.add('profile-manage-action');
-            deleteButton.style.background = 'linear-gradient(135deg, #8e4343 0%, #6d3131 100%)';
-            deleteButton.style.boxShadow = '0 14px 28px rgba(109, 49, 49, 0.22)';
-            deleteButton.onclick = function() {
-                deleteArchiveFolder(normalizedFolderName);
-                closeModal(modal);
-            };
-            buttonRow.appendChild(deleteButton);
-
-            content.appendChild(buttonRow);
-            document.body.appendChild(modal);
-            bindEnterKeyToOk(modal, deleteButton);
-        }
-
-        function renderArchiveSidebar() {
-            const archiveSection = getArchiveSectionElement();
-            archiveSection.innerHTML = '';
-            applySidebarModeVisibility();
-
-            const archivedProfiles = getArchivedSingleProfiles();
-            const folders = new Map();
-            archivedProfiles.forEach(function(profile) {
-                const folderName = normalizeArchiveFolderName(profile.archiveFolder);
-                if (!folders.has(folderName)) {
-                    folders.set(folderName, []);
-                }
-                folders.get(folderName).push(profile);
-            });
-
-            if (sidebarMode === 'main') {
-                const archiveToggle = document.createElement('button');
-                archiveToggle.type = 'button';
-                archiveToggle.className = 'sidebar-main-button archive-root-button';
-                archiveToggle.onclick = function() {
-                    setSidebarMode('archive');
-                };
-
-                const archiveIcon = document.createElement('img');
-                archiveIcon.src = 'imgs/folder.png';
-                archiveIcon.alt = 'Archiv';
-                archiveIcon.draggable = false;
-                archiveToggle.appendChild(archiveIcon);
-
-                const archiveLabel = document.createElement('span');
-                archiveLabel.textContent = 'Archiv';
-                archiveToggle.appendChild(archiveLabel);
-                archiveSection.appendChild(archiveToggle);
-                return;
-            }
-
-            if (sidebarMode === 'archive-folder') {
-                const folderProfiles = folders.get(activeArchiveFolder) || [];
-                archiveSection.appendChild(createArchiveHeader(
-                    getArchiveFolderLabel(activeArchiveFolder),
-                    function() {
-                        setSidebarMode('archive');
-                    }
-                ));
-
-                if (folderProfiles.length === 0) {
-                    archiveSection.appendChild(createSidebarEmptyState('archive'));
-                    return;
-                }
-
-                appendArchiveFolderContents(archiveSection, activeArchiveFolder, folderProfiles);
-                return;
-            }
-
-            archiveSection.appendChild(createArchiveHeader('Archiv', function() {
-                setSidebarMode('main');
-            }));
-
-            if (archivedProfiles.length === 0) {
-                archiveSection.appendChild(createSidebarEmptyState('archive'));
-                return;
-            }
-
-            const archiveFolderList = document.createElement('div');
-            archiveFolderList.className = 'archive-folder-list';
-            archiveSection.appendChild(archiveFolderList);
-
-            getArchiveFolderNames().filter(function(folderName) {
-                return folders.has(folderName);
-            }).forEach(function(folderName) {
-                const folderBlock = document.createElement('div');
-                folderBlock.className = 'archive-folder archive-folder-entry';
-                folderBlock.dataset.folderName = folderName;
-                folderBlock.draggable = true;
-
-                folderBlock.addEventListener('dragstart', function(event) {
-                    if (event.target.closest('.sidebar-action-button')) {
-                        event.preventDefault();
-                        return;
-                    }
-                    draggedArchiveFolderName = folderName;
-                    folderBlock.classList.add('dragging');
-                    event.dataTransfer.effectAllowed = 'move';
-                    event.dataTransfer.setData('text/plain', folderName);
-                });
-
-                folderBlock.addEventListener('dragend', function() {
-                    folderBlock.classList.remove('dragging');
-                    removeDropIndicator();
-                    draggedArchiveFolderName = null;
-                });
-
-                const folderToggle = document.createElement('button');
-                folderToggle.type = 'button';
-                folderToggle.className = 'sidebar-main-button';
-                folderToggle.onclick = function() {
-                    setSidebarMode('archive-folder', folderName);
-                };
-
-                const folderIcon = document.createElement('img');
-                folderIcon.src = 'imgs/folder.png';
-                folderIcon.alt = 'Ordner';
-                folderIcon.draggable = false;
-                folderToggle.appendChild(folderIcon);
-
-                const folderLabel = document.createElement('span');
-                folderLabel.textContent = getArchiveFolderLabel(folderName);
-                folderToggle.appendChild(folderLabel);
-                folderBlock.appendChild(folderToggle);
-
-                const deleteFolderButton = document.createElement('button');
-                deleteFolderButton.type = 'button';
-                deleteFolderButton.className = 'sidebar-action-button profile-delete-button';
-                deleteFolderButton.title = 'Archivordner löschen';
-                deleteFolderButton.onclick = function(event) {
-                    event.stopPropagation();
-                    confirmArchiveFolderDeletion(folderName);
-                };
-
-                const deleteFolderIcon = document.createElement('img');
-                deleteFolderIcon.src = 'imgs/delete_profile.png';
-                deleteFolderIcon.draggable = false;
-                deleteFolderIcon.style.width = '20px';
-                deleteFolderIcon.style.height = '20px';
-                deleteFolderButton.appendChild(deleteFolderIcon);
-                folderBlock.appendChild(deleteFolderButton);
-                archiveFolderList.appendChild(folderBlock);
-            });
-
-            initializeArchiveFolderDragAndDrop(archiveFolderList);
-
-            const rootArchiveProfiles = folders.get('') || [];
-            if (rootArchiveProfiles.length > 0) {
-                const rootProfileList = document.createElement('div');
-                rootProfileList.className = 'archive-profile-list';
-                rootProfileList.dataset.folderName = '';
-                archiveSection.appendChild(rootProfileList);
-
-                rootArchiveProfiles.forEach(function(profile) {
-                    rootProfileList.appendChild(createArchiveProfileSidebarItem(profile));
-                });
-
-                initializeArchiveProfileDragAndDrop(rootProfileList, '');
-            }
-        }
-
         function createSidebarEmptyState(type) {
             const emptyState = document.createElement('div');
             emptyState.className = 'sidebar-empty';
             emptyState.dataset.emptyType = type;
 
             const text = document.createElement('div');
-            if (type === 'profile') {
-                text.textContent = 'Noch keine Profile angelegt.';
-            } else if (type === 'archive') {
-                text.textContent = 'Noch keine Profile archiviert.';
-            } else {
-                text.textContent = 'Noch keine Rankings gespeichert.';
-            }
+            text.textContent = type === 'profile'
+                ? 'Noch keine Profile angelegt.'
+                : 'Noch keine Rankings gespeichert.';
             emptyState.appendChild(text);
 
             if (type === 'profile') {
@@ -4322,12 +3550,11 @@
             } else if (rankingItems.length > 0 && existingRankingEmpty) {
                 existingRankingEmpty.remove();
             }
-
-            renderArchiveSidebar();
         }
 
         function findRankingItemByName(rankingName) {
-            return Array.from(document.querySelectorAll('.ranking-sidebar-item'))
+            const rankingList = getRankingListElement();
+            return Array.from(rankingList.querySelectorAll('.ranking-sidebar-item'))
                 .find(item => item.dataset.rankingName === rankingName) || null;
         }
 
@@ -4362,12 +3589,6 @@
             const profileItem = findProfileItemByName(name);
             if (profileItem) {
                 profileItem.classList.add('is-active');
-                return;
-            }
-
-            const archiveProfileItem = findArchiveProfileItemByName(name);
-            if (archiveProfileItem) {
-                archiveProfileItem.classList.add('is-active');
             }
         }
 
@@ -4447,12 +3668,13 @@
             }
         }
 
-        function createRankingSidebarItem(rankingName, isArchiveRanking = false) {
+        function addRankingToSidebar(rankingName) {
             rankingName = sanitizeProfileName(rankingName);
-            if (!rankingName) {
-                return null;
+            if (!rankingName || findRankingItemByName(rankingName)) {
+                return;
             }
 
+            const rankingList = getRankingListElement();
             const rankingContainer = document.createElement('div');
             rankingContainer.className = 'ranking-sidebar-item sidebar-entry';
             rankingContainer.dataset.rankingName = rankingName;
@@ -4486,22 +3708,6 @@
             };
             rankingContainer.appendChild(deleteButton);
 
-            return rankingContainer;
-        }
-
-        function addRankingToSidebar(rankingName) {
-            rankingName = sanitizeProfileName(rankingName);
-            const ranking = getRankingByName(rankingName);
-            if (!rankingName || !ranking || ranking.type === 'archive' || findRankingItemByName(rankingName)) {
-                return;
-            }
-
-            const rankingList = getRankingListElement();
-            const rankingContainer = createRankingSidebarItem(rankingName);
-            if (!rankingContainer) {
-                return;
-            }
-
             rankingList.appendChild(rankingContainer);
             updateSidebarEmptyStates();
         }
@@ -4524,360 +3730,6 @@
             if (currentTitle === rankingName) {
                 navigateToHome();
             }
-        }
-
-        function removeProfilesByName(profileNames) {
-            profileNames.forEach(function(name) {
-                const index = profiles.findIndex(profile => profile.name === name);
-                if (index !== -1) {
-                    profiles.splice(index, 1);
-                }
-
-                const profileItem = findProfileItemByName(name);
-                if (profileItem && profileItem.parentNode) {
-                    profileItem.parentNode.removeChild(profileItem);
-                }
-
-                const archiveItem = findArchiveProfileItemByName(name);
-                if (archiveItem && archiveItem.parentNode) {
-                    archiveItem.parentNode.removeChild(archiveItem);
-                }
-            });
-        }
-
-        function cleanupRankingsAfterProfileArchive(profileName) {
-            for (let i = rankings.length - 1; i >= 0; i--) {
-                rankings[i].selectedProfiles = (rankings[i].selectedProfiles || [])
-                    .filter(selectedProfileName => selectedProfileName !== profileName);
-
-                if (rankings[i].selectedProfiles.length === 0) {
-                    deleteRanking(rankings[i].name);
-                }
-            }
-        }
-
-        function cleanupArchiveRankingsAfterProfileRestore(profileName) {
-            for (let i = rankings.length - 1; i >= 0; i--) {
-                if (rankings[i].type !== 'archive') {
-                    continue;
-                }
-
-                rankings[i].selectedProfiles = (rankings[i].selectedProfiles || [])
-                    .filter(selectedProfileName => selectedProfileName !== profileName);
-
-                if (rankings[i].selectedProfiles.length === 0) {
-                    deleteRanking(rankings[i].name);
-                }
-            }
-        }
-
-        function openArchiveProfileWindow(profileName) {
-            const profile = profiles.find(existingProfile => existingProfile.name === profileName && existingProfile.type === 'single');
-            if (!profile || profile.archived === true) {
-                return;
-            }
-
-            closeNav();
-
-            var modalParts = createUnifiedModal(
-                'Profil archivieren',
-                'min(92vw, 520px)'
-            );
-            var modal = modalParts.modal;
-            var content = modalParts.content;
-
-            const archiveFolderNames = getArchiveFolderNames();
-            let selectedArchiveFolder = '';
-            let archivePickerView = 'root';
-
-            var folderSection = createModalSection();
-            folderSection.style.gap = '8px';
-            content.appendChild(folderSection);
-
-            var hint = document.createElement('div');
-            hint.textContent = 'Speichern unter';
-            hint.style.color = '#5b6a78';
-            hint.style.fontSize = '13px';
-            hint.style.fontWeight = 'bold';
-            hint.style.textTransform = 'uppercase';
-            hint.style.letterSpacing = '0.08em';
-            folderSection.appendChild(hint);
-
-            var folderList = document.createElement('div');
-            folderList.style.display = 'flex';
-            folderList.style.flexDirection = 'column';
-            folderList.style.gap = '6px';
-            folderList.style.padding = '8px';
-            folderList.style.border = '1px solid rgba(69, 87, 107, 0.16)';
-            folderList.style.borderRadius = '16px';
-            folderList.style.background = 'rgba(255, 255, 255, 0.5)';
-            folderList.style.maxHeight = '240px';
-            folderList.style.overflowY = 'auto';
-            folderSection.appendChild(folderList);
-
-            function createPickerButton(labelText, iconSrc, onClick) {
-                var folderButton = document.createElement('button');
-                folderButton.type = 'button';
-                folderButton.style.display = 'flex';
-                folderButton.style.alignItems = 'center';
-                folderButton.style.gap = '10px';
-                folderButton.style.width = '100%';
-                folderButton.style.padding = '11px 12px';
-                folderButton.style.border = '1px solid transparent';
-                folderButton.style.borderRadius = '12px';
-                folderButton.style.background = 'transparent';
-                folderButton.style.color = '#18212c';
-                folderButton.style.fontSize = '15px';
-                folderButton.style.fontWeight = 'bold';
-                folderButton.style.cursor = 'pointer';
-                folderButton.style.textAlign = 'left';
-
-                var icon = document.createElement('img');
-                icon.src = iconSrc;
-                icon.alt = '';
-                icon.draggable = false;
-                icon.style.width = '20px';
-                icon.style.height = '20px';
-                icon.style.flexShrink = '0';
-                folderButton.appendChild(icon);
-
-                var label = document.createElement('span');
-                label.textContent = labelText;
-                label.style.overflow = 'hidden';
-                label.style.textOverflow = 'ellipsis';
-                label.style.whiteSpace = 'nowrap';
-                folderButton.appendChild(label);
-
-                folderButton.onclick = onClick;
-                folderList.appendChild(folderButton);
-                return folderButton;
-            }
-
-            function markFolderButton(folderButton, folderName) {
-                selectedArchiveFolder = folderName;
-                Array.from(folderList.querySelectorAll('button')).forEach(function(button) {
-                    button.style.background = 'transparent';
-                    button.style.borderColor = 'transparent';
-                });
-                folderButton.style.background = 'rgba(62, 123, 85, 0.13)';
-                folderButton.style.borderColor = 'rgba(62, 123, 85, 0.32)';
-                newFolderInput.value = '';
-            }
-
-            function renderArchivePicker() {
-                folderList.innerHTML = '';
-
-                if (archivePickerView === 'root') {
-                    var archiveButton = createPickerButton('Archiv', 'imgs/folder.png', function() {
-                        if (archiveFolderNames.length > 0) {
-                            archivePickerView = 'folders';
-                            renderArchivePicker();
-                            return;
-                        }
-                        markFolderButton(archiveButton, '');
-                    });
-                    markFolderButton(archiveButton, '');
-                    return;
-                }
-
-                var backButton = document.createElement('button');
-                backButton.type = 'button';
-                backButton.textContent = '‹';
-                backButton.title = 'Zurück';
-                backButton.style.display = 'inline-flex';
-                backButton.style.alignItems = 'center';
-                backButton.style.justifyContent = 'center';
-                backButton.style.width = '34px';
-                backButton.style.height = '34px';
-                backButton.style.border = '1px solid rgba(69, 87, 107, 0.12)';
-                backButton.style.borderRadius = '10px';
-                backButton.style.background = 'rgba(255, 255, 255, 0.45)';
-                backButton.style.color = '#18212c';
-                backButton.style.fontSize = '24px';
-                backButton.style.lineHeight = '1';
-                backButton.style.padding = '0 0 2px 0';
-                backButton.style.cursor = 'pointer';
-                backButton.onclick = function() {
-                    archivePickerView = 'root';
-                    selectedArchiveFolder = '';
-                    renderArchivePicker();
-                };
-                folderList.appendChild(backButton);
-
-                archiveFolderNames.forEach(function(folderName) {
-                    var folderButton = createPickerButton(getArchiveFolderLabel(folderName), 'imgs/folder.png', function() {
-                        selectedArchiveFolder = folderName;
-                        Array.from(folderList.querySelectorAll('button')).forEach(function(button) {
-                            button.style.background = 'transparent';
-                            button.style.borderColor = 'transparent';
-                        });
-                        folderButton.style.background = 'rgba(62, 123, 85, 0.13)';
-                        folderButton.style.borderColor = 'rgba(62, 123, 85, 0.32)';
-                        newFolderInput.value = '';
-                    });
-                    if (selectedArchiveFolder === folderName) {
-                        folderButton.style.background = 'rgba(62, 123, 85, 0.13)';
-                        folderButton.style.borderColor = 'rgba(62, 123, 85, 0.32)';
-                    }
-                });
-            }
-
-            var newFolderInput = document.createElement('input');
-            newFolderInput.type = 'text';
-            newFolderInput.placeholder = '+ Neuer Ordner';
-            styleModalField(newFolderInput);
-            newFolderInput.style.marginTop = '4px';
-            folderSection.appendChild(newFolderInput);
-
-            newFolderInput.addEventListener('input', function() {
-                if (newFolderInput.value.trim() !== '') {
-                    selectedArchiveFolder = '';
-                    Array.from(folderList.querySelectorAll('button')).forEach(function(button) {
-                        button.style.background = 'transparent';
-                        button.style.borderColor = 'transparent';
-                    });
-                }
-            });
-
-            renderArchivePicker();
-
-            var archiveButton = createPrimaryButton('Archivieren');
-            archiveButton.onclick = function() {
-                var targetFolder = selectedArchiveFolder;
-                var newFolderName = normalizeArchiveFolderName(newFolderInput.value);
-
-                if (newFolderName) {
-                    targetFolder = newFolderName;
-                }
-
-                archiveProfile(profileName, targetFolder);
-                closeModal(modal);
-            };
-            content.appendChild(archiveButton);
-
-            document.body.appendChild(modal);
-            bindEnterKeyToOk(modal, archiveButton);
-            newFolderInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    archiveButton.click();
-                }
-            });
-        }
-
-        function archiveProfile(profileName, folderName = '') {
-            const profile = profiles.find(existingProfile => existingProfile.name === profileName && existingProfile.type === 'single');
-            if (!profile) {
-                return false;
-            }
-
-            const currentTitle = document.querySelector('.center')?.textContent?.trim();
-            const currentComparisonAthletes = getComparisonAthletes(currentTitle);
-            const currentRanking = getRankingByName(currentTitle);
-            const comparisonProfilesToDelete = profiles
-                .filter(existingProfile => existingProfile.type === 'comparison' && getComparisonAthletes(existingProfile.name).includes(profileName))
-                .map(existingProfile => existingProfile.name);
-
-            profile.archived = true;
-            profile.archiveFolder = normalizeArchiveFolderName(folderName);
-            if (profile.archiveFolder && !archiveFolderOrder.includes(profile.archiveFolder)) {
-                archiveFolderOrder.push(profile.archiveFolder);
-                saveArchiveFolderOrderToLocalStorage();
-            }
-
-            const profileItem = findProfileItemByName(profileName);
-            if (profileItem && profileItem.parentNode) {
-                profileItem.parentNode.removeChild(profileItem);
-            }
-
-            removeProfilesByName(comparisonProfilesToDelete);
-            cleanupRankingsAfterProfileArchive(profileName);
-
-            saveProfilesToLocalStorage();
-            saveRankingsToLocalStorage();
-            if (sidebarMode === 'archive-folder' && getArchiveFolderProfiles(activeArchiveFolder).length === 0) {
-                sidebarMode = 'archive';
-                activeArchiveFolder = '';
-            }
-            updateSidebarEmptyStates();
-
-            if (currentTitle === profileName || currentComparisonAthletes.includes(profileName)) {
-                navigateToHome();
-            } else if (currentRanking) {
-                const updatedRanking = getRankingByName(currentRanking.name);
-                if (updatedRanking) {
-                    openRankingResults(updatedRanking.name);
-                } else {
-                    navigateToHome();
-                }
-            }
-
-            return true;
-        }
-
-        function restoreArchivedProfile(profileName) {
-            const profile = profiles.find(existingProfile => existingProfile.name === profileName && existingProfile.type === 'single');
-            if (!profile || profile.archived !== true) {
-                return false;
-            }
-
-            const currentTitle = document.querySelector('.center')?.textContent?.trim();
-            const currentRanking = getRankingByName(currentTitle);
-
-            profile.archived = false;
-            profile.archiveFolder = '';
-            cleanupArchiveRankingsAfterProfileRestore(profileName);
-            saveProfilesToLocalStorage();
-            saveRankingsToLocalStorage();
-            addProfileToSidebar(profile.name, profile.type);
-            if (sidebarMode === 'archive-folder' && getArchiveFolderProfiles(activeArchiveFolder).length === 0) {
-                sidebarMode = 'archive';
-                activeArchiveFolder = '';
-            }
-            updateSidebarEmptyStates();
-
-            if (currentTitle === profileName) {
-                handleProfileButtonClick(profile.name);
-            } else if (currentRanking) {
-                const updatedRanking = getRankingByName(currentRanking.name);
-                if (updatedRanking) {
-                    openRankingResults(updatedRanking.name);
-                } else {
-                    navigateToHome();
-                }
-            }
-
-            return true;
-        }
-
-        function openArchiveFolderRankingWindow(folderName) {
-            const normalizedFolderName = normalizeArchiveFolderName(folderName);
-            const folderProfiles = getArchiveFolderProfiles(normalizedFolderName);
-            if (folderProfiles.length === 0) {
-                alert('In diesem Archivordner liegen keine Profile.');
-                return;
-            }
-
-            const folderLabel = getArchiveFolderLabel(normalizedFolderName);
-            const defaultRankingName = sanitizeProfileName('Archiv ' + folderLabel);
-            let rankingName = defaultRankingName;
-            let counter = 2;
-            while (isReservedRankingName(rankingName, null)) {
-                rankingName = defaultRankingName + ' ' + counter;
-                counter++;
-            }
-
-            rankings.push({
-                name: rankingName,
-                selectedProfiles: folderProfiles.map(profile => profile.name),
-                type: 'archive',
-                archiveFolder: normalizedFolderName,
-                createdAt: new Date().toISOString()
-            });
-
-            saveRankingsToLocalStorage();
-            updateSidebarEmptyStates();
-            openRankingResults(rankingName);
         }
 
         function getProfileItems(includeDragging = true) {
@@ -5012,10 +3864,6 @@
 
             const profileList = getProfileListElement();
             const existingProfile = profiles.find(p => p.name === profileName);
-            if (existingProfile && existingProfile.archived === true) {
-                updateSidebarEmptyStates();
-                return profileName;
-            }
 
             // Prüfen ob Profil bereits in Sidebar existiert
             if (!getProfileItems(true).some(item => item.dataset.profileName === profileName)) {
@@ -5047,7 +3895,6 @@
 
                 const profileIcon = document.createElement('img');
                 profileIcon.src = 'imgs/profile.png';
-                profileIcon.draggable = false;
                 newButton.appendChild(profileIcon);
 
                 const profileLabel = document.createElement('span');
@@ -5062,7 +3909,6 @@
                 // Füge das Bild-Element hinzu
                 const deleteIcon = document.createElement('img');
                 deleteIcon.src = 'imgs/delete_profile.png'; // Der Dateipfad für das Bild
-                deleteIcon.draggable = false;
                 deleteIcon.style.width = '20px'; // Größe des Bildes anpassen
                 deleteIcon.style.height = '20px';
                 deleteButton.appendChild(deleteIcon);
@@ -5087,7 +3933,7 @@
                 }
 
                 // Hinzufügen des Profils zur internen Profil-Liste
-                profiles.push({ name: profileName, results: resultsArray, values: valuesArray, type: type, archived: false, archiveFolder: '' });
+                profiles.push({ name: profileName, results: resultsArray, values: valuesArray, type: type });
                 saveProfilesToLocalStorage(); // Speichern der Profile im `localStorage`
             } else {
                 ensureProfileShape(existingProfile);
@@ -5105,14 +3951,12 @@
             saveCurrentViewScrollPosition();
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
-            setContentViewActive(false);
-            setRankingViewActive(false);
+            document.body.classList.remove('content-view-active');
             document.getElementById('main').classList.remove('is-content-view');
             document.querySelector('.center').textContent = defaultTitle;
             currentViewKey = 'home';
             document.querySelector('.labels-container').style.display = 'none'; // Disziplinen ausblenden
             document.querySelector('.labels-container').classList.remove('is-ranking-layout');
-            document.querySelector('.labels-container').classList.remove('is-document-layout');
             document.getElementById('home-intro').style.display = 'block'; // Startbereich anzeigen
             document.getElementById('home-top-title').style.display = 'block';
             // Blende die oberen Icons nur auf der Startseite aus
@@ -5156,12 +4000,11 @@
             initializeSidebarDragAndDrop();
             
             loadProfilesFromLocalStorage();  // Profile laden
-            loadArchiveFolderOrderFromLocalStorage();
             loadRankingsFromLocalStorage();
             
             if (profiles.length > 0) {
                 // Stelle sicher, dass das erste Profil geladen wird, aber das "Zehnkampfrechner"-Profil ignoriert wird, falls es noch existiert
-                const initialProfile = profiles.find(profile => profile.name !== defaultTitle && profile.archived !== true);
+                const initialProfile = profiles.find(profile => profile.name !== defaultTitle);
                 if (initialProfile) {
                     displayProfileResults(initialProfile.name);
                     calculateTotalPoints(initialProfile.name);
@@ -5170,7 +4013,7 @@
 
             profiles.forEach(profile => {
                 // Überspringe das "Zehnkampfrechner"-Profil, wenn es existiert
-                if (profile.name !== defaultTitle && profile.archived !== true) {
+                if (profile.name !== defaultTitle) {
                     addProfileToSidebar(profile.name, profile.type);  // Profile zur Sidebar hinzufügen
                 }
             });
@@ -5212,7 +4055,7 @@
         });
 
         function getSelectableProfiles() {
-            return getActiveSingleProfiles();
+            return profiles.filter(profile => profile.type === 'single' && profile.name !== defaultTitle);
         }
 
         function openRanking() {
@@ -5222,10 +4065,6 @@
         function openRankingWindow(existingRankingName = null) {
             const selectableProfiles = getSelectableProfiles();
             const existingRanking = existingRankingName ? getRankingByName(existingRankingName) : null;
-            if (existingRanking && existingRanking.type === 'archive') {
-                alert('Archiv-Rankings werden aus dem Archivordner erstellt und können nicht mit aktiven Profilen bearbeitet werden.');
-                return;
-            }
 
             if (selectableProfiles.length === 0) {
                 alert('Bitte legen Sie zuerst mindestens ein Einzelprofil an.');
@@ -5444,8 +4283,6 @@
                     rankings.push({
                         name: rankingName,
                         selectedProfiles: selectedProfiles,
-                        type: 'active',
-                        archiveFolder: '',
                         createdAt: new Date().toISOString()
                     });
                     addRankingToSidebar(rankingName);
@@ -5624,7 +4461,7 @@
             }
             
             // Füge die erstellten Profile als Optionen hinzu (Vergleichsprofile ausgeschlossen)
-            getActiveSingleProfiles().forEach(function (profile) {
+            profiles.filter(profile => profile.type === 'single' && profile.name !== defaultTitle).forEach(function (profile) {
                 // Überprüfe, ob der Profilname bereits im Dropdown existiert
                 var alreadyExists = Array.from(dropdown.options).some(option => option.value === profile.name);
 
@@ -5692,7 +4529,6 @@
 
             saveProfilesToLocalStorage();
             saveRankingsToLocalStorage();
-            updateSidebarEmptyStates();
 
             if (currentTitle === oldName) {
                 handleProfileButtonClick(sanitizedNewName);
@@ -5817,11 +4653,9 @@
         // Profile löschen
         function confirmProfileDeletion(profileName) {
             closeNav();
-            const profile = profiles.find(existingProfile => existingProfile.name === profileName);
-            const canArchive = profile && profile.type === 'single' && profile.archived !== true;
 
             var modalParts = createUnifiedModal(
-                canArchive ? 'Profil verwalten' : 'Profil löschen',
+                'Profil löschen',
                 'min(92vw, 520px)'
             );
             var modal = modalParts.modal;
@@ -5829,9 +4663,7 @@
 
             var textSection = createModalSection();
             var text = document.createElement('p');
-            text.innerHTML = canArchive
-                ? 'Möchten Sie das Profil <strong>' + profileName + '</strong> archivieren oder endgültig löschen?'
-                : 'Möchten Sie das Profil <strong>' + profileName + '</strong> wirklich löschen?';
+            text.innerHTML = 'Möchten Sie das Profil <strong>' + profileName + '</strong> wirklich löschen?';
             text.style.margin = '0';
             text.style.fontSize = '16px';
             text.style.lineHeight = '1.5';
@@ -5840,14 +4672,12 @@
             content.appendChild(textSection);
 
             var buttonRow = document.createElement('div');
-            buttonRow.className = 'profile-manage-actions';
             buttonRow.style.display = 'flex';
             buttonRow.style.justifyContent = 'flex-end';
             buttonRow.style.gap = '12px';
 
             var cancelButton = document.createElement('button');
             cancelButton.type = 'button';
-            cancelButton.className = 'profile-manage-action';
             cancelButton.textContent = 'Abbrechen';
             cancelButton.style.padding = '12px 18px';
             cancelButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
@@ -5860,18 +4690,7 @@
             };
             buttonRow.appendChild(cancelButton);
 
-            if (canArchive) {
-                var archiveButton = createPrimaryButton('Archivieren');
-                archiveButton.classList.add('profile-manage-action');
-                archiveButton.onclick = function() {
-                    closeModal(modal);
-                    openArchiveProfileWindow(profileName);
-                };
-                buttonRow.appendChild(archiveButton);
-            }
-
             var deleteButton = createPrimaryButton('Löschen');
-            deleteButton.classList.add('profile-manage-action');
             deleteButton.style.background = 'linear-gradient(135deg, #8e4343 0%, #6d3131 100%)';
             deleteButton.style.boxShadow = '0 14px 28px rgba(109, 49, 49, 0.22)';
             deleteButton.onclick = function() {
@@ -5891,11 +4710,26 @@
             const currentComparisonAthletes = getComparisonAthletes(currentTitle);
             const currentRanking = getRankingByName(currentTitle);
 
+            // Entfernen Sie das Profil aus der internen Profil-Liste
+            const profileList = getProfileListElement();
             const profilesToDelete = profiles
                 .filter(profile => profile.name === profileName || getComparisonAthletes(profile.name).includes(profileName))
                 .map(profile => profile.name);
 
-            removeProfilesByName(profilesToDelete);
+            profilesToDelete.forEach(name => {
+                const index = profiles.findIndex(profile => profile.name === name);
+                if (index !== -1) {
+                    profiles.splice(index, 1);
+                }
+
+                const profileItem = findProfileItemByName(name);
+                if (profileItem) {
+                    profileList.removeChild(profileItem);
+                }
+            });
+
+            saveProfilesToLocalStorage();
+            updateSidebarEmptyStates();
 
             for (let i = rankings.length - 1; i >= 0; i--) {
                 rankings[i].selectedProfiles = (rankings[i].selectedProfiles || [])
@@ -5906,9 +4740,7 @@
                 }
             }
 
-            saveProfilesToLocalStorage();
             saveRankingsToLocalStorage();
-            updateSidebarEmptyStates();
 
             if (currentTitle === profileName || currentComparisonAthletes.includes(profileName)) {
                 navigateToHome();
@@ -5921,6 +4753,1592 @@
                 }
             }
         }
+
+        function getSidebarContentElement() {
+            return document.getElementById('sidebarContent');
+        }
+
+        function getSidebarDropTrayElement() {
+            return document.getElementById('sidebarDropTray');
+        }
+
+        function createSidebarEmptyState(message, buttonLabel = null, buttonIcon = null, buttonAction = null) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'sidebar-empty';
+
+            const text = document.createElement('div');
+            text.textContent = message;
+            emptyState.appendChild(text);
+
+            if (buttonLabel && buttonAction) {
+                const actionButton = document.createElement('button');
+                actionButton.type = 'button';
+                actionButton.className = 'sidebar-empty-button';
+                actionButton.onclick = buttonAction;
+
+                if (buttonIcon) {
+                    const icon = document.createElement('img');
+                    icon.src = buttonIcon;
+                    icon.alt = buttonLabel;
+                    actionButton.appendChild(icon);
+                }
+
+                const label = document.createElement('span');
+                label.textContent = buttonLabel;
+                actionButton.appendChild(label);
+                emptyState.appendChild(actionButton);
+            }
+
+            return emptyState;
+        }
+
+        function createSidebarSection(titleText, listId, actionLabel = null, actionClick = null) {
+            const section = document.createElement('div');
+            section.className = 'sidebar-section';
+
+            const header = document.createElement('div');
+            header.className = 'sidebar-section-header';
+
+            const title = document.createElement('div');
+            title.className = 'sidebar-section-title';
+            title.textContent = titleText;
+            header.appendChild(title);
+
+            if (actionLabel && typeof actionClick === 'function') {
+                const actionButton = document.createElement('button');
+                actionButton.type = 'button';
+                actionButton.className = 'sidebar-section-control';
+                actionButton.textContent = actionLabel;
+                actionButton.onclick = actionClick;
+                header.appendChild(actionButton);
+            }
+
+            section.appendChild(header);
+
+            const list = document.createElement('div');
+            list.id = listId;
+            section.appendChild(list);
+            return { section: section, list: list };
+        }
+
+        function updateSidebarHeader() {
+            const titleElement = document.getElementById('sidebarHeaderTitle');
+            const backButton = document.getElementById('sidebarBackButton');
+            const currentCompetition = getCompetitionById(currentCompetitionId);
+            if (titleElement) {
+                titleElement.textContent = currentCompetition ? currentCompetition.name : '';
+            }
+            if (backButton) {
+                backButton.classList.toggle('is-visible', !!currentCompetition);
+            }
+        }
+
+        function createSidebarActionButton(iconPath, className, onClick) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = className + ' sidebar-action-button';
+
+            const icon = document.createElement('img');
+            icon.src = iconPath;
+            icon.style.width = '20px';
+            icon.style.height = '20px';
+            button.appendChild(icon);
+
+            button.onclick = onClick;
+            return button;
+        }
+
+        function hideSidebarDropTray() {
+            const tray = getSidebarDropTrayElement();
+            if (!tray) {
+                return;
+            }
+
+            tray.classList.remove('is-visible');
+            tray.innerHTML = '';
+        }
+
+        function moveProfileToCompetition(profileName, competitionId) {
+            const profile = profiles.find(function(existingProfile) {
+                return existingProfile.name === profileName;
+            });
+            if (!profile) {
+                hideSidebarDropTray();
+                return;
+            }
+
+            profile.competitionId = getCompetitionById(competitionId) ? competitionId : null;
+            if (profile.type === 'single') {
+                profiles.forEach(function(existingProfile) {
+                    if (existingProfile.type === 'comparison' && getComparisonAthletes(existingProfile.name).includes(profile.name)) {
+                        existingProfile.competitionId = profile.competitionId;
+                    }
+                });
+            }
+
+            rankings.forEach(function(ranking) {
+                if (!(ranking.selectedProfiles || []).includes(profile.name)) {
+                    return;
+                }
+
+                const selectedCompetitionIds = Array.from(new Set(
+                    (ranking.selectedProfiles || [])
+                        .map(function(selectedProfileName) {
+                            const selectedProfile = profiles.find(function(existingProfile) {
+                                return existingProfile.name === selectedProfileName && existingProfile.type === 'single';
+                            });
+                            return selectedProfile ? getProfileCompetitionId(selectedProfile) : null;
+                        })
+                ));
+
+                ranking.competitionId = selectedCompetitionIds.length === 1 ? selectedCompetitionIds[0] : null;
+            });
+
+            currentCompetitionId = profile.competitionId;
+            saveProfilesToLocalStorage();
+            saveRankingsToLocalStorage();
+            setLastSelectedCompetitionId(profile.competitionId);
+            saveSidebarStateToLocalStorage();
+            hideSidebarDropTray();
+            renderSidebar();
+        }
+
+        function showSidebarDropTray(profileName) {
+            const tray = getSidebarDropTrayElement();
+            if (!tray) {
+                return;
+            }
+
+            tray.innerHTML = '';
+            tray.classList.add('is-visible');
+
+            const title = document.createElement('div');
+            title.className = 'sidebar-drop-tray-title';
+            title.textContent = 'In Wettkampf verschieben';
+            tray.appendChild(title);
+
+            const targets = [{ id: null, name: getRootCompetitionLabel() }].concat(
+                competitions.map(function(competition) {
+                    return { id: competition.id, name: competition.name };
+                })
+            );
+
+            targets.forEach(function(target) {
+                const targetButton = document.createElement('button');
+                targetButton.type = 'button';
+                targetButton.className = 'sidebar-drop-target';
+                targetButton.textContent = target.name;
+                targetButton.onclick = function() {
+                    moveProfileToCompetition(profileName, target.id);
+                };
+                targetButton.ondragover = function(event) {
+                    event.preventDefault();
+                    targetButton.classList.add('is-active');
+                };
+                targetButton.ondragleave = function() {
+                    targetButton.classList.remove('is-active');
+                };
+                targetButton.ondrop = function(event) {
+                    event.preventDefault();
+                    targetButton.classList.remove('is-active');
+                    moveProfileToCompetition(profileName, target.id);
+                };
+                tray.appendChild(targetButton);
+            });
+        }
+
+        function renderSidebarSection(listElement, items, createItem, emptyStateElement = null) {
+            listElement.innerHTML = '';
+            if (!items.length) {
+                if (emptyStateElement) {
+                    listElement.appendChild(emptyStateElement);
+                }
+                return;
+            }
+
+            items.forEach(function(item) {
+                listElement.appendChild(createItem(item));
+            });
+        }
+
+        function getCompetitionItems(includeDragging = true) {
+            const competitionList = document.getElementById('competitionList');
+            if (!competitionList) {
+                return [];
+            }
+            const items = Array.from(competitionList.querySelectorAll('.competition-item'));
+            return includeDragging ? items : items.filter(function(item) {
+                return !item.classList.contains('dragging');
+            });
+        }
+
+        function ensureCompetitionDropIndicator() {
+            if (!competitionDropIndicator) {
+                competitionDropIndicator = document.createElement('div');
+                competitionDropIndicator.className = 'competition-drop-indicator';
+            }
+            return competitionDropIndicator;
+        }
+
+        function removeCompetitionDropIndicator() {
+            if (competitionDropIndicator && competitionDropIndicator.parentNode) {
+                competitionDropIndicator.parentNode.removeChild(competitionDropIndicator);
+            }
+        }
+
+        function getCompetitionDropIndexByY(clientY) {
+            const items = getCompetitionItems(false);
+            for (let index = 0; index < items.length; index += 1) {
+                const rect = items[index].getBoundingClientRect();
+                if (clientY < rect.top + rect.height / 2) {
+                    return index;
+                }
+            }
+            return items.length;
+        }
+
+        function placeCompetitionDropIndicator(dropIndex) {
+            const competitionList = document.getElementById('competitionList');
+            if (!competitionList) {
+                return;
+            }
+
+            const indicator = ensureCompetitionDropIndicator();
+            const items = getCompetitionItems(false);
+            const targetItem = items[dropIndex];
+            removeCompetitionDropIndicator();
+
+            if (targetItem) {
+                competitionList.insertBefore(indicator, targetItem);
+            } else {
+                competitionList.appendChild(indicator);
+            }
+        }
+
+        function reorderCompetitionsBySidebarOrder() {
+            const orderedIds = getCompetitionItems(true).map(function(item) {
+                return item.dataset.competitionId;
+            });
+            const competitionMap = new Map(competitions.map(function(competition) {
+                return [competition.id, competition];
+            }));
+            const reorderedCompetitions = [];
+
+            orderedIds.forEach(function(competitionId) {
+                if (competitionMap.has(competitionId)) {
+                    reorderedCompetitions.push(competitionMap.get(competitionId));
+                    competitionMap.delete(competitionId);
+                }
+            });
+
+            competitions.splice(0, competitions.length, ...reorderedCompetitions, ...Array.from(competitionMap.values()));
+            saveCompetitionsToLocalStorage();
+            renderSidebar();
+        }
+
+        function createProfileSidebarItem(profile) {
+            const container = document.createElement('div');
+            container.className = (profile.type === 'comparison' ? 'comparison-sidebar-item' : 'profile-item') + ' sidebar-entry';
+            container.dataset.profileName = profile.name;
+            container.draggable = profile.type === 'single';
+
+            container.addEventListener('dragstart', function(event) {
+                if (profile.type !== 'single') {
+                    event.preventDefault();
+                    return;
+                }
+                draggedProfileName = profile.name;
+                container.classList.add('dragging');
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', profile.name);
+                showSidebarDropTray(profile.name);
+            });
+
+            container.addEventListener('dragend', function() {
+                container.classList.remove('dragging');
+                draggedProfileName = null;
+                hideSidebarDropTray();
+            });
+
+            const button = document.createElement('button');
+            button.className = 'sidebar-main-button';
+            button.onclick = function() {
+                handleProfileButtonClick(profile.name);
+            };
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/profile.png';
+            button.appendChild(icon);
+
+            const label = document.createElement('span');
+            label.textContent = profile.name;
+            button.appendChild(label);
+            container.appendChild(button);
+
+            container.appendChild(createSidebarActionButton('imgs/delete_profile.png', 'profile-delete-button', function() {
+                confirmProfileDeletion(profile.name);
+            }));
+            return container;
+        }
+
+        function createRankingSidebarItem(ranking) {
+            const container = document.createElement('div');
+            container.className = 'ranking-sidebar-item sidebar-entry';
+            container.dataset.rankingName = ranking.name;
+            container.draggable = true;
+
+            container.addEventListener('dragstart', function(event) {
+                draggedRankingName = ranking.name;
+                container.classList.add('dragging');
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', ranking.name);
+            });
+
+            container.addEventListener('dragend', function() {
+                container.classList.remove('dragging');
+                draggedRankingName = null;
+                removeRankingDropIndicator();
+            });
+
+            const button = document.createElement('button');
+            button.className = 'sidebar-main-button';
+            button.onclick = function() {
+                openRankingResults(ranking.name);
+            };
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/table_icon.png';
+            button.appendChild(icon);
+
+            const label = document.createElement('span');
+            label.textContent = ranking.name;
+            button.appendChild(label);
+            container.appendChild(button);
+
+            container.appendChild(createSidebarActionButton('imgs/delete_profile.png', 'ranking-delete-button', function() {
+                confirmRankingDeletion(ranking.name);
+            }));
+            return container;
+        }
+
+        function createCompetitionSidebarItem(competition) {
+            const container = document.createElement('div');
+            container.className = 'competition-item sidebar-entry' + (currentCompetitionId === competition.id ? ' is-active' : '');
+            container.dataset.competitionId = competition.id;
+            container.draggable = true;
+
+            container.addEventListener('dragstart', function(event) {
+                draggedSidebarCompetitionId = competition.id;
+                container.classList.add('dragging');
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', competition.id);
+            });
+
+            container.addEventListener('dragend', function() {
+                container.classList.remove('dragging');
+                draggedSidebarCompetitionId = null;
+                removeCompetitionDropIndicator();
+            });
+
+            container.addEventListener('dragover', function(event) {
+                if (draggedProfileName) {
+                    event.preventDefault();
+                }
+            });
+
+            container.addEventListener('drop', function(event) {
+                if (!draggedProfileName) {
+                    return;
+                }
+                event.preventDefault();
+                moveProfileToCompetition(draggedProfileName, competition.id);
+            });
+
+            const button = document.createElement('button');
+            button.className = 'sidebar-main-button';
+            button.onclick = function() {
+                setCompetitionContext(competition.id);
+            };
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/folder.png';
+            button.appendChild(icon);
+
+            const label = document.createElement('span');
+            label.textContent = competition.name;
+            button.appendChild(label);
+            container.appendChild(button);
+
+            container.appendChild(createSidebarActionButton('imgs/edit.png', 'competition-edit-button', function() {
+                openCompetitionWindow(competition.id);
+            }));
+            container.appendChild(createSidebarActionButton('imgs/delete_profile.png', 'competition-delete-button', function() {
+                confirmCompetitionDeletion(competition.id);
+            }));
+            return container;
+        }
+
+        function renderSidebar(animationDirection = '') {
+            const sidebarContent = getSidebarContentElement();
+            if (!sidebarContent) {
+                return;
+            }
+
+            if (currentCompetitionId && !getCompetitionById(currentCompetitionId)) {
+                currentCompetitionId = null;
+            }
+
+            sidebarContent.innerHTML = '';
+            updateSidebarHeader();
+
+            if (!currentCompetitionId) {
+                const competitionSection = createSidebarSection('Wettkämpfe', 'competitionList');
+                sidebarContent.appendChild(competitionSection.section);
+                renderSidebarSection(
+                    competitionSection.list,
+                    competitions,
+                    createCompetitionSidebarItem,
+                    createSidebarEmptyState('Noch keine Wettkämpfe angelegt.', 'Wettkampf erstellen', 'imgs/folder.png', openCompetitionWindow)
+                );
+
+                competitionSection.list.addEventListener('dragover', function(event) {
+                    if (!draggedSidebarCompetitionId) {
+                        return;
+                    }
+                    event.preventDefault();
+                    placeCompetitionDropIndicator(getCompetitionDropIndexByY(event.clientY));
+                });
+
+                competitionSection.list.addEventListener('drop', function(event) {
+                    if (!draggedSidebarCompetitionId) {
+                        return;
+                    }
+                    event.preventDefault();
+
+                    const draggedItem = getCompetitionItems(true).find(function(item) {
+                        return item.dataset.competitionId === draggedSidebarCompetitionId;
+                    });
+                    if (!draggedItem) {
+                        removeCompetitionDropIndicator();
+                        draggedSidebarCompetitionId = null;
+                        return;
+                    }
+
+                    const dropIndex = getCompetitionDropIndexByY(event.clientY);
+                    const itemsWithoutDragged = getCompetitionItems(false).filter(function(item) {
+                        return item.dataset.competitionId !== draggedSidebarCompetitionId;
+                    });
+                    const referenceItem = itemsWithoutDragged[dropIndex];
+
+                    if (referenceItem) {
+                        competitionSection.list.insertBefore(draggedItem, referenceItem);
+                    } else {
+                        competitionSection.list.appendChild(draggedItem);
+                    }
+
+                    removeCompetitionDropIndicator();
+                    draggedSidebarCompetitionId = null;
+                    reorderCompetitionsBySidebarOrder();
+                });
+
+                competitionSection.list.addEventListener('dragleave', function(event) {
+                    if (!competitionSection.list.contains(event.relatedTarget)) {
+                        removeCompetitionDropIndicator();
+                    }
+                });
+            }
+
+            const activeCompetitionId = currentCompetitionId || null;
+            const athleteSection = createSidebarSection('Athleten', 'profileList');
+            sidebarContent.appendChild(athleteSection.section);
+            const visibleProfiles = getProfilesForCompetition(activeCompetitionId, null);
+            renderSidebarSection(
+                athleteSection.list,
+                visibleProfiles,
+                createProfileSidebarItem,
+                createSidebarEmptyState('Noch keine Athleten vorhanden.', 'Neues Profil', 'imgs/new_profile.png', openProfileWindow)
+            );
+
+            const visibleRankings = getRankingsForCompetition(activeCompetitionId);
+            if (visibleRankings.length > 0) {
+                const rankingSection = createSidebarSection('Rankings', 'rankingList');
+                sidebarContent.appendChild(rankingSection.section);
+                renderSidebarSection(
+                    rankingSection.list,
+                    visibleRankings,
+                    createRankingSidebarItem,
+                    null
+                );
+
+                rankingSection.list.ondragover = function(event) {
+                    if (!draggedRankingName) {
+                        return;
+                    }
+                    event.preventDefault();
+                    placeRankingDropIndicator(getRankingDropIndexByY(event.clientY));
+                };
+
+                rankingSection.list.ondrop = function(event) {
+                    if (!draggedRankingName) {
+                        return;
+                    }
+                    event.preventDefault();
+
+                    const draggedItem = findRankingItemByName(draggedRankingName);
+                    if (!draggedItem) {
+                        removeRankingDropIndicator();
+                        draggedRankingName = null;
+                        return;
+                    }
+
+                    const dropIndex = getRankingDropIndexByY(event.clientY);
+                    const itemsWithoutDragged = getRankingItems(false).filter(function(item) {
+                        return item.dataset.rankingName !== draggedRankingName;
+                    });
+                    const referenceItem = itemsWithoutDragged[dropIndex];
+
+                    if (referenceItem) {
+                        rankingSection.list.insertBefore(draggedItem, referenceItem);
+                    } else {
+                        rankingSection.list.appendChild(draggedItem);
+                    }
+
+                    removeRankingDropIndicator();
+                    draggedRankingName = null;
+                    reorderRankingsBySidebarOrder(activeCompetitionId);
+                };
+
+                rankingSection.list.ondragleave = function(event) {
+                    if (!rankingSection.list.contains(event.relatedTarget)) {
+                        removeRankingDropIndicator();
+                    }
+                };
+            }
+
+            if (athleteSection.list) {
+                athleteSection.list.ondragover = function(event) {
+                    if (!draggedProfileName) {
+                        return;
+                    }
+                    event.preventDefault();
+                    placeDropIndicator(getDropIndexByY(event.clientY));
+                };
+
+                athleteSection.list.ondrop = function(event) {
+                    if (!draggedProfileName) {
+                        return;
+                    }
+                    event.preventDefault();
+
+                    const draggedItem = findProfileItemByName(draggedProfileName);
+                    if (!draggedItem) {
+                        removeDropIndicator();
+                        draggedProfileName = null;
+                        hideSidebarDropTray();
+                        return;
+                    }
+
+                    const dropIndex = getDropIndexByY(event.clientY);
+                    const itemsWithoutDragged = getProfileItems(false).filter(function(item) {
+                        return item.dataset.profileName !== draggedProfileName;
+                    });
+                    const referenceItem = itemsWithoutDragged[dropIndex];
+
+                    if (referenceItem) {
+                        athleteSection.list.insertBefore(draggedItem, referenceItem);
+                    } else {
+                        athleteSection.list.appendChild(draggedItem);
+                    }
+
+                    draggedItem.classList.remove('dragging');
+                    removeDropIndicator();
+                    const droppedProfileName = draggedProfileName;
+                    draggedProfileName = null;
+                    hideSidebarDropTray();
+                    reorderProfilesBySidebarOrder(activeCompetitionId, droppedProfileName);
+                };
+
+                athleteSection.list.ondragleave = function(event) {
+                    if (!athleteSection.list.contains(event.relatedTarget)) {
+                        removeDropIndicator();
+                    }
+                };
+            }
+
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            if (getRankingByName(currentTitle)) {
+                setActiveSidebarItem('ranking', currentTitle);
+            } else {
+                setActiveSidebarItem('profile', currentTitle);
+            }
+
+            sidebarContent.classList.remove('sidebar-content-animate-forward', 'sidebar-content-animate-backward');
+            if (animationDirection === 'forward' || animationDirection === 'backward') {
+                void sidebarContent.offsetWidth;
+                sidebarContent.classList.add(animationDirection === 'forward' ? 'sidebar-content-animate-forward' : 'sidebar-content-animate-backward');
+            }
+
+            lastRenderedCompetitionId = currentCompetitionId;
+        }
+
+        function updateSidebarEmptyStates() {
+            renderSidebar();
+        }
+
+        function findProfileItemByName(profileName) {
+            return Array.from(document.querySelectorAll('.profile-item, .comparison-sidebar-item'))
+                .find(function(item) {
+                    return item.dataset.profileName === profileName;
+                }) || null;
+        }
+
+        function findRankingItemByName(rankingName) {
+            return Array.from(document.querySelectorAll('.ranking-sidebar-item'))
+                .find(function(item) {
+                    return item.dataset.rankingName === rankingName;
+                }) || null;
+        }
+
+        function clearActiveSidebarEntries() {
+            document.querySelectorAll('.sidebar-entry.is-active').forEach(function(item) {
+                item.classList.remove('is-active');
+            });
+        }
+
+        function setActiveSidebarItem(type, name) {
+            clearActiveSidebarEntries();
+
+            if (!name || name === defaultTitle) {
+                return;
+            }
+
+            if (type === 'ranking') {
+                const rankingItem = findRankingItemByName(name);
+                if (rankingItem) {
+                    rankingItem.classList.add('is-active');
+                }
+                return;
+            }
+
+            const profileItem = findProfileItemByName(name);
+            if (profileItem) {
+                profileItem.classList.add('is-active');
+            }
+        }
+
+        function getProfileItems(includeDragging = true) {
+            const profileList = document.getElementById('profileList');
+            if (!profileList) {
+                return [];
+            }
+            const allItems = Array.from(profileList.querySelectorAll('.profile-item, .comparison-sidebar-item'));
+            return includeDragging ? allItems : allItems.filter(function(item) {
+                return !item.classList.contains('dragging');
+            });
+        }
+
+        function ensureDropIndicator() {
+            if (!dropIndicator) {
+                dropIndicator = document.createElement('div');
+                dropIndicator.className = 'profile-drop-indicator';
+            }
+            return dropIndicator;
+        }
+
+        function removeDropIndicator() {
+            if (dropIndicator && dropIndicator.parentNode) {
+                dropIndicator.parentNode.removeChild(dropIndicator);
+            }
+        }
+
+        function getDropIndexByY(clientY) {
+            const items = getProfileItems(false);
+            for (let index = 0; index < items.length; index += 1) {
+                const rect = items[index].getBoundingClientRect();
+                if (clientY < rect.top + rect.height / 2) {
+                    return index;
+                }
+            }
+            return items.length;
+        }
+
+        function placeDropIndicator(dropIndex) {
+            const profileList = document.getElementById('profileList');
+            if (!profileList) {
+                return;
+            }
+
+            const indicator = ensureDropIndicator();
+            const items = getProfileItems(false);
+            const targetItem = items[dropIndex];
+            removeDropIndicator();
+
+            if (targetItem) {
+                profileList.insertBefore(indicator, targetItem);
+            } else {
+                profileList.appendChild(indicator);
+            }
+        }
+
+        function reorderProfilesBySidebarOrder(activeCompetitionId = null, movedProfileName = null) {
+            const orderedNames = getProfileItems(true).map(function(item) {
+                return item.dataset.profileName;
+            });
+            const visibleProfiles = profiles.filter(function(profile) {
+                return getProfileCompetitionId(profile) === sanitizeCompetitionId(activeCompetitionId);
+            });
+            const hiddenProfiles = profiles.filter(function(profile) {
+                return getProfileCompetitionId(profile) !== sanitizeCompetitionId(activeCompetitionId);
+            });
+            const visibleMap = new Map(visibleProfiles.map(function(profile) {
+                return [profile.name, profile];
+            }));
+            const reorderedVisibleProfiles = [];
+
+            orderedNames.forEach(function(name) {
+                if (visibleMap.has(name)) {
+                    reorderedVisibleProfiles.push(visibleMap.get(name));
+                    visibleMap.delete(name);
+                }
+            });
+
+            const remainingVisibleProfiles = Array.from(visibleMap.values());
+            profiles.splice(0, profiles.length, ...hiddenProfiles, ...reorderedVisibleProfiles, ...remainingVisibleProfiles);
+            saveProfilesToLocalStorage();
+            renderSidebar();
+
+            if (movedProfileName) {
+                setActiveSidebarItem('profile', document.querySelector('.center')?.textContent?.trim());
+            }
+        }
+
+        function getRankingItems(includeDragging = true) {
+            const rankingList = document.getElementById('rankingList');
+            if (!rankingList) {
+                return [];
+            }
+            const allItems = Array.from(rankingList.querySelectorAll('.ranking-sidebar-item'));
+            return includeDragging ? allItems : allItems.filter(function(item) {
+                return !item.classList.contains('dragging');
+            });
+        }
+
+        function ensureRankingDropIndicator() {
+            if (!rankingDropIndicator) {
+                rankingDropIndicator = document.createElement('div');
+                rankingDropIndicator.className = 'ranking-drop-indicator';
+            }
+            return rankingDropIndicator;
+        }
+
+        function removeRankingDropIndicator() {
+            if (rankingDropIndicator && rankingDropIndicator.parentNode) {
+                rankingDropIndicator.parentNode.removeChild(rankingDropIndicator);
+            }
+        }
+
+        function getRankingDropIndexByY(clientY) {
+            const items = getRankingItems(false);
+            for (let index = 0; index < items.length; index += 1) {
+                const rect = items[index].getBoundingClientRect();
+                if (clientY < rect.top + rect.height / 2) {
+                    return index;
+                }
+            }
+            return items.length;
+        }
+
+        function placeRankingDropIndicator(dropIndex) {
+            const rankingList = document.getElementById('rankingList');
+            if (!rankingList) {
+                return;
+            }
+
+            const indicator = ensureRankingDropIndicator();
+            const items = getRankingItems(false);
+            const targetItem = items[dropIndex];
+            removeRankingDropIndicator();
+
+            if (targetItem) {
+                rankingList.insertBefore(indicator, targetItem);
+            } else {
+                rankingList.appendChild(indicator);
+            }
+        }
+
+        function reorderRankingsBySidebarOrder(activeCompetitionId = null) {
+            const orderedNames = getRankingItems(true).map(function(item) {
+                return item.dataset.rankingName;
+            });
+            const visibleRankings = rankings.filter(function(ranking) {
+                return getRankingCompetitionId(ranking) === sanitizeCompetitionId(activeCompetitionId);
+            });
+            const hiddenRankings = rankings.filter(function(ranking) {
+                return getRankingCompetitionId(ranking) !== sanitizeCompetitionId(activeCompetitionId);
+            });
+            const visibleMap = new Map(visibleRankings.map(function(ranking) {
+                return [ranking.name, ranking];
+            }));
+            const reorderedVisibleRankings = [];
+
+            orderedNames.forEach(function(name) {
+                if (visibleMap.has(name)) {
+                    reorderedVisibleRankings.push(visibleMap.get(name));
+                    visibleMap.delete(name);
+                }
+            });
+
+            rankings.splice(0, rankings.length, ...hiddenRankings, ...reorderedVisibleRankings, ...Array.from(visibleMap.values()));
+            saveRankingsToLocalStorage();
+            renderSidebar();
+        }
+
+        function isReservedCompetitionName(competitionName, originalCompetitionId = null) {
+            return competitions.some(function(competition) {
+                return competition.name === competitionName && competition.id !== originalCompetitionId;
+            });
+        }
+
+        function isReservedProfileName(profileName, originalName) {
+            return profiles.some(function(profile) {
+                return profile.name === profileName && profile.name !== originalName;
+            }) || rankings.some(function(ranking) {
+                return ranking.name === profileName;
+            }) || competitions.some(function(competition) {
+                return competition.name === profileName;
+            }) || profileName === defaultTitle;
+        }
+
+        function isReservedRankingName(rankingName, originalName) {
+            return rankings.some(function(ranking) {
+                return ranking.name === rankingName && ranking.name !== originalName;
+            }) || profiles.some(function(profile) {
+                return profile.name === rankingName;
+            }) || competitions.some(function(competition) {
+                return competition.name === rankingName;
+            }) || rankingName === defaultTitle;
+        }
+
+        function updateProfileSidebarName() {
+            renderSidebar();
+        }
+
+        function updateRankingSidebarName() {
+            renderSidebar();
+        }
+
+        function addProfileToSidebar(profileName, type = 'single', options = {}) {
+            profileName = sanitizeProfileName(profileName);
+            if (!profileName) {
+                return null;
+            }
+
+            if (profileName === defaultTitle) {
+                alert('Dieser Profilname ist bereits reserviert.');
+                return null;
+            }
+
+            if (type === 'single' && profileName.includes(' vs. ')) {
+                alert('Der Profilname darf "vs." nicht enthalten.');
+                return null;
+            }
+
+            const existingProfile = profiles.find(function(profile) {
+                return profile.name === profileName;
+            });
+
+            if (!existingProfile) {
+                profiles.push({
+                    name: profileName,
+                    results: type === 'comparison' ? Array(20).fill('') : Array(10).fill(''),
+                    values: type === 'comparison' ? Array(20).fill('') : Array(10).fill(''),
+                    type: type,
+                    competitionId: getCompetitionById(options.competitionId) ? options.competitionId : null
+                });
+            } else {
+                ensureProfileShape(existingProfile);
+                existingProfile.competitionId = getCompetitionById(options.competitionId) ? options.competitionId : existingProfile.competitionId || null;
+            }
+
+            saveProfilesToLocalStorage();
+            renderSidebar();
+            return profileName;
+        }
+
+        function addRankingToSidebar(rankingName) {
+            renderSidebar();
+            return rankingName;
+        }
+
+        function deleteRanking(rankingName) {
+            const rankingIndex = rankings.findIndex(function(ranking) {
+                return ranking.name === rankingName;
+            });
+            if (rankingIndex !== -1) {
+                rankings.splice(rankingIndex, 1);
+            }
+
+            saveRankingsToLocalStorage();
+            renderSidebar();
+
+            if (document.querySelector('.center')?.textContent?.trim() === rankingName) {
+                navigateToHome();
+            }
+        }
+
+        function initializeSidebarDragAndDrop() {
+            renderSidebar();
+        }
+
+        function createCompetitionSelect(selectedCompetitionId = '', onChange = null) {
+            const select = document.createElement('select');
+            styleModalField(select);
+            select.style.appearance = 'none';
+            select.style.backgroundImage = 'linear-gradient(45deg, transparent 50%, #5b6a78 50%), linear-gradient(135deg, #5b6a78 50%, transparent 50%)';
+            select.style.backgroundPosition = 'calc(100% - 22px) calc(50% - 3px), calc(100% - 16px) calc(50% - 3px)';
+            select.style.backgroundSize = '6px 6px, 6px 6px';
+            select.style.backgroundRepeat = 'no-repeat';
+            select.style.paddingRight = '42px';
+
+            const emptyOption = document.createElement('option');
+            emptyOption.value = '';
+            emptyOption.textContent = getRootCompetitionLabel();
+            select.appendChild(emptyOption);
+
+            competitions.forEach(function(competition) {
+                const option = document.createElement('option');
+                option.value = competition.id;
+                option.textContent = competition.name;
+                select.appendChild(option);
+            });
+
+            select.value = selectedCompetitionId && getCompetitionById(selectedCompetitionId) ? selectedCompetitionId : '';
+            if (typeof onChange === 'function') {
+                select.addEventListener('change', onChange);
+            }
+
+            return select;
+        }
+
+        function openCompetitionWindow(existingCompetitionId = null) {
+            const existingCompetition = existingCompetitionId ? getCompetitionById(existingCompetitionId) : null;
+
+            var modalParts = createUnifiedModal(
+                existingCompetition ? 'Wettkampf bearbeiten' : 'Wettkampf erstellen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var inputSection = createModalSection();
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.placeholder = 'Name des Wettkampfs';
+            inputField.value = existingCompetition ? existingCompetition.name : '';
+            styleModalField(inputField);
+            inputSection.appendChild(inputField);
+            content.appendChild(inputSection);
+
+            var okButton = createPrimaryButton(existingCompetition ? 'Speichern' : 'Wettkampf erstellen');
+            okButton.onclick = function() {
+                const competitionName = sanitizeProfileName(inputField.value);
+                if (!competitionName) {
+                    alert('Bitte vergeben Sie einen Namen für den Wettkampf.');
+                    inputField.focus();
+                    return;
+                }
+
+                if (isReservedCompetitionName(competitionName, existingCompetition ? existingCompetition.id : null)) {
+                    alert('Ein Wettkampf mit diesem Namen existiert bereits.');
+                    inputField.focus();
+                    return;
+                }
+
+                if (existingCompetition) {
+                    existingCompetition.name = competitionName;
+                } else {
+                    const competition = {
+                        id: createCompetitionId(),
+                        name: competitionName
+                    };
+                    competitions.push(competition);
+                    setCompetitionContext(competition.id);
+                }
+
+                saveCompetitionsToLocalStorage();
+                setLastSelectedCompetitionId(existingCompetition ? existingCompetition.id : currentCompetitionId);
+                closeModal(modal);
+                renderSidebar();
+            };
+            content.appendChild(okButton);
+
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
+            setTimeout(function() {
+                inputField.focus();
+                inputField.select();
+            }, 0);
+        }
+
+        function confirmCompetitionDeletion(competitionId) {
+            const competition = getCompetitionById(competitionId);
+            if (!competition) {
+                return;
+            }
+
+            closeNav();
+
+            var modalParts = createUnifiedModal(
+                'Wettkampf löschen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var textSection = createModalSection();
+            var text = document.createElement('p');
+            text.innerHTML = 'Möchten Sie den Wettkampf <strong>' + competition.name + '</strong> und die dazugehörigen Athleten wirklich löschen?';
+            text.style.margin = '0';
+            text.style.fontSize = '16px';
+            text.style.lineHeight = '1.5';
+            text.style.color = '#243342';
+            textSection.appendChild(text);
+            content.appendChild(textSection);
+
+            var buttonRow = document.createElement('div');
+            buttonRow.style.display = 'flex';
+            buttonRow.style.justifyContent = 'flex-end';
+            buttonRow.style.gap = '12px';
+
+            var cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Abbrechen';
+            cancelButton.style.padding = '12px 18px';
+            cancelButton.style.border = '1px solid rgba(69, 87, 107, 0.18)';
+            cancelButton.style.borderRadius = '14px';
+            cancelButton.style.background = 'rgba(255, 255, 255, 0.55)';
+            cancelButton.style.color = '#233242';
+            cancelButton.style.cursor = 'pointer';
+            cancelButton.onclick = function() {
+                closeModal(modal);
+            };
+            buttonRow.appendChild(cancelButton);
+
+            var deleteButton = createPrimaryButton('Löschen');
+            deleteButton.style.background = 'linear-gradient(135deg, #8e4343 0%, #6d3131 100%)';
+            deleteButton.style.boxShadow = '0 14px 28px rgba(109, 49, 49, 0.22)';
+            deleteButton.onclick = function() {
+                deleteCompetition(competitionId);
+                closeModal(modal);
+            };
+            buttonRow.appendChild(deleteButton);
+
+            content.appendChild(buttonRow);
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, deleteButton);
+        }
+
+        function deleteCompetition(competitionId) {
+            const competition = getCompetitionById(competitionId);
+            if (!competition) {
+                return;
+            }
+
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            const deletedRankingNames = rankings
+                .filter(function(ranking) {
+                    return getRankingCompetitionId(ranking) === competitionId;
+                })
+                .map(function(ranking) {
+                    return ranking.name;
+                });
+
+            const deletedAthleteNames = profiles
+                .filter(function(profile) {
+                    return getProfileCompetitionId(profile) === competitionId && profile.type === 'single';
+                })
+                .map(function(profile) {
+                    return profile.name;
+                });
+
+            const profilesToDelete = profiles
+                .filter(function(profile) {
+                    return getProfileCompetitionId(profile) === competitionId || getComparisonAthletes(profile.name).some(function(athleteName) {
+                        return deletedAthleteNames.includes(athleteName);
+                    });
+                })
+                .map(function(profile) {
+                    return profile.name;
+                });
+
+            for (let index = profiles.length - 1; index >= 0; index -= 1) {
+                if (profilesToDelete.includes(profiles[index].name)) {
+                    profiles.splice(index, 1);
+                }
+            }
+
+            for (let index = rankings.length - 1; index >= 0; index -= 1) {
+                const ranking = rankings[index];
+                if (getRankingCompetitionId(ranking) === competitionId) {
+                    rankings.splice(index, 1);
+                    continue;
+                }
+
+                ranking.selectedProfiles = (ranking.selectedProfiles || []).filter(function(profileName) {
+                    return !deletedAthleteNames.includes(profileName);
+                });
+
+                if (!ranking.selectedProfiles.length) {
+                    rankings.splice(index, 1);
+                }
+            }
+
+            const competitionIndex = competitions.findIndex(function(existingCompetition) {
+                return existingCompetition.id === competitionId;
+            });
+            if (competitionIndex !== -1) {
+                competitions.splice(competitionIndex, 1);
+            }
+
+            if (currentCompetitionId === competitionId) {
+                currentCompetitionId = null;
+            }
+            if (lastSelectedCompetitionId === competitionId) {
+                lastSelectedCompetitionId = null;
+            }
+
+            saveProfilesToLocalStorage();
+            saveRankingsToLocalStorage();
+            saveCompetitionsToLocalStorage();
+            saveSidebarStateToLocalStorage();
+
+            if (profilesToDelete.includes(currentTitle) || deletedRankingNames.includes(currentTitle)) {
+                navigateToHome();
+            }
+
+            renderSidebar();
+        }
+
+        function getSelectableProfiles(competitionId = null) {
+            return profiles.filter(function(profile) {
+                return profile.type === 'single'
+                    && profile.name !== defaultTitle
+                    && getProfileCompetitionId(profile) === sanitizeCompetitionId(competitionId);
+            });
+        }
+
+        function openProfileWindow() {
+            var modalParts = createUnifiedModal(
+                'Neues Profil anlegen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var inputSection = createModalSection();
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.placeholder = 'Name des Athleten';
+            styleModalField(inputField);
+            inputSection.appendChild(inputField);
+            content.appendChild(inputSection);
+
+            var competitionSection = createModalSection();
+            var competitionSelect = createCompetitionSelect(getPreferredCompetitionId());
+            competitionSection.appendChild(competitionSelect);
+            content.appendChild(competitionSection);
+
+            var okButton = createPrimaryButton('Profil erstellen');
+            okButton.onclick = function() {
+                var athleteName = sanitizeProfileName(inputField.value);
+                if (!athleteName) {
+                    alert('Bitte geben Sie einen Profilnamen ein.');
+                    inputField.focus();
+                    return;
+                }
+                if (athleteName.includes(' vs. ')) {
+                    alert('Der Profilname darf "vs." nicht enthalten.');
+                    inputField.focus();
+                    return;
+                }
+
+                const selectedCompetitionId = sanitizeCompetitionId(competitionSelect.value);
+                const createdProfileName = addProfileToSidebar(athleteName, 'single', {
+                    competitionId: selectedCompetitionId
+                });
+                if (!createdProfileName) {
+                    inputField.focus();
+                    inputField.select();
+                    return;
+                }
+
+                setLastSelectedCompetitionId(selectedCompetitionId);
+                currentCompetitionId = selectedCompetitionId;
+                closeModal(modal);
+                handleProfileButtonClick(createdProfileName);
+            };
+            content.appendChild(okButton);
+
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
+            setTimeout(function() {
+                inputField.focus();
+                inputField.select();
+            }, 0);
+        }
+
+        function createAthleteDropdown(id, competitionId = null, selectedValue = '') {
+            var dropdown = document.getElementById(id);
+            if (dropdown) {
+                dropdown.innerHTML = '';
+            } else {
+                dropdown = document.createElement('select');
+                dropdown.id = id;
+                styleModalField(dropdown);
+                dropdown.style.appearance = 'none';
+                dropdown.style.backgroundImage = 'linear-gradient(45deg, transparent 50%, #5b6a78 50%), linear-gradient(135deg, #5b6a78 50%, transparent 50%)';
+                dropdown.style.backgroundPosition = 'calc(100% - 22px) calc(50% - 3px), calc(100% - 16px) calc(50% - 3px)';
+                dropdown.style.backgroundSize = '6px 6px, 6px 6px';
+                dropdown.style.backgroundRepeat = 'no-repeat';
+                dropdown.style.paddingRight = '42px';
+            }
+
+            getSelectableProfiles(competitionId).forEach(function(profile) {
+                const option = document.createElement('option');
+                option.value = profile.name;
+                option.text = profile.name;
+                dropdown.add(option);
+            });
+
+            if (selectedValue && Array.from(dropdown.options).some(function(option) { return option.value === selectedValue; })) {
+                dropdown.value = selectedValue;
+            }
+
+            return dropdown;
+        }
+
+        function createAthleteComparisonProfile(athlete1, athlete2, competitionId = null) {
+            athlete1 = sanitizeProfileName(athlete1);
+            athlete2 = sanitizeProfileName(athlete2);
+
+            if (!athlete1 || !athlete2) {
+                alert('Bitte wählen Sie zwei Athleten aus.');
+                return;
+            }
+
+            if (athlete1 === athlete2) {
+                alert('Bitte wählen Sie zwei unterschiedliche Athleten aus.');
+                return;
+            }
+
+            const profileName = `${athlete1} vs. ${athlete2}`;
+            addProfileToSidebar(profileName, 'comparison', { competitionId: competitionId });
+
+            const athlete1Profile = profiles.find(function(profile) { return profile.name === athlete1; });
+            const athlete2Profile = profiles.find(function(profile) { return profile.name === athlete2; });
+            const comparisonProfile = profiles.find(function(profile) { return profile.name === profileName; });
+            if (!athlete1Profile || !athlete2Profile || !comparisonProfile) {
+                return;
+            }
+
+            comparisonProfile.competitionId = getCompetitionById(competitionId) ? competitionId : null;
+            comparisonProfile.values = new Array(20).fill('');
+            comparisonProfile.results = new Array(20).fill('0');
+            comparisonProfile.totalPoints = {};
+            comparisonProfile.totalPoints[athlete1] = 0;
+            comparisonProfile.totalPoints[athlete2] = 0;
+
+            for (let index = 0; index < 10; index += 1) {
+                comparisonProfile.values[index] = athlete1Profile.values[index] || '';
+                comparisonProfile.values[index + 10] = athlete2Profile.values[index] || '';
+                comparisonProfile.results[index] = athlete1Profile.results[index] || '0';
+                comparisonProfile.results[index + 10] = athlete2Profile.results[index] || '0';
+            }
+
+            saveProfilesToLocalStorage();
+            setLastSelectedCompetitionId(competitionId);
+            currentCompetitionId = sanitizeCompetitionId(competitionId);
+            handleProfileButtonClick(profileName);
+        }
+
+        function openAthleteComparison() {
+            var modalParts = createUnifiedModal(
+                'Vergleichsprofil erstellen',
+                'min(92vw, 520px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var selectedCompetitionId = getPreferredCompetitionId();
+
+            var competitionSection = createModalSection();
+            var competitionSelect = createCompetitionSelect(selectedCompetitionId, refreshAthleteDropdowns);
+            competitionSection.appendChild(competitionSelect);
+            content.appendChild(competitionSection);
+
+            var firstAthleteSection = createModalSection();
+            var secondAthleteSection = createModalSection();
+            content.appendChild(firstAthleteSection);
+            content.appendChild(secondAthleteSection);
+
+            var dropdown1;
+            var dropdown2;
+
+            function refreshAthleteDropdowns() {
+                const currentCompetitionIdForSelection = sanitizeCompetitionId(competitionSelect.value);
+                const firstValue = dropdown1 ? dropdown1.value : '';
+                const secondValue = dropdown2 ? dropdown2.value : '';
+                firstAthleteSection.innerHTML = '';
+                secondAthleteSection.innerHTML = '';
+                dropdown1 = createAthleteDropdown('athlete1', currentCompetitionIdForSelection, firstValue);
+                dropdown2 = createAthleteDropdown('athlete2', currentCompetitionIdForSelection, secondValue);
+                firstAthleteSection.appendChild(dropdown1);
+                secondAthleteSection.appendChild(dropdown2);
+            }
+
+            refreshAthleteDropdowns();
+
+            var okButton = createPrimaryButton('Vergleich erstellen');
+            okButton.onclick = function() {
+                const currentCompetitionIdForSelection = sanitizeCompetitionId(competitionSelect.value);
+                if (getSelectableProfiles(currentCompetitionIdForSelection).length < 2) {
+                    alert('Bitte legen Sie zuerst mindestens zwei Athleten in diesem Bereich an.');
+                    return;
+                }
+
+                closeModal(modal);
+                createAthleteComparisonProfile(dropdown1.value, dropdown2.value, currentCompetitionIdForSelection);
+            };
+            content.appendChild(okButton);
+
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, okButton);
+        }
+
+        function openRankingWindow(existingRankingName = null) {
+            const existingRanking = existingRankingName ? getRankingByName(existingRankingName) : null;
+            const initialCompetitionId = existingRanking ? getRankingCompetitionId(existingRanking) : getPreferredCompetitionId();
+
+            var modalParts = createUnifiedModal(
+                existingRanking ? 'Ranking bearbeiten' : 'Ranking erstellen',
+                'min(92vw, 560px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+
+            var competitionSection = createModalSection();
+            var competitionSelect = createCompetitionSelect(initialCompetitionId, refreshProfileOptions);
+            competitionSection.appendChild(competitionSelect);
+            content.appendChild(competitionSection);
+
+            var rankingNameSection = createModalSection();
+            var rankingNameInput = document.createElement('input');
+            rankingNameInput.type = 'text';
+            rankingNameInput.placeholder = 'Name des Rankings';
+            rankingNameInput.value = existingRanking ? existingRanking.name : '';
+            styleModalField(rankingNameInput);
+            rankingNameSection.appendChild(rankingNameInput);
+            content.appendChild(rankingNameSection);
+
+            var selectionSection = createModalSection();
+            var profileList = document.createElement('div');
+            profileList.style.display = 'flex';
+            profileList.style.flexDirection = 'column';
+            profileList.style.gap = '6px';
+            profileList.style.padding = '8px';
+            profileList.style.backgroundColor = 'rgba(204, 214, 225, 0.72)';
+            profileList.style.borderRadius = '14px';
+            profileList.style.border = '1px solid rgba(69, 87, 107, 0.14)';
+            profileList.style.maxHeight = '240px';
+            profileList.style.overflowY = 'auto';
+            selectionSection.appendChild(profileList);
+            content.appendChild(selectionSection);
+
+            const profileCheckboxes = [];
+
+            function refreshProfileOptions() {
+                profileList.innerHTML = '';
+                profileCheckboxes.splice(0, profileCheckboxes.length);
+
+                const selectedCompetitionId = sanitizeCompetitionId(competitionSelect.value);
+                const selectableProfiles = getSelectableProfiles(selectedCompetitionId);
+                const preselectedProfiles = existingRanking ? (existingRanking.selectedProfiles || []) : selectableProfiles.map(function(profile) { return profile.name; });
+
+                selectableProfiles.forEach(function(profile) {
+                    const option = document.createElement('label');
+                    option.style.display = 'flex';
+                    option.style.alignItems = 'center';
+                    option.style.gap = '10px';
+                    option.style.cursor = 'pointer';
+                    option.style.padding = '10px 12px';
+                    option.style.borderRadius = '12px';
+                    option.style.backgroundColor = 'rgba(255, 255, 255, 0.76)';
+                    option.style.color = '#18212c';
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = profile.name;
+                    checkbox.checked = preselectedProfiles.includes(profile.name);
+                    profileCheckboxes.push(checkbox);
+                    option.appendChild(checkbox);
+
+                    const label = document.createElement('span');
+                    label.textContent = profile.name;
+                    option.appendChild(label);
+                    profileList.appendChild(option);
+                });
+
+                if (!selectableProfiles.length) {
+                    profileList.appendChild(createSidebarEmptyState('In diesem Bereich sind noch keine Athleten vorhanden.'));
+                }
+            }
+
+            refreshProfileOptions();
+
+            var confirmButton = createPrimaryButton(existingRanking ? 'Ranking speichern' : 'Ranking anlegen');
+            confirmButton.onclick = function() {
+                const rankingName = sanitizeProfileName(rankingNameInput.value);
+                const selectedCompetitionId = sanitizeCompetitionId(competitionSelect.value);
+                const selectedProfiles = profileCheckboxes.filter(function(checkbox) {
+                    return checkbox.checked;
+                }).map(function(checkbox) {
+                    return checkbox.value;
+                });
+
+                if (!rankingName) {
+                    alert('Bitte vergeben Sie einen Namen für das Ranking.');
+                    rankingNameInput.focus();
+                    return;
+                }
+
+                if (!selectedProfiles.length) {
+                    alert('Bitte wählen Sie mindestens ein Profil aus.');
+                    return;
+                }
+
+                if (isReservedRankingName(rankingName, existingRanking ? existingRanking.name : null)) {
+                    alert('Ein Ranking mit diesem Namen existiert bereits.');
+                    rankingNameInput.focus();
+                    return;
+                }
+
+                if (existingRanking) {
+                    existingRanking.name = rankingName;
+                    existingRanking.competitionId = selectedCompetitionId;
+                    existingRanking.selectedProfiles = selectedProfiles;
+                } else {
+                    rankings.push({
+                        name: rankingName,
+                        competitionId: selectedCompetitionId,
+                        selectedProfiles: selectedProfiles,
+                        createdAt: new Date().toISOString()
+                    });
+                }
+
+                saveRankingsToLocalStorage();
+                setLastSelectedCompetitionId(selectedCompetitionId);
+                currentCompetitionId = selectedCompetitionId;
+                closeModal(modal);
+                renderSidebar();
+                openRankingResults(rankingName);
+            };
+            content.appendChild(confirmButton);
+            document.body.appendChild(modal);
+            rankingNameInput.focus();
+            bindEnterKeyToOk(modal, confirmButton);
+        }
+
+        function deleteProfile(profileName) {
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            const currentComparisonAthletes = getComparisonAthletes(currentTitle);
+            const currentRanking = getRankingByName(currentTitle);
+
+            const profilesToDelete = profiles
+                .filter(function(profile) {
+                    return profile.name === profileName || getComparisonAthletes(profile.name).includes(profileName);
+                })
+                .map(function(profile) {
+                    return profile.name;
+                });
+
+            for (let index = profiles.length - 1; index >= 0; index -= 1) {
+                if (profilesToDelete.includes(profiles[index].name)) {
+                    profiles.splice(index, 1);
+                }
+            }
+
+            for (let index = rankings.length - 1; index >= 0; index -= 1) {
+                rankings[index].selectedProfiles = (rankings[index].selectedProfiles || []).filter(function(selectedProfileName) {
+                    return !profilesToDelete.includes(selectedProfileName);
+                });
+
+                if (!rankings[index].selectedProfiles.length) {
+                    rankings.splice(index, 1);
+                }
+            }
+
+            saveProfilesToLocalStorage();
+            saveRankingsToLocalStorage();
+            renderSidebar();
+
+            if (currentTitle === profileName || currentComparisonAthletes.includes(profileName)) {
+                navigateToHome();
+            } else if (currentRanking) {
+                const updatedRanking = getRankingByName(currentRanking.name);
+                if (updatedRanking) {
+                    openRankingResults(updatedRanking.name);
+                } else {
+                    navigateToHome();
+                }
+            }
+        }
+
+        window.onload = function () {
+            document.getElementById('mySidebar').style.transition = 'width 0.5s ease';
+            document.getElementById('overlay').style.transition = 'opacity 0.5s ease';
+
+            const installHintButton = document.getElementById('installHintButton');
+            const installHintDismiss = document.getElementById('installHintDismiss');
+            if (installHintButton) {
+                installHintButton.onclick = handleInstallHintAction;
+            }
+            if (installHintDismiss) {
+                installHintDismiss.onclick = function() {
+                    hideInstallHint(true);
+                };
+            }
+
+            loadCompetitionsFromLocalStorage();
+            loadProfilesFromLocalStorage();
+            loadRankingsFromLocalStorage();
+            loadSidebarStateFromLocalStorage();
+
+            profiles.forEach(function(profile) {
+                ensureProfileShape(profile);
+            });
+
+            rankings.forEach(function(ranking) {
+                ranking.competitionId = getCompetitionById(ranking.competitionId) ? ranking.competitionId : null;
+            });
+
+            if (currentCompetitionId && !getCompetitionById(currentCompetitionId)) {
+                currentCompetitionId = null;
+            }
+            if (lastSelectedCompetitionId && !getCompetitionById(lastSelectedCompetitionId)) {
+                lastSelectedCompetitionId = null;
+            }
+
+            initializeSidebarDragAndDrop();
+            updateInstallHintVisibility();
+            navigateToHome();
+            renderSidebar();
+            updateResponsiveAppTitles();
+        };
+
+        window.addEventListener('beforeunload', function() {
+            saveCompetitionsToLocalStorage();
+            saveSidebarStateToLocalStorage();
+        });
 
         let initialX = null;
         let initialY = null;
