@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Zehnkampfrechner</title>
 
     <!-- Verweise auf die Manifest-Datei -->
@@ -54,7 +54,7 @@
             background-size: 100vw 100vh;
             background-position: center top;
             background-attachment: fixed;
-            height: var(--app-visible-height, 100dvh);
+            height: 100dvh;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -190,11 +190,6 @@
         body.mobile-input-active .content-scroll-area {
             overscroll-behavior-y: auto;
             touch-action: pan-y;
-        }
-
-        body.background-dark.mobile-input-active {
-            height: var(--app-visible-height, 100dvh);
-            min-height: 0;
         }
 
         body.sidebar-open .content-scroll-area {
@@ -1361,6 +1356,29 @@
         .wa-performance-suggestion:focus-visible {
             border-color: rgba(143, 208, 163, 0.42);
             background: rgba(143, 208, 163, 0.16);
+        }
+
+        .wa-performance-suggestions.is-inline-comparison {
+            position: static;
+            grid-column: 1 / -1;
+            grid-row: 2;
+            justify-self: center;
+            width: min(100%, 320px);
+            max-width: 100%;
+            box-sizing: border-box;
+            justify-content: center;
+            margin: 0 auto;
+            padding: 4px;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+
+        .wa-performance-suggestions.is-inline-comparison .wa-performance-suggestion {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 6px 7px;
+            font-size: 11px;
+            line-height: 1.2;
         }
 
         .wa-link-editor {
@@ -3150,15 +3168,6 @@
             const shouldManageViewport = Boolean(activeInput && isMobileInputViewport());
 
             document.body.classList.toggle('mobile-input-active', shouldManageViewport);
-            if (shouldManageViewport && window.visualViewport) {
-                document.documentElement.style.setProperty(
-                    '--app-visible-height',
-                    `${Math.round(window.visualViewport.height)}px`
-                );
-            } else {
-                document.documentElement.style.removeProperty('--app-visible-height');
-            }
-
             return shouldManageViewport ? activeInput : null;
         }
 
@@ -3179,7 +3188,16 @@
                 && activeWorldAthleticsSuggestion.input === input
                 ? activeWorldAthleticsSuggestion.popover
                 : null;
-            const suggestionSpace = suggestion ? suggestion.offsetHeight + 18 : 58;
+            const isInlineSuggestion = Boolean(
+                suggestion && suggestion.classList.contains('is-inline-comparison')
+            );
+            const focusElement = input.classList.contains('inputcomparison')
+                ? input.closest('.comparison-discipline-row')
+                : input;
+            const focusRect = focusElement ? focusElement.getBoundingClientRect() : inputRect;
+            const suggestionSpace = isInlineSuggestion
+                ? 8
+                : (suggestion ? suggestion.offsetHeight + 18 : 58);
             let visibleTop = Math.max(scrollRect.top, viewport.top) + 12;
             const visibleBottom = Math.min(scrollRect.bottom, viewport.bottom) - suggestionSpace - 12;
 
@@ -3191,15 +3209,15 @@
                 }
             }
 
-            if (visibleBottom <= visibleTop + inputRect.height) {
+            if (visibleBottom <= visibleTop + focusRect.height) {
                 return;
             }
 
             let scrollDelta = 0;
-            if (inputRect.bottom > visibleBottom) {
-                scrollDelta = inputRect.bottom - visibleBottom;
-            } else if (inputRect.top < visibleTop) {
-                scrollDelta = inputRect.top - visibleTop;
+            if (focusRect.bottom > visibleBottom) {
+                scrollDelta = focusRect.bottom - visibleBottom;
+            } else if (focusRect.top < visibleTop) {
+                scrollDelta = focusRect.top - visibleTop;
             }
 
             if (Math.abs(scrollDelta) < 1) {
@@ -3217,10 +3235,10 @@
             mobileInputScrollTimers.forEach(function(timer) {
                 window.clearTimeout(timer);
             });
-            mobileInputScrollTimers = [80, 280].map(function(delay, index) {
+            mobileInputScrollTimers = [80, 280].map(function(delay) {
                 return window.setTimeout(function() {
                     syncMobileInputViewport(input);
-                    ensureInputVisibleAboveKeyboard(input, index === 0 ? 'smooth' : 'auto');
+                    ensureInputVisibleAboveKeyboard(input, 'auto');
                     if (activeWorldAthleticsSuggestion
                         && activeWorldAthleticsSuggestion.input === input) {
                         positionWorldAthleticsPerformanceSuggestions(
@@ -3266,6 +3284,11 @@
 
         function positionWorldAthleticsPerformanceSuggestions(popover, input) {
             if (!popover || !input || !document.body.contains(input)) {
+                return;
+            }
+
+            if (popover.classList.contains('is-inline-comparison')) {
+                popover.style.visibility = 'visible';
                 return;
             }
 
@@ -3340,7 +3363,18 @@
                 return;
             }
 
-            document.body.appendChild(popover);
+            const comparisonRow = input.closest('.comparison-discipline-row');
+            const useInlineComparison = Boolean(
+                comparisonRow
+                && input.classList.contains('inputcomparison')
+                && isMobileInputViewport()
+            );
+            if (useInlineComparison) {
+                popover.classList.add('is-inline-comparison');
+                comparisonRow.appendChild(popover);
+            } else {
+                document.body.appendChild(popover);
+            }
             activeWorldAthleticsSuggestion = { popover: popover, input: input };
             ensureInputVisibleAboveKeyboard(input);
             window.requestAnimationFrame(function() {
