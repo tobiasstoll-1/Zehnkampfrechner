@@ -1358,27 +1358,41 @@
             background: rgba(143, 208, 163, 0.16);
         }
 
-        .wa-performance-suggestions.is-inline-comparison {
+        .wa-performance-suggestions.is-inline-mobile {
             position: static;
-            grid-column: 1 / -1;
-            grid-row: 2;
-            justify-self: center;
-            width: min(100%, 320px);
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            width: 100%;
             max-width: 100%;
             box-sizing: border-box;
-            justify-content: center;
-            margin: 0 auto;
-            padding: 4px;
-            border-radius: 10px;
+            gap: 3px;
+            margin: 0;
+            padding: 3px;
+            border-radius: 9px;
             box-shadow: none;
         }
 
-        .wa-performance-suggestions.is-inline-comparison .wa-performance-suggestion {
-            flex: 1 1 0;
+        .wa-performance-suggestions.is-inline-mobile .wa-performance-suggestion {
             min-width: 0;
-            padding: 6px 7px;
-            font-size: 11px;
-            line-height: 1.2;
+            padding: 5px 3px;
+            font-size: 10px;
+            line-height: 1.15;
+            white-space: normal;
+        }
+
+        .single-performance-stack {
+            display: flex;
+            flex: 0 0 var(--performance-input-width);
+            flex-direction: column;
+            align-items: stretch;
+            gap: 4px;
+            min-width: 0;
+            margin-left: 10px;
+        }
+
+        .single-performance-stack .input {
+            width: 100%;
+            margin-left: 0;
         }
 
         .wa-link-editor {
@@ -1867,8 +1881,10 @@
 
         .comparison-performance {
             display: flex;
+            flex-direction: column;
             align-items: stretch;
             justify-content: stretch;
+            gap: 4px;
             width: 100%;
             padding: 0 1px;
             box-sizing: border-box;
@@ -2509,6 +2525,7 @@
         let activeWorldAthleticsSuggestion = null;
         let mobileInputScrollTimers = [];
         let appViewportAnimationFrame = null;
+        let mobileViewportSettleTimer = null;
         let appToastTimer = null;
 
         function normalizeWorldAthleticsBestMap(bestMap, includeYear) {
@@ -3189,10 +3206,10 @@
                 ? activeWorldAthleticsSuggestion.popover
                 : null;
             const isInlineSuggestion = Boolean(
-                suggestion && suggestion.classList.contains('is-inline-comparison')
+                suggestion && suggestion.classList.contains('is-inline-mobile')
             );
-            const focusElement = input.classList.contains('inputcomparison')
-                ? input.closest('.comparison-discipline-row')
+            const focusElement = isInlineSuggestion
+                ? input.closest('.profile-data-row, .comparison-discipline-row')
                 : input;
             const focusRect = focusElement ? focusElement.getBoundingClientRect() : inputRect;
             const suggestionSpace = isInlineSuggestion
@@ -3231,11 +3248,20 @@
             }
         }
 
-        function scheduleInputVisibility(input) {
+        function cancelPendingMobileInputScroll() {
             mobileInputScrollTimers.forEach(function(timer) {
                 window.clearTimeout(timer);
             });
-            mobileInputScrollTimers = [80, 280].map(function(delay) {
+            mobileInputScrollTimers = [];
+            if (mobileViewportSettleTimer) {
+                window.clearTimeout(mobileViewportSettleTimer);
+                mobileViewportSettleTimer = null;
+            }
+        }
+
+        function scheduleInputVisibility(input) {
+            cancelPendingMobileInputScroll();
+            mobileInputScrollTimers = [240].map(function(delay) {
                 return window.setTimeout(function() {
                     syncMobileInputViewport(input);
                     ensureInputVisibleAboveKeyboard(input, 'auto');
@@ -3257,9 +3283,6 @@
             appViewportAnimationFrame = window.requestAnimationFrame(function() {
                 appViewportAnimationFrame = null;
                 const input = syncMobileInputViewport();
-                if (input) {
-                    ensureInputVisibleAboveKeyboard(input);
-                }
                 if (activeWorldAthleticsSuggestion
                     && activeWorldAthleticsSuggestion.popover
                     && activeWorldAthleticsSuggestion.input) {
@@ -3267,6 +3290,22 @@
                         activeWorldAthleticsSuggestion.popover,
                         activeWorldAthleticsSuggestion.input
                     );
+                }
+                if (mobileViewportSettleTimer) {
+                    window.clearTimeout(mobileViewportSettleTimer);
+                }
+                if (input) {
+                    mobileViewportSettleTimer = window.setTimeout(function() {
+                        mobileViewportSettleTimer = null;
+                        ensureInputVisibleAboveKeyboard(input);
+                        if (activeWorldAthleticsSuggestion
+                            && activeWorldAthleticsSuggestion.input === input) {
+                            positionWorldAthleticsPerformanceSuggestions(
+                                activeWorldAthleticsSuggestion.popover,
+                                input
+                            );
+                        }
+                    }, 180);
                 }
             });
         }
@@ -3287,7 +3326,7 @@
                 return;
             }
 
-            if (popover.classList.contains('is-inline-comparison')) {
+            if (popover.classList.contains('is-inline-mobile')) {
                 popover.style.visibility = 'visible';
                 return;
             }
@@ -3301,13 +3340,8 @@
                 Math.min(left, viewport.right - popoverRect.width - 10)
             );
 
-            let top = inputRect.bottom + 7;
-            if (top + popoverRect.height > viewport.bottom - 10) {
-                top = inputRect.top - popoverRect.height - 7;
-            }
-
             popover.style.left = `${Math.round(left)}px`;
-            popover.style.top = `${Math.max(viewport.top + 10, Math.round(top))}px`;
+            popover.style.top = `${Math.round(inputRect.bottom + 7)}px`;
             popover.style.visibility = 'visible';
         }
 
@@ -3363,20 +3397,18 @@
                 return;
             }
 
-            const comparisonRow = input.closest('.comparison-discipline-row');
-            const useInlineComparison = Boolean(
-                comparisonRow
-                && input.classList.contains('inputcomparison')
-                && isMobileInputViewport()
-            );
-            if (useInlineComparison) {
-                popover.classList.add('is-inline-comparison');
-                comparisonRow.appendChild(popover);
+            const inlineHost = isMobileInputViewport()
+                ? input.closest('.single-performance-stack, .comparison-performance')
+                : null;
+            if (inlineHost) {
+                popover.classList.add('is-inline-mobile');
+                inlineHost.appendChild(popover);
             } else {
                 document.body.appendChild(popover);
             }
             activeWorldAthleticsSuggestion = { popover: popover, input: input };
-            ensureInputVisibleAboveKeyboard(input);
+            positionWorldAthleticsPerformanceSuggestions(popover, input);
+            scheduleInputVisibility(input);
             window.requestAnimationFrame(function() {
                 if (activeWorldAthleticsSuggestion
                     && activeWorldAthleticsSuggestion.popover === popover) {
@@ -3490,10 +3522,14 @@
             }
         }, true);
 
+        const profileContentScrollArea = getContentScrollArea();
+        if (profileContentScrollArea) {
+            profileContentScrollArea.addEventListener('touchmove', cancelPendingMobileInputScroll, { passive: true });
+        }
+
         window.addEventListener('resize', handleAppViewportChange);
         if (window.visualViewport) {
             window.visualViewport.addEventListener('resize', handleAppViewportChange);
-            window.visualViewport.addEventListener('scroll', handleAppViewportChange);
         }
 
         // Profile speichern
@@ -5440,7 +5476,9 @@
                 label.style.alignItems = 'center';
                 label.innerHTML = `
                     <span style="flex: 1 1 0; font-size: 25px;">${inputName}</span>
-                    <input class="input" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="flex: 0 0 var(--performance-input-width); font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    <div class="single-performance-stack">
+                        <input class="input" type="text" name="${inputName}" value="${value}" oninput="calculatePoints('${inputName}', 'result${i + 1}', ${getDisciplineType(i + 1)}, ${getABCValues(i + 1)})" style="font-size: 22px; font-weight: bold;" placeholder="${getDefaultPlaceholder(i + 1)}">
+                    </div>
                     <div class="single-points-cell">
                         <div id="result${i + 1}" class="single-points-value" style="font-size: 25px; text-align: right;">${points !== "" ? `${points} P` : '0 P'}</div>
                         <div id="singleCumulative${i + 1}" class="single-cumulative"></div>
