@@ -1,4 +1,4 @@
-const APP_VERSION = "v5";
+const APP_VERSION = "v6";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 
@@ -14,7 +14,7 @@ const CORE_ASSETS = [
   "./imgs/Faustregeln.png",
   "./imgs/new_profile.png",
   "./imgs/profile.png",
-  "./imgs/sync.png",
+  "./imgs/synchronize.png",
   "./imgs/table_icon.png"
 ];
 
