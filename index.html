@@ -1470,9 +1470,18 @@
         }
 
         .wa-link-actions {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
+            width: 100%;
+        }
+
+        .wa-link-actions .wa-secondary-button {
+            width: 100%;
+        }
+
+        .wa-link-actions .wa-secondary-button:only-child {
+            grid-column: 1 / -1;
         }
 
         .wa-secondary-button {
