@@ -1,4 +1,4 @@
-const APP_VERSION = "v3";
+const APP_VERSION = "v5";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 
@@ -60,7 +60,9 @@ async function networkFirst(request) {
 
 async function staleWhileRevalidate(request) {
   const runtimeCache = await caches.open(RUNTIME_CACHE);
-  const cachedResponse = await caches.match(request);
+  const staticCache = await caches.open(STATIC_CACHE);
+  const cachedResponse =
+    (await runtimeCache.match(request)) || (await staticCache.match(request));
 
   const networkFetch = fetch(request).then(networkResponse => {
     if (networkResponse && request.method === "GET") {

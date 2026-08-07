@@ -913,29 +913,44 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: 32px;
+            height: 32px;
             border: none;
-            padding: 0;
-            background: transparent;
+            border-radius: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.07);
             color: inherit;
             cursor: pointer;
+            box-sizing: content-box;
+            transition: transform var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard);
         }
 
         #top-icons .top-icon-button img {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+            cursor: inherit;
             pointer-events: none;
         }
 
-        #top-icons .top-icon-button:disabled {
+        #top-icons .top-icon-button:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+        }
+
+        #top-icons .top-icon-button img:hover {
+            transform: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        #top-icons .top-icon-button.is-syncing {
             cursor: wait;
-        }
-
-        #top-icons .top-icon-button.is-syncing img {
-            animation: wa-sync-spin 0.9s linear infinite;
-        }
-
-        @keyframes wa-sync-spin {
-            to {
-                transform: rotate(360deg);
-            }
+            pointer-events: none;
         }
 
         .ranking-view {
@@ -1984,6 +1999,7 @@
         .sidebar-main-button:focus-visible,
         .sidebar-action-button:focus-visible,
         .icon-action-button:focus-visible,
+        #top-icons .top-icon-button:focus-visible,
         #top-icons img:focus-visible,
         .input:focus-visible,
         .inputcomparison:focus-visible {
@@ -2133,6 +2149,12 @@
             }
 
             #top-icons img {
+                width: 27px;
+                height: 27px;
+                padding: 7px;
+            }
+
+            #top-icons .top-icon-button {
                 width: 27px;
                 height: 27px;
                 padding: 7px;
@@ -2297,6 +2319,13 @@
                 border-radius: 10px;
             }
 
+            #top-icons .top-icon-button {
+                width: 24px;
+                height: 24px;
+                border-radius: 10px;
+                padding: 6px;
+            }
+
             #top-icons img[src$="comparison.png"] {
                 width: 43px;
                 height: 24px;
@@ -2357,9 +2386,9 @@
             <img src="imgs/comparison.png" onclick="openAthleteComparison()">
             <img src="imgs/table_icon.png" onclick="openRanking()">
             <img src="imgs/thumbrules.png" onclick="openFaustregelnView()">
-            <button id="worldAthleticsSyncButton" class="top-icon-button" type="button" onclick="syncAllWorldAthleticsProfiles({ force: true, announce: true })" aria-label="Athletendaten aktualisieren" title="Athletendaten aktualisieren">
-                <img src="imgs/sync.png" alt="">
-            </button>
+            <span id="worldAthleticsSyncButton" class="top-icon-button" role="button" tabindex="0" onclick="syncAllWorldAthleticsProfiles({ force: true, announce: true })" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }" aria-label="Athletendaten aktualisieren" title="Athletendaten aktualisieren">
+                <img src="imgs/sync.png" alt="" draggable="false">
+            </span>
         </div>
     </div>
     
@@ -2918,14 +2947,15 @@
         }
 
         function setWorldAthleticsSyncButtonState(isSyncing) {
-            const button = document.getElementById('worldAthleticsSyncButton');
-            if (!button) {
+            const control = document.getElementById('worldAthleticsSyncButton');
+            if (!control) {
                 return;
             }
 
-            button.disabled = isSyncing;
-            button.classList.toggle('is-syncing', isSyncing);
-            button.setAttribute('aria-busy', isSyncing ? 'true' : 'false');
+            control.classList.toggle('is-syncing', isSyncing);
+            control.setAttribute('aria-busy', isSyncing ? 'true' : 'false');
+            control.setAttribute('aria-disabled', isSyncing ? 'true' : 'false');
+            control.tabIndex = isSyncing ? -1 : 0;
         }
 
         function showAppToast(message, duration = 3200) {
