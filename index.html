@@ -909,6 +909,35 @@
             height: 32px;
         }
 
+        #top-icons .top-icon-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        #top-icons .top-icon-button img {
+            pointer-events: none;
+        }
+
+        #top-icons .top-icon-button:disabled {
+            cursor: wait;
+        }
+
+        #top-icons .top-icon-button.is-syncing img {
+            animation: wa-sync-spin 0.9s linear infinite;
+        }
+
+        @keyframes wa-sync-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         .ranking-view {
             position: relative;
             z-index: 0;
@@ -1210,6 +1239,341 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .profile-link-indicator {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 9px;
+            padding: 5px;
+            background: rgba(143, 208, 163, 0.12);
+            cursor: pointer;
+            transition: background-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .profile-link-indicator:hover,
+        .profile-link-indicator.is-open {
+            background: rgba(143, 208, 163, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .profile-link-indicator img {
+            display: block;
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        .profile-link-tooltip {
+            position: absolute;
+            top: calc(100% + 9px);
+            left: 50%;
+            z-index: 38;
+            width: max-content;
+            max-width: min(80vw, 320px);
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            border-radius: 10px;
+            background: rgba(20, 26, 31, 0.98);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
+            color: #f7fafc;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.25;
+            text-align: center;
+            white-space: normal;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -4px);
+            transition: opacity var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .profile-link-indicator:hover .profile-link-tooltip,
+        .profile-link-indicator:focus-visible .profile-link-tooltip,
+        .profile-link-indicator.is-open .profile-link-tooltip {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .wa-performance-suggestions {
+            position: fixed;
+            z-index: 48;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            max-width: calc(100vw - 20px);
+            padding: 6px;
+            border: 1px solid rgba(143, 208, 163, 0.26);
+            border-radius: 12px;
+            background: rgba(29, 35, 39, 0.98);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+            animation: view-fade-in 150ms ease;
+        }
+
+        .wa-performance-suggestion {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 7px 9px;
+            background: rgba(255, 255, 255, 0.07);
+            color: #f6faf7;
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), border-color var(--motion-standard);
+        }
+
+        .wa-performance-suggestion:hover,
+        .wa-performance-suggestion:focus-visible {
+            border-color: rgba(143, 208, 163, 0.42);
+            background: rgba(143, 208, 163, 0.16);
+        }
+
+        .wa-link-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 2px;
+        }
+
+        .wa-link-summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            padding: 11px 12px;
+            border: 1px solid rgba(62, 123, 85, 0.18);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.52);
+            color: #243240;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .wa-link-summary img {
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            object-fit: contain;
+        }
+
+        .wa-link-summary span {
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .wa-link-summary-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex: 0 0 auto;
+        }
+
+        .wa-link-icon-button {
+            width: 34px;
+            min-width: 34px;
+            min-height: 34px;
+            border: 1px solid rgba(33, 43, 51, 0.18);
+            border-radius: 10px;
+            background: #354048;
+        }
+
+        .wa-link-icon-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .wa-link-icon-button:hover,
+        .wa-link-icon-button:focus-visible {
+            background: #27323a;
+        }
+
+        .wa-link-icon-button.is-danger {
+            border-color: rgba(142, 67, 67, 0.22);
+            background: rgba(142, 67, 67, 0.09);
+        }
+
+        .wa-link-icon-button.is-danger:hover,
+        .wa-link-icon-button.is-danger:focus-visible {
+            border-color: rgba(142, 67, 67, 0.34);
+            background: rgba(142, 67, 67, 0.15);
+        }
+
+        .wa-inline-link-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .wa-inline-link-picker:empty {
+            display: none;
+        }
+
+        .wa-inline-link-picker .wa-link-summary {
+            padding: 9px 10px;
+        }
+
+        .wa-inline-suggestion-label {
+            padding: 2px 2px 0 2px;
+            color: #607080;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .wa-inline-link-picker .wa-search-results {
+            max-height: 240px;
+        }
+
+        .wa-link-remove {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 28px;
+            height: 28px;
+            margin-left: auto;
+            border: 1px solid rgba(52, 72, 92, 0.14);
+            border-radius: 999px;
+            padding: 0 0 2px 0;
+            background: rgba(255, 255, 255, 0.52);
+            color: #53616f;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .wa-link-remove:hover {
+            background: rgba(142, 67, 67, 0.1);
+            color: #7b3535;
+            transform: scale(1.04);
+        }
+
+        .wa-inline-search-state {
+            padding: 3px 2px 0 2px;
+            color: #6a7784;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .wa-link-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .wa-secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            border: 1px solid rgba(52, 72, 92, 0.17);
+            border-radius: 11px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #263746;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), border-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .wa-secondary-button:hover {
+            border-color: rgba(62, 123, 85, 0.32);
+            background: rgba(255, 255, 255, 0.78);
+            transform: translateY(-1px);
+        }
+
+        .wa-secondary-button.is-danger {
+            color: #7b3535;
+        }
+
+        .wa-search-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid rgba(52, 72, 92, 0.14);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.34);
+        }
+
+        .wa-search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+        }
+
+        .wa-search-button {
+            min-width: 86px;
+        }
+
+        .wa-search-status {
+            color: #607080;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .wa-search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 230px;
+            overflow-y: auto;
+        }
+
+        .wa-search-result {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid rgba(52, 72, 92, 0.12);
+            border-radius: 11px;
+            padding: 9px 11px;
+            background: rgba(255, 255, 255, 0.58);
+            color: #263746;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .wa-search-result:hover {
+            border-color: rgba(62, 123, 85, 0.3);
+            background: rgba(255, 255, 255, 0.86);
+        }
+
+        .app-toast {
+            position: fixed;
+            left: 50%;
+            bottom: max(22px, env(safe-area-inset-bottom));
+            z-index: 90;
+            max-width: min(88vw, 520px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 13px;
+            padding: 11px 14px;
+            background: rgba(23, 29, 34, 0.97);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.36);
+            color: #f7fafc;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            text-align: center;
+            transform: translateX(-50%);
+            animation: modal-sheet-in 220ms ease forwards;
         }
 
         .profile-view-surface {
@@ -1760,7 +2124,18 @@
             }
 
             #top-icons img {
-                padding: 9px;
+                width: 27px;
+                height: 27px;
+                padding: 7px;
+            }
+
+            #top-icons img[src$="comparison.png"] {
+                width: 50px;
+                height: 27px;
+            }
+
+            .app-topbar-actions {
+                gap: 3px;
             }
 
             .home-action-icon img {
@@ -1900,9 +2275,34 @@
             }
 
             .app-topbar {
-                gap: 6px;
-                padding-left: 10px;
-                padding-right: 4px;
+                grid-template-columns: 36px minmax(0, 1fr) auto;
+                gap: 4px;
+                padding-left: 8px;
+                padding-right: 2px;
+            }
+
+            #top-icons img {
+                width: 24px;
+                height: 24px;
+                padding: 6px;
+                border-radius: 10px;
+            }
+
+            #top-icons img[src$="comparison.png"] {
+                width: 43px;
+                height: 24px;
+            }
+
+            .profile-link-tooltip {
+                max-width: min(86vw, 280px);
+            }
+
+            .wa-search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .wa-search-button {
+                width: 100%;
             }
 
             .home-action {
@@ -1948,6 +2348,9 @@
             <img src="imgs/comparison.png" onclick="openAthleteComparison()">
             <img src="imgs/table_icon.png" onclick="openRanking()">
             <img src="imgs/thumbrules.png" onclick="openFaustregelnView()">
+            <button id="worldAthleticsSyncButton" class="top-icon-button" type="button" onclick="syncAllWorldAthleticsProfiles({ force: true, announce: true })" aria-label="Athletendaten aktualisieren" title="Athletendaten aktualisieren">
+                <img src="imgs/sync.png" alt="">
+            </button>
         </div>
     </div>
     
@@ -2010,6 +2413,850 @@
         let currentViewKey = 'home';
         let deferredInstallPrompt = null;
         const installHintDismissKey = 'installHintDismissed';
+        const WORLD_ATHLETICS_API_BASE = 'https://worldathletics.nimarion.de';
+        const WORLD_ATHLETICS_SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000;
+        const WORLD_ATHLETICS_DATA_FORMAT_VERSION = 2;
+        const WORLD_ATHLETICS_DISCIPLINES = Object.freeze({
+            '100': Object.freeze({ index: 0, isTime: true }),
+            'LJ': Object.freeze({ index: 1, isTime: false }),
+            'SP': Object.freeze({ index: 2, isTime: false }),
+            'HJ': Object.freeze({ index: 3, isTime: false }),
+            '400': Object.freeze({ index: 4, isTime: true }),
+            '110H': Object.freeze({ index: 5, isTime: true }),
+            'DT': Object.freeze({ index: 6, isTime: false }),
+            'PV': Object.freeze({ index: 7, isTime: false }),
+            'JT': Object.freeze({ index: 8, isTime: false }),
+            '1500': Object.freeze({ index: 9, isTime: true })
+        });
+        const WORLD_ATHLETICS_CODE_BY_INDEX = Object.freeze([
+            '100', 'LJ', 'SP', 'HJ', '400', '110H', 'DT', 'PV', 'JT', '1500'
+        ]);
+        const WORLD_ATHLETICS_DECATHLON_CODE_PREFIX = 'DEC';
+        const WORLD_ATHLETICS_DECATHLON_CACHE_KEY = 'worldAthleticsDecathlonEligibilityV1';
+        const WORLD_ATHLETICS_DECATHLON_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+        const worldAthleticsDecathlonEligibilityCache = new Map();
+        const worldAthleticsDecathlonEligibilityStore = loadWorldAthleticsDecathlonEligibilityStore();
+        let worldAthleticsDecathlonCacheSaveTimer = null;
+        let worldAthleticsSyncPromise = null;
+        let worldAthleticsSuggestionTimer = null;
+        let activeWorldAthleticsSuggestion = null;
+        let appToastTimer = null;
+
+        function normalizeWorldAthleticsBestMap(bestMap, includeYear) {
+            const normalizedMap = {};
+            if (!bestMap || typeof bestMap !== 'object' || Array.isArray(bestMap)) {
+                return normalizedMap;
+            }
+
+            Object.keys(WORLD_ATHLETICS_DISCIPLINES).forEach(function(code) {
+                const entry = bestMap[code];
+                if (!entry || typeof entry.value !== 'string' || !entry.value.trim()) {
+                    return;
+                }
+
+                normalizedMap[code] = { value: entry.value.trim() };
+                const year = Number(entry.year);
+                if (includeYear && Number.isInteger(year) && year > 1900 && year < 2200) {
+                    normalizedMap[code].year = year;
+                }
+            });
+
+            return normalizedMap;
+        }
+
+        function normalizeWorldAthleticsLink(link) {
+            if (!link || typeof link !== 'object') {
+                return null;
+            }
+
+            const athleteId = Number(link.athleteId);
+            const athleteName = sanitizeProfileName(link.athleteName);
+            const country = String(link.country || '').trim().toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3);
+            if (!Number.isInteger(athleteId) || athleteId <= 0 || !athleteName || !country) {
+                return null;
+            }
+
+            const lastSyncedAt = Number(link.lastSyncedAt);
+            const dataFormatVersion = Number(link.dataFormatVersion);
+            return {
+                athleteId: athleteId,
+                athleteName: athleteName,
+                country: country,
+                lastSyncedAt: Number.isFinite(lastSyncedAt) && lastSyncedAt > 0 ? lastSyncedAt : 0,
+                dataFormatVersion: Number.isInteger(dataFormatVersion) && dataFormatVersion > 0
+                    ? dataFormatVersion
+                    : 0,
+                personalBests: normalizeWorldAthleticsBestMap(link.personalBests, true),
+                seasonBests: normalizeWorldAthleticsBestMap(link.seasonBests, false)
+            };
+        }
+
+        function createWorldAthleticsIdentity(athlete) {
+            if (!athlete || typeof athlete !== 'object') {
+                return null;
+            }
+
+            return normalizeWorldAthleticsLink({
+                athleteId: athlete.id,
+                athleteName: [athlete.firstname, athlete.lastname].filter(Boolean).join(' '),
+                country: athlete.country,
+                lastSyncedAt: 0,
+                dataFormatVersion: 0,
+                personalBests: {},
+                seasonBests: {}
+            });
+        }
+
+        function formatWorldAthleticsIdentity(link) {
+            const normalizedLink = normalizeWorldAthleticsLink(link);
+            return normalizedLink ? `${normalizedLink.athleteName} - ${normalizedLink.country}` : '';
+        }
+
+        function parseWorldAthleticsMark(code, mark) {
+            if (!WORLD_ATHLETICS_DISCIPLINES[code] || mark == null) {
+                return null;
+            }
+
+            const normalizedMark = String(mark)
+                .trim()
+                .replace(',', '.')
+                .replace(/h$/i, '');
+            if (!normalizedMark) {
+                return null;
+            }
+
+            if (code !== '1500') {
+                if (!/^\d+(?:\.\d+)?$/.test(normalizedMark)) {
+                    return null;
+                }
+                const numericValue = Number(normalizedMark);
+                return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : null;
+            }
+
+            const timeParts = normalizedMark.split(':');
+            if (timeParts.length < 1 || timeParts.length > 3
+                || timeParts.some(function(part) { return !/^\d+(?:\.\d+)?$/.test(part); })) {
+                return null;
+            }
+
+            const numericParts = timeParts.map(Number);
+            let totalSeconds;
+            if (numericParts.length === 1) {
+                totalSeconds = numericParts[0];
+            } else if (numericParts.length === 2 && numericParts[1] < 60) {
+                totalSeconds = numericParts[0] * 60 + numericParts[1];
+            } else if (numericParts.length === 3 && numericParts[1] < 60 && numericParts[2] < 60) {
+                totalSeconds = numericParts[0] * 3600 + numericParts[1] * 60 + numericParts[2];
+            } else {
+                return null;
+            }
+
+            return Number.isFinite(totalSeconds) && totalSeconds > 0 ? totalSeconds : null;
+        }
+
+        function formatWorldAthleticsMark(code, parsedMark) {
+            const numericValue = Number(parsedMark);
+            if (!WORLD_ATHLETICS_DISCIPLINES[code] || !Number.isFinite(numericValue) || numericValue < 0) {
+                return '';
+            }
+
+            if (code === '1500') {
+                const totalHundredths = Math.round(numericValue * 100);
+                const minutes = Math.floor(totalHundredths / 6000);
+                const seconds = ((totalHundredths % 6000) / 100).toFixed(2).padStart(5, '0');
+                return `${minutes}:${seconds}`;
+            }
+
+            return numericValue.toFixed(2);
+        }
+
+        function getWorldAthleticsPerformanceYear(dateValue) {
+            if (!dateValue) {
+                return null;
+            }
+
+            const date = new Date(dateValue);
+            return Number.isNaN(date.getTime()) ? null : date.getFullYear();
+        }
+
+        function buildWorldAthleticsBestMap(performances, includeYear, expectedYear = null) {
+            const selectedByCode = {};
+            if (!Array.isArray(performances)) {
+                return {};
+            }
+
+            performances.forEach(function(performance) {
+                if (!performance || performance.legal !== true) {
+                    return;
+                }
+
+                const code = String(performance.disciplineCode || '');
+                const discipline = WORLD_ATHLETICS_DISCIPLINES[code];
+                const parsedMark = parseWorldAthleticsMark(code, performance.mark);
+                if (!discipline || parsedMark == null) {
+                    return;
+                }
+
+                const performanceYear = getWorldAthleticsPerformanceYear(performance.date);
+                if (expectedYear && performanceYear !== expectedYear) {
+                    return;
+                }
+
+                const selectedPerformance = selectedByCode[code];
+                const isBetter = !selectedPerformance
+                    || (discipline.isTime
+                        ? parsedMark < selectedPerformance.parsedMark
+                        : parsedMark > selectedPerformance.parsedMark);
+                if (isBetter) {
+                    selectedByCode[code] = {
+                        parsedMark: parsedMark,
+                        year: performanceYear
+                    };
+                }
+            });
+
+            const bestMap = {};
+            Object.keys(selectedByCode).forEach(function(code) {
+                const selectedPerformance = selectedByCode[code];
+                const formattedValue = formatWorldAthleticsMark(code, selectedPerformance.parsedMark);
+                if (!formattedValue) {
+                    return;
+                }
+
+                bestMap[code] = { value: formattedValue };
+                if (includeYear && selectedPerformance.year) {
+                    bestMap[code].year = selectedPerformance.year;
+                }
+            });
+
+            return bestMap;
+        }
+
+        function mergeWorldAthleticsBestMaps(primaryMap, fallbackMap) {
+            const mergedMap = {};
+            WORLD_ATHLETICS_CODE_BY_INDEX.forEach(function(code) {
+                const entry = primaryMap[code] || fallbackMap[code];
+                if (entry) {
+                    mergedMap[code] = entry;
+                }
+            });
+            return mergedMap;
+        }
+
+        async function fetchWorldAthleticsJson(path) {
+            const controller = new AbortController();
+            const timeoutId = window.setTimeout(function() {
+                controller.abort();
+            }, 15000);
+
+            try {
+                const response = await fetch(`${WORLD_ATHLETICS_API_BASE}${path}`, {
+                    method: 'GET',
+                    headers: { Accept: 'application/json' },
+                    cache: 'no-store',
+                    signal: controller.signal
+                });
+                if (!response.ok) {
+                    throw new Error(`World Athletics antwortet mit Status ${response.status}.`);
+                }
+                return await response.json();
+            } finally {
+                window.clearTimeout(timeoutId);
+            }
+        }
+
+        function normalizeWorldAthleticsSearchText(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+        }
+
+        function prioritizeWorldAthleticsSearchResults(athletes, searchTerm) {
+            const normalizedSearchTerm = normalizeWorldAthleticsSearchText(searchTerm);
+            return athletes.map(function(athlete, originalIndex) {
+                const fullName = normalizeWorldAthleticsSearchText(
+                    [athlete && athlete.firstname, athlete && athlete.lastname].filter(Boolean).join(' ')
+                );
+                const phraseRank = fullName.startsWith(normalizedSearchTerm)
+                    ? 0
+                    : (fullName.includes(normalizedSearchTerm) ? 1 : 2);
+                const distance = Number(athlete && athlete.levenshteinDistance);
+                return {
+                    athlete: athlete,
+                    phraseRank: phraseRank,
+                    distance: Number.isFinite(distance) ? distance : Number.MAX_SAFE_INTEGER,
+                    originalIndex: originalIndex
+                };
+            }).sort(function(left, right) {
+                return left.phraseRank - right.phraseRank
+                    || left.distance - right.distance
+                    || left.originalIndex - right.originalIndex;
+            }).map(function(entry) {
+                return entry.athlete;
+            });
+        }
+
+        async function searchWorldAthleticsAthletes(searchTerm) {
+            const normalizedSearchTerm = sanitizeProfileName(searchTerm);
+            if (normalizedSearchTerm.length < 2) {
+                return [];
+            }
+
+            const searchResult = await fetchWorldAthleticsJson(`/athletes/search?name=${encodeURIComponent(normalizedSearchTerm)}`);
+            return Array.isArray(searchResult)
+                ? prioritizeWorldAthleticsSearchResults(searchResult, normalizedSearchTerm).slice(0, 32)
+                : [];
+        }
+
+        function hasWorldAthleticsDecathlonPerformance(athleteProfile) {
+            if (!athleteProfile || typeof athleteProfile !== 'object') {
+                return false;
+            }
+
+            const personalBests = Array.isArray(athleteProfile.personalbests)
+                ? athleteProfile.personalbests
+                : athleteProfile.personalBests;
+            return Array.isArray(personalBests) && personalBests.some(function(performance) {
+                const disciplineCode = String(performance && performance.disciplineCode || '').toUpperCase();
+                return disciplineCode.startsWith(WORLD_ATHLETICS_DECATHLON_CODE_PREFIX);
+            });
+        }
+
+        function loadWorldAthleticsDecathlonEligibilityStore() {
+            try {
+                const storedValue = JSON.parse(localStorage.getItem(WORLD_ATHLETICS_DECATHLON_CACHE_KEY) || '{}');
+                if (!storedValue || typeof storedValue !== 'object' || Array.isArray(storedValue)) {
+                    return {};
+                }
+
+                const now = Date.now();
+                return Object.keys(storedValue).reduce(function(validEntries, athleteId) {
+                    const entry = storedValue[athleteId];
+                    const checkedAt = Number(entry && entry.checkedAt);
+                    if (typeof (entry && entry.eligible) === 'boolean'
+                        && Number.isFinite(checkedAt)
+                        && now - checkedAt < WORLD_ATHLETICS_DECATHLON_CACHE_MAX_AGE_MS) {
+                        validEntries[athleteId] = {
+                            eligible: entry.eligible,
+                            checkedAt: checkedAt
+                        };
+                    }
+                    return validEntries;
+                }, {});
+            } catch (error) {
+                console.warn('Zehnkampf-Suchcache konnte nicht gelesen werden:', error);
+                return {};
+            }
+        }
+
+        function storeWorldAthleticsDecathlonEligibility(athleteId, eligible) {
+            worldAthleticsDecathlonEligibilityStore[athleteId] = {
+                eligible: !!eligible,
+                checkedAt: Date.now()
+            };
+            if (worldAthleticsDecathlonCacheSaveTimer) {
+                window.clearTimeout(worldAthleticsDecathlonCacheSaveTimer);
+            }
+            worldAthleticsDecathlonCacheSaveTimer = window.setTimeout(function() {
+                worldAthleticsDecathlonCacheSaveTimer = null;
+                try {
+                    localStorage.setItem(
+                        WORLD_ATHLETICS_DECATHLON_CACHE_KEY,
+                        JSON.stringify(worldAthleticsDecathlonEligibilityStore)
+                    );
+                } catch (error) {
+                    console.warn('Zehnkampf-Suchcache konnte nicht gespeichert werden:', error);
+                }
+            }, 100);
+        }
+
+        function getWorldAthleticsDecathlonEligibility(athleteId) {
+            const normalizedAthleteId = Number(athleteId);
+            if (!Number.isInteger(normalizedAthleteId) || normalizedAthleteId <= 0) {
+                return Promise.resolve(false);
+            }
+
+            if (worldAthleticsDecathlonEligibilityCache.has(normalizedAthleteId)) {
+                return worldAthleticsDecathlonEligibilityCache.get(normalizedAthleteId);
+            }
+
+            const storedEligibility = worldAthleticsDecathlonEligibilityStore[normalizedAthleteId];
+            if (storedEligibility) {
+                const cachedResult = Promise.resolve(storedEligibility.eligible);
+                worldAthleticsDecathlonEligibilityCache.set(normalizedAthleteId, cachedResult);
+                return cachedResult;
+            }
+
+            const eligibilityRequest = fetchWorldAthleticsJson(`/athletes/${normalizedAthleteId}`)
+                .then(hasWorldAthleticsDecathlonPerformance)
+                .then(function(eligible) {
+                    storeWorldAthleticsDecathlonEligibility(normalizedAthleteId, eligible);
+                    return eligible;
+                })
+                .catch(function(error) {
+                    worldAthleticsDecathlonEligibilityCache.delete(normalizedAthleteId);
+                    throw error;
+                });
+            worldAthleticsDecathlonEligibilityCache.set(normalizedAthleteId, eligibilityRequest);
+            return eligibilityRequest;
+        }
+
+        async function searchWorldAthleticsDecathletes(searchTerm, limit = 5, onProgress = null) {
+            const athletes = await searchWorldAthleticsAthletes(searchTerm);
+            const decathleteEntries = [];
+            const batchSize = 12;
+
+            for (let startIndex = 0; startIndex < athletes.length && decathleteEntries.length < limit; startIndex += batchSize) {
+                const batch = athletes.slice(startIndex, startIndex + batchSize);
+                const checkedAthletes = await Promise.allSettled(batch.map(async function(athlete, batchIndex) {
+                    const eligible = await getWorldAthleticsDecathlonEligibility(athlete && athlete.id);
+                    if (!eligible) {
+                        return null;
+                    }
+
+                    decathleteEntries.push({
+                        athlete: athlete,
+                        searchOrder: startIndex + batchIndex
+                    });
+                    decathleteEntries.sort(function(left, right) {
+                        return left.searchOrder - right.searchOrder;
+                    });
+                    if (typeof onProgress === 'function') {
+                        onProgress(decathleteEntries.slice(0, limit).map(function(entry) {
+                            return entry.athlete;
+                        }));
+                    }
+                    return athlete;
+                }));
+
+                checkedAthletes.forEach(function(result) {
+                    if (result.status === 'rejected') {
+                        console.error('Zehnkampfprofil konnte nicht geprüft werden:', result.reason);
+                    }
+                });
+            }
+
+            return decathleteEntries.slice(0, limit).map(function(entry) {
+                return entry.athlete;
+            });
+        }
+
+        async function fetchWorldAthleticsData(athleteId) {
+            const currentYear = new Date().getFullYear();
+            const responses = await Promise.allSettled([
+                fetchWorldAthleticsJson(`/athletes/${athleteId}`),
+                fetchWorldAthleticsJson(`/athletes/${athleteId}/results?year=${currentYear}`)
+            ]);
+            if (responses[0].status !== 'fulfilled') {
+                throw responses[0].reason;
+            }
+
+            const athlete = responses[0].value;
+            const currentYearResults = responses[1].status === 'fulfilled' && Array.isArray(responses[1].value)
+                ? responses[1].value
+                : [];
+            if (responses[1].status === 'rejected') {
+                console.warn(`Jahresresultate für Athlet ${athleteId} konnten nicht als SB-Fallback geladen werden:`, responses[1].reason);
+            }
+            const identity = createWorldAthleticsIdentity(athlete);
+            if (!identity || identity.athleteId !== Number(athleteId)) {
+                throw new Error('Die empfangenen Athletendaten sind unvollständig.');
+            }
+
+            const personalBests = Array.isArray(athlete.personalbests)
+                ? athlete.personalbests
+                : athlete.personalBests;
+            const officialSeasonBests = [
+                athlete.seasonsbests,
+                athlete.seasonBests,
+                athlete.seasonsBests
+            ].find(Array.isArray) || [];
+            const officialSeasonBestMap = buildWorldAthleticsBestMap(
+                officialSeasonBests,
+                false,
+                currentYear
+            );
+            const resultSeasonBestMap = buildWorldAthleticsBestMap(
+                currentYearResults,
+                false,
+                currentYear
+            );
+            identity.lastSyncedAt = Date.now();
+            identity.dataFormatVersion = WORLD_ATHLETICS_DATA_FORMAT_VERSION;
+            identity.personalBests = buildWorldAthleticsBestMap(personalBests, true);
+            identity.seasonBests = mergeWorldAthleticsBestMaps(
+                officialSeasonBestMap,
+                resultSeasonBestMap
+            );
+            return identity;
+        }
+
+        function getLinkedWorldAthleticsProfiles() {
+            return profiles.filter(function(profile) {
+                return profile.type === 'single' && !!normalizeWorldAthleticsLink(profile.worldAthletics);
+            });
+        }
+
+        function isWorldAthleticsLinkStale(link) {
+            const normalizedLink = normalizeWorldAthleticsLink(link);
+            return !normalizedLink
+                || normalizedLink.dataFormatVersion !== WORLD_ATHLETICS_DATA_FORMAT_VERSION
+                || normalizedLink.lastSyncedAt === 0
+                || Date.now() - normalizedLink.lastSyncedAt >= WORLD_ATHLETICS_SYNC_INTERVAL_MS;
+        }
+
+        function setWorldAthleticsSyncButtonState(isSyncing) {
+            const button = document.getElementById('worldAthleticsSyncButton');
+            if (!button) {
+                return;
+            }
+
+            button.disabled = isSyncing;
+            button.classList.toggle('is-syncing', isSyncing);
+            button.setAttribute('aria-busy', isSyncing ? 'true' : 'false');
+        }
+
+        function showAppToast(message, duration = 3200) {
+            const existingToast = document.querySelector('.app-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            if (appToastTimer) {
+                window.clearTimeout(appToastTimer);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'app-toast';
+            toast.setAttribute('role', 'status');
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            appToastTimer = window.setTimeout(function() {
+                toast.remove();
+                appToastTimer = null;
+            }, duration);
+        }
+
+        function refreshVisibleWorldAthleticsIndicator() {
+            const currentProfileName = document.querySelector('.center')?.textContent?.trim();
+            const currentProfile = profiles.find(function(profile) {
+                return profile.name === currentProfileName && profile.type === 'single';
+            });
+            const indicator = document.querySelector('.view-header-row .profile-link-indicator');
+            const link = normalizeWorldAthleticsLink(currentProfile && currentProfile.worldAthletics);
+            if (!indicator || !link) {
+                return;
+            }
+
+            const identity = formatWorldAthleticsIdentity(link);
+            indicator.setAttribute('aria-label', `Verknüpft mit ${identity}`);
+            const tooltip = indicator.querySelector('.profile-link-tooltip');
+            if (tooltip) {
+                tooltip.textContent = identity;
+            }
+        }
+
+        async function syncAllWorldAthleticsProfiles(options = {}) {
+            const force = options.force === true;
+            const announce = options.announce === true;
+            const requestedAthleteIds = Array.isArray(options.athleteIds)
+                ? new Set(options.athleteIds.map(Number))
+                : null;
+
+            if (worldAthleticsSyncPromise) {
+                if (announce) {
+                    showAppToast('Die Athletendaten werden bereits aktualisiert.');
+                }
+                return worldAthleticsSyncPromise;
+            }
+
+            if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+                if (announce) {
+                    showAppToast('Keine Internetverbindung. Die gespeicherten Daten bleiben verfügbar.');
+                }
+                return null;
+            }
+
+            const linkedProfiles = getLinkedWorldAthleticsProfiles();
+            const targetProfiles = linkedProfiles.filter(function(profile) {
+                const link = normalizeWorldAthleticsLink(profile.worldAthletics);
+                const idMatches = !requestedAthleteIds || requestedAthleteIds.has(link.athleteId);
+                return idMatches && (force || isWorldAthleticsLinkStale(link));
+            });
+            const athleteIds = Array.from(new Set(targetProfiles.map(function(profile) {
+                return Number(profile.worldAthletics.athleteId);
+            })));
+
+            if (athleteIds.length === 0) {
+                if (announce) {
+                    showAppToast(linkedProfiles.length === 0
+                        ? 'Es sind noch keine Profile mit World Athletics verknüpft.'
+                        : 'Die Athletendaten sind bereits aktuell.');
+                }
+                return null;
+            }
+
+            setWorldAthleticsSyncButtonState(true);
+            if (announce) {
+                showAppToast('Athletendaten werden aktualisiert ...', 1800);
+            }
+
+            worldAthleticsSyncPromise = (async function() {
+                const results = await Promise.allSettled(athleteIds.map(function(athleteId) {
+                    return fetchWorldAthleticsData(athleteId);
+                }));
+                let updatedAthletes = 0;
+                let failedAthletes = 0;
+
+                results.forEach(function(result, index) {
+                    const athleteId = athleteIds[index];
+                    if (result.status !== 'fulfilled') {
+                        failedAthletes += 1;
+                        console.error(`Athletendaten für ID ${athleteId} konnten nicht aktualisiert werden:`, result.reason);
+                        return;
+                    }
+
+                    updatedAthletes += 1;
+                    linkedProfiles.forEach(function(profile) {
+                        const link = normalizeWorldAthleticsLink(profile.worldAthletics);
+                        if (link && link.athleteId === athleteId) {
+                            profile.worldAthletics = result.value;
+                        }
+                    });
+                });
+
+                if (updatedAthletes > 0) {
+                    saveProfilesToLocalStorage();
+                    hideWorldAthleticsPerformanceSuggestions();
+                    refreshVisibleWorldAthleticsIndicator();
+                }
+
+                if (announce) {
+                    if (updatedAthletes > 0 && failedAthletes === 0) {
+                        showAppToast(updatedAthletes === 1
+                            ? 'Athletendaten wurden aktualisiert.'
+                            : `${updatedAthletes} Athletendatensätze wurden aktualisiert.`);
+                    } else if (updatedAthletes > 0) {
+                        showAppToast('Ein Teil der Athletendaten konnte nicht aktualisiert werden.');
+                    } else {
+                        showAppToast('Athletendaten konnten nicht aktualisiert werden.');
+                    }
+                }
+
+                return { updatedAthletes: updatedAthletes, failedAthletes: failedAthletes };
+            })();
+
+            try {
+                return await worldAthleticsSyncPromise;
+            } finally {
+                worldAthleticsSyncPromise = null;
+                setWorldAthleticsSyncButtonState(false);
+            }
+        }
+
+        function refreshStaleWorldAthleticsProfiles() {
+            return syncAllWorldAthleticsProfiles({ force: false, announce: false });
+        }
+
+        function hideWorldAthleticsPerformanceSuggestions() {
+            if (worldAthleticsSuggestionTimer) {
+                window.clearTimeout(worldAthleticsSuggestionTimer);
+                worldAthleticsSuggestionTimer = null;
+            }
+            if (activeWorldAthleticsSuggestion && activeWorldAthleticsSuggestion.popover) {
+                activeWorldAthleticsSuggestion.popover.remove();
+            }
+            activeWorldAthleticsSuggestion = null;
+        }
+
+        function positionWorldAthleticsPerformanceSuggestions(popover, input) {
+            if (!popover || !input || !document.body.contains(input)) {
+                return;
+            }
+
+            const inputRect = input.getBoundingClientRect();
+            const popoverRect = popover.getBoundingClientRect();
+            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            let left = inputRect.left + (inputRect.width - popoverRect.width) / 2;
+            left = Math.max(10, Math.min(left, viewportWidth - popoverRect.width - 10));
+
+            let top = inputRect.bottom + 7;
+            if (top + popoverRect.height > viewportHeight - 10) {
+                top = inputRect.top - popoverRect.height - 7;
+            }
+
+            popover.style.left = `${Math.round(left)}px`;
+            popover.style.top = `${Math.max(10, Math.round(top))}px`;
+        }
+
+        function applyWorldAthleticsSuggestion(input, value) {
+            input.value = value;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            hideWorldAthleticsPerformanceSuggestions();
+            input.focus({ preventScroll: true });
+        }
+
+        function showWorldAthleticsPerformanceSuggestions(profile, disciplineIndex, input) {
+            hideWorldAthleticsPerformanceSuggestions();
+            const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            const code = WORLD_ATHLETICS_CODE_BY_INDEX[disciplineIndex];
+            if (!link || !code || document.activeElement !== input) {
+                return;
+            }
+
+            const seasonBest = link.seasonBests[code];
+            const personalBest = link.personalBests[code];
+            if (!seasonBest && !personalBest) {
+                return;
+            }
+
+            const popover = document.createElement('div');
+            popover.className = 'wa-performance-suggestions';
+            popover.setAttribute('role', 'group');
+            popover.setAttribute('aria-label', 'Leistungsvorschläge');
+
+            function appendSuggestion(label, entry) {
+                if (!entry || !entry.value) {
+                    return;
+                }
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'wa-performance-suggestion';
+                button.textContent = label === 'PB' && entry.year
+                    ? `${label} ${entry.value} (${entry.year})`
+                    : `${label} ${entry.value}`;
+                button.addEventListener('mousedown', function(event) {
+                    event.preventDefault();
+                });
+                button.onclick = function() {
+                    applyWorldAthleticsSuggestion(input, entry.value);
+                };
+                popover.appendChild(button);
+            }
+
+            appendSuggestion('SB', seasonBest);
+            appendSuggestion('PB', personalBest);
+            if (!popover.childElementCount) {
+                return;
+            }
+
+            document.body.appendChild(popover);
+            activeWorldAthleticsSuggestion = { popover: popover, input: input };
+            positionWorldAthleticsPerformanceSuggestions(popover, input);
+        }
+
+        function attachWorldAthleticsSuggestions(profile, disciplineIndex, input) {
+            if (!input || !normalizeWorldAthleticsLink(profile && profile.worldAthletics)) {
+                return;
+            }
+
+            const scheduleSuggestions = function(delay) {
+                if (worldAthleticsSuggestionTimer) {
+                    window.clearTimeout(worldAthleticsSuggestionTimer);
+                }
+                worldAthleticsSuggestionTimer = window.setTimeout(function() {
+                    worldAthleticsSuggestionTimer = null;
+                    showWorldAthleticsPerformanceSuggestions(profile, disciplineIndex, input);
+                }, delay);
+            };
+
+            input.addEventListener('focus', function() {
+                scheduleSuggestions(230);
+            });
+            input.addEventListener('click', function() {
+                scheduleSuggestions(0);
+            });
+            input.addEventListener('blur', function() {
+                worldAthleticsSuggestionTimer = window.setTimeout(function() {
+                    if (activeWorldAthleticsSuggestion && activeWorldAthleticsSuggestion.input === input) {
+                        hideWorldAthleticsPerformanceSuggestions();
+                    }
+                }, 120);
+            });
+        }
+
+        function recalculateSingleProfileFromValues(profile) {
+            let totalPoints = 0;
+            for (let index = 0; index < 10; index += 1) {
+                const disciplineType = getDisciplineType(index + 1);
+                const performance = parsePerformanceValue(profile.values[index], disciplineType);
+                const abcValues = getABCValues(index + 1);
+                const points = performance == null
+                    ? 0
+                    : calculateDecathlonPoints(disciplineType, performance, abcValues[0], abcValues[1], abcValues[2]);
+                profile.results[index] = String(points);
+                totalPoints += points;
+            }
+            profile.totalPoints = totalPoints;
+        }
+
+        function fillEmptyProfileValuesFromWorldAthletics(profile, bestType) {
+            const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            if (!profile || profile.type !== 'single' || !link) {
+                return 0;
+            }
+
+            const bestMap = bestType === 'personal' ? link.personalBests : link.seasonBests;
+            let filledFields = 0;
+            WORLD_ATHLETICS_CODE_BY_INDEX.forEach(function(code, index) {
+                const entry = bestMap[code];
+                if (entry && entry.value && !String(profile.values[index] || '').trim()) {
+                    profile.values[index] = entry.value;
+                    filledFields += 1;
+                }
+            });
+
+            if (filledFields === 0) {
+                showAppToast('Es gibt keine passenden leeren Felder.');
+                return 0;
+            }
+
+            recalculateSingleProfileFromValues(profile);
+            saveProfilesToLocalStorage();
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            if (currentTitle === profile.name) {
+                const contentScrollArea = getContentScrollArea();
+                const scrollPosition = contentScrollArea ? contentScrollArea.scrollTop : 0;
+                displayProfileResults(profile.name);
+                if (contentScrollArea) {
+                    requestAnimationFrame(function() {
+                        contentScrollArea.scrollTop = scrollPosition;
+                    });
+                }
+            }
+
+            showAppToast(`${filledFields} ${filledFields === 1 ? 'Feld wurde' : 'Felder wurden'} mit ${bestType === 'personal' ? 'PB' : 'SB'} gefüllt.`);
+            return filledFields;
+        }
+
+        document.addEventListener('click', function(event) {
+            document.querySelectorAll('.profile-link-indicator.is-open').forEach(function(indicator) {
+                if (!indicator.contains(event.target)) {
+                    indicator.classList.remove('is-open');
+                    indicator.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('scroll', function() {
+            if (activeWorldAthleticsSuggestion
+                && activeWorldAthleticsSuggestion.popover
+                && activeWorldAthleticsSuggestion.input) {
+                positionWorldAthleticsPerformanceSuggestions(
+                    activeWorldAthleticsSuggestion.popover,
+                    activeWorldAthleticsSuggestion.input
+                );
+            }
+        }, true);
+
+        window.addEventListener('resize', function() {
+            if (activeWorldAthleticsSuggestion) {
+                hideWorldAthleticsPerformanceSuggestions();
+            }
+        });
 
         // Profile speichern
         function saveProfilesToLocalStorage() {
@@ -2169,6 +3416,15 @@
             profile.values = profile.values.slice(0, expectedLength).map(value => value == null ? '' : String(value));
             profile.archived = profile.archived === true;
             profile.archiveFolder = profile.archived ? normalizeArchiveFolderName(profile.archiveFolder) : '';
+
+            if (profile.type === 'single') {
+                const normalizedWorldAthleticsLink = normalizeWorldAthleticsLink(profile.worldAthletics);
+                if (normalizedWorldAthleticsLink) {
+                    profile.worldAthletics = normalizedWorldAthleticsLink;
+                } else {
+                    delete profile.worldAthletics;
+                }
+            }
 
             if (profile.type === 'comparison') {
                 const [athlete1, athlete2] = getComparisonAthletes(profile.name);
@@ -2913,7 +4169,39 @@
             return button;
         }
 
-        function appendViewHeader(container, titleText, editAction = null) {
+        function createWorldAthleticsProfileIndicator(profile) {
+            const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            if (!link) {
+                return null;
+            }
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'profile-link-indicator';
+            button.setAttribute('aria-label', `Verknüpft mit ${formatWorldAthleticsIdentity(link)}`);
+            button.setAttribute('aria-expanded', 'false');
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/profile_linked.png';
+            icon.alt = '';
+            icon.draggable = false;
+            button.appendChild(icon);
+
+            const tooltip = document.createElement('span');
+            tooltip.className = 'profile-link-tooltip';
+            tooltip.textContent = formatWorldAthleticsIdentity(link);
+            button.appendChild(tooltip);
+
+            button.onclick = function(event) {
+                event.stopPropagation();
+                const isOpen = button.classList.toggle('is-open');
+                button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            };
+
+            return button;
+        }
+
+        function appendViewHeader(container, titleText, editAction = null, linkedProfile = null) {
             const headerRow = document.createElement('div');
             headerRow.className = 'view-header-row';
 
@@ -2925,12 +4213,453 @@
             title.textContent = titleText;
             headerMain.appendChild(title);
 
+            const linkedProfileIndicator = createWorldAthleticsProfileIndicator(linkedProfile);
+            if (linkedProfileIndicator) {
+                headerMain.appendChild(linkedProfileIndicator);
+            }
+
             if (editAction) {
                 headerMain.appendChild(createEditIconButton(editAction));
             }
 
             headerRow.appendChild(headerMain);
             container.appendChild(headerRow);
+        }
+
+        function createWorldAthleticsLinkEditor(options = {}) {
+            const profile = options.profile || null;
+            let selectedLink = normalizeWorldAthleticsLink(options.initialLink);
+            let searchIsOpen = false;
+            let searchTimer = null;
+            let searchRequestVersion = 0;
+
+            const editor = document.createElement('div');
+            editor.className = 'wa-link-editor';
+
+            function createSecondaryButton(label, onClick, extraClass = '') {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `wa-secondary-button${extraClass ? ` ${extraClass}` : ''}`;
+                button.textContent = label;
+                button.onclick = onClick;
+                return button;
+            }
+
+            function createLinkIconButton(iconPath, label, onClick, extraClass = '') {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `icon-action-button wa-link-icon-button${extraClass ? ` ${extraClass}` : ''}`;
+                button.setAttribute('aria-label', label);
+                button.title = label;
+
+                const icon = document.createElement('img');
+                icon.src = iconPath;
+                icon.alt = '';
+                icon.draggable = false;
+                button.appendChild(icon);
+                button.onclick = onClick;
+                return button;
+            }
+
+            function cancelPendingSearch() {
+                if (searchTimer) {
+                    window.clearTimeout(searchTimer);
+                    searchTimer = null;
+                }
+                searchRequestVersion += 1;
+            }
+
+            function appendSearchPanel() {
+                const panel = document.createElement('div');
+                panel.className = 'wa-search-panel';
+
+                const searchRow = document.createElement('div');
+                searchRow.className = 'wa-search-row';
+
+                const searchInput = document.createElement('input');
+                searchInput.type = 'search';
+                searchInput.placeholder = 'Athlet bei World Athletics suchen';
+                searchInput.autocomplete = 'off';
+                styleModalField(searchInput);
+                const searchSeed = typeof options.getSearchSeed === 'function'
+                    ? sanitizeProfileName(options.getSearchSeed())
+                    : '';
+                searchInput.value = selectedLink ? selectedLink.athleteName : searchSeed;
+                searchRow.appendChild(searchInput);
+                panel.appendChild(searchRow);
+
+                const status = document.createElement('div');
+                status.className = 'wa-search-status';
+                status.textContent = 'Mindestens zwei Zeichen eingeben.';
+                panel.appendChild(status);
+
+                const results = document.createElement('div');
+                results.className = 'wa-search-results';
+                panel.appendChild(results);
+
+                function renderSearchResults(athletes) {
+                    const identities = athletes.map(createWorldAthleticsIdentity).filter(Boolean);
+                    results.innerHTML = '';
+                    if (identities.length === 0) {
+                        return;
+                    }
+
+                    status.textContent = `${identities.length} ${identities.length === 1 ? 'Athlet gefunden' : 'Athleten gefunden'}.`;
+                    identities.forEach(function(identity) {
+                        const resultButton = document.createElement('button');
+                        resultButton.type = 'button';
+                        resultButton.className = 'wa-search-result';
+                        resultButton.textContent = formatWorldAthleticsIdentity(identity);
+                        resultButton.onclick = function() {
+                            const existingLink = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+                            selectedLink = existingLink && existingLink.athleteId === identity.athleteId
+                                ? existingLink
+                                : identity;
+                            searchIsOpen = false;
+                            renderEditor();
+                        };
+                        resultButton.addEventListener('keydown', function(event) {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                                event.stopPropagation();
+                            }
+                        });
+                        results.appendChild(resultButton);
+                    });
+                }
+
+                async function runSearch(searchTerm, requestVersion) {
+                    status.textContent = 'Passende Zehnkämpfer werden geprüft ...';
+                    results.innerHTML = '';
+                    try {
+                        const athletes = await searchWorldAthleticsDecathletes(searchTerm, 5, function(partialAthletes) {
+                            if (requestVersion !== searchRequestVersion || !panel.isConnected) {
+                                return;
+                            }
+                            renderSearchResults(partialAthletes);
+                        });
+                        if (requestVersion !== searchRequestVersion || !panel.isConnected) {
+                            return;
+                        }
+                        if (athletes.length === 0) {
+                            results.innerHTML = '';
+                            status.textContent = 'Keine passenden Zehnkämpfer gefunden.';
+                            return;
+                        }
+                        renderSearchResults(athletes);
+                    } catch (error) {
+                        if (requestVersion !== searchRequestVersion || !panel.isConnected) {
+                            return;
+                        }
+                        console.error('World-Athletics-Suche fehlgeschlagen:', error);
+                        results.innerHTML = '';
+                        status.textContent = 'Die Suche ist momentan nicht erreichbar.';
+                    }
+                }
+
+                function scheduleSearch(delay = 250) {
+                    if (searchTimer) {
+                        window.clearTimeout(searchTimer);
+                        searchTimer = null;
+                    }
+
+                    const searchTerm = sanitizeProfileName(searchInput.value);
+                    searchRequestVersion += 1;
+                    const requestVersion = searchRequestVersion;
+                    results.innerHTML = '';
+                    if (searchTerm.length < 2) {
+                        status.textContent = 'Mindestens zwei Zeichen eingeben.';
+                        return;
+                    }
+
+                    status.textContent = 'Suche wird vorbereitet ...';
+                    searchTimer = window.setTimeout(function() {
+                        searchTimer = null;
+                        runSearch(searchTerm, requestVersion);
+                    }, delay);
+                }
+
+                searchInput.addEventListener('input', function() {
+                    scheduleSearch();
+                });
+
+                searchInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        scheduleSearch(0);
+                    } else if (event.key === 'ArrowDown') {
+                        const firstSuggestion = results.querySelector('.wa-search-result');
+                        if (firstSuggestion) {
+                            event.preventDefault();
+                            firstSuggestion.focus();
+                        }
+                    }
+                });
+
+                editor.appendChild(panel);
+                window.setTimeout(function() {
+                    searchInput.focus();
+                    searchInput.select();
+                }, 0);
+            }
+
+            function renderEditor() {
+                cancelPendingSearch();
+                editor.innerHTML = '';
+
+                if (selectedLink) {
+                    const summary = document.createElement('div');
+                    summary.className = 'wa-link-summary';
+
+                    const icon = document.createElement('img');
+                    icon.src = 'imgs/profile_linked.png';
+                    icon.alt = '';
+                    icon.draggable = false;
+                    summary.appendChild(icon);
+
+                    const identity = document.createElement('span');
+                    identity.textContent = formatWorldAthleticsIdentity(selectedLink);
+                    summary.appendChild(identity);
+
+                    const summaryActions = document.createElement('div');
+                    summaryActions.className = 'wa-link-summary-actions';
+                    summaryActions.appendChild(createLinkIconButton(
+                        'imgs/edit.png',
+                        'Verknüpfung ändern',
+                        function() {
+                            searchIsOpen = !searchIsOpen;
+                            renderEditor();
+                        }
+                    ));
+                    summaryActions.appendChild(createLinkIconButton(
+                        'imgs/profile_unlink.png',
+                        'Verknüpfung lösen',
+                        function() {
+                            selectedLink = null;
+                            searchIsOpen = false;
+                            renderEditor();
+                        },
+                        'is-danger'
+                    ));
+                    summary.appendChild(summaryActions);
+                    editor.appendChild(summary);
+                    if (searchIsOpen) {
+                        appendSearchPanel();
+                    }
+
+                    const actions = document.createElement('div');
+                    actions.className = 'wa-link-actions';
+
+                    const currentProfileLink = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+                    const canUseCurrentData = currentProfileLink
+                        && currentProfileLink.athleteId === selectedLink.athleteId;
+                    if (canUseCurrentData && Object.keys(currentProfileLink.seasonBests).length > 0) {
+                        actions.appendChild(createSecondaryButton('Hochrechnung (SB)', function() {
+                            fillEmptyProfileValuesFromWorldAthletics(profile, 'season');
+                        }));
+                    }
+                    if (canUseCurrentData && Object.keys(currentProfileLink.personalBests).length > 0) {
+                        actions.appendChild(createSecondaryButton('Hochrechnung (PB)', function() {
+                            fillEmptyProfileValuesFromWorldAthletics(profile, 'personal');
+                        }));
+                    }
+                    if (actions.childElementCount > 0) {
+                        editor.appendChild(actions);
+                    }
+                } else {
+                    editor.appendChild(createSecondaryButton('Mit World Athletics verknüpfen', function() {
+                        searchIsOpen = !searchIsOpen;
+                        renderEditor();
+                    }));
+                }
+
+                if (searchIsOpen && !selectedLink) {
+                    appendSearchPanel();
+                }
+            }
+
+            renderEditor();
+            return {
+                element: editor,
+                getLink: function() {
+                    return normalizeWorldAthleticsLink(selectedLink);
+                }
+            };
+        }
+
+        function createWorldAthleticsInlineLinkPicker(inputField) {
+            let selectedLink = null;
+            let searchTimer = null;
+            let searchRequestVersion = 0;
+
+            const picker = document.createElement('div');
+            picker.className = 'wa-inline-link-picker';
+
+            function clearPendingSearch() {
+                if (searchTimer) {
+                    window.clearTimeout(searchTimer);
+                    searchTimer = null;
+                }
+                searchRequestVersion += 1;
+            }
+
+            function renderSelectedLink() {
+                picker.innerHTML = '';
+                if (!selectedLink) {
+                    return;
+                }
+
+                const summary = document.createElement('div');
+                summary.className = 'wa-link-summary';
+
+                const icon = document.createElement('img');
+                icon.src = 'imgs/profile_linked.png';
+                icon.alt = '';
+                icon.draggable = false;
+                summary.appendChild(icon);
+
+                const identity = document.createElement('span');
+                identity.textContent = formatWorldAthleticsIdentity(selectedLink);
+                summary.appendChild(identity);
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'wa-link-remove';
+                removeButton.textContent = '×';
+                removeButton.setAttribute('aria-label', 'Verknüpfung entfernen');
+                removeButton.onclick = function() {
+                    selectedLink = null;
+                    picker.innerHTML = '';
+                    inputField.focus();
+                    scheduleSearch();
+                };
+                summary.appendChild(removeButton);
+                picker.appendChild(summary);
+            }
+
+            function selectLink(link) {
+                clearPendingSearch();
+                selectedLink = normalizeWorldAthleticsLink(link);
+                renderSelectedLink();
+                window.setTimeout(function() {
+                    inputField.focus({ preventScroll: true });
+                }, 0);
+            }
+
+            function renderSearchState(message) {
+                picker.innerHTML = '';
+                if (!message) {
+                    return;
+                }
+                const state = document.createElement('div');
+                state.className = 'wa-inline-search-state';
+                state.textContent = message;
+                picker.appendChild(state);
+            }
+
+            function renderSuggestions(identities) {
+                picker.innerHTML = '';
+                if (!identities.length) {
+                    return;
+                }
+
+                const label = document.createElement('div');
+                label.className = 'wa-inline-suggestion-label';
+                label.textContent = 'Vorschläge zur Verknüpfung';
+                picker.appendChild(label);
+
+                const results = document.createElement('div');
+                results.className = 'wa-search-results';
+                identities.slice(0, 5).forEach(function(identity) {
+                    const resultButton = document.createElement('button');
+                    resultButton.type = 'button';
+                    resultButton.className = 'wa-search-result';
+                    resultButton.textContent = formatWorldAthleticsIdentity(identity);
+                    resultButton.onclick = function() {
+                        selectLink(identity);
+                    };
+                    resultButton.addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.stopPropagation();
+                        }
+                    });
+                    results.appendChild(resultButton);
+                });
+                picker.appendChild(results);
+            }
+
+            async function runSearch(searchTerm, requestVersion) {
+                renderSearchState('Passende Zehnkämpfer werden geprüft ...');
+                try {
+                    const athletes = await searchWorldAthleticsDecathletes(searchTerm, 5, function(partialAthletes) {
+                        if (requestVersion !== searchRequestVersion || selectedLink || !picker.isConnected) {
+                            return;
+                        }
+                        const partialIdentities = partialAthletes.map(createWorldAthleticsIdentity).filter(Boolean);
+                        if (partialIdentities.length > 0) {
+                            renderSuggestions(partialIdentities);
+                        }
+                    });
+                    if (requestVersion !== searchRequestVersion || selectedLink || !picker.isConnected) {
+                        return;
+                    }
+                    const identities = athletes.map(createWorldAthleticsIdentity).filter(Boolean);
+                    if (identities.length === 0) {
+                        renderSearchState('Keine passenden Zehnkämpfer gefunden.');
+                        return;
+                    }
+                    renderSuggestions(identities);
+                } catch (error) {
+                    if (requestVersion !== searchRequestVersion || selectedLink || !picker.isConnected) {
+                        return;
+                    }
+                    console.error('Automatische World-Athletics-Suche fehlgeschlagen:', error);
+                    renderSearchState('Verknüpfungsvorschläge sind momentan nicht erreichbar.');
+                }
+            }
+
+            function scheduleSearch() {
+                if (selectedLink) {
+                    renderSelectedLink();
+                    return;
+                }
+
+                if (searchTimer) {
+                    window.clearTimeout(searchTimer);
+                }
+                const searchTerm = sanitizeProfileName(inputField.value);
+                searchRequestVersion += 1;
+                const requestVersion = searchRequestVersion;
+                if (searchTerm.length < 2) {
+                    picker.innerHTML = '';
+                    searchTimer = null;
+                    return;
+                }
+
+                searchTimer = window.setTimeout(function() {
+                    searchTimer = null;
+                    runSearch(searchTerm, requestVersion);
+                }, 250);
+            }
+
+            inputField.addEventListener('input', scheduleSearch);
+            inputField.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowDown') {
+                    const firstSuggestion = picker.querySelector('.wa-search-result');
+                    if (firstSuggestion) {
+                        event.preventDefault();
+                        firstSuggestion.focus();
+                    }
+                }
+            });
+
+            return {
+                element: picker,
+                getLink: function() {
+                    return normalizeWorldAthleticsLink(selectedLink);
+                },
+                destroy: clearPendingSearch
+            };
         }
 
         // Function new_profile
@@ -2948,6 +4677,8 @@
             inputField.placeholder = 'Name des Athleten';
             styleModalField(inputField);
             inputSection.appendChild(inputField);
+            const worldAthleticsLinkPicker = createWorldAthleticsInlineLinkPicker(inputField);
+            inputSection.appendChild(worldAthleticsLinkPicker.element);
             content.appendChild(inputSection);
 
             var okButton = createPrimaryButton('Profil erstellen');
@@ -2970,8 +4701,25 @@
                     inputField.select();
                     return;
                 }
+
+                const createdProfile = profiles.find(function(profile) {
+                    return profile.name === createdProfileName && profile.type === 'single';
+                });
+                const selectedWorldAthleticsLink = worldAthleticsLinkPicker.getLink();
+                if (createdProfile && selectedWorldAthleticsLink) {
+                    createdProfile.worldAthletics = selectedWorldAthleticsLink;
+                    saveProfilesToLocalStorage();
+                }
+                worldAthleticsLinkPicker.destroy();
                 closeModal(modal);
                 handleProfileButtonClick(createdProfileName);
+                if (selectedWorldAthleticsLink) {
+                    syncAllWorldAthleticsProfiles({
+                        force: true,
+                        announce: true,
+                        athleteIds: [selectedWorldAthleticsLink.athleteId]
+                    });
+                }
             };
             content.appendChild(okButton);
 
@@ -3088,6 +4836,7 @@
         }
 
         function displayProfileResults(profileName) {
+            hideWorldAthleticsPerformanceSuggestions();
             const profile = profiles.find(p => p.name === profileName);
             if (!profile) return;
             ensureProfileShape(profile);
@@ -3434,7 +5183,7 @@
             labelsContainer.innerHTML = '';
             appendViewHeader(labelsContainer, profile.name, function() {
                 openProfileRenameWindow(profile.name);
-            });
+            }, profile);
 
             const contentSurface = document.createElement('div');
             contentSurface.className = 'profile-view-surface single-profile-surface';
@@ -3460,6 +5209,7 @@
                 `;
 
                 contentSurface.appendChild(label);
+                attachWorldAthleticsSuggestions(profile, i, label.querySelector('input.input'));
             }
 
             // Gesamtpunktzahl-Anzeige hinzufügen
@@ -3484,7 +5234,13 @@
             contentSurface.className = 'profile-view-surface comparison-profile-surface';
             labelsContainer.appendChild(contentSurface);
 
-            const [athlete1, athlete2] = profile.name.split(" vs. ");
+            const [athlete1, athlete2] = getComparisonAthletes(profile.name);
+            const athlete1Profile = profiles.find(function(existingProfile) {
+                return existingProfile.type === 'single' && existingProfile.name === athlete1;
+            });
+            const athlete2Profile = profiles.find(function(existingProfile) {
+                return existingProfile.type === 'single' && existingProfile.name === athlete2;
+            });
 
             const comparisonHeader = document.createElement('div');
             comparisonHeader.className = 'comparison-header';
@@ -3532,6 +5288,16 @@
                     </div>
                 `;
                 comparisonList.appendChild(label);
+                attachWorldAthleticsSuggestions(
+                    athlete1Profile,
+                    i,
+                    label.querySelector('.comparison-input-first')
+                );
+                attachWorldAthleticsSuggestions(
+                    athlete2Profile,
+                    i,
+                    label.querySelector('.comparison-input-second')
+                );
             }
 
             const totalLabel = document.createElement('div');
@@ -3826,9 +5592,19 @@
             archiveItem.appendChild(profileButton);
 
             const restoreButton = document.createElement('button');
+            restoreButton.type = 'button';
             restoreButton.className = 'sidebar-action-button';
-            restoreButton.textContent = '↩';
             restoreButton.title = 'Wiederherstellen';
+            restoreButton.setAttribute('aria-label', 'Profil wiederherstellen');
+
+            const restoreIcon = document.createElement('img');
+            restoreIcon.src = 'imgs/back_archive.png';
+            restoreIcon.alt = '';
+            restoreIcon.draggable = false;
+            restoreIcon.style.width = '20px';
+            restoreIcon.style.height = '20px';
+            restoreIcon.style.objectFit = 'contain';
+            restoreButton.appendChild(restoreIcon);
             restoreButton.onclick = function() {
                 restoreArchivedProfile(profile.name);
             };
@@ -5181,6 +6957,8 @@
             updateInstallHintVisibility();
             navigateToHome();   
             updateResponsiveAppTitles();
+            window.setTimeout(refreshStaleWorldAthleticsProfiles, 300);
+            window.setInterval(refreshStaleWorldAthleticsProfiles, 60 * 60 * 1000);
         };
 
         window.addEventListener('beforeinstallprompt', function(event) {
@@ -5192,6 +6970,16 @@
         window.addEventListener('appinstalled', function() {
             deferredInstallPrompt = null;
             hideInstallHint(true);
+        });
+
+        window.addEventListener('online', function() {
+            refreshStaleWorldAthleticsProfiles();
+        });
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                refreshStaleWorldAthleticsProfiles();
+            }
         });
 
         window.addEventListener('resize', function() {
@@ -5740,10 +7528,39 @@
             inputSection.appendChild(inputField);
             content.appendChild(inputSection);
 
+            const worldAthleticsLinkEditor = createWorldAthleticsLinkEditor({
+                profile: profile,
+                initialLink: profile.worldAthletics,
+                getSearchSeed: function() {
+                    return inputField.value;
+                }
+            });
+            content.appendChild(worldAthleticsLinkEditor.element);
+
             var okButton = createPrimaryButton('Speichern');
             okButton.onclick = function() {
+                const previousWorldAthleticsLink = normalizeWorldAthleticsLink(profile.worldAthletics);
+                const selectedWorldAthleticsLink = worldAthleticsLinkEditor.getLink();
                 if (renameSingleProfile(profileName, inputField.value)) {
+                    if (selectedWorldAthleticsLink) {
+                        profile.worldAthletics = selectedWorldAthleticsLink;
+                    } else {
+                        delete profile.worldAthletics;
+                    }
+                    saveProfilesToLocalStorage();
                     closeModal(modal);
+                    handleProfileButtonClick(profile.name);
+
+                    const linkChanged = selectedWorldAthleticsLink
+                        && (!previousWorldAthleticsLink
+                            || previousWorldAthleticsLink.athleteId !== selectedWorldAthleticsLink.athleteId);
+                    if (linkChanged) {
+                        syncAllWorldAthleticsProfiles({
+                            force: true,
+                            announce: true,
+                            athleteIds: [selectedWorldAthleticsLink.athleteId]
+                        });
+                    }
                 } else {
                     inputField.focus();
                     inputField.select();
