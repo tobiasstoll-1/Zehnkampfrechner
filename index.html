@@ -1333,10 +1333,13 @@
         .wa-performance-suggestions {
             position: fixed;
             z-index: 48;
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: stretch;
             gap: 6px;
+            width: min(260px, calc(100vw - 20px));
             max-width: calc(100vw - 20px);
+            box-sizing: border-box;
             padding: 6px;
             border: 1px solid rgba(143, 208, 163, 0.26);
             border-radius: 12px;
@@ -1346,7 +1349,20 @@
             touch-action: manipulation;
         }
 
+        .wa-performance-suggestions.has-single-suggestion {
+            grid-template-columns: minmax(0, 1fr);
+            width: min(190px, calc(100vw - 20px));
+        }
+
         .wa-performance-suggestion {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-width: 0;
+            min-height: 42px;
+            height: 100%;
+            box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 8px;
             padding: 7px 9px;
@@ -1355,7 +1371,9 @@
             font-family: 'Roboto', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            white-space: nowrap;
+            line-height: 1.2;
+            text-align: center;
+            white-space: normal;
             cursor: pointer;
             transition: background-color var(--motion-standard), border-color var(--motion-standard);
         }
@@ -3176,8 +3194,7 @@
                 mobileViewportBaselineHeight = Math.max(mobileViewportBaselineHeight, layoutHeight);
             }
 
-            const visibleBottom = visualViewport.height + visualViewport.offsetTop;
-            const rawInset = Math.max(0, mobileViewportBaselineHeight - visibleBottom);
+            const rawInset = Math.max(0, mobileViewportBaselineHeight - visualViewport.height);
             const keyboardThreshold = Math.max(140, mobileViewportBaselineHeight * 0.18);
             const keyboardInset = rawInset >= keyboardThreshold
                 ? Math.min(rawInset, mobileViewportBaselineHeight * 0.62)
@@ -3234,7 +3251,7 @@
             );
 
             popover.style.left = `${Math.round(left)}px`;
-            popover.style.top = `${Math.round(inputRect.bottom + 7)}px`;
+            popover.style.top = `${Math.round(inputRect.bottom + 4)}px`;
             popover.style.visibility = 'visible';
         }
 
@@ -3288,6 +3305,9 @@
             appendSuggestion('PB', personalBest);
             if (!popover.childElementCount) {
                 return;
+            }
+            if (popover.childElementCount === 1) {
+                popover.classList.add('has-single-suggestion');
             }
 
             document.body.appendChild(popover);
