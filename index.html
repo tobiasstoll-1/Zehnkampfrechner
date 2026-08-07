@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Zehnkampfrechner</title>
 
     <!-- Verweise auf die Manifest-Datei -->
@@ -54,7 +54,7 @@
             background-size: 100vw 100vh;
             background-position: center top;
             background-attachment: fixed;
-            height: 100dvh;
+            height: var(--app-visible-height, 100dvh);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -185,6 +185,16 @@
             padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
             scroll-padding-bottom: max(96px, calc(env(safe-area-inset-bottom) + 72px));
             box-sizing: border-box;
+        }
+
+        body.mobile-input-active .content-scroll-area {
+            overscroll-behavior-y: auto;
+            touch-action: pan-y;
+        }
+
+        body.background-dark.mobile-input-active {
+            height: var(--app-visible-height, 100dvh);
+            min-height: 0;
         }
 
         body.sidebar-open .content-scroll-area {
@@ -1330,6 +1340,7 @@
             background: rgba(29, 35, 39, 0.98);
             box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
             animation: view-fade-in 150ms ease;
+            touch-action: manipulation;
         }
 
         .wa-performance-suggestion {
@@ -2478,6 +2489,8 @@
         let worldAthleticsSyncPromise = null;
         let worldAthleticsSuggestionTimer = null;
         let activeWorldAthleticsSuggestion = null;
+        let mobileInputScrollTimers = [];
+        let appViewportAnimationFrame = null;
         let appToastTimer = null;
 
         function normalizeWorldAthleticsBestMap(bestMap, includeYear) {
@@ -3099,6 +3112,147 @@
             return syncAllWorldAthleticsProfiles({ force: false, announce: false });
         }
 
+        function getAppViewportBounds() {
+            const visualViewport = window.visualViewport;
+            const left = visualViewport ? visualViewport.offsetLeft : 0;
+            const top = visualViewport ? visualViewport.offsetTop : 0;
+            const width = visualViewport
+                ? visualViewport.width
+                : (window.innerWidth || document.documentElement.clientWidth);
+            const height = visualViewport
+                ? visualViewport.height
+                : (window.innerHeight || document.documentElement.clientHeight);
+
+            return {
+                left: left,
+                top: top,
+                right: left + width,
+                bottom: top + height,
+                width: width,
+                height: height
+            };
+        }
+
+        function isProfilePerformanceInput(element) {
+            return element instanceof HTMLElement
+                && element.matches('.labels-container input.input, .labels-container input.inputcomparison');
+        }
+
+        function isMobileInputViewport() {
+            return window.innerWidth <= 980
+                || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+        }
+
+        function syncMobileInputViewport(input) {
+            const activeInput = isProfilePerformanceInput(input)
+                ? input
+                : (isProfilePerformanceInput(document.activeElement) ? document.activeElement : null);
+            const shouldManageViewport = Boolean(activeInput && isMobileInputViewport());
+
+            document.body.classList.toggle('mobile-input-active', shouldManageViewport);
+            if (shouldManageViewport && window.visualViewport) {
+                document.documentElement.style.setProperty(
+                    '--app-visible-height',
+                    `${Math.round(window.visualViewport.height)}px`
+                );
+            } else {
+                document.documentElement.style.removeProperty('--app-visible-height');
+            }
+
+            return shouldManageViewport ? activeInput : null;
+        }
+
+        function ensureInputVisibleAboveKeyboard(input, behavior = 'auto') {
+            if (!isProfilePerformanceInput(input) || !document.body.contains(input)) {
+                return;
+            }
+
+            const scrollArea = getContentScrollArea();
+            if (!scrollArea) {
+                return;
+            }
+
+            const viewport = getAppViewportBounds();
+            const scrollRect = scrollArea.getBoundingClientRect();
+            const inputRect = input.getBoundingClientRect();
+            const suggestion = activeWorldAthleticsSuggestion
+                && activeWorldAthleticsSuggestion.input === input
+                ? activeWorldAthleticsSuggestion.popover
+                : null;
+            const suggestionSpace = suggestion ? suggestion.offsetHeight + 18 : 58;
+            let visibleTop = Math.max(scrollRect.top, viewport.top) + 12;
+            const visibleBottom = Math.min(scrollRect.bottom, viewport.bottom) - suggestionSpace - 12;
+
+            const stickyHeader = document.querySelector('.view-header-row, .comparison-header');
+            if (stickyHeader) {
+                const stickyRect = stickyHeader.getBoundingClientRect();
+                if (stickyRect.top <= visibleTop + 2 && stickyRect.bottom > visibleTop) {
+                    visibleTop = stickyRect.bottom + 10;
+                }
+            }
+
+            if (visibleBottom <= visibleTop + inputRect.height) {
+                return;
+            }
+
+            let scrollDelta = 0;
+            if (inputRect.bottom > visibleBottom) {
+                scrollDelta = inputRect.bottom - visibleBottom;
+            } else if (inputRect.top < visibleTop) {
+                scrollDelta = inputRect.top - visibleTop;
+            }
+
+            if (Math.abs(scrollDelta) < 1) {
+                return;
+            }
+
+            if (typeof scrollArea.scrollBy === 'function') {
+                scrollArea.scrollBy({ top: scrollDelta, left: 0, behavior: behavior });
+            } else {
+                scrollArea.scrollTop += scrollDelta;
+            }
+        }
+
+        function scheduleInputVisibility(input) {
+            mobileInputScrollTimers.forEach(function(timer) {
+                window.clearTimeout(timer);
+            });
+            mobileInputScrollTimers = [80, 280].map(function(delay, index) {
+                return window.setTimeout(function() {
+                    syncMobileInputViewport(input);
+                    ensureInputVisibleAboveKeyboard(input, index === 0 ? 'smooth' : 'auto');
+                    if (activeWorldAthleticsSuggestion
+                        && activeWorldAthleticsSuggestion.input === input) {
+                        positionWorldAthleticsPerformanceSuggestions(
+                            activeWorldAthleticsSuggestion.popover,
+                            input
+                        );
+                    }
+                }, delay);
+            });
+        }
+
+        function handleAppViewportChange() {
+            if (appViewportAnimationFrame) {
+                window.cancelAnimationFrame(appViewportAnimationFrame);
+            }
+            appViewportAnimationFrame = window.requestAnimationFrame(function() {
+                appViewportAnimationFrame = null;
+                const input = syncMobileInputViewport();
+                if (input) {
+                    ensureInputVisibleAboveKeyboard(input);
+                }
+                if (activeWorldAthleticsSuggestion
+                    && activeWorldAthleticsSuggestion.popover
+                    && activeWorldAthleticsSuggestion.input) {
+                    positionWorldAthleticsPerformanceSuggestions(
+                        activeWorldAthleticsSuggestion.popover,
+                        activeWorldAthleticsSuggestion.input
+                    );
+                }
+            });
+        }
+
         function hideWorldAthleticsPerformanceSuggestions() {
             if (worldAthleticsSuggestionTimer) {
                 window.clearTimeout(worldAthleticsSuggestionTimer);
@@ -3117,18 +3271,21 @@
 
             const inputRect = input.getBoundingClientRect();
             const popoverRect = popover.getBoundingClientRect();
-            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const viewport = getAppViewportBounds();
             let left = inputRect.left + (inputRect.width - popoverRect.width) / 2;
-            left = Math.max(10, Math.min(left, viewportWidth - popoverRect.width - 10));
+            left = Math.max(
+                viewport.left + 10,
+                Math.min(left, viewport.right - popoverRect.width - 10)
+            );
 
             let top = inputRect.bottom + 7;
-            if (top + popoverRect.height > viewportHeight - 10) {
+            if (top + popoverRect.height > viewport.bottom - 10) {
                 top = inputRect.top - popoverRect.height - 7;
             }
 
             popover.style.left = `${Math.round(left)}px`;
-            popover.style.top = `${Math.max(10, Math.round(top))}px`;
+            popover.style.top = `${Math.max(viewport.top + 10, Math.round(top))}px`;
+            popover.style.visibility = 'visible';
         }
 
         function applyWorldAthleticsSuggestion(input, value) {
@@ -3154,6 +3311,7 @@
 
             const popover = document.createElement('div');
             popover.className = 'wa-performance-suggestions';
+            popover.style.visibility = 'hidden';
             popover.setAttribute('role', 'group');
             popover.setAttribute('aria-label', 'Leistungsvorschläge');
 
@@ -3184,7 +3342,13 @@
 
             document.body.appendChild(popover);
             activeWorldAthleticsSuggestion = { popover: popover, input: input };
-            positionWorldAthleticsPerformanceSuggestions(popover, input);
+            ensureInputVisibleAboveKeyboard(input);
+            window.requestAnimationFrame(function() {
+                if (activeWorldAthleticsSuggestion
+                    && activeWorldAthleticsSuggestion.popover === popover) {
+                    positionWorldAthleticsPerformanceSuggestions(popover, input);
+                }
+            });
         }
 
         function attachWorldAthleticsSuggestions(profile, disciplineIndex, input) {
@@ -3213,6 +3377,7 @@
                     if (activeWorldAthleticsSuggestion && activeWorldAthleticsSuggestion.input === input) {
                         hideWorldAthleticsPerformanceSuggestions();
                     }
+                    syncMobileInputViewport();
                 }, 120);
             });
         }
@@ -3291,11 +3456,11 @@
             }
         }, true);
 
-        window.addEventListener('resize', function() {
-            if (activeWorldAthleticsSuggestion) {
-                hideWorldAthleticsPerformanceSuggestions();
-            }
-        });
+        window.addEventListener('resize', handleAppViewportChange);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleAppViewportChange);
+            window.visualViewport.addEventListener('scroll', handleAppViewportChange);
+        }
 
         // Profile speichern
         function saveProfilesToLocalStorage() {
@@ -3994,13 +4159,8 @@
                 return;
             }
 
-            setTimeout(function() {
-                input.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest'
-                });
-            }, 160);
+            syncMobileInputViewport(input);
+            scheduleInputVisibility(input);
         }
 
         function moveFocusToNextInput(currentInput) {
@@ -4029,6 +4189,12 @@
             inputs.forEach(function(input) {
                 input.addEventListener('focus', function() {
                     scrollInputIntoView(input);
+                });
+
+                input.addEventListener('blur', function() {
+                    window.setTimeout(function() {
+                        syncMobileInputViewport();
+                    }, 140);
                 });
 
                 input.addEventListener('keydown', function(event) {

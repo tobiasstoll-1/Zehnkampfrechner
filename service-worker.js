@@ -1,4 +1,4 @@
-const APP_VERSION = "v6";
+const APP_VERSION = "v7";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 
