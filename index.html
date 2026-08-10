@@ -343,11 +343,10 @@
             object-fit: contain;
         }
 
-        .home-action-em-preview {
+        .home-action.home-action-em-preview {
             position: relative;
             isolation: isolate;
             overflow: hidden;
-            padding: 0;
         }
 
         .home-action-em-preview::after {
@@ -384,9 +383,7 @@
             position: relative;
             z-index: 2;
             box-sizing: border-box;
-            min-height: 0;
             margin-top: auto;
-            padding: 18px 14px;
             color: white;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
         }
@@ -4901,12 +4898,11 @@
 
             // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
             if (isComparisonProfile) {
-                const [athlete1, athlete2] = profileName.split(" vs. ");
-                
-                if (inputName.includes(athlete1)) {
-                    calculateTotalPoints(profileName, athlete1);
-                } else if (inputName.includes(athlete2)) {
-                    calculateTotalPoints(profileName, athlete2);
+                const comparisonAthletes = getComparisonAthletes(profileName);
+                const changedAthlete = comparisonAthletes[resultIndex >= 10 ? 1 : 0];
+
+                if (changedAthlete) {
+                    calculateTotalPoints(profileName, changedAthlete);
                 }
                 updateComparisonRowStates(profileName);
             } else {
