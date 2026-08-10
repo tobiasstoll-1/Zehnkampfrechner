@@ -1,4 +1,4 @@
-const APP_VERSION = "v17";
+const APP_VERSION = "v29";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 
@@ -7,6 +7,7 @@ const CORE_ASSETS = [
   "./index.html",
   "./manifest.json",
   "./service-worker.js",
+  "./imgs/BHX.jpeg",
   "./imgs/appIcon.png",
   "./imgs/comparison.png",
   "./imgs/delete_profile.png",

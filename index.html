@@ -131,6 +131,10 @@
             display: block;
         }
 
+        body.content-view-active:has(.em-preview-view) #stickyTitleBackdrop {
+            display: none;
+        }
+
         html.content-view-active,
         body.content-view-active {
             height: 100%;
@@ -339,6 +343,54 @@
             object-fit: contain;
         }
 
+        .home-action-em-preview {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .home-action-em-preview::after {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 48%;
+            background: linear-gradient(180deg, transparent 0%, rgba(5, 9, 42, 0.88) 100%);
+            pointer-events: none;
+        }
+
+        .home-action-em-preview .home-action-icon {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: inherit;
+        }
+
+        .home-action-em-preview .home-action-icon img {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            border-radius: 0;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .home-action-em-preview .home-action-title {
+            position: relative;
+            z-index: 2;
+            box-sizing: border-box;
+            min-height: 0;
+            margin-top: auto;
+            padding: 18px 14px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
+        }
+
         .install-hint {
             display: none;
             align-items: flex-start;
@@ -469,6 +521,555 @@
             width: 100%;
             height: auto;
             object-fit: contain;
+        }
+
+        .em-preview-view {
+            --em-paper: #edf0f2;
+            --em-paper-soft: #e3e8eb;
+            --em-ink: #172027;
+            --em-ink-soft: #55616a;
+            --em-line: rgba(23, 32, 39, 0.12);
+            margin-top: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            border-radius: 26px;
+            background: var(--em-paper);
+            color: var(--em-ink);
+            box-shadow: 0 26px 60px rgba(0, 0, 0, 0.3);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .em-preview-book-toolbar {
+            position: relative;
+            z-index: 16;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 7px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: #1d2529;
+        }
+
+        .em-preview-book-nav {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .em-preview-home-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            width: 44px;
+            height: 44px;
+            padding: 0 0 3px 0;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 30px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .em-preview-home-button:hover,
+        .em-preview-home-button:focus-visible {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateX(-1px);
+            outline: none;
+        }
+
+        .em-preview-book-tab {
+            min-height: 44px;
+            padding: 9px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.045);
+            color: rgba(255, 255, 255, 0.64);
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.025em;
+            cursor: pointer;
+            transition: color var(--motion-standard), background-color var(--motion-standard), border-color var(--motion-standard);
+        }
+
+        .em-preview-book-tab:hover {
+            color: white;
+            border-color: rgba(143, 208, 163, 0.28);
+        }
+
+        .em-preview-book-tab.is-active {
+            border-color: rgba(143, 208, 163, 0.34);
+            background: rgba(143, 208, 163, 0.14);
+            color: #f7faf8;
+        }
+
+        .em-preview-book-page[hidden] {
+            display: none;
+        }
+
+        .em-preview-page-turn {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 clamp(20px, 5vw, 58px) clamp(28px, 5vw, 48px);
+            background: var(--em-paper);
+        }
+
+        .em-preview-page-turn-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 10px 17px;
+            border: 1px solid rgba(49, 95, 69, 0.24);
+            border-radius: 13px;
+            background: #315f45;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform var(--motion-standard), background-color var(--motion-standard), box-shadow var(--motion-standard);
+        }
+
+        .em-preview-page-turn-button:hover {
+            transform: translateY(-1px);
+            background: #274f39;
+            box-shadow: 0 9px 20px rgba(39, 79, 57, 0.2);
+        }
+
+        .em-preview-hero {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding: clamp(30px, 6vw, 72px);
+            background:
+                linear-gradient(112deg, rgba(13, 21, 25, 0.96) 0%, rgba(25, 39, 37, 0.93) 58%, rgba(47, 88, 63, 0.84) 100%),
+                radial-gradient(circle at 82% 22%, rgba(228, 186, 88, 0.34), transparent 30%);
+            color: #f7f8f6;
+        }
+
+        .em-preview-hero::before {
+            content: '10';
+            position: absolute;
+            z-index: -1;
+            right: clamp(-24px, -1vw, 12px);
+            bottom: clamp(-58px, -5vw, -18px);
+            color: rgba(255, 255, 255, 0.055);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(190px, 30vw, 390px);
+            font-weight: bold;
+            line-height: 0.72;
+        }
+
+        .em-preview-kicker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: #e8c976;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .em-preview-kicker::before {
+            content: '';
+            width: 34px;
+            height: 2px;
+            background: currentColor;
+        }
+
+        .em-preview-title {
+            max-width: 780px;
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(38px, 7vw, 78px);
+            font-weight: 700;
+            letter-spacing: -0.045em;
+            line-height: 0.98;
+        }
+
+        .em-preview-lede {
+            max-width: 720px;
+            margin: 24px 0 0 0;
+            color: rgba(247, 248, 246, 0.78);
+            font-size: clamp(17px, 2.4vw, 21px);
+            line-height: 1.58;
+        }
+
+        .em-preview-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .em-preview-fact {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 7px;
+            padding: 9px 13px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(8px);
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+        }
+
+        .em-preview-fact strong {
+            color: white;
+            font-size: 16px;
+        }
+
+        .em-preview-analysis {
+            padding: clamp(28px, 5vw, 58px);
+            background:
+                linear-gradient(135deg, rgba(46, 96, 67, 0.06), transparent 42%),
+                var(--em-paper);
+        }
+
+        .em-preview-section-heading {
+            max-width: 760px;
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            letter-spacing: -0.025em;
+            line-height: 1.08;
+        }
+
+        .em-preview-section-intro {
+            max-width: 760px;
+            margin: 14px 0 0 0;
+            color: var(--em-ink-soft);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .em-preview-analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .em-preview-story {
+            position: relative;
+            min-width: 0;
+            padding: 24px 22px 22px 22px;
+            border: 1px solid var(--em-line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.66);
+            box-shadow: 0 10px 24px rgba(27, 36, 41, 0.06);
+        }
+
+        .em-preview-story::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 22px;
+            width: 42px;
+            height: 4px;
+            border-radius: 0 0 4px 4px;
+            background: var(--accent-strong);
+        }
+
+        .em-preview-story:nth-child(2)::before {
+            background: #d2a948;
+        }
+
+        .em-preview-story:nth-child(3)::before {
+            background: #66859a;
+        }
+
+        .em-preview-story-label {
+            margin: 0 0 11px 0;
+            color: #37644a;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .em-preview-story h3 {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 23px;
+            line-height: 1.13;
+        }
+
+        .em-preview-story p {
+            margin: 14px 0 0 0;
+            color: #43515a;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .em-preview-table-section {
+            padding: 0 clamp(16px, 4vw, 46px) clamp(28px, 5vw, 52px);
+            background: var(--em-paper);
+        }
+
+        .em-preview-table-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            padding: clamp(24px, 4vw, 44px) 0 18px 0;
+            border-top: 1px solid var(--em-line);
+        }
+
+        .em-preview-table-note {
+            max-width: 390px;
+            margin: 0;
+            color: var(--em-ink-soft);
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: right;
+        }
+
+        .em-preview-table-scroll {
+            overflow-x: auto;
+            border: 1px solid var(--em-line);
+            border-radius: 16px;
+            background: #f8f9f9;
+            box-shadow: 0 12px 28px rgba(27, 36, 41, 0.08);
+            scrollbar-color: #779183 #dfe5e2;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .em-preview-table-scroll:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(63, 118, 85, 0.22), 0 12px 28px rgba(27, 36, 41, 0.08);
+        }
+
+        .em-starter-table {
+            width: 1500px;
+            min-width: 1500px;
+            table-layout: fixed;
+            border-spacing: 0;
+            border-collapse: separate;
+            color: var(--em-ink);
+            font-size: 13px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .em-starter-table th,
+        .em-starter-table td {
+            padding: 4px 7px;
+            border-right: 1px solid rgba(23, 32, 39, 0.07);
+            border-bottom: 1px solid rgba(23, 32, 39, 0.07);
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .em-starter-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background: #dce4e0;
+            color: #33433c;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.055em;
+            text-transform: uppercase;
+        }
+
+        .em-starter-table tbody tr.is-odd-athlete td {
+            background: #f8faf9;
+        }
+
+        .em-starter-table tbody tr.is-even-athlete td {
+            background: #e5ece8;
+        }
+
+        .em-starter-table tbody tr:hover td {
+            background: #e4eee8;
+        }
+
+        .em-starter-table tbody tr.em-athlete-row-start:not(:first-child) td {
+            border-top: 2px solid rgba(49, 95, 69, 0.14);
+        }
+
+        .em-starter-table th:first-child,
+        .em-starter-table td.em-athlete-sticky {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+            width: 175px;
+            min-width: 175px;
+            max-width: 175px;
+            box-shadow: 8px 0 14px rgba(27, 36, 41, 0.06);
+        }
+
+        .em-starter-table th:first-child {
+            text-align: center;
+        }
+
+        .em-starter-table td.em-athlete-sticky {
+            text-align: left;
+        }
+
+        .em-starter-table th:nth-child(2),
+        .em-starter-table th:nth-child(3),
+        .em-starter-table td.em-summary-cell {
+            min-width: 116px;
+            max-width: 116px;
+        }
+
+        .em-starter-table th:nth-child(4),
+        .em-starter-table td.em-series-label-cell {
+            width: 38px;
+            min-width: 38px;
+            max-width: 38px;
+            padding-right: 2px;
+            padding-left: 2px;
+            text-align: center;
+        }
+
+        .em-starter-table th:last-child,
+        .em-starter-table td:last-child {
+            min-width: 100px;
+            max-width: 100px;
+        }
+
+        .em-starter-table thead th:first-child {
+            z-index: 3;
+            background: #dce4e0;
+        }
+
+        .em-starter-table tbody tr.is-odd-athlete td.em-athlete-sticky {
+            background: #f8faf9;
+        }
+
+        .em-starter-table tbody tr.is-even-athlete td.em-athlete-sticky {
+            background: #e5ece8;
+        }
+
+        .em-starter-table tbody tr:hover td.em-athlete-sticky {
+            background: #e4eee8;
+        }
+
+        .em-athlete-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            min-width: 0;
+        }
+
+        .em-athlete-name {
+            display: block;
+            max-width: 100%;
+            font-weight: 800;
+            line-height: 1.25;
+            white-space: nowrap;
+        }
+
+        .em-athlete-country {
+            color: #6b767d;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .em-summary-score {
+            display: block;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .em-summary-context {
+            display: block;
+            max-width: 110px;
+            margin: 4px auto 0;
+            overflow: hidden;
+            color: #66727a;
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 1.25;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .em-series-label {
+            display: block;
+            width: 100%;
+            color: #172027;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .em-performance-cell {
+            min-width: 94px;
+            max-width: 94px;
+        }
+
+        .em-performance-value {
+            color: #263139;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .em-performance-points {
+            color: #6e7980;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .em-performance-missing,
+        .em-total-missing {
+            color: #8a9499;
+            font-weight: 600;
+        }
+
+        .em-calculated-total {
+            display: block;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .em-calculated-context {
+            display: block;
+            max-width: 96px;
+            margin: 3px auto 0;
+            overflow: hidden;
+            color: #66727a;
+            font-size: 9px;
+            line-height: 1.2;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .em-preview-sources {
+            padding: 17px clamp(18px, 4vw, 46px) 20px;
+            border-top: 1px solid var(--em-line);
+            background: #dce3e5;
+            color: #58656d;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .em-preview-sources a {
+            color: #315f45;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .em-preview-sources a:hover {
+            text-decoration: underline;
         }
 
         .label {
@@ -2607,6 +3208,142 @@
                 margin-left: -11px;
             }
         }
+
+        @media (max-width: 820px) {
+            .em-preview-analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .em-preview-table-head {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .labels-container.is-document-layout {
+                width: calc(100% - 14px);
+            }
+
+            .em-preview-view {
+                border-radius: 20px;
+            }
+
+            .em-preview-book-toolbar {
+                gap: 5px;
+                padding: 7px;
+            }
+
+            .em-preview-book-nav {
+                gap: 5px;
+            }
+
+            .em-preview-home-button {
+                width: 42px;
+                height: 42px;
+                font-size: 29px;
+            }
+
+            .em-preview-book-tab {
+                min-height: 42px;
+                padding: 8px 9px;
+                font-size: 12px;
+            }
+
+            .em-preview-hero {
+                padding: 30px 22px 32px;
+            }
+
+            .em-preview-kicker {
+                margin-bottom: 14px;
+                font-size: 11px;
+            }
+
+            .em-preview-title {
+                font-size: clamp(34px, 10vw, 46px);
+                letter-spacing: -0.055em;
+            }
+
+            .em-preview-lede {
+                margin-top: 18px;
+                font-size: 16px;
+                line-height: 1.52;
+            }
+
+            .em-preview-facts {
+                gap: 7px;
+                margin-top: 23px;
+            }
+
+            .em-preview-fact {
+                padding: 7px 10px;
+            }
+
+            .em-preview-analysis {
+                padding: 30px 20px;
+            }
+
+            .em-preview-story {
+                padding: 22px 18px 19px;
+            }
+
+            .em-preview-page-turn {
+                padding-right: 20px;
+                padding-left: 20px;
+            }
+
+            .em-preview-page-turn-button {
+                width: 100%;
+            }
+
+            .em-preview-table-section {
+                padding-right: 10px;
+                padding-left: 10px;
+            }
+
+            .em-starter-table {
+                width: 1392px;
+                min-width: 1392px;
+                font-size: 12px;
+            }
+
+            .em-starter-table th,
+            .em-starter-table td {
+                padding: 4px 6px;
+            }
+
+            .em-starter-table th:first-child,
+            .em-starter-table td.em-athlete-sticky {
+                width: 172px;
+                min-width: 172px;
+                max-width: 172px;
+            }
+
+            .em-starter-table th:nth-child(2),
+            .em-starter-table th:nth-child(3),
+            .em-starter-table td.em-summary-cell {
+                min-width: 100px;
+                max-width: 100px;
+            }
+
+            .em-starter-table th:nth-child(4),
+            .em-starter-table td.em-series-label-cell {
+                width: 36px;
+                min-width: 36px;
+                max-width: 36px;
+            }
+
+            .em-performance-cell {
+                min-width: 88px;
+                max-width: 88px;
+            }
+
+            .em-preview-sources {
+                padding-right: 18px;
+                padding-left: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -2673,13 +3410,6 @@
                     <span class="home-action-title">Ranking erstellen</span>
                 </button>
 
-                <button class="home-action home-action-faustregeln" type="button" onclick="openFaustregelnView()">
-                    <span class="home-action-icon">
-                        <img src="imgs/thumbrules.png" alt="Faustregeln">
-                    </span>
-                    <span class="home-action-title">Faustregeln</span>
-                </button>
-
                 <button class="home-action" type="button" onclick="openProfileImportWindow()">
                     <span class="home-action-icon">
                         <img src="imgs/import.png" alt="Profil importieren">
@@ -2687,9 +3417,18 @@
                     <span class="home-action-title">Profil importieren</span>
                 </button>
 
-                <button class="home-action home-action-placeholder" type="button" disabled aria-disabled="true">
-                    <span class="home-action-icon" aria-hidden="true">+</span>
-                    <span class="home-action-title">Bald verfügbar...</span>
+                <button class="home-action home-action-faustregeln" type="button" onclick="openFaustregelnView()">
+                    <span class="home-action-icon">
+                        <img src="imgs/thumbrules.png" alt="Faustregeln">
+                    </span>
+                    <span class="home-action-title">Faustregeln</span>
+                </button>
+
+                <button class="home-action home-action-em-preview" type="button" onclick="openEuropeanChampionshipPreview()">
+                    <span class="home-action-icon">
+                        <img src="imgs/BHX.jpeg" alt="European Athletics Championships Birmingham 2026">
+                    </span>
+                    <span class="home-action-title">EM-Vorschau</span>
                 </button>
             </div>
 
@@ -2730,6 +3469,40 @@
         });
         const WORLD_ATHLETICS_CODE_BY_INDEX = Object.freeze([
             '100', 'LJ', 'SP', 'HJ', '400', '110H', 'DT', 'PV', 'JT', '1500'
+        ]);
+        const EUROPEAN_CHAMPIONSHIP_DECATHLON_META = Object.freeze({
+            title: 'Europameisterschaften Birmingham 2026',
+            entryListDate: '31.07.2026',
+            dataDate: '10.08.2026',
+            countries: 12,
+            entryListUrl: 'https://european-athletics.directus.app/assets/62025d5b-630d-4f54-942c-3201c9a25591/ECH26%20-%20Final%20Entries%20Athletes%20List%20By%20Event%20%26%20SB.pdf'
+        });
+        const EUROPEAN_CHAMPIONSHIP_DECATHLON_ENTRIES = Object.freeze([
+            ["Edgaras","Benkunskas","LTU",8098,8080,"Götzis","2024","Nakło nad Notecią",["10.77","7.32","16.00","2.10","49.73","14.26","49.89","4.90","69.67","4:43.91"],["11.02","7.02","15.91","2.00","50.65","14.51","45.44","4.70","69.67","4:52.96"],["11.19","7.06","15.66","2.00","50.29","14.41","48.59","4.60","65.12","4:50.04"]],
+            ["Jip","de Greef","NED",8039,8039,"Champaign","2026","Champaign",["10.78","7.54","15.04","2.03","48.61","14.26","52.01","5.28","56.29","4:49.20"],["10.75","7.47","14.54","1.97","48.61","14.41","39.22","5.17","52.17","4:49.20"],["10.78","7.54","14.54","2.03","48.61","14.26","48.24","5.28","52.17","4:49.20"]],
+            ["Dario","Dester","ITA",8318,8318,"Ratingen","2026","Ratingen",["10.65","7.68","14.87","2.07","47.45","14.11","45.98","5.11","63.66","4:23.36"],["10.70","7.31","14.53","1.97","47.54","14.16","43.83","4.90","58.80","4:31.51"],["10.70","7.48","14.87","1.98","47.54","14.16","43.83","4.90","58.80","4:31.51"]],
+            ["Johannes","Erm","EST",8764,null,"Roma","2024","",["10.60","7.98","15.72","2.08","46.81","14.19","49.39","5.37","62.71","4:19.71"],["10.60","7.91","14.99","1.99","46.81","14.30","44.56","5.20","62.71","4:24.95"],["","","13.87","1.95","","","","","",""]],
+            ["Antoine","Ferranti","FRA",8240,8240,"Arona","2026","Arona",["11.13","7.46","14.11","2.12","48.25","14.51","44.88","5.05","60.43","4:13.52"],["11.13","7.46","13.66","2.12","48.25","14.61","41.06","4.90","54.14","4:14.44"],["11.13","7.46","13.70","2.12","48.25","14.61","42.13","5.05","54.25","4:14.44"]],
+            ["Zsombor","Gálpál","HUN",8006,8006,"Budapest","2026","Budapest",["10.62","6.92","17.11","1.95","46.98","14.10","45.10","4.90","64.05","4:33.66"],["10.62","6.76","15.30","1.89","47.47","14.57","41.37","4.70","59.89","4:36.15"],["10.62","6.65","15.30","1.93","47.47","14.57","41.37","4.90","59.89","4:36.15"]],
+            ["Makenson","Gletty","FRA",8606,8458,"Roma","2024","Ratingen",["10.55","7.59","17.07","2.05","47.21","13.84","46.47","5.07","62.89","4:25.33"],["10.55","7.59","16.27","2.02","47.60","13.88","43.54","4.90","57.47","4:27.70"],["10.65","7.27","16.24","1.99","47.21","13.84","42.49","4.92","61.01","4:26.76"]],
+            ["Amadeus","Gräber","GER",8345,8345,"Götzis","2026","Götzis",["10.53","7.28","14.77","2.01","48.54","13.95","46.89","5.25","66.75","4:32.21"],["10.62","7.28","13.61","2.00","48.58","14.70","44.03","5.20","65.55","4:36.61"],["10.62","7.28","13.61","2.00","48.58","14.53","46.89","5.21","65.55","4:36.61"]],
+            ["Andrin","Huber","SUI",8188,8069,"Bergen","2025","Teufen",["10.82","7.34","15.19","2.01","47.80","14.00","46.27","4.90","60.50","4:15.40"],["10.95","7.11","14.03","2.00","47.93","14.23","41.75","4.80","60.50","4:23.09"],["10.87","6.79","14.87","1.93","48.76","14.13","43.51","4.90","60.27","4:27.42"]],
+            ["Tomas","Järvinen","CZE",8400,8400,"Götzis","2026","Götzis",["10.54","7.77","13.66","2.15","47.69","13.61","49.18","4.90","62.20","4:29.78"],["10.61","7.48","12.88","2.09","47.69","14.18","43.76","4.90","62.20","4:35.82"],["10.54","7.49","13.32","2.09","47.69","14.07","43.76","4.90","62.20","4:35.82"]],
+            ["Niklas","Kaul","GER",8691,8528,"Doha","2019","Götzis",["11.12","7.44","16.08","2.11","47.87","14.17","49.92","5.00","83.94","4:10.04"],["11.27","7.19","15.10","2.02","48.48","14.64","49.20","5.00","79.05","4:15.70"],["11.30","7.09","15.21","2.00","48.42","14.33","48.20","4.90","78.21","4:23.67"]],
+            ["Dai","Keïta","BEL",8011,8011,"Heerenveen","2026","Heerenveen",["10.77","7.80","14.16","2.05","48.91","14.58","42.38","5.11","55.53","4:28.80"],["10.95","7.54","13.72","1.99","48.91","14.83","37.78","5.00","55.53","4:28.80"],["10.77","7.80","14.16","2.05","48.91","14.58","41.32","5.11","55.53","4:28.80"]],
+            ["Ondřej","Kopecký","CZE",8310,8079,"Praha","2022","Brno",["10.91","7.63","14.80","2.01","48.54","14.04","49.10","5.20","61.90","4:23.38"],["10.86","7.63","13.63","1.95","48.54","14.23","44.92","5.00","61.90","4:34.12"],["11.57","7.56","14.80","1.97","49.48","14.52","47.69","5.00","54.29","4:41.39"]],
+            ["Leon","Krummenacher","SUI",7988,7988,"Teufen","2026","Teufen",["11.20","6.93","15.29","1.97","50.41","14.52","50.08","5.00","63.80","4:31.37"],["11.20","6.68","13.77","1.96","50.41","14.54","47.00","5.00","63.80","4:31.37"],["11.20","6.89","13.87","1.96","50.41","14.54","47.58","5.00","63.80","4:31.37"]],
+            ["Risto","Lillemets","EST",8156,8063,"Götzis","2021","Götzis",["10.83","7.28","15.81","2.09","48.95","14.23","48.75","5.10","65.36","4:26.56"],["10.98","7.11","14.55","2.00","49.66","14.33","43.11","5.00","60.55","4:30.72"],["10.87","6.99","15.81","1.85","49.06","14.34","48.75","4.90","61.18","4:33.25"]],
+            ["Leo","Neugebauer","GER",8961,8730,"Eugene","2024","Götzis",["10.61","8.00","17.46","2.09","47.08","14.33","58.70","5.30","64.34","4:31.89"],["10.64","7.86","17.46","2.07","48.03","14.36","57.70","5.21","56.64","4:44.61"],["10.76","7.97","16.95","2.06","47.85","14.57","53.32","5.00","58.46","4:39.33"]],
+            ["Alberto","Nonino","ITA",7988,7988,"Molfetta","2026","Molfetta",["10.90","7.27","13.60","1.95","48.26","14.27","43.98","5.12","49.56","4:17.80"],["10.90","7.18","12.90","1.93","48.26","14.68","42.26","5.10","49.56","4:17.80"],["10.90","7.27","13.09","1.95","48.26","14.60","42.26","5.12","49.56","4:17.80"]],
+            ["Luuk","Pelkmans","NED",8079,8079,"Eugene","2026","Eugene",["10.97","7.52","16.55","2.09","48.85","13.86","46.48","4.90","57.60","4:18.21"],["11.17","7.25","15.57","2.04","49.12","14.69","38.36","4.81","57.60","4:23.32"],["10.97","7.52","15.70","2.09","48.85","14.20","43.53","4.90","57.60","4:21.58"]],
+            ["Nino","Portmann","SUI",7982,7982,"Teufen","2026","Teufen",["10.58","7.47","14.81","1.94","47.83","14.00","46.62","4.40","60.84","4:36.70"],["10.58","7.47","14.19","1.93","48.20","14.00","43.63","4.30","56.21","4:49.21"],["10.58","7.47","14.81","1.94","48.20","14.00","46.62","4.30","60.84","4:42.20"]],
+            ["Rasmus","Roosleht","EST",8336,8336,"Ratingen","2026","Ratingen",["10.81","7.31","17.55","2.03","48.55","14.65","52.83","4.90","67.75","4:33.24"],["10.87","7.11","15.64","2.03","48.90","14.67","46.73","4.70","67.07","4:33.24"],["10.87","7.24","16.44","2.03","48.55","14.65","49.04","4.90","67.75","4:33.24"]],
+            ["Sander","Skotheim","NOR",8909,null,"Götzis","2025","",["10.70","8.19","15.19","2.20","47.02","13.97","49.18","5.35","62.39","4:16.60"],["10.70","8.06","13.98","2.15","47.47","14.12","49.18","5.10","61.46","4:23.88"],["10.94","7.47","14.07","2.08","","","45.85","5.00","",""]],
+            ["Vilém","Stráský","CZE",8136,8056,"Nakło nad Notecią","2025","Nakło nad Notecią",["10.65","7.47","14.95","1.99","48.15","13.93","45.77","5.10","57.12","4:22.53"],["10.86","7.33","13.89","1.94","48.59","14.13","42.19","4.90","55.25","4:23.97"],["10.87","7.43","14.26","1.93","49.00","14.24","45.77","5.10","56.43","4:24.31"]],
+            ["Jeff","Tesselaar","NED",8249,8239,"Götzis","2025","Götzis",["10.66","7.76","14.57","1.97","47.13","14.37","48.37","4.80","54.66","4:08.31"],["10.68","7.27","13.72","1.97","47.13","14.82","46.00","4.60","54.66","4:08.31"],["10.66","7.61","14.57","1.94","47.35","14.37","48.37","4.80","53.79","4:18.40"]],
+            ["Karel","Tilga","EST",8681,8413,"Budapest","2023","Götzis",["10.84","7.69","16.59","2.10","48.49","14.59","51.47","4.96","73.36","4:20.73"],["10.84","7.58","15.75","2.05","48.58","14.68","50.57","4.80","66.42","4:20.73"],["10.95","7.39","16.11","1.99","49.47","14.59","50.44","4.70","65.69","4:26.17"]],
+            ["Emil","Uhlin","SWE",7976,7976,"Eugene","2026","Eugene",["11.01","7.03","14.58","2.12","48.85","14.70","46.56","5.20","57.89","4:20.20"],["11.04","6.66","13.86","2.04","48.96","14.70","46.56","4.81","52.13","4:20.20"],["11.04","6.66","13.94","2.04","48.96","14.70","46.56","4.97","52.13","4:20.20"]]
         ]);
         const WORLD_ATHLETICS_DECATHLON_CODE_PREFIX = 'DEC';
         const WORLD_ATHLETICS_DECATHLON_CACHE_KEY = 'worldAthleticsDecathlonEligibilityV1';
@@ -6479,6 +7252,318 @@
             labelsContainer.appendChild(panel);
         }
 
+        function formatEuropeanChampionshipPoints(value) {
+            return Number.isFinite(Number(value)) && Number(value) > 0
+                ? Number(value).toLocaleString('de-DE')
+                : '–';
+        }
+
+        function calculateEuropeanChampionshipDisciplinePoints(mark, disciplineIndex) {
+            if (!mark) {
+                return null;
+            }
+            const disciplineType = getDisciplineType(disciplineIndex + 1);
+            const performance = parsePerformanceValue(mark, disciplineType);
+            if (performance == null) {
+                return null;
+            }
+            const abcValues = getABCValues(disciplineIndex + 1);
+            return calculateDecathlonPoints(
+                disciplineType,
+                performance,
+                abcValues[0],
+                abcValues[1],
+                abcValues[2]
+            );
+        }
+
+        function openEuropeanChampionshipPreview() {
+            saveCurrentViewScrollPosition();
+            setContentViewActive(true);
+            setRankingViewActive(false);
+            document.getElementById('main').classList.add('is-content-view');
+            document.querySelector('.center').textContent = 'EM-Vorschau';
+            currentViewKey = 'document:em-preview-2026';
+
+            const labelsContainer = document.querySelector('.labels-container');
+            labelsContainer.style.display = 'block';
+            labelsContainer.style.alignItems = 'stretch';
+            labelsContainer.classList.remove('is-ranking-layout');
+            labelsContainer.classList.add('is-document-layout');
+
+            document.getElementById('home-intro').style.display = 'none';
+            document.getElementById('home-top-title').style.display = 'none';
+            document.getElementById('top-icons').style.display = 'flex';
+
+            closeNav();
+            clearActiveSidebarEntries();
+            displayEuropeanChampionshipPreview();
+            animateViewEntrance(labelsContainer);
+            restoreViewScrollPosition(currentViewKey);
+            updateResponsiveAppTitles();
+        }
+
+        function displayEuropeanChampionshipPreview() {
+            const labelsContainer = document.querySelector('.labels-container');
+            const meta = EUROPEAN_CHAMPIONSHIP_DECATHLON_META;
+            const entries = EUROPEAN_CHAMPIONSHIP_DECATHLON_ENTRIES;
+            const strongestPb = Math.max.apply(null, entries.map(function(entry) { return entry[3]; }));
+            labelsContainer.innerHTML = '';
+
+            const preview = document.createElement('article');
+            preview.className = 'em-preview-view';
+            preview.innerHTML = `
+                <div class="em-preview-book-toolbar">
+                    <button class="em-preview-home-button" type="button" onclick="navigateToHome()" aria-label="Zurück zur Startseite" title="Zurück zur Startseite">‹</button>
+                    <nav class="em-preview-book-nav" role="tablist" aria-label="Seiten der EM-Vorschau">
+                        <button class="em-preview-book-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="em-preview-page-overview" data-em-page-target="overview">01 Vorschau</button>
+                        <button class="em-preview-book-tab" type="button" role="tab" aria-selected="false" aria-controls="em-preview-page-starters" data-em-page-target="starters">02 Starterfeld</button>
+                    </nav>
+                </div>
+                <section id="em-preview-page-overview" class="em-preview-book-page" role="tabpanel" data-em-page="overview">
+                    <header class="em-preview-hero">
+                        <div class="em-preview-kicker">Birmingham 2026 · Decathlon Men</div>
+                        <h1 class="em-preview-title">Der Zehnkampf der Schwergewichte</h1>
+                        <p class="em-preview-lede">Weltmeister, Titelverteidiger und eine außergewöhnlich starke junge Generation treffen im Alexander Stadium aufeinander. Das Feld besitzt Qualität bis tief in die Startliste – und kaum Raum für einen schwachen Moment.</p>
+                        <div class="em-preview-facts" aria-label="Eckdaten des Starterfeldes">
+                            <span class="em-preview-fact"><strong>${entries.length}</strong> Athleten</span>
+                            <span class="em-preview-fact"><strong>${meta.countries}</strong> Nationen</span>
+                            <span class="em-preview-fact"><strong>${formatEuropeanChampionshipPoints(strongestPb)}</strong> Top-PB</span>
+                        </div>
+                    </header>
+                    <section class="em-preview-analysis" aria-labelledby="em-analysis-heading">
+                        <h2 id="em-analysis-heading" class="em-preview-section-heading">Auf diese Athleten kommt es an</h2>
+                        <p class="em-preview-section-intro">Die Meldeliste zeichnet ein selten dichtes Bild: vier Athleten bringen Bestleistungen jenseits von 8.690 Punkten mit, dahinter wartet eine breite Gruppe, die mit einem sauberen zweiten Tag unmittelbar in den Medaillenkampf eingreifen kann.</p>
+                        <div class="em-preview-analysis-grid">
+                            <section class="em-preview-story">
+                                <div class="em-preview-story-label">Favoriten</div>
+                                <h3>Neugebauer gibt den Maßstab vor</h3>
+                                <p>Leo Neugebauer reist als Weltmeister und mit der stärksten Bestleistung des Feldes an. Seine 8.730 Punkte von Götzis und der anschließende Sieg in Ratingen unterstreichen die Konstanz. Sander Skotheim besitzt mit 8.909 Punkten das größte rechnerische Gegenargument, muss nach seinem Aus in Ratingen aber Stabilität beweisen. Titelverteidiger Johannes Erm und Niklas Kaul bleiben die Spezialisten für einen langen, harten zweiten Tag.</p>
+                            </section>
+                            <section class="em-preview-story">
+                                <div class="em-preview-story-label">Youngster</div>
+                                <h3>Die nächste Generation</h3>
+                                <p>Tomas Järvinen und Amadeus Gräber, beide Jahrgang 2005, haben ihre Bestleistungen in dieser Saison auf 8.400 beziehungsweise 8.345 Punkte geschoben. Dahinter stehen mit Luuk Pelkmans und Leon Krummenacher zwei 2006 geborene Zehnkämpfer bereit. Auch Dai Keïta hat mit 8.011 Punkten die Schwelle zur internationalen Klasse bereits überschritten.</p>
+                            </section>
+                            <section class="em-preview-story">
+                                <div class="em-preview-story-label">Überraschungen</div>
+                                <h3>Die Verfolger lauern auf ihre Chance</h3>
+                                <p>Makenson Gletty und Karel Tilga gehören nach ihren internationalen Spitzenplatzierungen längst zum erweiterten Favoritenkreis. Hinter ihnen lauern Rasmus Roosleht, Dario Dester und Antoine Ferranti mit starken Saisonleistungen. Wer aus dieser Gruppe ohne Nuller durchkommt, kann die erwartete Rangordnung schnell aufbrechen.</p>
+                            </section>
+                        </div>
+                    </section>
+                    <div class="em-preview-page-turn">
+                        <button class="em-preview-page-turn-button" type="button" data-em-page-target="starters">Zum Starterfeld <span aria-hidden="true">→</span></button>
+                    </div>
+                </section>
+                <section id="em-preview-page-starters" class="em-preview-book-page" role="tabpanel" data-em-page="starters" hidden>
+                    <section class="em-preview-table-section" aria-labelledby="em-starters-heading">
+                        <div class="em-preview-table-head">
+                            <h2 id="em-starters-heading" class="em-preview-section-heading">Das komplette Starterfeld</h2>
+                        </div>
+                        <div class="em-preview-table-scroll" tabindex="0" role="region" aria-label="Seitlich scrollbare Tabelle des EM-Starterfeldes"></div>
+                    </section>
+                    <footer class="em-preview-sources">
+                        Stand der Meldeliste: ${meta.entryListDate}. Quelle: <a href="${meta.entryListUrl}" target="_blank" rel="noopener noreferrer">Final Entries von European Athletics</a>. Gemeldete Starts können sich kurzfristig ändern.
+                    </footer>
+                </section>`;
+
+            const tableScroll = preview.querySelector('.em-preview-table-scroll');
+            const table = document.createElement('table');
+            table.className = 'em-starter-table';
+            table.setAttribute('aria-label', 'EM-Starter im Zehnkampf der Männer');
+
+            const headings = [
+                ['Athlet', 'Athlet und Nation'], ['PB', 'Zehnkampf-PB mit Ort und Jahr'],
+                ['SB', 'Zehnkampf-SB 2026 mit Ort'], ['Wert', 'Art der Leistungsreihe'],
+                ['100 m', '100 Meter'], ['Weit', 'Weitsprung in Metern'],
+                ['Kugel', 'Kugelstoßen in Metern'], ['Hoch', 'Hochsprung in Metern'],
+                ['400 m', '400 Meter'], ['110 m H', '110 Meter Hürden'],
+                ['Diskus', 'Diskuswurf in Metern'], ['Stab', 'Stabhochsprung in Metern'],
+                ['Speer', 'Speerwurf in Metern'], ['1500 m', '1500 Meter'],
+                ['Punkte', 'Berechnete Gesamtpunktzahl der Leistungsreihe']
+            ];
+            const thead = document.createElement('thead');
+            const headingRow = document.createElement('tr');
+            headings.forEach(function(heading) {
+                const th = document.createElement('th');
+                th.scope = 'col';
+                th.textContent = heading[0];
+                th.title = heading[1];
+                headingRow.appendChild(th);
+            });
+            thead.appendChild(headingRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            const createSummaryCell = function(pointsValue, contextText) {
+                const cell = document.createElement('td');
+                cell.rowSpan = 3;
+                cell.className = 'em-summary-cell';
+
+                const score = document.createElement('span');
+                const hasScore = pointsValue != null && Number(pointsValue) > 0;
+                score.className = hasScore ? 'em-summary-score' : 'em-summary-score em-total-missing';
+                score.textContent = formatEuropeanChampionshipPoints(pointsValue);
+                cell.appendChild(score);
+
+                if (hasScore && contextText) {
+                    const context = document.createElement('span');
+                    context.className = 'em-summary-context';
+                    context.textContent = contextText;
+                    context.title = contextText;
+                    cell.appendChild(context);
+                }
+                return cell;
+            };
+
+            entries.forEach(function(entry, athleteIndex) {
+                const seriesDefinitions = [
+                    { label: 'PB', className: 'is-pb', values: entry[8] },
+                    { label: '10PB', className: 'is-decathlon', values: entry[9] },
+                    { label: 'SB', className: 'is-sb', values: entry[10] }
+                ];
+                const athleteClass = athleteIndex % 2 === 0 ? 'is-odd-athlete' : 'is-even-athlete';
+
+                seriesDefinitions.forEach(function(series, seriesIndex) {
+                    const row = document.createElement('tr');
+                    row.className = `${athleteClass}${seriesIndex === 0 ? ' em-athlete-row-start' : ''}`;
+
+                    if (seriesIndex === 0) {
+                        const athleteCell = document.createElement('td');
+                        athleteCell.className = 'em-athlete-sticky';
+                        athleteCell.rowSpan = 3;
+                        const athlete = document.createElement('div');
+                        athlete.className = 'em-athlete-cell';
+
+                        const name = document.createElement('span');
+                        name.className = 'em-athlete-name';
+                        name.textContent = `${entry[0]} ${entry[1]}`;
+
+                        const country = document.createElement('span');
+                        country.className = 'em-athlete-country';
+                        country.textContent = entry[2];
+
+                        athlete.append(name, country);
+                        athleteCell.appendChild(athlete);
+                        row.appendChild(athleteCell);
+                        row.appendChild(createSummaryCell(
+                            entry[3],
+                            [entry[5], entry[6]].filter(Boolean).join(', ')
+                        ));
+                        row.appendChild(createSummaryCell(entry[4], entry[7] || ''));
+                    }
+
+                    const labelCell = document.createElement('td');
+                    labelCell.className = 'em-series-label-cell';
+                    const label = document.createElement('span');
+                    label.className = `em-series-label ${series.className}`;
+                    label.textContent = series.label;
+                    labelCell.appendChild(label);
+                    row.appendChild(labelCell);
+
+                    const disciplinePoints = series.values.map(function(mark, disciplineIndex) {
+                        return calculateEuropeanChampionshipDisciplinePoints(mark, disciplineIndex);
+                    });
+
+                    series.values.forEach(function(mark, disciplineIndex) {
+                        const cell = document.createElement('td');
+                        cell.className = 'em-performance-cell';
+                        const points = disciplinePoints[disciplineIndex];
+                        if (!mark || points == null) {
+                            const missing = document.createElement('span');
+                            missing.className = 'em-performance-missing';
+                            missing.textContent = '–';
+                            cell.appendChild(missing);
+                        } else {
+                            const performance = document.createElement('span');
+                            performance.className = 'em-performance-value';
+                            performance.textContent = mark;
+
+                            const pointsLabel = document.createElement('span');
+                            pointsLabel.className = 'em-performance-points';
+                            pointsLabel.textContent = ` (${points})`;
+
+                            cell.append(performance, pointsLabel);
+                        }
+                        row.appendChild(cell);
+                    });
+
+                    const totalCell = document.createElement('td');
+                    const hasCompleteSeries = disciplinePoints.every(function(points) {
+                        return points != null;
+                    });
+                    if (hasCompleteSeries) {
+                        const total = disciplinePoints.reduce(function(sum, points) {
+                            return sum + points;
+                        }, 0);
+                        const totalLabel = document.createElement('span');
+                        totalLabel.className = 'em-calculated-total';
+                        totalLabel.textContent = formatEuropeanChampionshipPoints(total);
+                        totalCell.appendChild(totalLabel);
+                    } else {
+                        const missingTotal = document.createElement('span');
+                        missingTotal.className = 'em-total-missing';
+                        missingTotal.textContent = '–';
+                        totalCell.appendChild(missingTotal);
+                    }
+                    row.appendChild(totalCell);
+                    tbody.appendChild(row);
+                });
+            });
+            table.appendChild(tbody);
+            tableScroll.appendChild(table);
+            labelsContainer.appendChild(preview);
+
+            const pageTabs = Array.from(preview.querySelectorAll('.em-preview-book-tab'));
+            const pageControls = preview.querySelectorAll('[data-em-page-target]');
+            const showPreviewPage = function(pageKey) {
+                preview.querySelectorAll('.em-preview-book-page').forEach(function(page) {
+                    page.hidden = page.dataset.emPage !== pageKey;
+                });
+                pageTabs.forEach(function(tab) {
+                    const isActive = tab.dataset.emPageTarget === pageKey;
+                    tab.classList.toggle('is-active', isActive);
+                    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+
+                requestAnimationFrame(function() {
+                    const scrollArea = getContentScrollArea();
+                    if (!scrollArea) {
+                        return;
+                    }
+                    const areaRect = scrollArea.getBoundingClientRect();
+                    const previewRect = preview.getBoundingClientRect();
+                    const stickyOffset = parseFloat(getComputedStyle(document.documentElement)
+                        .getPropertyValue('--sticky-title-height')) || 0;
+                    const targetTop = Math.max(
+                        0,
+                        scrollArea.scrollTop + previewRect.top - areaRect.top - stickyOffset - 8
+                    );
+                    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    scrollArea.scrollTo({ top: targetTop, behavior: reduceMotion ? 'auto' : 'smooth' });
+                });
+            };
+
+            pageControls.forEach(function(control) {
+                control.addEventListener('click', function() {
+                    showPreviewPage(control.dataset.emPageTarget);
+                });
+            });
+            pageTabs.forEach(function(tab, index) {
+                tab.addEventListener('keydown', function(event) {
+                    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+                        return;
+                    }
+                    event.preventDefault();
+                    const direction = event.key === 'ArrowRight' ? 1 : -1;
+                    const nextTab = pageTabs[(index + direction + pageTabs.length) % pageTabs.length];
+                    nextTab.focus();
+                    nextTab.click();
+                });
+            });
+        }
+
         function displayRankingResults(ranking) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
@@ -8737,6 +9822,11 @@
         }
 
         function openAthleteComparison(athlete1, athlete2) {
+            if (getActiveSingleProfiles().length === 0) {
+                alert('Bitte legen Sie zuerst mindestens ein Einzelprofil an.');
+                return;
+            }
+
             var modalParts = createUnifiedModal(
                 'Vergleichsprofil erstellen',
                 'min(92vw, 520px)'
