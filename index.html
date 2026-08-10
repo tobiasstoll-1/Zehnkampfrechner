@@ -1540,6 +1540,64 @@
             grid-column: 1 / -1;
         }
 
+        .wa-projection-section {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .wa-projection-label {
+            padding-left: 2px;
+            color: #607080;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .wa-projection-options {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(0, 1fr);
+            overflow: hidden;
+            width: 100%;
+            border: 1px solid rgba(52, 72, 92, 0.17);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.42);
+        }
+
+        .wa-projection-option {
+            min-width: 0;
+            min-height: 40px;
+            border: 0;
+            border-left: 1px solid rgba(52, 72, 92, 0.14);
+            padding: 8px 7px;
+            background: transparent;
+            color: #263746;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), color var(--motion-standard);
+        }
+
+        .wa-projection-option:first-child {
+            border-left: 0;
+        }
+
+        .wa-projection-option:hover,
+        .wa-projection-option:focus-visible {
+            background: rgba(62, 123, 85, 0.12);
+            color: #244d34;
+        }
+
+        .wa-decathlon-projection-more {
+            align-self: stretch;
+        }
+
+        .wa-decathlon-projection-more:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+
         .wa-secondary-button {
             display: inline-flex;
             align-items: center;
@@ -1620,6 +1678,157 @@
         .wa-search-result:hover {
             border-color: rgba(62, 123, 85, 0.3);
             background: rgba(255, 255, 255, 0.86);
+        }
+
+        .profile-import-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .profile-import-heading-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 42px;
+        }
+
+        .profile-import-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(52, 72, 92, 0.15);
+            border-radius: 11px;
+            padding: 0 0 2px 0;
+            background: rgba(255, 255, 255, 0.52);
+            color: #263746;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .profile-import-back:hover,
+        .profile-import-back:focus-visible {
+            border-color: rgba(62, 123, 85, 0.34);
+            background: rgba(255, 255, 255, 0.84);
+        }
+
+        .profile-import-stage-title {
+            margin: 0;
+            color: #263746;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .profile-import-selected {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: 46px;
+            border: 1px solid rgba(62, 123, 85, 0.2);
+            border-radius: 13px;
+            padding: 10px 12px;
+            background: rgba(240, 248, 242, 0.72);
+            color: #263746;
+        }
+
+        .profile-import-selected strong {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+
+        .profile-import-competition-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 3px;
+        }
+
+        .profile-import-competition {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 6px 12px;
+            width: 100%;
+            border: 1px solid rgba(52, 72, 92, 0.13);
+            border-radius: 13px;
+            padding: 11px 12px;
+            background: rgba(255, 255, 255, 0.58);
+            color: #263746;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .profile-import-competition:hover,
+        .profile-import-competition:focus-visible {
+            border-color: rgba(62, 123, 85, 0.34);
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        .profile-import-competition-name {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .profile-import-competition-points {
+            color: #2d5e40;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .profile-import-competition-meta {
+            grid-column: 1 / -1;
+            color: #667482;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .profile-import-preview {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .profile-import-preview-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-width: 0;
+            border: 1px solid rgba(52, 72, 92, 0.11);
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.45);
+            color: #61707f;
+            font-size: 12px;
+        }
+
+        .profile-import-preview-item strong {
+            color: #263746;
+            font-size: 13px;
+        }
+
+        .profile-import-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+        }
+
+        @media (max-width: 520px) {
+            .profile-import-preview {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .profile-import-competition-list {
+                max-height: 250px;
+            }
         }
 
         .app-toast {
@@ -2470,6 +2679,18 @@
                     </span>
                     <span class="home-action-title">Faustregeln</span>
                 </button>
+
+                <button class="home-action" type="button" onclick="openProfileImportWindow()">
+                    <span class="home-action-icon">
+                        <img src="imgs/import.png" alt="Profil importieren">
+                    </span>
+                    <span class="home-action-title">Profil importieren</span>
+                </button>
+
+                <button class="home-action home-action-placeholder" type="button" disabled aria-disabled="true">
+                    <span class="home-action-icon" aria-hidden="true">+</span>
+                    <span class="home-action-title">Bald verfügbar...</span>
+                </button>
             </div>
 
             <div id="installHint" class="install-hint" aria-live="polite">
@@ -2513,7 +2734,13 @@
         const WORLD_ATHLETICS_DECATHLON_CODE_PREFIX = 'DEC';
         const WORLD_ATHLETICS_DECATHLON_CACHE_KEY = 'worldAthleticsDecathlonEligibilityV1';
         const WORLD_ATHLETICS_DECATHLON_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+        const WORLD_ATHLETICS_SEARCH_CACHE_MAX_AGE_MS = 10 * 60 * 1000;
+        const WORLD_ATHLETICS_SEARCH_CONCURRENCY = 8;
+        const WORLD_ATHLETICS_SEARCH_DEBOUNCE_MS = 180;
         const worldAthleticsDecathlonEligibilityCache = new Map();
+        const worldAthleticsDecathlonListCache = new Map();
+        const worldAthleticsDecathlonValuesCache = new Map();
+        const worldAthleticsAthleteSearchCache = new Map();
         const worldAthleticsDecathlonEligibilityStore = loadWorldAthleticsDecathlonEligibilityStore();
         let worldAthleticsDecathlonCacheSaveTimer = null;
         let worldAthleticsSyncPromise = null;
@@ -2790,10 +3017,27 @@
                 return [];
             }
 
-            const searchResult = await fetchWorldAthleticsJson(`/athletes/search?name=${encodeURIComponent(normalizedSearchTerm)}`);
-            return Array.isArray(searchResult)
-                ? prioritizeWorldAthleticsSearchResults(searchResult, normalizedSearchTerm).slice(0, 32)
-                : [];
+            const cacheKey = normalizeWorldAthleticsSearchText(normalizedSearchTerm);
+            const cachedSearch = worldAthleticsAthleteSearchCache.get(cacheKey);
+            if (cachedSearch && cachedSearch.expiresAt > Date.now()) {
+                return cachedSearch.request;
+            }
+
+            const request = fetchWorldAthleticsJson(`/athletes/search?name=${encodeURIComponent(normalizedSearchTerm)}`)
+                .then(function(searchResult) {
+                    return Array.isArray(searchResult)
+                        ? prioritizeWorldAthleticsSearchResults(searchResult, normalizedSearchTerm).slice(0, 32)
+                        : [];
+                })
+                .catch(function(error) {
+                    worldAthleticsAthleteSearchCache.delete(cacheKey);
+                    throw error;
+                });
+            worldAthleticsAthleteSearchCache.set(cacheKey, {
+                expiresAt: Date.now() + WORLD_ATHLETICS_SEARCH_CACHE_MAX_AGE_MS,
+                request: request
+            });
+            return request;
         }
 
         function hasWorldAthleticsDecathlonPerformance(athleteProfile) {
@@ -2891,41 +3135,94 @@
 
         async function searchWorldAthleticsDecathletes(searchTerm, limit = 5, onProgress = null) {
             const athletes = await searchWorldAthleticsAthletes(searchTerm);
-            const decathleteEntries = [];
-            const batchSize = 12;
-
-            for (let startIndex = 0; startIndex < athletes.length && decathleteEntries.length < limit; startIndex += batchSize) {
-                const batch = athletes.slice(startIndex, startIndex + batchSize);
-                const checkedAthletes = await Promise.allSettled(batch.map(async function(athlete, batchIndex) {
-                    const eligible = await getWorldAthleticsDecathlonEligibility(athlete && athlete.id);
-                    if (!eligible) {
-                        return null;
-                    }
-
-                    decathleteEntries.push({
-                        athlete: athlete,
-                        searchOrder: startIndex + batchIndex
-                    });
-                    decathleteEntries.sort(function(left, right) {
-                        return left.searchOrder - right.searchOrder;
-                    });
-                    if (typeof onProgress === 'function') {
-                        onProgress(decathleteEntries.slice(0, limit).map(function(entry) {
-                            return entry.athlete;
-                        }));
-                    }
-                    return athlete;
-                }));
-
-                checkedAthletes.forEach(function(result) {
-                    if (result.status === 'rejected') {
-                        console.error('Zehnkampfprofil konnte nicht geprüft werden:', result.reason);
-                    }
-                });
+            const resultLimit = Math.max(0, Number(limit) || 0);
+            if (athletes.length === 0 || resultLimit === 0) {
+                return [];
             }
 
-            return decathleteEntries.slice(0, limit).map(function(entry) {
-                return entry.athlete;
+            return new Promise(function(resolve) {
+                const eligibilityByIndex = Array(athletes.length);
+                const concurrency = Math.min(WORLD_ATHLETICS_SEARCH_CONCURRENCY, athletes.length);
+                let nextIndex = 0;
+                let activeChecks = 0;
+                let isResolved = false;
+
+                function getEligibleAthletes() {
+                    return athletes.filter(function(athlete, index) {
+                        return eligibilityByIndex[index] === true;
+                    }).slice(0, resultLimit);
+                }
+
+                function hasFinalTopResults() {
+                    let eligibleCount = 0;
+                    for (let index = 0; index < eligibilityByIndex.length; index += 1) {
+                        if (typeof eligibilityByIndex[index] !== 'boolean') {
+                            return false;
+                        }
+                        if (eligibilityByIndex[index]) {
+                            eligibleCount += 1;
+                            if (eligibleCount >= resultLimit) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                function finish() {
+                    if (isResolved) {
+                        return;
+                    }
+                    isResolved = true;
+                    resolve(getEligibleAthletes());
+                }
+
+                function publishProgress() {
+                    if (typeof onProgress === 'function' && !isResolved) {
+                        onProgress(getEligibleAthletes());
+                    }
+                }
+
+                function scheduleChecks() {
+                    if (isResolved) {
+                        return;
+                    }
+                    if (hasFinalTopResults()) {
+                        finish();
+                        return;
+                    }
+
+                    while (activeChecks < concurrency && nextIndex < athletes.length) {
+                        const athleteIndex = nextIndex;
+                        const athlete = athletes[athleteIndex];
+                        nextIndex += 1;
+                        activeChecks += 1;
+
+                        getWorldAthleticsDecathlonEligibility(athlete && athlete.id)
+                            .then(function(eligible) {
+                                eligibilityByIndex[athleteIndex] = !!eligible;
+                            })
+                            .catch(function(error) {
+                                eligibilityByIndex[athleteIndex] = false;
+                                console.error('Zehnkampfprofil konnte nicht geprüft werden:', error);
+                            })
+                            .finally(function() {
+                                activeChecks -= 1;
+                                if (isResolved) {
+                                    return;
+                                }
+                                publishProgress();
+                                if (hasFinalTopResults()
+                                    || (nextIndex >= athletes.length && activeChecks === 0)) {
+                                    finish();
+                                    return;
+                                }
+                                scheduleChecks();
+                            });
+                    }
+                }
+
+                scheduleChecks();
             });
         }
 
@@ -3050,6 +3347,20 @@
             const requestedAthleteIds = Array.isArray(options.athleteIds)
                 ? new Set(options.athleteIds.map(Number))
                 : null;
+
+            if (force) {
+                worldAthleticsDecathlonListCache.forEach(function(value, athleteId) {
+                    if (!requestedAthleteIds || requestedAthleteIds.has(Number(athleteId))) {
+                        worldAthleticsDecathlonListCache.delete(athleteId);
+                    }
+                });
+                worldAthleticsDecathlonValuesCache.forEach(function(value, key) {
+                    const athleteId = Number(String(key).split(':')[0]);
+                    if (!requestedAthleteIds || requestedAthleteIds.has(athleteId)) {
+                        worldAthleticsDecathlonValuesCache.delete(key);
+                    }
+                });
+            }
 
             if (worldAthleticsSyncPromise) {
                 if (announce) {
@@ -3430,6 +3741,42 @@
             }
 
             showAppToast(`${filledFields} ${filledFields === 1 ? 'Feld wurde' : 'Felder wurden'} mit ${bestType === 'personal' ? 'PB' : 'SB'} gefüllt.`);
+            return filledFields;
+        }
+
+        function fillEmptyProfileValuesFromDecathlon(profile, decathlonValues) {
+            if (!profile || profile.type !== 'single' || !Array.isArray(decathlonValues)) {
+                return 0;
+            }
+
+            let filledFields = 0;
+            decathlonValues.slice(0, 10).forEach(function(value, index) {
+                if (value && !String(profile.values[index] || '').trim()) {
+                    profile.values[index] = value;
+                    filledFields += 1;
+                }
+            });
+
+            if (filledFields === 0) {
+                showAppToast('Es gibt keine passenden leeren Felder.');
+                return 0;
+            }
+
+            recalculateSingleProfileFromValues(profile);
+            saveProfilesToLocalStorage();
+            const currentTitle = document.querySelector('.center')?.textContent?.trim();
+            if (currentTitle === profile.name) {
+                const contentScrollArea = getContentScrollArea();
+                const scrollPosition = contentScrollArea ? contentScrollArea.scrollTop : 0;
+                displayProfileResults(profile.name);
+                if (contentScrollArea) {
+                    requestAnimationFrame(function() {
+                        contentScrollArea.scrollTop = scrollPosition;
+                    });
+                }
+            }
+
+            showAppToast(`${filledFields} ${filledFields === 1 ? 'Feld wurde' : 'Felder wurden'} mit Zehnkampfwerten gefüllt.`);
             return filledFields;
         }
 
@@ -4422,9 +4769,15 @@
             let searchIsOpen = false;
             let searchTimer = null;
             let searchRequestVersion = 0;
+            let projectionRequestVersion = 0;
 
             const editor = document.createElement('div');
             editor.className = 'wa-link-editor';
+            editor.addEventListener('keydown', function(event) {
+                if ((event.key === 'Enter' || event.key === ' ') && event.target.closest('button')) {
+                    event.stopPropagation();
+                }
+            });
 
             function createSecondaryButton(label, onClick, extraClass = '') {
                 const button = document.createElement('button');
@@ -4457,6 +4810,241 @@
                     searchTimer = null;
                 }
                 searchRequestVersion += 1;
+            }
+
+            function cancelPendingProjection() {
+                projectionRequestVersion += 1;
+            }
+
+            function createProjectionOption(label, onClick) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'wa-projection-option';
+                button.textContent = label;
+                button.onclick = onClick;
+                return button;
+            }
+
+            function appendProjectionHeader(titleText, backAction) {
+                const heading = document.createElement('div');
+                heading.className = 'profile-import-heading-row';
+
+                const backButton = document.createElement('button');
+                backButton.type = 'button';
+                backButton.className = 'profile-import-back';
+                backButton.textContent = '‹';
+                backButton.setAttribute('aria-label', 'Zurück');
+                backButton.onclick = backAction;
+                heading.appendChild(backButton);
+
+                const title = document.createElement('p');
+                title.className = 'profile-import-stage-title';
+                title.textContent = titleText;
+                heading.appendChild(title);
+                editor.appendChild(heading);
+            }
+
+            function renderDecathlonProjectionPreview(item, backAction) {
+                editor.innerHTML = '';
+                appendProjectionHeader('Zehnkampf übernehmen', backAction);
+
+                const selectedCompetition = document.createElement('div');
+                selectedCompetition.className = 'profile-import-selected';
+                const competitionLabel = document.createElement('strong');
+                competitionLabel.textContent = `${item.decathlon.competition || 'Zehnkampf'} · ${formatWorldAthleticsCompetitionDate(item.decathlon.date)}`;
+                selectedCompetition.appendChild(competitionLabel);
+                editor.appendChild(selectedCompetition);
+
+                const disciplineLabels = ['100 m', 'Weitsprung', 'Kugelstoß', 'Hochsprung', '400 m', '110 m Hürden', 'Diskuswurf', 'Stabhochsprung', 'Speerwurf', '1500 m'];
+                const preview = document.createElement('div');
+                preview.className = 'profile-import-preview';
+                item.values.forEach(function(value, index) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'profile-import-preview-item';
+                    const label = document.createElement('span');
+                    label.textContent = disciplineLabels[index];
+                    previewItem.appendChild(label);
+                    const mark = document.createElement('strong');
+                    mark.textContent = value;
+                    previewItem.appendChild(mark);
+                    preview.appendChild(previewItem);
+                });
+                editor.appendChild(preview);
+
+                const actions = document.createElement('div');
+                actions.className = 'profile-import-actions';
+                const applyButton = createPrimaryButton('Leere Felder übernehmen');
+                applyButton.onclick = function() {
+                    const filledFields = fillEmptyProfileValuesFromDecathlon(profile, item.values);
+                    if (filledFields > 0) {
+                        renderEditor();
+                    }
+                };
+                actions.appendChild(applyButton);
+                editor.appendChild(actions);
+            }
+
+            function renderDecathlonProjectionList() {
+                cancelPendingSearch();
+                const requestVersion = ++projectionRequestVersion;
+                const currentYear = new Date().getFullYear();
+                const displayedItems = [];
+                let olderCandidates = [];
+                let olderCandidateIndex = 0;
+
+                function isCurrentRequest() {
+                    return requestVersion === projectionRequestVersion && editor.isConnected;
+                }
+
+                function appendBestOlderDecathlons(targetCount) {
+                    const candidatesToAppend = olderCandidates.slice(
+                        olderCandidateIndex,
+                        olderCandidateIndex + targetCount
+                    );
+                    olderCandidateIndex += candidatesToAppend.length;
+                    candidatesToAppend.forEach(function(decathlon) {
+                        displayedItems.push({ decathlon: decathlon, values: null });
+                    });
+                }
+
+                function renderList(statusText) {
+                    if (!isCurrentRequest()) {
+                        return;
+                    }
+                    editor.innerHTML = '';
+                    appendProjectionHeader('Zehnkampf auswählen', renderEditor);
+
+                    const status = document.createElement('div');
+                    status.className = 'wa-search-status';
+                    status.textContent = statusText;
+                    editor.appendChild(status);
+
+                    const list = document.createElement('div');
+                    list.className = 'profile-import-competition-list';
+                    displayedItems.forEach(function(item) {
+                        const decathlon = item.decathlon;
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'profile-import-competition';
+
+                        const name = document.createElement('span');
+                        name.className = 'profile-import-competition-name';
+                        name.textContent = decathlon.competition || 'Zehnkampf';
+                        button.appendChild(name);
+
+                        const points = document.createElement('span');
+                        points.className = 'profile-import-competition-points';
+                        points.textContent = `${decathlon.mark} Pkt.`;
+                        button.appendChild(points);
+
+                        const meta = document.createElement('span');
+                        meta.className = 'profile-import-competition-meta';
+                        meta.textContent = [
+                            formatWorldAthleticsCompetitionDate(decathlon.date),
+                            getWorldAthleticsLocationLabel(decathlon.location)
+                        ].filter(Boolean).join(' · ');
+                        button.appendChild(meta);
+                        button.onclick = async function() {
+                            button.disabled = true;
+                            try {
+                                if (!item.values) {
+                                    item.values = await fetchWorldAthleticsDecathlonValues(
+                                        selectedLink.athleteId,
+                                        decathlon
+                                    );
+                                }
+                                if (!isCurrentRequest()) {
+                                    return;
+                                }
+                                if (item.values.length !== 10 || !item.values.every(Boolean)) {
+                                    const itemIndex = displayedItems.indexOf(item);
+                                    if (itemIndex >= 0) {
+                                        displayedItems.splice(itemIndex, 1);
+                                    }
+                                    renderList(`${displayedItems.length} vollständige Zehnkämpfe verfügbar.`);
+                                    return;
+                                }
+                                renderDecathlonProjectionPreview(item, function() {
+                                    renderList(`${displayedItems.length} vollständige Zehnkämpfe verfügbar.`);
+                                });
+                            } catch (error) {
+                                console.error('Zehnkampfdetails konnten nicht geladen werden:', error);
+                                if (isCurrentRequest()) {
+                                    button.disabled = false;
+                                    showAppToast('Zehnkampf konnte nicht geladen werden.');
+                                }
+                            }
+                        };
+                        list.appendChild(button);
+                    });
+                    editor.appendChild(list);
+
+                    if (olderCandidateIndex < olderCandidates.length) {
+                        const moreButton = createSecondaryButton('Weitere anzeigen', function() {
+                            const previousCount = displayedItems.length;
+                            appendBestOlderDecathlons(5);
+                            const addedCount = displayedItems.length - previousCount;
+                            renderList(addedCount > 0
+                                ? `${displayedItems.length} vollständige Zehnkämpfe verfügbar.`
+                                : 'Keine weiteren vollständigen Zehnkämpfe gefunden.');
+                        }, 'wa-decathlon-projection-more');
+                        editor.appendChild(moreButton);
+                    }
+                }
+
+                editor.innerHTML = '';
+                appendProjectionHeader('Zehnkampf auswählen', renderEditor);
+                const loadingStatus = document.createElement('div');
+                loadingStatus.className = 'wa-search-status';
+                loadingStatus.textContent = 'Vollständige Zehnkämpfe werden geprüft ...';
+                editor.appendChild(loadingStatus);
+
+                (async function() {
+                    try {
+                        const candidates = await fetchWorldAthleticsAdultDecathlonCandidates(
+                            selectedLink.athleteId
+                        );
+                        if (!isCurrentRequest()) {
+                            return;
+                        }
+
+                        const currentYearCandidates = candidates
+                            .filter(function(decathlon) {
+                                return getWorldAthleticsPerformanceYear(decathlon.date) === currentYear;
+                            })
+                            .sort(function(left, right) {
+                                return new Date(right.date).getTime() - new Date(left.date).getTime();
+                            });
+                        olderCandidates = candidates
+                            .filter(function(decathlon) {
+                                return getWorldAthleticsPerformanceYear(decathlon.date) !== currentYear;
+                            })
+                            .sort(function(left, right) {
+                                const pointsDifference = Number(right.mark) - Number(left.mark);
+                                return pointsDifference !== 0
+                                    ? pointsDifference
+                                    : new Date(right.date).getTime() - new Date(left.date).getTime();
+                            });
+
+                        currentYearCandidates.forEach(function(decathlon) {
+                            displayedItems.push({ decathlon: decathlon, values: null });
+                        });
+                        appendBestOlderDecathlons(Math.max(0, 5 - displayedItems.length));
+                        if (!isCurrentRequest()) {
+                            return;
+                        }
+
+                        renderList(displayedItems.length > 0
+                            ? `${displayedItems.length} vollständige Zehnkämpfe verfügbar.`
+                            : 'Keine vollständigen Erwachsenen-Zehnkämpfe gefunden.');
+                    } catch (error) {
+                        if (!isCurrentRequest()) {
+                            return;
+                        }
+                        console.error('Zehnkämpfe für Hochrechnung konnten nicht geladen werden:', error);
+                        renderList('Die Zehnkämpfe konnten derzeit nicht geladen werden.');
+                    }
+                })();
             }
 
             function appendSearchPanel() {
@@ -4546,7 +5134,7 @@
                     }
                 }
 
-                function scheduleSearch(delay = 250) {
+                function scheduleSearch(delay = WORLD_ATHLETICS_SEARCH_DEBOUNCE_MS) {
                     if (searchTimer) {
                         window.clearTimeout(searchTimer);
                         searchTimer = null;
@@ -4595,6 +5183,7 @@
 
             function renderEditor() {
                 cancelPendingSearch();
+                cancelPendingProjection();
                 editor.innerHTML = '';
 
                 if (selectedLink) {
@@ -4637,24 +5226,35 @@
                         appendSearchPanel();
                     }
 
-                    const actions = document.createElement('div');
-                    actions.className = 'wa-link-actions';
-
                     const currentProfileLink = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
                     const canUseCurrentData = currentProfileLink
                         && currentProfileLink.athleteId === selectedLink.athleteId;
-                    if (canUseCurrentData && Object.keys(currentProfileLink.seasonBests).length > 0) {
-                        actions.appendChild(createSecondaryButton('Hochrechnung (SB)', function() {
-                            fillEmptyProfileValuesFromWorldAthletics(profile, 'season');
+
+                    if (canUseCurrentData) {
+                        const projectionSection = document.createElement('div');
+                        projectionSection.className = 'wa-projection-section';
+                        const projectionLabel = document.createElement('div');
+                        projectionLabel.className = 'wa-projection-label';
+                        projectionLabel.textContent = 'Hochrechnung';
+                        projectionSection.appendChild(projectionLabel);
+
+                        const projectionOptions = document.createElement('div');
+                        projectionOptions.className = 'wa-projection-options';
+                        if (Object.keys(currentProfileLink.seasonBests).length > 0) {
+                            projectionOptions.appendChild(createProjectionOption('SB', function() {
+                                fillEmptyProfileValuesFromWorldAthletics(profile, 'season');
+                            }));
+                        }
+                        if (Object.keys(currentProfileLink.personalBests).length > 0) {
+                            projectionOptions.appendChild(createProjectionOption('PB', function() {
+                                fillEmptyProfileValuesFromWorldAthletics(profile, 'personal');
+                            }));
+                        }
+                        projectionOptions.appendChild(createProjectionOption('Zehnkampf', function() {
+                            renderDecathlonProjectionList();
                         }));
-                    }
-                    if (canUseCurrentData && Object.keys(currentProfileLink.personalBests).length > 0) {
-                        actions.appendChild(createSecondaryButton('Hochrechnung (PB)', function() {
-                            fillEmptyProfileValuesFromWorldAthletics(profile, 'personal');
-                        }));
-                    }
-                    if (actions.childElementCount > 0) {
-                        editor.appendChild(actions);
+                        projectionSection.appendChild(projectionOptions);
+                        editor.appendChild(projectionSection);
                     }
                 } else {
                     editor.appendChild(createSecondaryButton('Mit World Athletics verknüpfen', function() {
@@ -4829,7 +5429,7 @@
                 searchTimer = window.setTimeout(function() {
                     searchTimer = null;
                     runSearch(searchTerm, requestVersion);
-                }, 250);
+                }, WORLD_ATHLETICS_SEARCH_DEBOUNCE_MS);
             }
 
             inputField.addEventListener('input', scheduleSearch);
@@ -4850,6 +5450,701 @@
                 },
                 destroy: clearPendingSearch
             };
+        }
+
+        function getWorldAthleticsDateKey(dateValue) {
+            const date = new Date(dateValue);
+            return Number.isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 10);
+        }
+
+        function formatWorldAthleticsCompetitionDate(dateValue) {
+            const date = new Date(dateValue);
+            if (Number.isNaN(date.getTime())) {
+                return 'Datum unbekannt';
+            }
+            return new Intl.DateTimeFormat('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).format(date);
+        }
+
+        function getWorldAthleticsLocationLabel(location) {
+            if (!location || typeof location !== 'object') {
+                return '';
+            }
+            return [location.city, location.country].filter(Boolean).join(', ');
+        }
+
+        function getWorldAthleticsDecathlonComponents(results, decathlon) {
+            const selectedDate = new Date(decathlon && decathlon.date);
+            const selectedTime = Number.isNaN(selectedDate.getTime()) ? null : selectedDate.getTime();
+            const selectedByIndex = {};
+
+            results.forEach(function(result) {
+                if (Number(result && result.competitionId) !== Number(decathlon && decathlon.competitionId)
+                    || !/^CE/i.test(String(result && result.race || ''))) {
+                    return;
+                }
+                if (decathlon.category && result.category && decathlon.category !== result.category) {
+                    return;
+                }
+
+                const code = normalizeWorldAthleticsDecathlonComponentCode(
+                    result.disciplineCode,
+                    result.discipline
+                );
+                const discipline = WORLD_ATHLETICS_DISCIPLINES[code];
+                if (!discipline) {
+                    return;
+                }
+
+                const resultDate = new Date(result.date || '');
+                const resultTime = Number.isNaN(resultDate.getTime()) ? null : resultDate.getTime();
+                const dayDistance = selectedTime != null && resultTime != null
+                    ? Math.abs(selectedTime - resultTime) / (24 * 60 * 60 * 1000)
+                    : 0;
+                if (dayDistance > 3) {
+                    return;
+                }
+
+                const previous = selectedByIndex[discipline.index];
+                if (previous && previous.dayDistance <= dayDistance) {
+                    return;
+                }
+                const parsedMark = parseWorldAthleticsMark(code, result.mark);
+                const disciplinePoints = Number(result.resultScore);
+                selectedByIndex[discipline.index] = {
+                    dayDistance: dayDistance,
+                    value: parsedMark == null ? '' : formatWorldAthleticsMark(code, parsedMark),
+                    points: Number.isFinite(disciplinePoints) ? disciplinePoints : null
+                };
+            });
+
+            const values = Array(10).fill('');
+            const points = Array(10).fill(null);
+            Object.keys(selectedByIndex).forEach(function(index) {
+                values[Number(index)] = selectedByIndex[index].value;
+                points[Number(index)] = selectedByIndex[index].points;
+            });
+            return { values: values, points: points };
+        }
+
+        function hasValidWorldAthleticsDecathlonComponents(decathlon) {
+            return Array.isArray(decathlon && decathlon.componentValues)
+                && decathlon.componentValues.length === 10
+                && decathlon.componentValues.every(Boolean)
+                && Array.isArray(decathlon.componentPoints)
+                && decathlon.componentPoints.length === 10
+                && decathlon.componentPoints.every(function(points) {
+                    return Number.isFinite(Number(points)) && Number(points) > 0;
+                });
+        }
+
+        async function loadWorldAthleticsDecathlons(athleteId) {
+            const results = await fetchWorldAthleticsJson(`/athletes/${athleteId}/results`);
+            if (!Array.isArray(results)) {
+                return [];
+            }
+
+            const uniqueResults = new Map();
+            results.forEach(function(result) {
+                const disciplineCode = String(result && result.disciplineCode || '').toUpperCase();
+                const competitionId = Number(result && result.competitionId);
+                if (!disciplineCode.startsWith(WORLD_ATHLETICS_DECATHLON_CODE_PREFIX)
+                    || !Number.isInteger(competitionId)
+                    || competitionId <= 0) {
+                    return;
+                }
+
+                const key = [competitionId, getWorldAthleticsDateKey(result.date), String(result.mark || '')].join(':');
+                if (!uniqueResults.has(key)) {
+                    uniqueResults.set(key, result);
+                }
+            });
+
+            return Array.from(uniqueResults.values()).map(function(decathlon) {
+                const components = getWorldAthleticsDecathlonComponents(results, decathlon);
+                return Object.assign({}, decathlon, {
+                    componentValues: components.values,
+                    componentPoints: components.points
+                });
+            }).sort(function(left, right) {
+                const leftTime = new Date(left.date).getTime() || 0;
+                const rightTime = new Date(right.date).getTime() || 0;
+                return rightTime - leftTime;
+            });
+        }
+
+        function fetchWorldAthleticsDecathlons(athleteId) {
+            const normalizedAthleteId = Number(athleteId);
+            if (worldAthleticsDecathlonListCache.has(normalizedAthleteId)) {
+                return worldAthleticsDecathlonListCache.get(normalizedAthleteId);
+            }
+
+            const request = loadWorldAthleticsDecathlons(normalizedAthleteId)
+                .catch(function(error) {
+                    worldAthleticsDecathlonListCache.delete(normalizedAthleteId);
+                    throw error;
+                });
+            worldAthleticsDecathlonListCache.set(normalizedAthleteId, request);
+            return request;
+        }
+
+        async function fetchWorldAthleticsCompleteDecathlons(athleteId) {
+            const decathlons = await fetchWorldAthleticsDecathlons(athleteId);
+            const now = Date.now();
+            return decathlons.filter(function(decathlon) {
+                const points = Number(decathlon && decathlon.mark);
+                const date = new Date(decathlon && decathlon.date);
+                return Number.isInteger(points)
+                    && points > 0
+                    && !Number.isNaN(date.getTime())
+                    && date.getTime() <= now
+                    && hasValidWorldAthleticsDecathlonComponents(decathlon);
+            });
+        }
+
+        function normalizeWorldAthleticsDecathlonComponentCode(codeValue, disciplineValue) {
+            const code = String(codeValue || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+            const discipline = String(disciplineValue || '').toUpperCase();
+            if (WORLD_ATHLETICS_DISCIPLINES[code]) {
+                return code;
+            }
+            if (code.startsWith('110H') || (discipline.includes('110') && discipline.includes('HURDLE'))) {
+                return '110H';
+            }
+            if (code.startsWith('1500') || discipline.includes('1500')) {
+                return '1500';
+            }
+            if (code.startsWith('LJ') || discipline.includes('LONG JUMP')) {
+                return 'LJ';
+            }
+            if (code.startsWith('SP') || discipline.includes('SHOT PUT')) {
+                return 'SP';
+            }
+            if (code.startsWith('HJ') || discipline.includes('HIGH JUMP')) {
+                return 'HJ';
+            }
+            if (code.startsWith('DT') || discipline.includes('DISCUS')) {
+                return 'DT';
+            }
+            if (code.startsWith('PV') || discipline.includes('POLE VAULT')) {
+                return 'PV';
+            }
+            if (code.startsWith('JT') || discipline.includes('JAVELIN')) {
+                return 'JT';
+            }
+            if (code === '400' || /^400\s+MET/.test(discipline)) {
+                return '400';
+            }
+            if (code === '100' || /^100\s+MET/.test(discipline)) {
+                return '100';
+            }
+            return '';
+        }
+
+        function extractWorldAthleticsDecathlonValues(dataSets, athleteId, decathlonDate) {
+            const selectedDate = new Date(decathlonDate);
+            const selectedTime = Number.isNaN(selectedDate.getTime()) ? null : selectedDate.getTime();
+            const selectedByIndex = {};
+
+            dataSets.forEach(function(data) {
+                const events = data && Array.isArray(data.events) ? data.events : [];
+                events.forEach(function(event) {
+                    const code = normalizeWorldAthleticsDecathlonComponentCode(
+                        event.disciplineCode,
+                        event.discipline
+                    );
+                    const discipline = WORLD_ATHLETICS_DISCIPLINES[code];
+                    if (!discipline) {
+                        return;
+                    }
+
+                    const eventName = String(event.eventName || '').toLowerCase();
+                    const combinedPriority = /combined|decathlon|zehnkampf|mehrkampf/.test(eventName) ? 20 : 0;
+                    const races = Array.isArray(event.races) ? event.races : [];
+                    races.forEach(function(race) {
+                        const results = Array.isArray(race.results) ? race.results : [];
+                        results.forEach(function(result) {
+                            const athletes = Array.isArray(result.athletes) ? result.athletes : [];
+                            const belongsToAthlete = athletes.some(function(athlete) {
+                                return Number(athlete && athlete.id) === Number(athleteId);
+                            });
+                            if (!belongsToAthlete) {
+                                return;
+                            }
+
+                            const parsedMark = parseWorldAthleticsMark(code, result.mark);
+                            if (parsedMark == null) {
+                                return;
+                            }
+
+                            const resultDate = new Date(result.date || race.date || '');
+                            const resultTime = Number.isNaN(resultDate.getTime()) ? null : resultDate.getTime();
+                            const dayDistance = selectedTime != null && resultTime != null
+                                ? Math.abs(selectedTime - resultTime) / (24 * 60 * 60 * 1000)
+                                : 0;
+                            if (dayDistance > 3) {
+                                return;
+                            }
+
+                            const priority = combinedPriority - dayDistance;
+                            const previous = selectedByIndex[discipline.index];
+                            if (!previous || priority > previous.priority) {
+                                selectedByIndex[discipline.index] = {
+                                    priority: priority,
+                                    value: formatWorldAthleticsMark(code, parsedMark)
+                                };
+                            }
+                        });
+                    });
+                });
+            });
+
+            const values = Array(10).fill('');
+            Object.keys(selectedByIndex).forEach(function(index) {
+                values[Number(index)] = selectedByIndex[index].value;
+            });
+            return values;
+        }
+
+        async function loadWorldAthleticsDecathlonValues(athleteId, decathlon) {
+            const competitionId = Number(decathlon && decathlon.competitionId);
+            if (!Number.isInteger(competitionId) || competitionId <= 0) {
+                throw new Error('Für diesen Zehnkampf fehlen die Wettkampfdaten.');
+            }
+
+            const resultPath = `/competitions/${competitionId}/results`;
+            const initialData = await fetchWorldAthleticsJson(resultPath);
+            const availableDays = initialData && initialData.options && Array.isArray(initialData.options.days)
+                ? initialData.options.days
+                : [];
+            const selectedDateKey = getWorldAthleticsDateKey(decathlon.date);
+            const selectedTime = selectedDateKey ? new Date(`${selectedDateKey}T00:00:00Z`).getTime() : null;
+            let relevantDays = availableDays.filter(function(day) {
+                const dayKey = getWorldAthleticsDateKey(day.date);
+                const dayTime = dayKey ? new Date(`${dayKey}T00:00:00Z`).getTime() : null;
+                if (selectedTime == null || dayTime == null) {
+                    return false;
+                }
+                const distance = (selectedTime - dayTime) / (24 * 60 * 60 * 1000);
+                return distance >= 0 && distance <= 2;
+            });
+            if (relevantDays.length === 0) {
+                relevantDays = availableDays;
+            }
+
+            const loadedDays = new Set();
+            async function loadDays(days) {
+                const pendingDays = days.filter(function(day) {
+                    const dayNumber = Number(day.day);
+                    if (!Number.isInteger(dayNumber) || loadedDays.has(dayNumber)) {
+                        return false;
+                    }
+                    loadedDays.add(dayNumber);
+                    return true;
+                });
+                const responses = await Promise.allSettled(pendingDays.map(function(day) {
+                    return fetchWorldAthleticsJson(`${resultPath}?day=${Number(day.day)}`);
+                }));
+                return responses
+                    .filter(function(response) { return response.status === 'fulfilled'; })
+                    .map(function(response) { return response.value; });
+            }
+
+            const dataSets = [initialData].concat(await loadDays(relevantDays));
+            let values = extractWorldAthleticsDecathlonValues(dataSets, athleteId, decathlon.date);
+            if (values.filter(Boolean).length < 10 && loadedDays.size < availableDays.length) {
+                dataSets.push.apply(dataSets, await loadDays(availableDays));
+                values = extractWorldAthleticsDecathlonValues(dataSets, athleteId, decathlon.date);
+            }
+            if (!values.some(Boolean)) {
+                throw new Error('Für diesen Zehnkampf konnten keine Einzeldisziplinen geladen werden.');
+            }
+            return values;
+        }
+
+        function fetchWorldAthleticsDecathlonValues(athleteId, decathlon) {
+            if (hasValidWorldAthleticsDecathlonComponents(decathlon)) {
+                return Promise.resolve(decathlon.componentValues.slice());
+            }
+
+            const competitionId = Number(decathlon && decathlon.competitionId);
+            const dateKey = getWorldAthleticsDateKey(decathlon && decathlon.date);
+            const cacheKey = `${Number(athleteId)}:${competitionId}:${dateKey}`;
+            if (worldAthleticsDecathlonValuesCache.has(cacheKey)) {
+                return worldAthleticsDecathlonValuesCache.get(cacheKey);
+            }
+
+            const request = loadWorldAthleticsDecathlonValues(athleteId, decathlon)
+                .catch(function(error) {
+                    worldAthleticsDecathlonValuesCache.delete(cacheKey);
+                    throw error;
+                });
+            worldAthleticsDecathlonValuesCache.set(cacheKey, request);
+            return request;
+        }
+
+        async function fetchWorldAthleticsAdultDecathlonCandidates(athleteId) {
+            const decathlons = await fetchWorldAthleticsDecathlons(athleteId);
+            const now = Date.now();
+            return decathlons.filter(function(decathlon) {
+                const disciplineCode = String(decathlon && decathlon.disciplineCode || '').toUpperCase();
+                const date = new Date(decathlon && decathlon.date);
+                const points = Number(decathlon && decathlon.mark);
+                return disciplineCode === 'DEC'
+                    && !Number.isNaN(date.getTime())
+                    && date.getTime() <= now
+                    && Number.isFinite(points)
+                    && points > 0
+                    && hasValidWorldAthleticsDecathlonComponents(decathlon);
+            });
+        }
+
+        function openProfileImportWindow() {
+            var modalParts = createUnifiedModal(
+                'Profil importieren',
+                'min(94vw, 640px)'
+            );
+            var modal = modalParts.modal;
+            var content = modalParts.content;
+            var flow = document.createElement('div');
+            flow.className = 'profile-import-flow';
+            content.appendChild(flow);
+
+            let searchTimer = null;
+            let searchRequestVersion = 0;
+            let selectedAthlete = null;
+            let athleteLinkPromise = null;
+            let importStageVersion = 0;
+
+            function clearSearch() {
+                if (searchTimer) {
+                    window.clearTimeout(searchTimer);
+                    searchTimer = null;
+                }
+                searchRequestVersion += 1;
+            }
+
+            function createBackButton(label, onClick) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'profile-import-back';
+                button.textContent = '‹';
+                button.setAttribute('aria-label', label);
+                button.onclick = onClick;
+                return button;
+            }
+
+            function createSelectedAthleteCard(athlete) {
+                const card = document.createElement('div');
+                card.className = 'profile-import-selected';
+                const label = document.createElement('strong');
+                label.textContent = formatWorldAthleticsIdentity(createWorldAthleticsIdentity(athlete));
+                card.appendChild(label);
+                return card;
+            }
+
+            function renderAthleteSearch() {
+                clearSearch();
+                importStageVersion += 1;
+                selectedAthlete = null;
+                athleteLinkPromise = null;
+                flow.innerHTML = '';
+
+                const searchPanel = document.createElement('div');
+                searchPanel.className = 'wa-search-panel';
+                const searchInput = document.createElement('input');
+                searchInput.type = 'search';
+                searchInput.placeholder = 'Zehnkämpfer suchen';
+                searchInput.autocomplete = 'off';
+                styleModalField(searchInput);
+                searchPanel.appendChild(searchInput);
+
+                const status = document.createElement('div');
+                status.className = 'wa-search-status';
+                status.textContent = 'Mindestens zwei Zeichen eingeben.';
+                searchPanel.appendChild(status);
+
+                const results = document.createElement('div');
+                results.className = 'wa-search-results';
+                searchPanel.appendChild(results);
+                flow.appendChild(searchPanel);
+
+                function renderSuggestions(athletes) {
+                    results.innerHTML = '';
+                    athletes.forEach(function(athlete) {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'wa-search-result';
+                        button.textContent = formatWorldAthleticsIdentity(createWorldAthleticsIdentity(athlete));
+                        button.onclick = function() {
+                            showAthleteDecathlons(athlete);
+                        };
+                        results.appendChild(button);
+                    });
+                }
+
+                function scheduleSearch() {
+                    if (searchTimer) {
+                        window.clearTimeout(searchTimer);
+                    }
+                    const searchTerm = sanitizeProfileName(searchInput.value);
+                    searchRequestVersion += 1;
+                    const requestVersion = searchRequestVersion;
+                    results.innerHTML = '';
+                    if (searchTerm.length < 2) {
+                        status.textContent = 'Mindestens zwei Zeichen eingeben.';
+                        searchTimer = null;
+                        return;
+                    }
+
+                    status.textContent = 'Passende Zehnkämpfer werden gesucht ...';
+                    searchTimer = window.setTimeout(async function() {
+                        searchTimer = null;
+                        try {
+                            const athletes = await searchWorldAthleticsDecathletes(searchTerm, 5, function(partialAthletes) {
+                                if (requestVersion === searchRequestVersion) {
+                                    renderSuggestions(partialAthletes);
+                                }
+                            });
+                            if (requestVersion !== searchRequestVersion) {
+                                return;
+                            }
+                            renderSuggestions(athletes);
+                            status.textContent = athletes.length > 0
+                                ? 'Athlet auswählen, um seine Zehnkämpfe anzuzeigen.'
+                                : 'Keine passenden Zehnkämpfer gefunden.';
+                        } catch (error) {
+                            if (requestVersion === searchRequestVersion) {
+                                status.textContent = 'Die Athletensuche ist derzeit nicht erreichbar.';
+                                console.error('Athletensuche für Profilimport fehlgeschlagen:', error);
+                            }
+                        }
+                    }, WORLD_ATHLETICS_SEARCH_DEBOUNCE_MS);
+                }
+
+                searchInput.addEventListener('input', scheduleSearch);
+                searchInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'ArrowDown') {
+                        const firstSuggestion = results.querySelector('.wa-search-result');
+                        if (firstSuggestion) {
+                            event.preventDefault();
+                            firstSuggestion.focus();
+                        }
+                    }
+                });
+                window.setTimeout(function() { searchInput.focus(); }, 0);
+            }
+
+            async function showAthleteDecathlons(athlete) {
+                clearSearch();
+                const stageVersion = ++importStageVersion;
+                selectedAthlete = athlete;
+                athleteLinkPromise = fetchWorldAthleticsData(athlete.id).catch(function(error) {
+                    console.warn('Athletenverknüpfung konnte nur teilweise geladen werden:', error);
+                    return createWorldAthleticsIdentity(athlete);
+                });
+                flow.innerHTML = '';
+
+                const heading = document.createElement('div');
+                heading.className = 'profile-import-heading-row';
+                heading.appendChild(createBackButton('Zurück zur Athletensuche', renderAthleteSearch));
+                const title = document.createElement('p');
+                title.className = 'profile-import-stage-title';
+                title.textContent = 'Zehnkampf auswählen';
+                heading.appendChild(title);
+                flow.appendChild(heading);
+                flow.appendChild(createSelectedAthleteCard(athlete));
+
+                const status = document.createElement('div');
+                status.className = 'wa-search-status';
+                status.textContent = 'Zehnkämpfe werden geladen ...';
+                flow.appendChild(status);
+
+                const list = document.createElement('div');
+                list.className = 'profile-import-competition-list';
+                flow.appendChild(list);
+
+                try {
+                    const decathlons = await fetchWorldAthleticsCompleteDecathlons(athlete.id);
+                    if (stageVersion !== importStageVersion || !modal.isConnected) {
+                        return;
+                    }
+                    status.textContent = decathlons.length > 0
+                        ? 'Die neuesten Zehnkämpfe stehen oben.'
+                        : 'Für diesen Athleten wurden keine importierbaren Zehnkämpfe gefunden.';
+                    decathlons.forEach(function(decathlon) {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'profile-import-competition';
+
+                        const name = document.createElement('span');
+                        name.className = 'profile-import-competition-name';
+                        name.textContent = decathlon.competition || 'Zehnkampf';
+                        button.appendChild(name);
+
+                        const points = document.createElement('span');
+                        points.className = 'profile-import-competition-points';
+                        points.textContent = /^\d+$/.test(String(decathlon.mark || ''))
+                            ? `${decathlon.mark} Pkt.`
+                            : String(decathlon.mark || '');
+                        button.appendChild(points);
+
+                        const meta = document.createElement('span');
+                        meta.className = 'profile-import-competition-meta';
+                        const location = getWorldAthleticsLocationLabel(decathlon.location);
+                        meta.textContent = [formatWorldAthleticsCompetitionDate(decathlon.date), location]
+                            .filter(Boolean)
+                            .join(' · ');
+                        button.appendChild(meta);
+                        button.onclick = function() {
+                            showImportPreview(athlete, decathlon);
+                        };
+                        list.appendChild(button);
+                    });
+                } catch (error) {
+                    status.textContent = 'Die Zehnkämpfe konnten derzeit nicht geladen werden.';
+                    console.error('Zehnkämpfe für Profilimport konnten nicht geladen werden:', error);
+                }
+            }
+
+            async function showImportPreview(athlete, decathlon) {
+                const stageVersion = ++importStageVersion;
+                flow.innerHTML = '';
+                const heading = document.createElement('div');
+                heading.className = 'profile-import-heading-row';
+                heading.appendChild(createBackButton('Zurück zur Zehnkampfauswahl', function() {
+                    showAthleteDecathlons(athlete);
+                }));
+                const title = document.createElement('p');
+                title.className = 'profile-import-stage-title';
+                title.textContent = 'Profil anlegen';
+                heading.appendChild(title);
+                flow.appendChild(heading);
+                flow.appendChild(createSelectedAthleteCard(athlete));
+
+                const selectedCompetition = document.createElement('div');
+                selectedCompetition.className = 'profile-import-selected';
+                const competitionLabel = document.createElement('strong');
+                competitionLabel.textContent = `${decathlon.competition || 'Zehnkampf'} · ${formatWorldAthleticsCompetitionDate(decathlon.date)}`;
+                selectedCompetition.appendChild(competitionLabel);
+                flow.appendChild(selectedCompetition);
+
+                const status = document.createElement('div');
+                status.className = 'wa-search-status';
+                status.textContent = 'Einzeldisziplinen werden geladen ...';
+                flow.appendChild(status);
+
+                let values;
+                try {
+                    values = await fetchWorldAthleticsDecathlonValues(athlete.id, decathlon);
+                    if (values.length !== 10 || !values.every(Boolean)) {
+                        throw new Error('Für diesen Zehnkampf sind nicht alle Einzeldisziplinen verfügbar.');
+                    }
+                    if (stageVersion !== importStageVersion || !modal.isConnected) {
+                        return;
+                    }
+                } catch (error) {
+                    status.textContent = error && error.message
+                        ? error.message
+                        : 'Die Einzeldisziplinen konnten nicht geladen werden.';
+                    console.error('Zehnkampfdetails konnten nicht geladen werden:', error);
+                    return;
+                }
+
+                const loadedValueCount = values.filter(Boolean).length;
+                status.textContent = loadedValueCount === 10
+                    ? 'Alle zehn Disziplinen sind bereit zum Import.'
+                    : `${loadedValueCount} von 10 Disziplinen sind verfügbar; fehlende Werte bleiben leer.`;
+
+                const disciplineLabels = ['100 m', 'Weitsprung', 'Kugelstoß', 'Hochsprung', '400 m', '110 m Hürden', 'Diskuswurf', 'Stabhochsprung', 'Speerwurf', '1500 m'];
+                const preview = document.createElement('div');
+                preview.className = 'profile-import-preview';
+                values.forEach(function(value, index) {
+                    const item = document.createElement('div');
+                    item.className = 'profile-import-preview-item';
+                    const label = document.createElement('span');
+                    label.textContent = disciplineLabels[index];
+                    item.appendChild(label);
+                    const mark = document.createElement('strong');
+                    mark.textContent = value || '–';
+                    item.appendChild(mark);
+                    preview.appendChild(item);
+                });
+                flow.appendChild(preview);
+
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.placeholder = 'Name des Profils';
+                styleModalField(nameInput);
+                flow.appendChild(nameInput);
+
+                const actions = document.createElement('div');
+                actions.className = 'profile-import-actions';
+                const importButton = createPrimaryButton('Profil importieren');
+                importButton.onclick = async function() {
+                    const profileName = sanitizeProfileName(nameInput.value);
+                    if (!profileName) {
+                        alert('Bitte geben Sie einen Profilnamen ein.');
+                        nameInput.focus();
+                        return;
+                    }
+                    if (profileName.includes(' vs. ')) {
+                        alert('Der Profilname darf "vs." nicht enthalten.');
+                        nameInput.focus();
+                        return;
+                    }
+                    if (profiles.some(function(profile) { return profile.name === profileName; })) {
+                        alert('Ein Profil mit diesem Namen existiert bereits.');
+                        nameInput.focus();
+                        nameInput.select();
+                        return;
+                    }
+
+                    importButton.disabled = true;
+                    importButton.textContent = 'Wird importiert ...';
+                    const createdProfileName = addProfileToSidebar(profileName);
+                    const createdProfile = profiles.find(function(profile) {
+                        return profile.name === createdProfileName && profile.type === 'single';
+                    });
+                    if (!createdProfile) {
+                        importButton.disabled = false;
+                        importButton.textContent = 'Profil importieren';
+                        return;
+                    }
+
+                    createdProfile.values = values.slice(0, 10);
+                    createdProfile.results = Array(10).fill('');
+                    recalculateSingleProfileFromValues(createdProfile);
+                    createdProfile.worldAthletics = normalizeWorldAthleticsLink(
+                        await athleteLinkPromise
+                    ) || createWorldAthleticsIdentity(athlete);
+                    saveProfilesToLocalStorage();
+                    closeModal(modal);
+                    handleProfileButtonClick(createdProfileName);
+                    showAppToast(`${loadedValueCount} Disziplinen wurden importiert.`);
+                };
+                actions.appendChild(importButton);
+                flow.appendChild(actions);
+
+                nameInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        importButton.click();
+                    }
+                });
+                window.setTimeout(function() { nameInput.focus(); }, 0);
+            }
+
+            modal.addEventListener('transitionend', function() {
+                if (!modal.isConnected) {
+                    clearSearch();
+                }
+            });
+            document.body.appendChild(modal);
+            renderAthleteSearch();
         }
 
         // Function new_profile
