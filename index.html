@@ -135,6 +135,10 @@
             display: none;
         }
 
+        body.content-view-active:not(.ranking-view-active):has(.analysis-view) #stickyTitleBackdrop {
+            display: none;
+        }
+
         html.content-view-active,
         body.content-view-active {
             height: 100%;
@@ -488,6 +492,12 @@
         .labels-container.is-document-layout {
             width: calc(100% - 32px);
             max-width: 1080px;
+        }
+
+        .labels-container.is-analysis-layout,
+        .labels-container.is-ranking-layout.is-analysis-layout {
+            width: calc(100% - 32px);
+            max-width: 1180px;
         }
 
         .document-view-panel {
@@ -1144,7 +1154,7 @@
             top: 0;
             bottom: 0;
             left: 0;
-            width: 200px;
+            width: 176px;
             height: auto;
             max-height: none;
             box-sizing: border-box;
@@ -1181,6 +1191,19 @@
             color: white;
         }
 
+        .menu img {
+            display: none !important;
+        }
+
+        #archiveSection .archive-folder-entry > .sidebar-main-button > img,
+        #archiveSection .archive-profile-item > .sidebar-main-button > img {
+            display: block !important;
+            width: 16px;
+            height: 16px;
+            flex: 0 0 16px;
+            object-fit: contain;
+        }
+
         .menu .closebtn {
             position: absolute;
             top: 0;
@@ -1195,20 +1218,21 @@
             justify-content: center;
         }
 
-        #profileList {
-            margin-top: 12px;
+        #profileList,
+        #comparisonList {
+            margin-top: 6px;
             position: relative;
         }
 
         .sidebar-section {
-            margin-top: 20px;
+            margin-top: 14px;
         }
 
         .sidebar-section-title {
-            padding: 0 14px 8px 14px;
+            padding: 0 12px 5px 12px;
             color: rgba(255, 255, 255, 0.68);
             font-family: 'Roboto', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -1218,14 +1242,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .archive-profile-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         #archiveSection {
@@ -1245,21 +1269,21 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 0 8px 12px 6px;
+            padding: 0 8px 8px 6px;
         }
 
         .archive-back-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border: none;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.08);
             color: white;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 22px;
             line-height: 1;
             padding: 0 0 2px 0;
             transition: background-color var(--motion-standard), transform var(--motion-standard);
@@ -1277,9 +1301,9 @@
             white-space: nowrap;
             color: white;
             font-family: 'Roboto', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            line-height: 34px;
+            line-height: 32px;
         }
 
         .archive-folder {
@@ -1287,6 +1311,7 @@
         }
 
         .archive-folder-entry {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1316,10 +1341,11 @@
             align-items: center;
             justify-content: space-between;
             background-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .sidebar-entry {
+            position: relative;
             transition: background-color var(--motion-standard), box-shadow var(--motion-standard), transform var(--motion-standard);
         }
 
@@ -1337,25 +1363,34 @@
             flex-grow: 1;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             min-width: 0;
-            padding: 0 0 0 12px;
+            padding: 0 0 0 10px;
             border: none;
             background: transparent;
             color: white;
             font-family: 'Roboto', sans-serif;
-            font-size: 20px;
+            font-size: 16px;
             text-align: left;
             cursor: pointer;
-            min-height: 46px;
+            min-height: 36px;
             transition: transform var(--motion-standard), color var(--motion-standard);
         }
 
         .sidebar-main-button img {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
             object-fit: contain;
+        }
+
+        .sidebar-entry.has-open-menu,
+        .archive-folder-entry.has-open-menu {
+            z-index: 45;
+        }
+
+        .sidebar-main-button img[src$="comparison.png"] {
+            width: 26px;
         }
 
         .sidebar-main-button:hover {
@@ -1375,12 +1410,12 @@
             color: white;
             cursor: pointer;
             border-radius: 5px;
-            margin-right: 8px;
-            padding: 4px 8px;
+            margin-right: 5px;
+            padding: 2px 6px;
             font-family: 'Roboto', sans-serif;
             font-size: 12px;
-            min-width: 36px;
-            min-height: 36px;
+            min-width: 32px;
+            min-height: 32px;
             transition: background-color var(--motion-standard), transform var(--motion-standard), box-shadow var(--motion-standard);
         }
 
@@ -1420,6 +1455,76 @@
         .sidebar-action-button:hover {
             background-color: #1f2328;
             transform: translateY(-1px);
+        }
+
+        .sidebar-more-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            min-height: 30px;
+            margin-right: 1px;
+            padding: 0 3px;
+            border-radius: 0;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .sidebar-more-button:hover {
+            background: transparent;
+            color: white;
+            transform: none;
+        }
+
+        .sidebar-action-control {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .sidebar-action-menu {
+            position: absolute;
+            z-index: 40;
+            top: calc(100% - 3px);
+            right: 1px;
+            display: none;
+            width: 150px;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            background: #343b43;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
+        }
+
+        .sidebar-action-menu.is-open {
+            display: grid;
+        }
+
+        .sidebar-action-menu button {
+            width: 100%;
+            min-height: 32px;
+            padding: 6px 9px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .sidebar-action-menu button:hover,
+        .sidebar-action-menu button:focus-visible {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-action-menu button.is-danger {
+            color: #ffd0d0;
         }
 
         .sidebar-empty {
@@ -1481,8 +1586,8 @@
             display: none;
             position: fixed;
             top: 0;
-            left: 200px; /* Starts right next to the sidebar */
-            width: calc(100% - 200px); /* Covers the area to the right of the sidebar */
+            left: 176px; /* Starts right next to the sidebar */
+            width: calc(100% - 176px); /* Covers the area to the right of the sidebar */
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Halbtransparent */
             z-index: 40; /* Set lower than the sidebar */
@@ -2607,6 +2712,10 @@
         }
 
         .comparison-header-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
             padding-bottom: 4px;
         }
 
@@ -2991,17 +3100,17 @@
             }
 
             .menu {
-                width: 216px;
+                width: 192px;
             }
 
             .sidebar-main-button {
-                min-height: 50px;
-                font-size: 19px;
+                min-height: 36px;
+                font-size: 16px;
             }
 
             .sidebar-action-button {
-                min-width: 40px;
-                min-height: 40px;
+                min-width: 32px;
+                min-height: 32px;
             }
 
             #top-icons img {
@@ -3349,6 +3458,642 @@
                 padding-left: 18px;
             }
         }
+
+        .analysis-view {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 10px 0 max(44px, env(safe-area-inset-bottom));
+            box-sizing: border-box;
+            color: #f4f7f9;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .analysis-navigation {
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr);
+            align-items: stretch;
+            gap: 7px;
+            width: 100%;
+            margin: 0 auto 16px;
+            padding: 7px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 17px;
+            background: rgba(255, 255, 255, 0.045);
+            box-sizing: border-box;
+        }
+
+        .analysis-back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            min-height: 44px;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 0 0 3px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 30px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .analysis-back-button:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateX(-1px);
+        }
+
+        .analysis-tabs {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(0, 1fr);
+            width: 100%;
+            margin: 0;
+            gap: 7px;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .analysis-tab {
+            min-width: 0;
+            min-height: 44px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 9px 12px;
+            background: transparent;
+            color: #bfc7ce;
+            font: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), color var(--motion-standard), transform var(--motion-standard);
+        }
+
+        .analysis-tab:hover {
+            color: white;
+        }
+
+        .analysis-tab.is-active {
+            background: rgba(143, 208, 163, 0.17);
+            color: #f7fbf8;
+            box-shadow: inset 0 0 0 1px rgba(143, 208, 163, 0.15);
+        }
+
+        .analysis-back-button:focus-visible,
+        .analysis-tab:focus-visible,
+        .analysis-athlete-select summary:focus-visible,
+        .analysis-athlete-select-apply:focus-visible {
+            outline: none;
+            box-shadow: var(--focus-ring);
+        }
+
+        .analysis-summary-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(150px, 0.72fr) minmax(0, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .analysis-summary-card {
+            display: flex;
+            min-width: 0;
+            min-height: 88px;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            padding: 13px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.04));
+            box-sizing: border-box;
+        }
+
+        .analysis-summary-card.is-center {
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(143, 208, 163, 0.13), rgba(255, 255, 255, 0.045));
+            border-color: rgba(143, 208, 163, 0.18);
+        }
+
+        .analysis-summary-card.is-right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .analysis-summary-name {
+            max-width: 100%;
+            overflow: hidden;
+            color: #dce2e6;
+            font-size: 14px;
+            font-weight: bold;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .analysis-summary-points {
+            color: white;
+            font-size: clamp(23px, 4vw, 31px);
+            font-weight: bold;
+            line-height: 1.05;
+        }
+
+        .analysis-summary-meta {
+            color: #aeb8c0;
+            font-size: 12px;
+        }
+
+        .analysis-lead-value {
+            color: #a9ddb9;
+            font-size: clamp(20px, 3.6vw, 27px);
+            font-weight: bold;
+        }
+
+        .analysis-chart-card {
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 17px 18px 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.035));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+            box-sizing: border-box;
+        }
+
+        .analysis-chart-card:fullscreen,
+        .analysis-chart-card.is-analysis-fullscreen {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 18px;
+            border: none;
+            border-radius: 0;
+            background: #202529;
+            box-sizing: border-box;
+        }
+
+        .analysis-chart-card.is-analysis-fullscreen {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            width: 100vw;
+            height: 100dvh;
+        }
+
+        body.analysis-fullscreen-open {
+            overflow: hidden !important;
+        }
+
+        .analysis-chart-heading {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .analysis-chart-heading > div:first-child {
+            min-width: 0;
+        }
+
+        .analysis-chart-actions {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .analysis-fullscreen-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            cursor: pointer;
+            transition: background-color var(--motion-standard), border-color var(--motion-standard);
+        }
+
+        .analysis-fullscreen-button::before {
+            content: "";
+            display: block;
+            width: 14px;
+            height: 14px;
+            background:
+                linear-gradient(currentColor, currentColor) left top / 6px 2px no-repeat,
+                linear-gradient(currentColor, currentColor) left top / 2px 6px no-repeat,
+                linear-gradient(currentColor, currentColor) right top / 6px 2px no-repeat,
+                linear-gradient(currentColor, currentColor) right top / 2px 6px no-repeat,
+                linear-gradient(currentColor, currentColor) left bottom / 6px 2px no-repeat,
+                linear-gradient(currentColor, currentColor) left bottom / 2px 6px no-repeat,
+                linear-gradient(currentColor, currentColor) right bottom / 6px 2px no-repeat,
+                linear-gradient(currentColor, currentColor) right bottom / 2px 6px no-repeat;
+        }
+
+        .analysis-fullscreen-button.is-active::before {
+            width: 15px;
+            height: 2px;
+            background: currentColor;
+            transform: rotate(45deg);
+        }
+
+        .analysis-fullscreen-button.is-active::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 2px;
+            background: currentColor;
+            transform: rotate(-45deg);
+        }
+
+        .analysis-fullscreen-button:hover,
+        .analysis-fullscreen-button:focus-visible {
+            border-color: rgba(143, 208, 163, 0.34);
+            background: rgba(255, 255, 255, 0.12);
+            outline: none;
+        }
+
+        .analysis-chart-title {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .analysis-chart-subtitle {
+            margin-top: 3px;
+            color: #aeb8c0;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .analysis-chart-frame {
+            position: relative;
+            width: 100%;
+            height: 680px;
+        }
+
+        .analysis-chart-frame.is-discipline-chart {
+            height: 430px;
+        }
+
+        .analysis-chart-card:fullscreen .analysis-chart-frame,
+        .analysis-chart-card.is-analysis-fullscreen .analysis-chart-frame {
+            flex: 1 1 auto;
+            min-height: 0;
+            height: auto !important;
+        }
+
+        .analysis-chart-frame canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .analysis-chart-empty {
+            display: flex;
+            min-height: 260px;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: #b9c2c9;
+            text-align: center;
+        }
+
+        .analysis-ranking-toolbar {
+            position: relative;
+            z-index: 10;
+            display: block;
+            align-items: center;
+            margin: 0 0 12px;
+            padding: 2px 0 5px;
+            border: none;
+            background: transparent;
+        }
+
+        .analysis-inline-legend {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px 13px;
+            min-width: 0;
+        }
+
+        .analysis-inline-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            padding: 3px 0;
+            border: none;
+            background: transparent;
+            color: #d9e0e5;
+            font: inherit;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color var(--motion-standard), opacity var(--motion-standard);
+        }
+
+        .analysis-inline-legend-item:hover,
+        .analysis-inline-legend-item:focus-visible,
+        .analysis-inline-legend-item.is-focused {
+            color: white;
+            outline: none;
+        }
+
+        .analysis-inline-legend-item.is-muted {
+            opacity: 0.34;
+        }
+
+        .analysis-inline-legend-line {
+            position: relative;
+            width: 24px;
+            flex: 0 0 24px;
+            border-top: 2px solid var(--legend-color, #8fd0a3);
+        }
+
+        .analysis-inline-legend-line::after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 9px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--legend-color, #8fd0a3);
+        }
+
+        .analysis-athlete-select {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .analysis-athlete-select summary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-height: 34px;
+            min-width: 98px;
+            padding: 7px 11px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            cursor: pointer;
+            list-style: none;
+            box-sizing: border-box;
+            box-shadow: none;
+        }
+
+        .analysis-athlete-select summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .analysis-athlete-select[open] summary {
+            border-color: rgba(143, 208, 163, 0.34);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .analysis-athlete-select-chevron {
+            color: #d9e0e5;
+            font-size: 10px;
+            transition: transform var(--motion-standard);
+        }
+
+        .analysis-athlete-select[open] .analysis-athlete-select-chevron {
+            transform: rotate(180deg);
+        }
+
+        .analysis-athlete-select-panel {
+            position: absolute;
+            z-index: 30;
+            top: calc(100% + 7px);
+            right: 0;
+            width: min(300px, calc(100vw - 32px));
+            padding: 10px;
+            border: 1px solid rgba(69, 87, 107, 0.18);
+            border-radius: 18px;
+            background: rgba(229, 235, 242, 0.99);
+            box-shadow: 0 20px 36px rgba(17, 25, 40, 0.24);
+            box-sizing: border-box;
+        }
+
+        .analysis-athlete-select-list {
+            display: grid;
+            gap: 6px;
+            max-height: min(44vh, 320px);
+            padding: 7px;
+            border: 1px solid rgba(69, 87, 107, 0.14);
+            border-radius: 14px;
+            background: rgba(204, 214, 225, 0.72);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .analysis-athlete-select-row {
+            display: grid;
+            grid-template-columns: 18px 24px minmax(0, 1fr);
+            align-items: center;
+            gap: 7px;
+            min-height: 34px;
+            padding: 7px 9px;
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.76);
+            color: #18212c;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .analysis-athlete-select-row:hover {
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .analysis-athlete-select-row.is-all {
+            grid-template-columns: 18px minmax(0, 1fr);
+            margin-bottom: 8px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .analysis-athlete-select-row input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: #73b98a;
+        }
+
+        .analysis-athlete-select-apply {
+            width: 100%;
+            min-height: 36px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3f7b55 0%, #2f6846 100%);
+            color: white;
+            font: inherit;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .analysis-athlete-select-apply:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .analysis-profile-caption {
+            margin: 13px 4px 0;
+            overflow: hidden;
+            color: #c6cfd6;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 680px) {
+            .labels-container.is-analysis-layout,
+            .labels-container.is-ranking-layout.is-analysis-layout {
+                width: 100%;
+                max-width: none;
+            }
+
+            .analysis-view {
+                width: 100%;
+                max-width: none;
+                margin-left: 0;
+                padding-top: 7px;
+            }
+
+            .analysis-navigation {
+                grid-template-columns: 42px minmax(0, 1fr);
+                gap: 5px;
+                padding: 5px;
+                border-right: none;
+                border-left: none;
+                border-radius: 0;
+            }
+
+            .analysis-back-button {
+                width: 42px;
+                min-height: 42px;
+                font-size: 29px;
+            }
+
+            .analysis-summary-grid {
+                grid-template-columns: minmax(0, 1fr) 92px minmax(0, 1fr);
+                gap: 6px;
+            }
+
+            .analysis-summary-card {
+                min-height: 80px;
+                padding: 10px 8px;
+            }
+
+            .analysis-summary-name {
+                font-size: 12px;
+            }
+
+            .analysis-summary-meta {
+                font-size: 10px;
+            }
+
+            .analysis-chart-card {
+                border-radius: 15px;
+                padding: 14px 10px 15px;
+            }
+
+            .analysis-chart-frame {
+                height: 600px;
+            }
+
+            .analysis-chart-frame.is-discipline-chart {
+                height: 410px;
+            }
+
+            .analysis-chart-heading {
+                align-items: center;
+                flex-direction: row;
+                gap: 8px;
+            }
+
+            .analysis-ranking-toolbar {
+                padding: 1px 0 5px;
+            }
+
+            .analysis-inline-legend {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 3px 1px;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .analysis-inline-legend::-webkit-scrollbar {
+                display: none;
+            }
+
+            .analysis-inline-legend-item {
+                font-size: 11px;
+            }
+
+            .analysis-athlete-select summary {
+                min-width: 88px;
+                padding: 7px 9px;
+                font-size: 11px;
+            }
+
+            .analysis-chart-card:fullscreen,
+            .analysis-chart-card.is-analysis-fullscreen {
+                padding: 12px 8px;
+            }
+
+            .analysis-tab {
+                min-height: 42px;
+                padding: 9px 7px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 980px) and (orientation: landscape) and (pointer: coarse) {
+            .analysis-chart-frame {
+                height: 480px;
+            }
+
+            .analysis-chart-frame.is-discipline-chart {
+                height: 360px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .analysis-view *,
+            .analysis-view *::before,
+            .analysis-view *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 
@@ -3359,6 +4104,10 @@
         <div id="profileSection" class="sidebar-section">
             <div class="sidebar-section-title">Profile</div>
             <div id="profileList"></div>
+        </div>
+        <div id="comparisonSection" class="sidebar-section">
+            <div class="sidebar-section-title">Head to Head</div>
+            <div id="comparisonList"></div>
         </div>
         <div id="rankingSection" class="sidebar-section">
             <div class="sidebar-section-title">Rankings</div>
@@ -3408,7 +4157,7 @@
                     <span class="home-action-icon">
                         <img src="imgs/comparison.png" alt="Vergleich">
                     </span>
-                    <span class="home-action-title">Direkter Vergleich</span>
+                    <span class="home-action-title">Head to Head</span>
                 </button>
 
                 <button class="home-action" type="button" onclick="openRanking()">
@@ -3455,6 +4204,7 @@
         <div class="labels-container"></div>
     </div>
 
+    <script src="vendor/chart.umd.min.js"></script>
     <script>
         const viewScrollPositions = {};
         let currentViewKey = 'home';
@@ -4860,6 +5610,7 @@
         }
 
         function closeNav() {
+            closeSidebarActionMenus();
             document.getElementById("mySidebar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("overlay").style.display = "none"; // Hide overlay
@@ -5120,7 +5871,7 @@
         }
 
         function getSidebarWidth() {
-            return window.innerWidth <= 680 ? 216 : 200;
+            return window.innerWidth <= 680 ? 192 : 176;
         }
 
         function getContentScrollArea() {
@@ -5486,6 +6237,23 @@
             return button;
         }
 
+        function createAnalyticsIconButton(onClick) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'icon-action-button analysis-icon-button';
+            button.setAttribute('aria-label', 'Analyse öffnen');
+            button.title = 'Analyse öffnen';
+
+            const icon = document.createElement('img');
+            icon.src = 'imgs/analytics.png';
+            icon.alt = '';
+            icon.draggable = false;
+            button.appendChild(icon);
+
+            button.onclick = onClick;
+            return button;
+        }
+
         function createWorldAthleticsProfileIndicator(profile) {
             const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
             if (!link) {
@@ -5518,7 +6286,7 @@
             return button;
         }
 
-        function appendViewHeader(container, titleText, editAction = null, linkedProfile = null) {
+        function appendViewHeader(container, titleText, editAction = null, linkedProfile = null, analysisAction = null) {
             const headerRow = document.createElement('div');
             headerRow.className = 'view-header-row';
 
@@ -5533,6 +6301,10 @@
             const linkedProfileIndicator = createWorldAthleticsProfileIndicator(linkedProfile);
             if (linkedProfileIndicator) {
                 headerMain.appendChild(linkedProfileIndicator);
+            }
+
+            if (analysisAction) {
+                headerMain.appendChild(createAnalyticsIconButton(analysisAction));
             }
 
             if (editAction) {
@@ -7006,6 +7778,7 @@
                 document.getElementById('main').classList.add('is-content-view');
                 document.querySelector('.labels-container').classList.remove('is-ranking-layout');
                 document.querySelector('.labels-container').classList.remove('is-document-layout');
+                document.querySelector('.labels-container').classList.remove('is-analysis-layout');
                 document.querySelector('.center').textContent = profileName;
                 currentViewKey = `profile:${profileName}`;
                 displayProfileResults(profileName);
@@ -7102,6 +7875,7 @@
 
         function displayProfileResults(profileName) {
             hideWorldAthleticsPerformanceSuggestions();
+            destroyAnalysisCharts();
             const profile = profiles.find(p => p.name === profileName);
             if (!profile) return;
             ensureProfileShape(profile);
@@ -7183,6 +7957,1128 @@
             });
         }
 
+        // Okabe-Ito palette plus line patterns keeps series distinguishable with color-vision deficiencies.
+        const ANALYSIS_COLORS = ['#0072B2', '#E69F00', '#CC79A7', '#56B4E9', '#F0E442', '#D55E00', '#009E73', '#EDEDED'];
+        const ANALYSIS_LINE_DASHES = [[], [9, 4], [2, 4], [11, 4, 2, 4], [5, 3], [13, 4], [3, 3, 9, 3], [1, 4]];
+        const ANALYSIS_POINT_STYLES = ['circle', 'rectRounded', 'triangle', 'rectRot', 'star', 'crossRot', 'rect', 'cross'];
+        const analysisChartInstances = [];
+
+        function destroyAnalysisCharts() {
+            closeAnalysisPseudoFullscreen();
+            while (analysisChartInstances.length > 0) {
+                const chart = analysisChartInstances.pop();
+                if (chart && typeof chart.destroy === 'function') {
+                    chart.destroy();
+                }
+            }
+        }
+
+        function hasAnalysisPerformance(value) {
+            return String(value == null ? '' : value).trim() !== '';
+        }
+
+        function getAnalysisPoint(result, value) {
+            if (!hasAnalysisPerformance(value)) {
+                return null;
+            }
+            const points = parseInt(result || '0', 10);
+            return Number.isFinite(points) ? points : 0;
+        }
+
+        function getAnalysisCumulativeSeries(results, values, includeStart = false) {
+            let runningTotal = 0;
+            const series = results.slice(0, 10).map(function(result, index) {
+                const points = getAnalysisPoint(result, values[index]);
+                if (points === null) {
+                    return null;
+                }
+                runningTotal += points;
+                return runningTotal;
+            });
+            return includeStart ? [0].concat(series) : series;
+        }
+
+        function getVisibleAnalysisDisciplineCount(athleteEntries) {
+            let lastPopulatedIndex = -1;
+            (athleteEntries || []).forEach(function(entry) {
+                const values = entry && Array.isArray(entry.values) ? entry.values : [];
+                const results = entry && Array.isArray(entry.results) ? entry.results : [];
+                results.slice(0, 10).forEach(function(result, disciplineIndex) {
+                    const points = parseInt(result || '0', 10);
+                    if (hasAnalysisPerformance(values[disciplineIndex]) && Number.isFinite(points) && points > 0) {
+                        lastPopulatedIndex = Math.max(lastPopulatedIndex, disciplineIndex);
+                    }
+                });
+            });
+            return lastPopulatedIndex + 1;
+        }
+
+        function getAnalysisChartDefaults() {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: reduceMotion ? false : { duration: 360 },
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#d9e0e5',
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            boxHeight: 8,
+                            padding: 16,
+                            font: { family: 'Roboto', size: 12, weight: 'bold' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(22, 27, 32, 0.96)',
+                        borderColor: 'rgba(255, 255, 255, 0.12)',
+                        borderWidth: 1,
+                        titleColor: '#ffffff',
+                        bodyColor: '#dce3e8',
+                        padding: 11,
+                        displayColors: true,
+                        titleFont: { family: 'Roboto', weight: 'bold' },
+                        bodyFont: { family: 'Roboto' }
+                    }
+                }
+            };
+        }
+
+        function getAnalysisScaleDefaults() {
+            return {
+                grid: { color: 'rgba(255, 255, 255, 0.065)' },
+                border: { color: 'rgba(255, 255, 255, 0.11)' },
+                ticks: {
+                    color: '#aeb8c0',
+                    font: { family: 'Roboto', size: window.innerWidth <= 680 ? 9 : 11 }
+                }
+            };
+        }
+
+        function analysisColorWithAlpha(hexColor, alpha) {
+            const normalized = String(hexColor || '').replace('#', '');
+            if (!/^[0-9a-f]{6}$/i.test(normalized)) {
+                return `rgba(210, 218, 224, ${alpha})`;
+            }
+            const red = parseInt(normalized.slice(0, 2), 16);
+            const green = parseInt(normalized.slice(2, 4), 16);
+            const blue = parseInt(normalized.slice(4, 6), 16);
+            return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+        }
+
+        function getAnalysisLineDash(entryIndex) {
+            const styleGroup = Math.floor(entryIndex / ANALYSIS_COLORS.length);
+            return ANALYSIS_LINE_DASHES[styleGroup % ANALYSIS_LINE_DASHES.length];
+        }
+
+        function getAnalysisPointStyle(entryIndex) {
+            const styleGroup = Math.floor(entryIndex / ANALYSIS_COLORS.length);
+            return ANALYSIS_POINT_STYLES[(entryIndex + styleGroup) % ANALYSIS_POINT_STYLES.length];
+        }
+
+        function syncAnalysisLegendFocus(chart) {
+            const card = chart && chart.canvas ? chart.canvas.closest('.analysis-chart-card') : null;
+            if (!card) {
+                return;
+            }
+
+            card.querySelectorAll('.analysis-inline-legend-item').forEach(function(item) {
+                const datasetIndex = chart.data.datasets.findIndex(function(dataset) {
+                    return dataset.label === item.dataset.datasetLabel;
+                });
+                const isFocused = chart.$focusedDatasetIndex === datasetIndex;
+                const isMuted = chart.$focusedDatasetIndex !== null && !isFocused;
+                item.classList.toggle('is-focused', isFocused);
+                item.classList.toggle('is-muted', isMuted);
+                item.setAttribute('aria-pressed', isFocused ? 'true' : 'false');
+            });
+        }
+
+        function toggleAnalysisDatasetFocus(chart, datasetIndex) {
+            if (!chart || datasetIndex < 0 || datasetIndex >= chart.data.datasets.length) {
+                return;
+            }
+
+            chart.$focusedDatasetIndex = chart.$focusedDatasetIndex === datasetIndex
+                ? null
+                : datasetIndex;
+
+            chart.data.datasets.forEach(function(dataset, currentDatasetIndex) {
+                const isMuted = chart.$focusedDatasetIndex !== null
+                    && currentDatasetIndex !== chart.$focusedDatasetIndex;
+                dataset.borderColor = isMuted
+                    ? analysisColorWithAlpha(dataset.analysisBaseColor, 0.16)
+                    : dataset.analysisBaseColor;
+                dataset.backgroundColor = isMuted
+                    ? analysisColorWithAlpha(dataset.analysisBaseColor, 0.12)
+                    : dataset.analysisBaseColor;
+                dataset.pointBackgroundColor = dataset.backgroundColor;
+                dataset.pointBorderColor = dataset.borderColor;
+                dataset.borderWidth = isMuted ? 1.2 : (currentDatasetIndex === chart.$focusedDatasetIndex ? 3.4 : 2.3);
+                dataset.pointRadius = isMuted ? 2 : 4;
+            });
+            syncAnalysisLegendFocus(chart);
+            chart.update();
+        }
+
+        function enableAnalysisLineFocus(options) {
+            options.onClick = function(event, _elements, chart) {
+                const nearest = chart.getElementsAtEventForMode(
+                    event,
+                    'nearest',
+                    { intersect: false, axis: 'xy' },
+                    true
+                );
+                if (nearest.length === 0) {
+                    return;
+                }
+
+                toggleAnalysisDatasetFocus(chart, nearest[0].datasetIndex);
+            };
+
+            options.plugins = options.plugins || {};
+            options.plugins.legend = options.plugins.legend || {};
+            options.plugins.legend.onClick = function(_event, legendItem, legend) {
+                toggleAnalysisDatasetFocus(legend.chart, legendItem.datasetIndex);
+            };
+
+            options.onHover = function(event, elements) {
+                const target = event.native && event.native.target;
+                if (target) {
+                    target.style.cursor = elements.length > 0 ? 'pointer' : 'default';
+                }
+            };
+        }
+
+        function createAnalysisChart(card, config, ariaLabel) {
+            const frame = card.querySelector('.analysis-chart-frame');
+            if (typeof Chart === 'undefined') {
+                frame.className = 'analysis-chart-empty';
+                frame.textContent = 'Die Diagrammkomponente konnte nicht geladen werden.';
+                return null;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.setAttribute('role', 'img');
+            canvas.setAttribute('aria-label', ariaLabel);
+            canvas.appendChild(document.createTextNode(ariaLabel));
+            frame.appendChild(canvas);
+
+            const chart = new Chart(canvas, config);
+            analysisChartInstances.push(chart);
+            return chart;
+        }
+
+        function resizeAnalysisCharts() {
+            window.requestAnimationFrame(function() {
+                analysisChartInstances.forEach(function(chart) {
+                    if (chart && typeof chart.resize === 'function') {
+                        chart.resize();
+                    }
+                });
+            });
+        }
+
+        function updateAnalysisFullscreenButtons() {
+            document.querySelectorAll('.analysis-chart-card').forEach(function(card) {
+                const button = card.querySelector('.analysis-fullscreen-button');
+                if (!button) {
+                    return;
+                }
+                const isFullscreen = document.fullscreenElement === card
+                    || card.classList.contains('is-analysis-fullscreen');
+                button.classList.toggle('is-active', isFullscreen);
+                button.setAttribute(
+                    'aria-label',
+                    isFullscreen ? 'Vollbild schließen' : 'Diagramm im Vollbild anzeigen'
+                );
+                button.title = isFullscreen ? 'Vollbild schließen' : 'Vollbild anzeigen';
+            });
+        }
+
+        function closeAnalysisPseudoFullscreen() {
+            document.querySelectorAll('.analysis-chart-card.is-analysis-fullscreen').forEach(function(card) {
+                card.classList.remove('is-analysis-fullscreen');
+            });
+            document.body.classList.remove('analysis-fullscreen-open');
+            updateAnalysisFullscreenButtons();
+        }
+
+        async function toggleAnalysisChartFullscreen(card) {
+            if (document.fullscreenElement === card) {
+                await document.exitFullscreen();
+                return;
+            }
+            if (card.classList.contains('is-analysis-fullscreen')) {
+                closeAnalysisPseudoFullscreen();
+                resizeAnalysisCharts();
+                return;
+            }
+
+            if (typeof card.requestFullscreen === 'function') {
+                try {
+                    await card.requestFullscreen();
+                    return;
+                } catch (error) {
+                    console.warn('Browser-Vollbild nicht verfügbar, Fallback wird verwendet:', error);
+                }
+            }
+
+            card.classList.add('is-analysis-fullscreen');
+            document.body.classList.add('analysis-fullscreen-open');
+            updateAnalysisFullscreenButtons();
+            resizeAnalysisCharts();
+        }
+
+        document.addEventListener('fullscreenchange', function() {
+            updateAnalysisFullscreenButtons();
+            resizeAnalysisCharts();
+        });
+
+        document.addEventListener('click', function(event) {
+            document.querySelectorAll('.analysis-athlete-select[open]').forEach(function(details) {
+                if (!details.contains(event.target)) {
+                    details.open = false;
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key !== 'Escape') {
+                return;
+            }
+            document.querySelectorAll('.analysis-athlete-select[open]').forEach(function(details) {
+                details.open = false;
+            });
+            closeAnalysisPseudoFullscreen();
+            resizeAnalysisCharts();
+        });
+
+        function createAnalysisChartCard(titleText, subtitleText, isDisciplineChart = false) {
+            const card = document.createElement('section');
+            card.className = 'analysis-chart-card';
+
+            const heading = document.createElement('div');
+            heading.className = 'analysis-chart-heading';
+
+            const headingText = document.createElement('div');
+            const title = document.createElement('div');
+            title.className = 'analysis-chart-title';
+            title.textContent = titleText;
+            headingText.appendChild(title);
+
+            if (subtitleText) {
+                const subtitle = document.createElement('div');
+                subtitle.className = 'analysis-chart-subtitle';
+                subtitle.textContent = subtitleText;
+                headingText.appendChild(subtitle);
+            }
+
+            heading.appendChild(headingText);
+
+            const actions = document.createElement('div');
+            actions.className = 'analysis-chart-actions';
+
+            const fullscreenButton = document.createElement('button');
+            fullscreenButton.type = 'button';
+            fullscreenButton.className = 'analysis-fullscreen-button';
+            fullscreenButton.title = 'Vollbild anzeigen';
+            fullscreenButton.setAttribute('aria-label', 'Diagramm im Vollbild anzeigen');
+            fullscreenButton.onclick = function() {
+                toggleAnalysisChartFullscreen(card);
+            };
+            actions.appendChild(fullscreenButton);
+            heading.appendChild(actions);
+            card.appendChild(heading);
+
+            const frame = document.createElement('div');
+            frame.className = `analysis-chart-frame${isDisciplineChart ? ' is-discipline-chart' : ''}`;
+            card.appendChild(frame);
+            return card;
+        }
+
+        function createAnalysisTabs(items, activeKey, onChange, onBack) {
+            const navigation = document.createElement('div');
+            navigation.className = 'analysis-navigation';
+            const backButton = document.createElement('button');
+            backButton.type = 'button';
+            backButton.className = 'analysis-back-button';
+            backButton.textContent = '‹';
+            backButton.title = 'Zurück';
+            backButton.setAttribute('aria-label', 'Zurück zur Datenansicht');
+            backButton.onclick = onBack;
+            navigation.appendChild(backButton);
+
+            const tabs = document.createElement('div');
+            tabs.className = 'analysis-tabs';
+            tabs.setAttribute('role', 'tablist');
+
+            items.forEach(function(item) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `analysis-tab${item.key === activeKey ? ' is-active' : ''}`;
+                button.textContent = item.label;
+                button.dataset.analysisTab = item.key;
+                button.setAttribute('role', 'tab');
+                button.setAttribute('aria-selected', item.key === activeKey ? 'true' : 'false');
+                button.onclick = function() {
+                    tabs.querySelectorAll('.analysis-tab').forEach(function(tab) {
+                        const isActive = tab.dataset.analysisTab === item.key;
+                        tab.classList.toggle('is-active', isActive);
+                        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+                    onChange(item.key);
+                };
+                tabs.appendChild(button);
+            });
+
+            navigation.appendChild(tabs);
+            return navigation;
+        }
+
+        function appendAnalysisSummaryCard(container, options) {
+            const card = document.createElement('div');
+            card.className = `analysis-summary-card${options.center ? ' is-center' : ''}${options.right ? ' is-right' : ''}`;
+
+            const name = document.createElement('div');
+            name.className = 'analysis-summary-name';
+            name.textContent = options.name;
+
+            const value = document.createElement('div');
+            value.className = options.center ? 'analysis-lead-value' : 'analysis-summary-points';
+            value.textContent = options.value;
+
+            if (options.center) {
+                card.appendChild(value);
+                card.appendChild(name);
+            } else {
+                card.appendChild(name);
+                card.appendChild(value);
+            }
+
+            if (options.meta) {
+                const meta = document.createElement('div');
+                meta.className = 'analysis-summary-meta';
+                meta.textContent = options.meta;
+                card.appendChild(meta);
+            }
+            container.appendChild(card);
+        }
+
+        function prepareAnalysisView(titleText, isRanking) {
+            hideWorldAthleticsPerformanceSuggestions();
+            closeNav();
+            setContentViewActive(true);
+            setRankingViewActive(isRanking);
+            document.getElementById('main').classList.add('is-content-view');
+            document.querySelector('.center').textContent = titleText;
+
+            const labelsContainer = document.querySelector('.labels-container');
+            labelsContainer.innerHTML = '';
+            labelsContainer.style.display = 'block';
+            labelsContainer.style.alignItems = 'stretch';
+            labelsContainer.classList.toggle('is-ranking-layout', isRanking);
+            labelsContainer.classList.remove('is-document-layout');
+            labelsContainer.classList.add('is-analysis-layout');
+            document.getElementById('home-intro').style.display = 'none';
+            document.getElementById('home-top-title').style.display = 'none';
+            document.getElementById('top-icons').style.display = 'flex';
+            return labelsContainer;
+        }
+
+        function openComparisonAnalysis(profileName) {
+            const profile = profiles.find(function(entry) {
+                return entry.type === 'comparison' && entry.name === profileName;
+            });
+            if (!profile) {
+                return;
+            }
+
+            saveCurrentViewScrollPosition();
+            currentViewKey = `analysis:comparison:${profileName}`;
+            setActiveSidebarItem('profile', profileName);
+            displayComparisonAnalysis(profile);
+            restoreViewScrollPosition(currentViewKey);
+        }
+
+        function openRankingAnalysis(rankingName) {
+            const ranking = getRankingByName(rankingName);
+            if (!ranking || getSortedRankingEntries(ranking).length < 2) {
+                return;
+            }
+
+            saveCurrentViewScrollPosition();
+            currentViewKey = `analysis:ranking:${rankingName}`;
+            setActiveSidebarItem('ranking', rankingName);
+            displayRankingAnalysis(ranking);
+            restoreViewScrollPosition(currentViewKey);
+        }
+
+        function displayComparisonAnalysis(profile) {
+            ensureProfileShape(profile);
+            destroyAnalysisCharts();
+            const labelsContainer = prepareAnalysisView(profile.name, false);
+            const view = document.createElement('div');
+            view.className = 'analysis-view';
+            labelsContainer.appendChild(view);
+
+            const athletes = getComparisonAthletes(profile.name);
+            const athlete1 = athletes[0];
+            const athlete2 = athletes[1];
+            const values1 = profile.values.slice(0, 10);
+            const values2 = profile.values.slice(10, 20);
+            const results1 = profile.results.slice(0, 10);
+            const results2 = profile.results.slice(10, 20);
+            const total1 = getTotalPointsFromResults(results1);
+            const total2 = getTotalPointsFromResults(results2);
+            let wins1 = 0;
+            let wins2 = 0;
+
+            for (let index = 0; index < 10; index++) {
+                const points1 = getAnalysisPoint(results1[index], values1[index]);
+                const points2 = getAnalysisPoint(results2[index], values2[index]);
+                if (points1 === null && points2 === null) {
+                    continue;
+                }
+                if ((points1 || 0) > (points2 || 0)) {
+                    wins1 += 1;
+                } else if ((points2 || 0) > (points1 || 0)) {
+                    wins2 += 1;
+                }
+            }
+
+            const summary = document.createElement('div');
+            summary.className = 'analysis-summary-grid';
+            appendAnalysisSummaryCard(summary, {
+                name: athlete1,
+                value: `${total1} P`,
+                meta: `${wins1} Disziplin${wins1 === 1 ? '' : 'en'} gewonnen`
+            });
+
+            const pointDifference = Math.abs(total1 - total2);
+            const leaderName = total1 === total2 ? '' : (total1 > total2 ? athlete1 : athlete2);
+            appendAnalysisSummaryCard(summary, {
+                name: total1 === total2 ? 'Gleichstand' : leaderName,
+                value: total1 === total2 ? '0 P' : `+${pointDifference} P`,
+                meta: '',
+                center: true
+            });
+
+            appendAnalysisSummaryCard(summary, {
+                name: athlete2,
+                value: `${total2} P`,
+                meta: `${wins2} Disziplin${wins2 === 1 ? '' : 'en'} gewonnen`,
+                right: true
+            });
+            const chartHost = document.createElement('div');
+            let activeTab = 'progress';
+            const tabs = createAnalysisTabs([
+                { key: 'progress', label: 'Verlauf' },
+                { key: 'disciplines', label: 'Disziplinen' }
+            ], activeTab, function(nextTab) {
+                activeTab = nextTab;
+                renderComparisonAnalysisChart();
+            }, function() {
+                handleProfileButtonClick(profile.name);
+            });
+            view.appendChild(tabs);
+            view.appendChild(summary);
+            view.appendChild(chartHost);
+
+            const profileCaption = document.createElement('div');
+            profileCaption.className = 'analysis-profile-caption';
+            profileCaption.textContent = profile.name;
+            view.appendChild(profileCaption);
+
+            function renderComparisonAnalysisChart() {
+                destroyAnalysisCharts();
+                chartHost.innerHTML = '';
+                const visibleDisciplineCount = getVisibleAnalysisDisciplineCount([
+                    { values: values1, results: results1 },
+                    { values: values2, results: results2 }
+                ]);
+
+                if (activeTab === 'disciplines') {
+                    const card = createAnalysisChartCard(
+                        'Disziplinpunkte im Vergleich',
+                        '',
+                        true
+                    );
+                    chartHost.appendChild(card);
+                    const points1 = results1.slice(0, visibleDisciplineCount).map(function(result, index) {
+                        return getAnalysisPoint(result, values1[index]);
+                    });
+                    const points2 = results2.slice(0, visibleDisciplineCount).map(function(result, index) {
+                        return getAnalysisPoint(result, values2[index]);
+                    });
+                    const defaults = getAnalysisChartDefaults();
+                    defaults.interaction = { mode: 'index', intersect: false };
+                    defaults.plugins.tooltip.callbacks = {
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            const performance = context.dataset.performances[index] || '—';
+                            return `${context.dataset.label}: ${performance} · ${context.parsed.y || 0} P`;
+                        }
+                    };
+                    defaults.scales = {
+                        x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                        y: Object.assign(getAnalysisScaleDefaults(), {
+                            beginAtZero: true,
+                            suggestedMax: 1200,
+                            title: { display: true, text: 'Disziplinpunkte', color: '#aeb8c0' }
+                        })
+                    };
+
+                    createAnalysisChart(card, {
+                        type: 'bar',
+                        data: {
+                            labels: Array.from({ length: visibleDisciplineCount }, function(_, index) { return getInputName(index + 1); }),
+                            datasets: [
+                                {
+                                    label: athlete1,
+                                    data: points1,
+                                    performances: values1.slice(0, visibleDisciplineCount),
+                                    backgroundColor: analysisColorWithAlpha(ANALYSIS_COLORS[0], 0.78),
+                                    borderColor: ANALYSIS_COLORS[0],
+                                    borderWidth: 1,
+                                    borderRadius: 5
+                                },
+                                {
+                                    label: athlete2,
+                                    data: points2,
+                                    performances: values2.slice(0, visibleDisciplineCount),
+                                    backgroundColor: analysisColorWithAlpha(ANALYSIS_COLORS[1], 0.78),
+                                    borderColor: ANALYSIS_COLORS[1],
+                                    borderWidth: 1,
+                                    borderRadius: 5
+                                }
+                            ]
+                        },
+                        options: defaults
+                    }, `Säulendiagramm der Disziplinpunkte von ${athlete1} und ${athlete2}.`);
+                    return;
+                }
+
+                const card = createAnalysisChartCard(
+                    'Kumulierter Punkteverlauf',
+                    ''
+                );
+                chartHost.appendChild(card);
+                const labels = ['Start'].concat(Array.from({ length: visibleDisciplineCount }, function(_, index) {
+                    return getInputName(index + 1);
+                }));
+                const defaults = getAnalysisChartDefaults();
+                defaults.plugins.tooltip.callbacks = {
+                    label: function(context) {
+                        return `${context.dataset.label}: ${context.parsed.y} P`;
+                    },
+                    afterLabel: function(context) {
+                        if (context.dataIndex === 0) {
+                            return '';
+                        }
+                        const index = context.dataIndex - 1;
+                        return `${context.dataset.performances[index] || '—'} · ${context.dataset.disciplinePoints[index] || 0} P`;
+                    }
+                };
+                defaults.scales = {
+                    x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                    y: Object.assign(getAnalysisScaleDefaults(), {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Punktzahl', color: '#aeb8c0' }
+                    })
+                };
+                enableAnalysisLineFocus(defaults);
+
+                createAnalysisChart(card, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: athlete1,
+                                data: getAnalysisCumulativeSeries(results1, values1, true).slice(0, visibleDisciplineCount + 1),
+                                performances: values1.slice(0, visibleDisciplineCount),
+                                disciplinePoints: results1.slice(0, visibleDisciplineCount),
+                                analysisBaseColor: ANALYSIS_COLORS[0],
+                                borderColor: ANALYSIS_COLORS[0],
+                                backgroundColor: ANALYSIS_COLORS[0],
+                                pointBackgroundColor: ANALYSIS_COLORS[0],
+                                pointBorderColor: ANALYSIS_COLORS[0],
+                                pointStyle: 'circle',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                borderWidth: 2.5,
+                                tension: 0.18,
+                                spanGaps: false
+                            },
+                            {
+                                label: athlete2,
+                                data: getAnalysisCumulativeSeries(results2, values2, true).slice(0, visibleDisciplineCount + 1),
+                                performances: values2.slice(0, visibleDisciplineCount),
+                                disciplinePoints: results2.slice(0, visibleDisciplineCount),
+                                analysisBaseColor: ANALYSIS_COLORS[1],
+                                borderColor: ANALYSIS_COLORS[1],
+                                backgroundColor: ANALYSIS_COLORS[1],
+                                pointBackgroundColor: ANALYSIS_COLORS[1],
+                                pointBorderColor: ANALYSIS_COLORS[1],
+                                pointStyle: 'rectRounded',
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                borderWidth: 2.5,
+                                borderDash: [7, 4],
+                                tension: 0.18,
+                                spanGaps: false
+                            }
+                        ]
+                    },
+                    options: defaults
+                }, `Kumulierter Punkteverlauf von ${athlete1} und ${athlete2}.`);
+            }
+
+            renderComparisonAnalysisChart();
+            animateViewEntrance(view);
+            updateResponsiveAppTitles();
+        }
+
+        function displayRankingAnalysis(ranking) {
+            const entries = getSortedRankingEntries(ranking);
+            if (entries.length < 2) {
+                return;
+            }
+
+            destroyAnalysisCharts();
+            const labelsContainer = prepareAnalysisView(ranking.name, true);
+            const view = document.createElement('div');
+            view.className = 'analysis-view';
+            labelsContainer.appendChild(view);
+
+            const selectedNames = new Set(entries.map(function(entry) { return entry.name; }));
+            let activeTab = 'points';
+
+            const tabs = createAnalysisTabs([
+                { key: 'points', label: 'Verlauf' },
+                { key: 'places', label: 'Platzierung' }
+            ], activeTab, function(nextTab) {
+                activeTab = nextTab;
+                renderRankingAnalysisChart();
+            }, function() {
+                openRankingResults(ranking.name);
+            });
+            view.appendChild(tabs);
+
+            const chartHost = document.createElement('div');
+            view.appendChild(chartHost);
+
+            const rankingCaption = document.createElement('div');
+            rankingCaption.className = 'analysis-profile-caption';
+            rankingCaption.textContent = ranking.name;
+            view.appendChild(rankingCaption);
+
+            function getEntryColor(entryName) {
+                const index = entries.findIndex(function(entry) { return entry.name === entryName; });
+                return ANALYSIS_COLORS[Math.max(0, index) % ANALYSIS_COLORS.length];
+            }
+
+            function getSelectedEntries() {
+                return entries.filter(function(entry) { return selectedNames.has(entry.name); });
+            }
+
+            function appendRankingChartToolbar(card) {
+                const toolbar = document.createElement('div');
+                toolbar.className = 'analysis-ranking-toolbar';
+
+                const legend = document.createElement('div');
+                legend.className = 'analysis-inline-legend';
+                legend.setAttribute('aria-label', 'Legende der angezeigten Athleten');
+                getSelectedEntries().forEach(function(entry) {
+                    const entryIndex = entries.findIndex(function(candidate) {
+                        return candidate.name === entry.name;
+                    });
+                    const color = getEntryColor(entry.name);
+                    const legendItem = document.createElement('button');
+                    legendItem.type = 'button';
+                    legendItem.className = 'analysis-inline-legend-item';
+                    legendItem.dataset.datasetLabel = entry.name;
+                    legendItem.setAttribute('aria-pressed', 'false');
+                    legendItem.title = `${entry.name} hervorheben`;
+
+                    const line = document.createElement('span');
+                    line.className = 'analysis-inline-legend-line';
+                    line.style.setProperty('--legend-color', color);
+                    if (getAnalysisLineDash(entryIndex).length > 0) {
+                        line.style.borderTopStyle = 'dashed';
+                    }
+                    legendItem.appendChild(line);
+
+                    const name = document.createElement('span');
+                    name.textContent = entry.name;
+                    legendItem.appendChild(name);
+                    legendItem.onclick = function() {
+                        const canvas = card.querySelector('canvas');
+                        const chart = canvas && typeof Chart !== 'undefined' ? Chart.getChart(canvas) : null;
+                        if (!chart) {
+                            return;
+                        }
+                        const datasetIndex = chart.data.datasets.findIndex(function(dataset) {
+                            return dataset.label === entry.name;
+                        });
+                        toggleAnalysisDatasetFocus(chart, datasetIndex);
+                    };
+                    legend.appendChild(legendItem);
+                });
+                toolbar.appendChild(legend);
+
+                const selector = document.createElement('details');
+                selector.className = 'analysis-athlete-select';
+                const summary = document.createElement('summary');
+                const summaryValue = document.createElement('span');
+                summaryValue.textContent = 'Athleten auswählen';
+                summary.appendChild(summaryValue);
+                const summaryChevron = document.createElement('span');
+                summaryChevron.className = 'analysis-athlete-select-chevron';
+                summaryChevron.textContent = '▼';
+                summary.appendChild(summaryChevron);
+                selector.appendChild(summary);
+
+                const panel = document.createElement('div');
+                panel.className = 'analysis-athlete-select-panel';
+                selector.appendChild(panel);
+
+                function renderSelectorPanel() {
+                    panel.innerHTML = '';
+                    const draftNames = new Set(selectedNames);
+
+                    const allRow = document.createElement('label');
+                    allRow.className = 'analysis-athlete-select-row is-all';
+                    const allCheckbox = document.createElement('input');
+                    allCheckbox.type = 'checkbox';
+                    allRow.appendChild(allCheckbox);
+                    const allLabel = document.createElement('span');
+                    allLabel.textContent = 'Alle auswählen';
+                    allRow.appendChild(allLabel);
+                    panel.appendChild(allRow);
+
+                    const list = document.createElement('div');
+                    list.className = 'analysis-athlete-select-list';
+                    panel.appendChild(list);
+
+                    const athleteCheckboxes = [];
+                    entries.forEach(function(entry, entryIndex) {
+                        const row = document.createElement('label');
+                        row.className = 'analysis-athlete-select-row';
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.checked = draftNames.has(entry.name);
+                        row.appendChild(checkbox);
+
+                        const line = document.createElement('span');
+                        line.className = 'analysis-inline-legend-line';
+                        line.style.setProperty('--legend-color', getEntryColor(entry.name));
+                        if (getAnalysisLineDash(entryIndex).length > 0) {
+                            line.style.borderTopStyle = 'dashed';
+                        }
+                        row.appendChild(line);
+
+                        const label = document.createElement('span');
+                        label.textContent = entry.name;
+                        row.appendChild(label);
+                        list.appendChild(row);
+                        athleteCheckboxes.push({ checkbox: checkbox, name: entry.name });
+
+                        checkbox.onchange = function() {
+                            if (checkbox.checked) {
+                                draftNames.add(entry.name);
+                            } else {
+                                draftNames.delete(entry.name);
+                            }
+                            updateSelectorControls();
+                        };
+                    });
+
+                    const applyButton = document.createElement('button');
+                    applyButton.type = 'button';
+                    applyButton.className = 'analysis-athlete-select-apply';
+                    panel.appendChild(applyButton);
+
+                    function updateSelectorControls() {
+                        allCheckbox.checked = draftNames.size === entries.length;
+                        allCheckbox.indeterminate = draftNames.size > 0 && draftNames.size < entries.length;
+                        applyButton.disabled = draftNames.size === 0;
+                        applyButton.textContent = draftNames.size > 0
+                            ? `${draftNames.size} auswählen`
+                            : 'Mindestens einen auswählen';
+                    }
+
+                    allCheckbox.onchange = function() {
+                        draftNames.clear();
+                        if (allCheckbox.checked) {
+                            entries.forEach(function(entry) { draftNames.add(entry.name); });
+                        }
+                        athleteCheckboxes.forEach(function(item) {
+                            item.checkbox.checked = draftNames.has(item.name);
+                        });
+                        updateSelectorControls();
+                    };
+
+                    applyButton.onclick = function() {
+                        if (draftNames.size === 0) {
+                            return;
+                        }
+                        selectedNames.clear();
+                        draftNames.forEach(function(name) { selectedNames.add(name); });
+                        selector.open = false;
+                        renderRankingAnalysisChart();
+                    };
+
+                    updateSelectorControls();
+                }
+
+                selector.addEventListener('toggle', function() {
+                    if (selector.open) {
+                        renderSelectorPanel();
+                    }
+                });
+
+                const actions = card.querySelector('.analysis-chart-actions');
+                const fullscreenButton = actions && actions.querySelector('.analysis-fullscreen-button');
+                if (actions) {
+                    actions.insertBefore(selector, fullscreenButton || null);
+                }
+
+                const frame = card.querySelector('.analysis-chart-frame');
+                card.insertBefore(toolbar, frame);
+            }
+
+            function renderRankingAnalysisChart() {
+                destroyAnalysisCharts();
+                chartHost.innerHTML = '';
+                if (activeTab === 'places') {
+                    renderRankingPlacesChart();
+                } else {
+                    renderRankingPointsChart();
+                }
+            }
+
+            function renderRankingPointsChart() {
+                const card = createAnalysisChartCard(
+                    'Gesamtpunktzahl im Verlauf',
+                    ''
+                );
+                chartHost.appendChild(card);
+                const selectedEntries = getSelectedEntries();
+                appendRankingChartToolbar(card);
+                const visibleDisciplineCount = getVisibleAnalysisDisciplineCount(selectedEntries);
+                const chartFrame = card.querySelector('.analysis-chart-frame');
+                const minimumChartHeight = window.innerWidth <= 680 ? 600 : 680;
+                chartFrame.style.height = `${Math.max(minimumChartHeight, selectedEntries.length * 28 + 180)}px`;
+                const defaults = getAnalysisChartDefaults();
+                defaults.plugins.legend.display = false;
+                defaults.layout = { padding: { right: window.innerWidth <= 680 ? 62 : 78 } };
+                defaults.plugins.tooltip.callbacks = {
+                    label: function(context) {
+                        return `${context.dataset.label}: ${context.parsed.y} P`;
+                    },
+                    afterLabel: function(context) {
+                        if (context.dataIndex === 0) {
+                            return '';
+                        }
+                        const index = context.dataIndex - 1;
+                        return `${context.dataset.performances[index] || '—'} · ${context.dataset.disciplinePoints[index] || 0} P`;
+                    }
+                };
+                defaults.scales = {
+                    x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                    y: Object.assign(getAnalysisScaleDefaults(), {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Punktzahl', color: '#aeb8c0' }
+                    })
+                };
+                enableAnalysisLineFocus(defaults);
+
+                const finalScoreLabelsPlugin = {
+                    id: 'rankingFinalScoreLabels',
+                    afterDatasetsDraw: function(chart) {
+                        const labelItems = chart.data.datasets.map(function(dataset, datasetIndex) {
+                            let pointIndex = dataset.data.length - 1;
+                            while (pointIndex >= 0 && dataset.data[pointIndex] === null) {
+                                pointIndex -= 1;
+                            }
+                            const point = chart.getDatasetMeta(datasetIndex).data[pointIndex];
+                            if (!point) {
+                                return null;
+                            }
+                            return {
+                                color: dataset.borderColor,
+                                point: point,
+                                score: dataset.finalScore,
+                                targetY: point.y,
+                                labelY: point.y
+                            };
+                        }).filter(Boolean).sort(function(first, second) {
+                            return first.targetY - second.targetY;
+                        });
+
+                        if (labelItems.length === 0) {
+                            return;
+                        }
+
+                        const top = chart.chartArea.top + 7;
+                        const bottom = chart.chartArea.bottom - 7;
+                        const spacing = labelItems.length > 1
+                            ? Math.min(18, (bottom - top) / (labelItems.length - 1))
+                            : 0;
+                        labelItems[0].labelY = Math.max(top, labelItems[0].targetY);
+                        for (let index = 1; index < labelItems.length; index++) {
+                            labelItems[index].labelY = Math.max(
+                                labelItems[index].targetY,
+                                labelItems[index - 1].labelY + spacing
+                            );
+                        }
+                        if (labelItems[labelItems.length - 1].labelY > bottom) {
+                            labelItems[labelItems.length - 1].labelY = bottom;
+                            for (let index = labelItems.length - 2; index >= 0; index--) {
+                                labelItems[index].labelY = Math.min(
+                                    labelItems[index].labelY,
+                                    labelItems[index + 1].labelY - spacing
+                                );
+                            }
+                        }
+
+                        const context = chart.ctx;
+                        const labelX = chart.width - 7;
+                        const connectorX = labelX - (window.innerWidth <= 680 ? 48 : 58);
+                        context.save();
+                        context.font = `bold ${window.innerWidth <= 680 ? 9 : 11}px Roboto`;
+                        context.textAlign = 'right';
+                        context.textBaseline = 'middle';
+                        labelItems.forEach(function(item) {
+                            context.strokeStyle = item.color;
+                            context.fillStyle = item.color;
+                            context.lineWidth = 1;
+                            context.beginPath();
+                            context.moveTo(item.point.x + 4, item.point.y);
+                            context.lineTo(connectorX, item.labelY);
+                            context.stroke();
+                            context.fillText(`${item.score} P`, labelX, item.labelY);
+                        });
+                        context.restore();
+                    }
+                };
+
+                createAnalysisChart(card, {
+                    type: 'line',
+                    data: {
+                        labels: ['Start'].concat(Array.from({ length: visibleDisciplineCount }, function(_, index) {
+                            return getInputName(index + 1);
+                        })),
+                        datasets: selectedEntries.map(function(entry) {
+                            const entryIndex = entries.findIndex(function(candidate) { return candidate.name === entry.name; });
+                            const color = getEntryColor(entry.name);
+                            return {
+                                label: entry.name,
+                                data: getAnalysisCumulativeSeries(entry.results, entry.values, true).slice(0, visibleDisciplineCount + 1),
+                                finalScore: getTotalPointsFromResults(entry.results),
+                                performances: entry.values.slice(0, visibleDisciplineCount),
+                                disciplinePoints: entry.results.slice(0, visibleDisciplineCount),
+                                analysisBaseColor: color,
+                                borderColor: color,
+                                backgroundColor: color,
+                                pointBackgroundColor: color,
+                                pointBorderColor: color,
+                                pointStyle: getAnalysisPointStyle(entryIndex),
+                                pointRadius: function(context) {
+                                    return context.dataIndex === visibleDisciplineCount ? 6 : 4;
+                                },
+                                pointHoverRadius: 6,
+                                borderWidth: 2.3,
+                                borderDash: getAnalysisLineDash(entryIndex),
+                                tension: 0.16,
+                                spanGaps: false
+                            };
+                        })
+                    },
+                    options: defaults,
+                    plugins: [finalScoreLabelsPlugin]
+                }, `Kumulierter Punkteverlauf im Ranking ${ranking.name}.`);
+            }
+
+            function renderRankingPlacesChart() {
+                const card = createAnalysisChartCard(
+                    'Platzierungsverlauf',
+                    ''
+                );
+                chartHost.appendChild(card);
+                const selectedEntries = getSelectedEntries();
+                appendRankingChartToolbar(card);
+                const visibleDisciplineCount = getVisibleAnalysisDisciplineCount(selectedEntries);
+                const cumulativeByEntry = entries.map(function(entry) {
+                    return getCumulativePoints(entry.results);
+                });
+                const ranksByDiscipline = Array.from({ length: 10 }, function(_, disciplineIndex) {
+                    return buildDescendingRanks(cumulativeByEntry.map(function(values) {
+                        return values[disciplineIndex];
+                    }));
+                });
+                const defaults = getAnalysisChartDefaults();
+                defaults.plugins.legend.display = false;
+                defaults.plugins.tooltip.callbacks = {
+                    label: function(context) {
+                        const entryIndex = context.dataset.entryIndex;
+                        const disciplineIndex = context.dataIndex;
+                        return `${context.dataset.label}: Platz ${context.parsed.y} · ${cumulativeByEntry[entryIndex][disciplineIndex]} P`;
+                    }
+                };
+                defaults.scales = {
+                    x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                    y: Object.assign(getAnalysisScaleDefaults(), {
+                        min: 1,
+                        max: entries.length,
+                        reverse: true,
+                        ticks: Object.assign({}, getAnalysisScaleDefaults().ticks, { stepSize: 1, precision: 0 }),
+                        title: { display: true, text: 'Platz', color: '#aeb8c0' }
+                    })
+                };
+                enableAnalysisLineFocus(defaults);
+
+                createAnalysisChart(card, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({ length: visibleDisciplineCount }, function(_, index) { return getInputName(index + 1); }),
+                        datasets: selectedEntries.map(function(entry) {
+                            const entryIndex = entries.findIndex(function(candidate) { return candidate.name === entry.name; });
+                            const color = getEntryColor(entry.name);
+                            return {
+                                label: entry.name,
+                                entryIndex: entryIndex,
+                                data: ranksByDiscipline.slice(0, visibleDisciplineCount).map(function(ranks, disciplineIndex) {
+                                    return hasAnalysisPerformance(entry.values[disciplineIndex]) ? ranks[entryIndex] : null;
+                                }),
+                                analysisBaseColor: color,
+                                borderColor: color,
+                                backgroundColor: color,
+                                pointBackgroundColor: color,
+                                pointBorderColor: color,
+                                pointStyle: getAnalysisPointStyle(entryIndex),
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                borderWidth: 2.3,
+                                borderDash: getAnalysisLineDash(entryIndex),
+                                tension: 0.12,
+                                spanGaps: false
+                            };
+                        })
+                    },
+                    options: defaults
+                }, `Platzierungsverlauf im Ranking ${ranking.name}.`);
+            }
+
+            renderRankingAnalysisChart();
+            animateViewEntrance(view);
+            updateResponsiveAppTitles();
+        }
+
         function openRankingResults(rankingName) {
             const ranking = getRankingByName(rankingName);
             if (!ranking) {
@@ -7199,6 +9095,7 @@
             document.querySelector('.labels-container').style.alignItems = 'stretch';
             document.querySelector('.labels-container').classList.add('is-ranking-layout');
             document.querySelector('.labels-container').classList.remove('is-document-layout');
+            document.querySelector('.labels-container').classList.remove('is-analysis-layout');
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
             document.getElementById('top-icons').style.display = 'flex';
@@ -7224,6 +9121,7 @@
             labelsContainer.style.alignItems = 'stretch';
             labelsContainer.classList.remove('is-ranking-layout');
             labelsContainer.classList.add('is-document-layout');
+            labelsContainer.classList.remove('is-analysis-layout');
 
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
@@ -7297,6 +9195,7 @@
             labelsContainer.style.alignItems = 'stretch';
             labelsContainer.classList.remove('is-ranking-layout');
             labelsContainer.classList.add('is-document-layout');
+            labelsContainer.classList.remove('is-analysis-layout');
 
             document.getElementById('home-intro').style.display = 'none';
             document.getElementById('home-top-title').style.display = 'none';
@@ -7573,12 +9472,15 @@
 
         function displayRankingResults(ranking) {
             const labelsContainer = document.querySelector('.labels-container');
+            destroyAnalysisCharts();
             labelsContainer.innerHTML = '';
+            const entries = getSortedRankingEntries(ranking);
             appendViewHeader(labelsContainer, ranking.name, ranking.type === 'archive' ? null : function() {
                 openRankingWindow(ranking.name);
-            });
+            }, null, entries.length >= 2 ? function() {
+                openRankingAnalysis(ranking.name);
+            } : null);
 
-            const entries = getSortedRankingEntries(ranking);
             if (entries.length === 0) {
                 const emptyState = document.createElement('div');
                 emptyState.className = 'ranking-empty';
@@ -7832,6 +9734,10 @@
                     <div class="comparison-athlete-name">${athlete2}</div>
                 </div>
             `;
+            comparisonHeader.querySelector('.comparison-header-center')
+                .appendChild(createAnalyticsIconButton(function() {
+                    openComparisonAnalysis(profile.name);
+                }));
             contentSurface.appendChild(comparisonHeader);
 
             const comparisonList = document.createElement('div');
@@ -7923,6 +9829,40 @@
             return profileList;
         }
 
+        function getComparisonListElement() {
+            const sidebar = document.getElementById('mySidebar');
+            let comparisonSection = document.getElementById('comparisonSection');
+            let comparisonList = document.getElementById('comparisonList');
+            const rankingSection = document.getElementById('rankingSection');
+
+            if (!comparisonSection) {
+                comparisonSection = document.createElement('div');
+                comparisonSection.id = 'comparisonSection';
+                comparisonSection.className = 'sidebar-section';
+
+                const title = document.createElement('div');
+                title.className = 'sidebar-section-title';
+                title.textContent = 'Head to Head';
+                comparisonSection.appendChild(title);
+
+                comparisonList = document.createElement('div');
+                comparisonList.id = 'comparisonList';
+                comparisonSection.appendChild(comparisonList);
+
+                if (rankingSection) {
+                    sidebar.insertBefore(comparisonSection, rankingSection);
+                } else {
+                    sidebar.appendChild(comparisonSection);
+                }
+            } else if (!comparisonList) {
+                comparisonList = document.createElement('div');
+                comparisonList.id = 'comparisonList';
+                comparisonSection.appendChild(comparisonList);
+            }
+
+            return comparisonList;
+        }
+
         function getRankingListElement() {
             const sidebar = document.getElementById('mySidebar');
             let rankingSection = document.getElementById('rankingSection');
@@ -7969,6 +9909,88 @@
 
             return archiveSection;
         }
+
+        function closeSidebarActionMenus(exceptMenu = null) {
+            document.querySelectorAll('.sidebar-action-menu.is-open').forEach(function(menu) {
+                if (menu === exceptMenu) {
+                    return;
+                }
+                menu.classList.remove('is-open');
+                const entry = menu.closest('.sidebar-entry, .archive-folder-entry');
+                if (entry) {
+                    entry.classList.remove('has-open-menu');
+                }
+                const toggle = menu.parentElement && menu.parentElement.querySelector('.sidebar-more-button');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        function createSidebarActionMenu(actions, label = 'Weitere Optionen') {
+            const control = document.createElement('div');
+            control.className = 'sidebar-action-control';
+
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'sidebar-action-button sidebar-more-button';
+            toggle.textContent = '⋮';
+            toggle.setAttribute('aria-label', label);
+            toggle.setAttribute('aria-haspopup', 'menu');
+            toggle.setAttribute('aria-expanded', 'false');
+            control.appendChild(toggle);
+
+            const menu = document.createElement('div');
+            menu.className = 'sidebar-action-menu';
+            menu.setAttribute('role', 'menu');
+
+            actions.forEach(function(action) {
+                const actionButton = document.createElement('button');
+                actionButton.type = 'button';
+                actionButton.textContent = action.label;
+                actionButton.setAttribute('role', 'menuitem');
+                if (action.className) {
+                    actionButton.classList.add(action.className);
+                }
+                if (action.danger) {
+                    actionButton.classList.add('is-danger');
+                }
+                actionButton.onclick = function(event) {
+                    event.stopPropagation();
+                    closeSidebarActionMenus();
+                    action.handler();
+                };
+                menu.appendChild(actionButton);
+            });
+
+            toggle.onclick = function(event) {
+                event.stopPropagation();
+                const willOpen = !menu.classList.contains('is-open');
+                closeSidebarActionMenus(willOpen ? menu : null);
+                menu.classList.toggle('is-open', willOpen);
+                const entry = menu.closest('.sidebar-entry, .archive-folder-entry');
+                if (entry) {
+                    entry.classList.toggle('has-open-menu', willOpen);
+                }
+                toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            };
+            menu.onclick = function(event) {
+                event.stopPropagation();
+            };
+
+            control.appendChild(menu);
+            return control;
+        }
+
+        document.addEventListener('click', function() {
+            closeSidebarActionMenus();
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSidebarActionMenus();
+            }
+        });
 
         function findArchiveProfileItemByName(profileName) {
             const archiveSection = getArchiveSectionElement();
@@ -8077,11 +10099,16 @@
 
         function applySidebarModeVisibility() {
             const profileSection = document.getElementById('profileSection');
+            const comparisonSection = document.getElementById('comparisonSection');
             const rankingSection = document.getElementById('rankingSection');
             const archiveModeActive = sidebarMode !== 'main';
 
             if (profileSection) {
                 profileSection.style.display = archiveModeActive ? 'none' : '';
+            }
+
+            if (comparisonSection) {
+                comparisonSection.style.display = archiveModeActive ? 'none' : '';
             }
 
             if (rankingSection) {
@@ -8110,6 +10137,15 @@
         }
 
         function appendArchiveRankingButton(container, folderName) {
+            const normalizedFolderName = normalizeArchiveFolderName(folderName);
+            const hasArchiveRanking = rankings.some(function(ranking) {
+                return ranking.type === 'archive'
+                    && normalizeArchiveFolderName(ranking.archiveFolder) === normalizedFolderName;
+            });
+            if (hasArchiveRanking) {
+                return;
+            }
+
             const createRankingButton = document.createElement('button');
             createRankingButton.type = 'button';
             createRankingButton.className = 'sidebar-empty-button archive-create-ranking';
@@ -8136,7 +10172,7 @@
             archiveItem.draggable = true;
 
             archiveItem.addEventListener('dragstart', function(event) {
-                if (event.target.closest('.sidebar-action-button')) {
+                if (event.target.closest('.sidebar-action-control')) {
                     event.preventDefault();
                     return;
                 }
@@ -8159,7 +10195,10 @@
             };
 
             const profileIcon = document.createElement('img');
-            profileIcon.src = 'imgs/profile.png';
+            profileIcon.src = profile.type === 'comparison'
+                ? 'imgs/comparison_sidebar.png'
+                : 'imgs/profile.png';
+            profileIcon.alt = profile.type === 'comparison' ? 'Head to Head' : 'Einzelprofil';
             profileIcon.draggable = false;
             profileButton.appendChild(profileIcon);
 
@@ -8168,37 +10207,27 @@
             profileButton.appendChild(profileLabel);
             archiveItem.appendChild(profileButton);
 
-            const restoreButton = document.createElement('button');
-            restoreButton.type = 'button';
-            restoreButton.className = 'sidebar-action-button';
-            restoreButton.title = 'Wiederherstellen';
-            restoreButton.setAttribute('aria-label', 'Profil wiederherstellen');
-
-            const restoreIcon = document.createElement('img');
-            restoreIcon.src = 'imgs/back_archive.png';
-            restoreIcon.alt = '';
-            restoreIcon.draggable = false;
-            restoreIcon.style.width = '20px';
-            restoreIcon.style.height = '20px';
-            restoreIcon.style.objectFit = 'contain';
-            restoreButton.appendChild(restoreIcon);
-            restoreButton.onclick = function() {
-                restoreArchivedProfile(profile.name);
-            };
-            archiveItem.appendChild(restoreButton);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'sidebar-action-button profile-delete-button';
-            const deleteIcon = document.createElement('img');
-            deleteIcon.src = 'imgs/delete_profile.png';
-            deleteIcon.draggable = false;
-            deleteIcon.style.width = '20px';
-            deleteIcon.style.height = '20px';
-            deleteButton.appendChild(deleteIcon);
-            deleteButton.onclick = function() {
-                confirmProfileDeletion(profile.name);
-            };
-            archiveItem.appendChild(deleteButton);
+            archiveItem.appendChild(createSidebarActionMenu([
+                {
+                    label: 'Bearbeiten',
+                    handler: function() {
+                        openProfileRenameWindow(profile.name);
+                    }
+                },
+                {
+                    label: 'Wiederherstellen',
+                    handler: function() {
+                        restoreArchivedProfile(profile.name);
+                    }
+                },
+                {
+                    label: 'Löschen',
+                    danger: true,
+                    handler: function() {
+                        confirmProfileDeletion(profile.name);
+                    }
+                }
+            ], `Optionen für ${profile.name}`));
 
             return archiveItem;
         }
@@ -8549,7 +10578,7 @@
                 folderBlock.draggable = true;
 
                 folderBlock.addEventListener('dragstart', function(event) {
-                    if (event.target.closest('.sidebar-action-button')) {
+                    if (event.target.closest('.sidebar-action-control')) {
                         event.preventDefault();
                         return;
                     }
@@ -8583,22 +10612,15 @@
                 folderToggle.appendChild(folderLabel);
                 folderBlock.appendChild(folderToggle);
 
-                const deleteFolderButton = document.createElement('button');
-                deleteFolderButton.type = 'button';
-                deleteFolderButton.className = 'sidebar-action-button profile-delete-button';
-                deleteFolderButton.title = 'Archivordner löschen';
-                deleteFolderButton.onclick = function(event) {
-                    event.stopPropagation();
-                    confirmArchiveFolderDeletion(folderName);
-                };
-
-                const deleteFolderIcon = document.createElement('img');
-                deleteFolderIcon.src = 'imgs/delete_profile.png';
-                deleteFolderIcon.draggable = false;
-                deleteFolderIcon.style.width = '20px';
-                deleteFolderIcon.style.height = '20px';
-                deleteFolderButton.appendChild(deleteFolderIcon);
-                folderBlock.appendChild(deleteFolderButton);
+                folderBlock.appendChild(createSidebarActionMenu([
+                    {
+                        label: 'Löschen',
+                        danger: true,
+                        handler: function() {
+                            confirmArchiveFolderDeletion(folderName);
+                        }
+                    }
+                ], `Optionen für ${getArchiveFolderLabel(folderName)}`));
                 archiveFolderList.appendChild(folderBlock);
             });
 
@@ -8627,6 +10649,8 @@
             const text = document.createElement('div');
             if (type === 'profile') {
                 text.textContent = 'Noch keine Profile angelegt.';
+            } else if (type === 'comparison') {
+                text.textContent = 'Noch keine Head-to-Head-Profile angelegt.';
             } else if (type === 'archive') {
                 text.textContent = 'Noch keine Profile archiviert.';
             } else {
@@ -8634,21 +10658,45 @@
             }
             emptyState.appendChild(text);
 
+            const activeProfileCount = getActiveSingleProfiles().length;
+            let action = null;
+
             if (type === 'profile') {
+                action = {
+                    label: 'Neues Profil',
+                    icon: 'imgs/new_profile.png',
+                    iconAlt: 'Profil hinzufügen',
+                    handler: openProfileWindow
+                };
+            } else if (type === 'comparison' && activeProfileCount >= 2) {
+                action = {
+                    label: 'Head to Head erstellen',
+                    icon: 'imgs/comparison.png',
+                    iconAlt: 'Head to Head erstellen',
+                    handler: openAthleteComparison
+                };
+            } else if (type === 'ranking' && activeProfileCount >= 1) {
+                action = {
+                    label: 'Ranking erstellen',
+                    icon: 'imgs/table_icon.png',
+                    iconAlt: 'Ranking erstellen',
+                    handler: openRanking
+                };
+            }
+
+            if (action) {
                 const addButton = document.createElement('button');
                 addButton.type = 'button';
                 addButton.className = 'sidebar-empty-button';
-                addButton.onclick = function() {
-                    openProfileWindow();
-                };
+                addButton.onclick = action.handler;
 
                 const icon = document.createElement('img');
-                icon.src = 'imgs/new_profile.png';
-                icon.alt = 'Profil hinzufügen';
+                icon.src = action.icon;
+                icon.alt = action.iconAlt;
                 addButton.appendChild(icon);
 
                 const label = document.createElement('span');
-                label.textContent = 'Neues Profil';
+                label.textContent = action.label;
                 addButton.appendChild(label);
                 emptyState.appendChild(addButton);
             }
@@ -8658,19 +10706,37 @@
 
         function updateSidebarEmptyStates() {
             const profileList = getProfileListElement();
+            const comparisonList = getComparisonListElement();
             const rankingList = getRankingListElement();
 
             const profileItems = profileList.querySelectorAll('.profile-item');
             const existingProfileEmpty = profileList.querySelector('.sidebar-empty[data-empty-type="profile"]');
-            if (profileItems.length === 0 && !existingProfileEmpty) {
+            if (profileItems.length === 0) {
+                if (existingProfileEmpty) {
+                    existingProfileEmpty.remove();
+                }
                 profileList.appendChild(createSidebarEmptyState('profile'));
             } else if (profileItems.length > 0 && existingProfileEmpty) {
                 existingProfileEmpty.remove();
             }
 
+            const comparisonItems = comparisonList.querySelectorAll('.profile-item');
+            const existingComparisonEmpty = comparisonList.querySelector('.sidebar-empty[data-empty-type="comparison"]');
+            if (comparisonItems.length === 0) {
+                if (existingComparisonEmpty) {
+                    existingComparisonEmpty.remove();
+                }
+                comparisonList.appendChild(createSidebarEmptyState('comparison'));
+            } else if (comparisonItems.length > 0 && existingComparisonEmpty) {
+                existingComparisonEmpty.remove();
+            }
+
             const rankingItems = rankingList.querySelectorAll('.ranking-sidebar-item');
             const existingRankingEmpty = rankingList.querySelector('.sidebar-empty[data-empty-type="ranking"]');
-            if (rankingItems.length === 0 && !existingRankingEmpty) {
+            if (rankingItems.length === 0) {
+                if (existingRankingEmpty) {
+                    existingRankingEmpty.remove();
+                }
                 rankingList.appendChild(createSidebarEmptyState('ranking'));
             } else if (rankingItems.length > 0 && existingRankingEmpty) {
                 existingRankingEmpty.remove();
@@ -8792,10 +10858,24 @@
                 };
             }
 
+            const archiveButton = profileItem.querySelector('.profile-archive-button');
+            if (archiveButton) {
+                archiveButton.onclick = function() {
+                    openArchiveProfileWindow(newName);
+                };
+            }
+
+            const comparisonEditButton = profileItem.querySelector('.comparison-edit-button');
+            if (comparisonEditButton) {
+                comparisonEditButton.onclick = function() {
+                    handleProfileButtonClick(newName);
+                };
+            }
+
             const deleteButton = profileItem.querySelector('.profile-delete-button');
             if (deleteButton) {
                 deleteButton.onclick = function() {
-                    confirmProfileDeletion(newName);
+                    confirmProfileDeletion(newName, true);
                 };
             }
         }
@@ -8826,18 +10906,29 @@
 
             rankingContainer.appendChild(rankingButton);
 
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'sidebar-action-button ranking-delete-button';
+            const rankingActions = [];
+            if (!isArchiveRanking) {
+                rankingActions.push({
+                    label: 'Bearbeiten',
+                    className: 'ranking-edit-button',
+                    handler: function() {
+                        openRankingWindow(rankingName);
+                    }
+                });
+            }
 
-            const deleteIcon = document.createElement('img');
-            deleteIcon.src = 'imgs/delete_profile.png';
-            deleteIcon.style.width = '20px';
-            deleteIcon.style.height = '20px';
-            deleteButton.appendChild(deleteIcon);
-            deleteButton.onclick = function() {
-                confirmRankingDeletion(rankingName);
-            };
-            rankingContainer.appendChild(deleteButton);
+            rankingActions.push({
+                label: 'Löschen',
+                className: 'ranking-delete-button',
+                danger: true,
+                handler: function() {
+                    confirmRankingDeletion(rankingName);
+                }
+            });
+            rankingContainer.appendChild(createSidebarActionMenu(
+                rankingActions,
+                `Optionen für ${rankingName}`
+            ));
 
             return rankingContainer;
         }
@@ -9234,8 +11325,7 @@
         }
 
         function getProfileItems(includeDragging = true) {
-            const profileList = getProfileListElement();
-            const allItems = Array.from(profileList.querySelectorAll('.profile-item'));
+            const allItems = Array.from(document.querySelectorAll('#profileList .profile-item, #comparisonList .profile-item'));
             if (includeDragging) return allItems;
             return allItems.filter(item => !item.classList.contains('dragging'));
         }
@@ -9258,8 +11348,8 @@
             }
         }
 
-        function getDropIndexByY(clientY) {
-            const items = getProfileItems(false);
+        function getDropIndexByY(clientY, profileList) {
+            const items = Array.from(profileList.querySelectorAll('.profile-item:not(.dragging)'));
             for (let i = 0; i < items.length; i++) {
                 const rect = items[i].getBoundingClientRect();
                 if (clientY < rect.top + (rect.height / 2)) {
@@ -9269,10 +11359,9 @@
             return items.length;
         }
 
-        function placeDropIndicator(dropIndex) {
-            const profileList = getProfileListElement();
+        function placeDropIndicator(dropIndex, profileList) {
             const indicator = ensureDropIndicator();
-            const items = getProfileItems(false);
+            const items = Array.from(profileList.querySelectorAll('.profile-item:not(.dragging)'));
             const targetItem = items[dropIndex];
 
             removeDropIndicator();
@@ -9301,49 +11390,51 @@
         }
 
         function initializeSidebarDragAndDrop() {
-            const profileList = getProfileListElement();
-            if (profileList.dataset.dndInitialized === 'true') return;
-
-            profileList.addEventListener('dragover', function(event) {
-                event.preventDefault();
-                if (!draggedProfileName) return;
-                placeDropIndicator(getDropIndexByY(event.clientY));
-            });
-
-            profileList.addEventListener('drop', function(event) {
-                event.preventDefault();
-                if (!draggedProfileName) return;
-
-                const draggedItem = findProfileItemByName(draggedProfileName);
-                if (!draggedItem) {
-                    removeDropIndicator();
-                    draggedProfileName = null;
+            [getProfileListElement(), getComparisonListElement()].forEach(function(profileList) {
+                if (profileList.dataset.dndInitialized === 'true') {
                     return;
                 }
 
-                const dropIndex = getDropIndexByY(event.clientY);
-                const itemsWithoutDragged = getProfileItems(false).filter(item => item.dataset.profileName !== draggedProfileName);
-                const referenceItem = itemsWithoutDragged[dropIndex];
+                profileList.addEventListener('dragover', function(event) {
+                    const draggedItem = findProfileItemByName(draggedProfileName);
+                    if (!draggedItem || draggedItem.parentElement !== profileList) {
+                        return;
+                    }
+                    event.preventDefault();
+                    placeDropIndicator(getDropIndexByY(event.clientY, profileList), profileList);
+                });
 
-                if (referenceItem) {
-                    profileList.insertBefore(draggedItem, referenceItem);
-                } else {
-                    profileList.appendChild(draggedItem);
-                }
+                profileList.addEventListener('drop', function(event) {
+                    const draggedItem = findProfileItemByName(draggedProfileName);
+                    if (!draggedItem || draggedItem.parentElement !== profileList) {
+                        return;
+                    }
+                    event.preventDefault();
 
-                draggedItem.classList.remove('dragging');
-                removeDropIndicator();
-                draggedProfileName = null;
-                reorderProfilesBySidebarOrder();
-            });
+                    const dropIndex = getDropIndexByY(event.clientY, profileList);
+                    const itemsWithoutDragged = Array.from(profileList.querySelectorAll('.profile-item:not(.dragging)'));
+                    const referenceItem = itemsWithoutDragged[dropIndex];
 
-            profileList.addEventListener('dragleave', function(event) {
-                if (!profileList.contains(event.relatedTarget)) {
+                    if (referenceItem) {
+                        profileList.insertBefore(draggedItem, referenceItem);
+                    } else {
+                        profileList.appendChild(draggedItem);
+                    }
+
+                    draggedItem.classList.remove('dragging');
                     removeDropIndicator();
-                }
-            });
+                    draggedProfileName = null;
+                    reorderProfilesBySidebarOrder();
+                });
 
-            profileList.dataset.dndInitialized = 'true';
+                profileList.addEventListener('dragleave', function(event) {
+                    if (!profileList.contains(event.relatedTarget)) {
+                        removeDropIndicator();
+                    }
+                });
+
+                profileList.dataset.dndInitialized = 'true';
+            });
         }
 
         // Hier können Sie die Funktion addProfileToSidebar anpassen, um neue Profile mit ihren eigenen Ergebnis-Arrays hinzuzufügen
@@ -9363,8 +11454,11 @@
                 return null;
             }
 
-            const profileList = getProfileListElement();
             const existingProfile = profiles.find(p => p.name === profileName);
+            const effectiveType = existingProfile ? existingProfile.type : type;
+            const profileList = effectiveType === 'comparison'
+                ? getComparisonListElement()
+                : getProfileListElement();
             if (existingProfile && existingProfile.archived === true) {
                 updateSidebarEmptyStates();
                 return profileName;
@@ -9379,6 +11473,10 @@
                 profileContainer.draggable = true;
 
                 profileContainer.addEventListener('dragstart', function(event) {
+                    if (event.target.closest('.sidebar-action-control')) {
+                        event.preventDefault();
+                        return;
+                    }
                     draggedProfileName = profileName;
                     profileContainer.classList.add('dragging');
                     event.dataTransfer.effectAllowed = 'move';
@@ -9399,7 +11497,7 @@
                 };
 
                 const profileIcon = document.createElement('img');
-                profileIcon.src = 'imgs/profile.png';
+                profileIcon.src = effectiveType === 'comparison' ? 'imgs/comparison_sidebar.png' : 'imgs/profile.png';
                 profileIcon.draggable = false;
                 newButton.appendChild(profileIcon);
 
@@ -9409,20 +11507,45 @@
 
                 profileContainer.appendChild(newButton);
 
-                // Erstellen des Lösch-Buttons
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'sidebar-action-button profile-delete-button';
-                // Füge das Bild-Element hinzu
-                const deleteIcon = document.createElement('img');
-                deleteIcon.src = 'imgs/delete_profile.png'; // Der Dateipfad für das Bild
-                deleteIcon.draggable = false;
-                deleteIcon.style.width = '20px'; // Größe des Bildes anpassen
-                deleteIcon.style.height = '20px';
-                deleteButton.appendChild(deleteIcon);
-                deleteButton.onclick = function() {
-                    confirmProfileDeletion(profileName);
-                };
-                profileContainer.appendChild(deleteButton);
+                const profileActions = [];
+                if (effectiveType === 'single') {
+                    profileActions.push(
+                        {
+                            label: 'Bearbeiten',
+                            className: 'profile-edit-button',
+                            handler: function() {
+                                openProfileRenameWindow(profileName);
+                            }
+                        },
+                        {
+                            label: 'Archivieren',
+                            className: 'profile-archive-button',
+                            handler: function() {
+                                openArchiveProfileWindow(profileName);
+                            }
+                        }
+                    );
+                } else {
+                    profileActions.push({
+                        label: 'Bearbeiten',
+                        className: 'comparison-edit-button',
+                        handler: function() {
+                            handleProfileButtonClick(profileName);
+                        }
+                    });
+                }
+                profileActions.push({
+                    label: 'Löschen',
+                    className: 'profile-delete-button',
+                    danger: true,
+                    handler: function() {
+                        confirmProfileDeletion(profileName, true);
+                    }
+                });
+                profileContainer.appendChild(createSidebarActionMenu(
+                    profileActions,
+                    `Optionen für ${profileName}`
+                ));
 
                 // Hinzufügen des Containers zur Sidebar
                 profileList.appendChild(profileContainer);
@@ -9456,6 +11579,7 @@
         // Wenn man auf "Zehnkampfrechner klickt"
         function navigateToHome() {
             saveCurrentViewScrollPosition();
+            destroyAnalysisCharts();
             var sidebar = document.getElementById("mySidebar");
             sidebar.style.display = "none";
             setContentViewActive(false);
@@ -9466,6 +11590,7 @@
             document.querySelector('.labels-container').style.display = 'none'; // Disziplinen ausblenden
             document.querySelector('.labels-container').classList.remove('is-ranking-layout');
             document.querySelector('.labels-container').classList.remove('is-document-layout');
+            document.querySelector('.labels-container').classList.remove('is-analysis-layout');
             document.getElementById('home-intro').style.display = 'block'; // Startbereich anzeigen
             document.getElementById('home-top-title').style.display = 'block';
             // Blende die oberen Icons nur auf der Startseite aus
@@ -9504,6 +11629,8 @@
             // Leere die Profil-Liste, um doppelte Einträge zu vermeiden
             const profileList = getProfileListElement();
             profileList.innerHTML = '';
+            const comparisonList = getComparisonListElement();
+            comparisonList.innerHTML = '';
             const rankingList = getRankingListElement();
             rankingList.innerHTML = '';
             initializeSidebarDragAndDrop();
@@ -10214,10 +12341,10 @@
         let profileDeleted = false;
 
         // Profile löschen
-        function confirmProfileDeletion(profileName) {
+        function confirmProfileDeletion(profileName, deleteOnly = false) {
             closeNav();
             const profile = profiles.find(existingProfile => existingProfile.name === profileName);
-            const canArchive = profile && profile.type === 'single' && profile.archived !== true;
+            const canArchive = !deleteOnly && profile && profile.type === 'single' && profile.archived !== true;
 
             var modalParts = createUnifiedModal(
                 canArchive ? 'Profil verwalten' : 'Profil löschen',
