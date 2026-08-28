@@ -1,4 +1,4 @@
-const APP_VERSION = "v45";
+const APP_VERSION = "v52";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 const NAVIGATION_TIMEOUT_MS = 2000;

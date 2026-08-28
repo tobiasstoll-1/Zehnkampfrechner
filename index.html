@@ -25,7 +25,7 @@
             --motion-entrance: 320ms cubic-bezier(0.16, 1, 0.3, 1);
             --page-bg-color: #262626;
             --page-bg-image: radial-gradient(circle at top, rgba(108, 151, 122, 0.18), transparent 34%), linear-gradient(180deg, #1f2328 0%, #262626 42%, #222629 100%);
-            --sticky-title-height: 44px;
+            --sticky-title-height: 48px;
             --surface-soft: rgba(255, 255, 255, 0.06);
             --surface-mid: rgba(255, 255, 255, 0.1);
             --surface-strong: rgba(255, 255, 255, 0.16);
@@ -116,6 +116,7 @@
             top: 0;
             height: var(--sticky-title-height);
             margin-bottom: calc(var(--sticky-title-height) * -1);
+            box-sizing: border-box;
             z-index: 15;
             pointer-events: none;
             background-color: var(--page-bg-color);
@@ -129,6 +130,22 @@
 
         body.content-view-active #stickyTitleBackdrop {
             display: block;
+        }
+
+        body.content-view-active:not(.ranking-view-active):has(.view-header-row) .app-topbar,
+        body.content-view-active:not(.ranking-view-active):has(.comparison-header) .app-topbar {
+            border-bottom: 0;
+            box-shadow: none;
+        }
+
+        body.content-view-active:not(.ranking-view-active):has(.view-header-row) #stickyTitleBackdrop,
+        body.content-view-active:not(.ranking-view-active):has(.comparison-header) #stickyTitleBackdrop {
+            border-top: 0;
+        }
+
+        body.content-view-active:not(.ranking-view-active):has(.view-header-row) .content-scroll-area,
+        body.content-view-active:not(.ranking-view-active):has(.comparison-header) .content-scroll-area {
+            margin-top: -2px;
         }
 
         body.content-view-active:has(.em-preview-view) #stickyTitleBackdrop {
@@ -1458,6 +1475,18 @@
             transform: translateY(-1px);
         }
 
+        .undo-action-button {
+            color: #f4f7f9;
+            font: 500 25px/1 'Roboto', sans-serif;
+        }
+
+        .undo-action-button:disabled {
+            cursor: default;
+            opacity: 0.34;
+            transform: none;
+            filter: none;
+        }
+
         .sidebar-more-button {
             display: inline-flex;
             align-items: center;
@@ -1934,10 +1963,11 @@
         }
 
         .view-header-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(36px, 1fr) minmax(0, auto) minmax(36px, 1fr);
             align-items: center;
-            justify-content: center;
             width: 100%;
+            min-height: 48px;
             margin-bottom: 14px;
             padding: 6px 0 8px 0;
             box-sizing: border-box;
@@ -1961,12 +1991,197 @@
 
         .view-header-main {
             display: inline-flex;
+            grid-column: 2;
             align-items: center;
             justify-content: center;
             gap: 10px;
             min-width: 0;
             max-width: 100%;
         }
+
+        .view-header-actions {
+            display: inline-flex;
+            grid-column: 3;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+            min-width: 0;
+            justify-self: end;
+        }
+
+        .quick-actions {
+            position: relative;
+            display: inline-flex;
+            flex: 0 0 auto;
+        }
+
+        .quick-actions-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 0;
+            padding: 0;
+            background: transparent;
+            color: #f6f8fa;
+            cursor: pointer;
+        }
+
+        .quick-actions-toggle img {
+            display: block;
+            width: 20px;
+            height: 20px;
+        }
+
+        .quick-actions-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            z-index: 45;
+            display: none;
+            min-width: 172px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 13px;
+            background: rgba(24, 30, 35, 0.98);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.36);
+        }
+
+        .quick-actions.is-open .quick-actions-menu {
+            display: grid;
+            gap: 3px;
+        }
+
+        .quick-actions-item {
+            border: 0;
+            border-radius: 9px;
+            padding: 9px 11px;
+            background: transparent;
+            color: #f4f7f9;
+            font: 600 13px 'Roboto', sans-serif;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .quick-actions-item:hover,
+        .quick-actions-item:focus-visible {
+            background: rgba(143, 208, 163, 0.14);
+            outline: none;
+        }
+
+        .quick-actions-divider {
+            height: 1px;
+            margin: 4px 7px;
+            background: rgba(255, 255, 255, 0.13);
+        }
+
+        .quick-actions-item.is-danger {
+            color: #ff8f8f;
+        }
+
+        .quick-actions-item.is-danger:hover,
+        .quick-actions-item.is-danger:focus-visible {
+            background: rgba(210, 72, 72, 0.16);
+            color: #ffabab;
+        }
+
+        .single-performance-cluster {
+            display: flex;
+            flex: 0 0 calc(var(--performance-input-width) + 34px);
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+        }
+
+        .single-performance-cluster .input {
+            flex: 0 0 var(--performance-input-width) !important;
+            width: var(--performance-input-width) !important;
+            box-sizing: border-box;
+        }
+
+        .wa-record-hint-slot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 29px;
+            width: 29px;
+            height: 24px;
+        }
+
+        .wa-record-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            min-width: 28px;
+            height: 24px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            padding: 0 5px;
+            box-sizing: border-box;
+            font: 800 10px 'Roboto', sans-serif;
+            line-height: 1;
+        }
+
+        .wa-record-hint.is-pb {
+            border-color: rgba(230, 159, 0, 0.5);
+            background: rgba(230, 159, 0, 0.22);
+            color: #ffe7a6;
+        }
+
+        .wa-record-hint.is-sb {
+            border-color: rgba(86, 180, 233, 0.48);
+            background: rgba(0, 114, 178, 0.22);
+            color: #dff4ff;
+        }
+
+        .comparison-performance .comparison-performance-input {
+            width: calc(100% - 2px) !important;
+        }
+
+        .comparison-performance.has-record-hint .comparison-performance-input {
+            font-size: var(--wa-record-font-size, 22px) !important;
+            text-indent: calc(-1 * var(--wa-record-value-shift, 0px));
+        }
+
+        .comparison-performance .wa-record-hint-slot {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            z-index: 2;
+            width: 28px;
+            height: 22px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .comparison-performance .wa-record-hint {
+            min-width: 26px;
+            height: 20px;
+            padding: 0 4px;
+            border-radius: 6px;
+        }
+
+        .comparison-projection-athlete {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 2px 0 16px;
+        }
+
+        .comparison-projection-athlete + .comparison-projection-athlete {
+            border-top: 1px solid rgba(52, 72, 92, 0.16);
+            padding-top: 16px;
+        }
+
+        .comparison-projection-athlete-name {
+            color: #233242;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
 
         .view-header-title {
             min-width: 0;
@@ -2667,10 +2882,10 @@
 
         .comparison-header {
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            grid-template-columns: minmax(0, 1fr) 112px minmax(0, 1fr);
             align-items: center;
-            gap: 12px;
-            padding: 8px 0 10px 0;
+            gap: 10px;
+            padding: 8px 0;
             margin-bottom: 6px;
             position: sticky;
             top: var(--view-header-height);
@@ -2716,23 +2931,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding-bottom: 4px;
+            min-width: 0;
+            padding-bottom: 0;
         }
 
-        .comparison-header-badge {
+        .comparison-header-actions {
             display: inline-flex;
+            width: 100%;
             align-items: center;
             justify-content: center;
-            min-width: 44px;
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.07);
-            color: var(--text-soft);
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 0.08em;
-            text-transform: lowercase;
+            gap: 4px;
+        }
+
+        .comparison-header-center .quick-actions-menu {
+            right: 50%;
+            transform: translateX(50%);
         }
 
         .comparison-list {
@@ -2744,7 +2957,7 @@
 
         .comparison-discipline-row {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            grid-template-columns: minmax(0, 1fr) 112px minmax(0, 1fr);
             align-items: stretch;
             gap: 10px;
             padding: 8px 0;
@@ -2791,7 +3004,7 @@
             align-items: center;
             justify-content: center;
             gap: 0;
-            min-width: 56px;
+            min-width: 112px;
             text-align: center;
         }
 
@@ -2804,8 +3017,9 @@
 
         .comparison-performance {
             display: flex;
-            align-items: stretch;
-            justify-content: stretch;
+            position: relative;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             padding: 0 1px;
             box-sizing: border-box;
@@ -3038,7 +3252,7 @@
 
         @media (max-width: 680px) {
             :root {
-                --sticky-title-height: 42px;
+                --sticky-title-height: 48px;
             }
 
             .app-topbar.is-content-view {
@@ -3193,6 +3407,7 @@
 
             .comparison-header {
                 gap: 8px;
+                grid-template-columns: minmax(0, 1fr) 104px minmax(0, 1fr);
             }
 
             .comparison-athlete-name {
@@ -3208,7 +3423,11 @@
             }
 
             .comparison-discipline-center {
-                min-width: 56px;
+                min-width: 104px;
+            }
+
+            .comparison-discipline-row {
+                grid-template-columns: minmax(0, 1fr) 104px minmax(0, 1fr);
             }
 
             .comparison-discipline-name {
@@ -3222,7 +3441,7 @@
 
         @media (max-width: 540px) {
             :root {
-                --sticky-title-height: 40px;
+                --sticky-title-height: 48px;
             }
 
             .app-topbar.is-content-view {
@@ -5239,6 +5458,7 @@
             }
 
             const bestMap = bestType === 'personal' ? link.personalBests : link.seasonBests;
+            const undoState = cloneProfileState(profile);
             let filledFields = 0;
             WORLD_ATHLETICS_CODE_BY_INDEX.forEach(function(code, index) {
                 const entry = bestMap[code];
@@ -5253,6 +5473,7 @@
                 return 0;
             }
 
+            pushProfileUndoState(profile, undoState);
             recalculateSingleProfileFromValues(profile);
             saveProfilesToLocalStorage();
             const currentTitle = document.querySelector('.center')?.textContent?.trim();
@@ -5276,6 +5497,7 @@
                 return 0;
             }
 
+            const undoState = cloneProfileState(profile);
             let filledFields = 0;
             decathlonValues.slice(0, 10).forEach(function(value, index) {
                 if (value && !String(profile.values[index] || '').trim()) {
@@ -5289,6 +5511,7 @@
                 return 0;
             }
 
+            pushProfileUndoState(profile, undoState);
             recalculateSingleProfileFromValues(profile);
             saveProfilesToLocalStorage();
             const currentTitle = document.querySelector('.center')?.textContent?.trim();
@@ -5308,6 +5531,9 @@
         }
 
         document.addEventListener('click', function(event) {
+            if (!event.target.closest('.quick-actions')) {
+                closeQuickActionMenus();
+            }
             document.querySelectorAll('.profile-link-indicator.is-open').forEach(function(indicator) {
                 if (!indicator.contains(event.target)) {
                     indicator.classList.remove('is-open');
@@ -5457,6 +5683,20 @@
 
             const athleteName = inputName.includes('_') ? inputName.substring(inputName.indexOf('_') + 1) : '';
             return athleteName === comparisonAthletes[1] ? resultIndexBase + 10 : resultIndexBase;
+        }
+
+        function getWorldAthleticsSourceProfile(profile, resultIndex) {
+            if (!profile) {
+                return null;
+            }
+            if (profile.type === 'single') {
+                return profile;
+            }
+            const athletes = getComparisonAthletes(profile.name);
+            const athleteName = athletes[resultIndex >= 10 ? 1 : 0];
+            return profiles.find(function(candidate) {
+                return candidate.type === 'single' && candidate.name === athleteName;
+            }) || null;
         }
 
         function ensureProfileShape(profile) {
@@ -5630,8 +5870,8 @@
             var inputValue = inputElement.value;
             var profileName = document.querySelector('.center').textContent;
 
-            const profileIndex = getProfileIndex(profileName);
-            if (profileIndex === -1) {
+            const profile = getDisplayedProfile(profileName);
+            if (!profile) {
                 return;
             }
 
@@ -5642,17 +5882,26 @@
 
             if (normalizedValue === "") {
                 setAnimatedText(resultElement, isComparisonProfile || isSingleProfile ? "0 P" : "0");
-                profiles[profileIndex].results[resultIndex] = "0";
-                profiles[profileIndex].values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
+                profile.results[resultIndex] = "0";
+                profile.values[resultIndex] = ""; // Wert im Profil ebenfalls auf leer setzen
             } else {
                 const performance = parsePerformanceValue(normalizedValue, disciplineType);
                 const points = calculateDecathlonPoints(disciplineType, performance, A, B, C);
 
                 setAnimatedText(resultElement, isComparisonProfile || isSingleProfile ? `${points} P` : String(points));
-                profiles[profileIndex].results[resultIndex] = String(points);
-                profiles[profileIndex].values[resultIndex] = normalizedValue;
+                profile.results[resultIndex] = String(points);
+                profile.values[resultIndex] = normalizedValue;
             }
             saveProfilesToLocalStorage();
+
+            const worldAthleticsSource = getWorldAthleticsSourceProfile(profile, resultIndex);
+            const recordHintContainer = inputElement.closest('.single-performance-cluster, .comparison-performance');
+            updateWorldAthleticsRecordHint(
+                worldAthleticsSource,
+                resultIndex % 10,
+                inputElement,
+                recordHintContainer
+            );
 
             // Aktualisieren der Gesamtpunktzahl für das Vergleichsprofil
             if (isComparisonProfile) {
@@ -5671,7 +5920,7 @@
 
 
         function calculateTotalPoints(profileName, athlete = null) {
-            const profile = profiles.find(p => p.name === profileName);
+            const profile = getDisplayedProfile(profileName);
 
             if (profile) {
                 ensureProfileShape(profile);
@@ -5706,9 +5955,7 @@
         }
 
         function updateSingleProfileCumulative(profileName) {
-            const profile = profiles.find(function(entry) {
-                return entry.name === profileName;
-            });
+            const profile = getDisplayedProfile(profileName);
 
             if (!profile || profile.type !== 'single') {
                 return;
@@ -5724,9 +5971,7 @@
         }
 
         function updateComparisonRowStates(profileName) {
-            const profile = profiles.find(function(entry) {
-                return entry.name === profileName;
-            });
+            const profile = getDisplayedProfile(profileName);
             if (!profile || profile.type !== 'comparison') {
                 return;
             }
@@ -6047,10 +6292,28 @@
             const inputs = Array.from(container.querySelectorAll('input.input, input.inputcomparison'));
             inputs.forEach(function(input) {
                 input.addEventListener('focus', function() {
+                    const profileName = document.querySelector('.center')?.textContent?.trim();
+                    const profile = getDisplayedProfile(profileName);
+                    if (profile) {
+                        profileInputEditSessions.set(input, {
+                            profile: profile,
+                            snapshot: cloneProfileState(profile),
+                            recorded: false
+                        });
+                    }
                     scrollInputIntoView(input);
                 });
 
+                input.addEventListener('input', function() {
+                    const editSession = profileInputEditSessions.get(input);
+                    if (editSession && !editSession.recorded) {
+                        pushProfileUndoState(editSession.profile, editSession.snapshot);
+                        editSession.recorded = true;
+                    }
+                });
+
                 input.addEventListener('blur', function() {
+                    profileInputEditSessions.delete(input);
                     window.setTimeout(function() {
                         syncMobileInputViewport();
                     }, 140);
@@ -6219,20 +6482,6 @@
             return button;
         }
 
-        function createEditIconButton(onClick) {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'icon-action-button';
-
-            const icon = document.createElement('img');
-            icon.src = 'imgs/edit.png';
-            icon.alt = 'Bearbeiten';
-            button.appendChild(icon);
-
-            button.onclick = onClick;
-            return button;
-        }
-
         function createAnalyticsIconButton(onClick) {
             const button = document.createElement('button');
             button.type = 'button';
@@ -6248,6 +6497,205 @@
 
             button.onclick = onClick;
             return button;
+        }
+
+        function createUndoIconButton(profileName) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'icon-action-button undo-action-button';
+            button.textContent = '↶';
+            button.setAttribute('aria-label', 'Letzte Änderung rückgängig machen');
+            button.title = 'Rückgängig';
+            button.dataset.profileName = profileName;
+            const profile = profiles.find(function(candidate) { return candidate.name === profileName; });
+            button.disabled = !profile || !(profileUndoStacks.get(profile) || []).length;
+            button.onclick = function() {
+                undoProfileChanges(profileName);
+            };
+            return button;
+        }
+
+        function closeQuickActionMenus(exceptMenu = null) {
+            document.querySelectorAll('.quick-actions.is-open').forEach(function(menu) {
+                if (menu !== exceptMenu) {
+                    menu.classList.remove('is-open');
+                    menu.querySelector('.quick-actions-toggle')?.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        function getWorldAthleticsRecordHint(profile, disciplineIndex, inputValue) {
+            const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            const code = WORLD_ATHLETICS_CODE_BY_INDEX[disciplineIndex];
+            const disciplineType = getDisciplineType(disciplineIndex + 1);
+            const performance = parsePerformanceValue(inputValue, disciplineType);
+            if (!link || !code || performance === null) {
+                return null;
+            }
+
+            function beats(entry) {
+                const reference = entry && parsePerformanceValue(entry.value, disciplineType);
+                if (reference === null || reference === undefined) {
+                    return false;
+                }
+                return disciplineType === 1 || disciplineType === 4
+                    ? performance < reference
+                    : performance > reference;
+            }
+
+            if (beats(link.personalBests[code])) {
+                return 'PB';
+            }
+            if (beats(link.seasonBests[code])) {
+                return 'SB';
+            }
+            return null;
+        }
+
+        function positionComparisonRecordHint(input, container, hint) {
+            if (!input || !container || !hint || !input.isConnected || !hint.isConnected) {
+                return;
+            }
+
+            input.style.removeProperty('--wa-record-value-shift');
+            input.style.removeProperty('--wa-record-font-size');
+            const inputRect = input.getBoundingClientRect();
+            const hintRect = hint.getBoundingClientRect();
+            if (inputRect.width <= 0 || hintRect.width <= 0) {
+                return;
+            }
+
+            const computedStyle = window.getComputedStyle(input);
+            const baseFontSize = Number.parseFloat(computedStyle.fontSize) || 22;
+            const fontWeight = computedStyle.fontWeight || '700';
+            const fontFamily = computedStyle.fontFamily || 'sans-serif';
+            const canvas = positionComparisonRecordHint.canvas
+                || (positionComparisonRecordHint.canvas = document.createElement('canvas'));
+            const context = canvas.getContext('2d');
+            if (!context) {
+                return;
+            }
+
+            function measureValue(fontSize) {
+                context.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+                return context.measureText(input.value || '').width;
+            }
+
+            const leftSafetyGap = 5;
+            const badgeGap = 5;
+            const availableWidth = Math.max(
+                1,
+                hintRect.left - inputRect.left - leftSafetyGap - badgeGap
+            );
+            let targetFontSize = baseFontSize;
+            let valueWidth = measureValue(targetFontSize);
+            if (valueWidth > availableWidth) {
+                targetFontSize = Math.max(15, baseFontSize * availableWidth / valueWidth);
+                valueWidth = measureValue(targetFontSize);
+                input.style.setProperty('--wa-record-font-size', `${targetFontSize.toFixed(2)}px`);
+            }
+
+            const inputCenter = inputRect.left + inputRect.width / 2;
+            const maximumValueRight = hintRect.left - badgeGap;
+            const requiredShift = Math.max(0, inputCenter + valueWidth / 2 - maximumValueRight);
+            const maximumShift = Math.max(
+                0,
+                inputCenter - valueWidth / 2 - inputRect.left - leftSafetyGap
+            );
+            input.style.setProperty(
+                '--wa-record-value-shift',
+                `${Math.min(requiredShift, maximumShift).toFixed(2)}px`
+            );
+        }
+
+        function updateWorldAthleticsRecordHint(profile, disciplineIndex, input, container) {
+            if (!input || !container) {
+                return;
+            }
+            let slot = container.querySelector('.wa-record-hint-slot');
+            if (!slot) {
+                slot = document.createElement('span');
+                slot.className = 'wa-record-hint-slot';
+                slot.setAttribute('aria-live', 'polite');
+                container.appendChild(slot);
+            }
+            slot.innerHTML = '';
+            container.classList.remove('has-record-hint');
+            input.style.removeProperty('--wa-record-value-shift');
+            input.style.removeProperty('--wa-record-font-size');
+            const hintLabel = getWorldAthleticsRecordHint(profile, disciplineIndex, input.value);
+            if (!hintLabel) {
+                return;
+            }
+            const hint = document.createElement('span');
+            hint.className = `wa-record-hint is-${hintLabel.toLowerCase()}`;
+            hint.textContent = hintLabel;
+            hint.title = hintLabel === 'PB'
+                ? 'Neue persönliche Bestleistung'
+                : 'Neue Saisonbestleistung';
+            slot.appendChild(hint);
+            if (container.classList.contains('comparison-performance')) {
+                container.classList.add('has-record-hint');
+                window.requestAnimationFrame(function() {
+                    positionComparisonRecordHint(input, container, hint);
+                });
+            }
+        }
+
+        function createProfileActionsMenu(actions, accessibleLabel = 'Profilaktionen') {
+            const availableActions = (actions || []).filter(function(action) {
+                return action && typeof action.handler === 'function';
+            });
+            if (availableActions.length === 0) {
+                return null;
+            }
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'quick-actions';
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'icon-action-button quick-actions-toggle';
+            toggle.setAttribute('aria-label', accessibleLabel);
+            toggle.setAttribute('aria-expanded', 'false');
+            const editIcon = document.createElement('img');
+            editIcon.src = 'imgs/edit.png';
+            editIcon.alt = '';
+            editIcon.draggable = false;
+            toggle.appendChild(editIcon);
+            wrapper.appendChild(toggle);
+
+            const menu = document.createElement('div');
+            menu.className = 'quick-actions-menu';
+            menu.setAttribute('role', 'menu');
+            availableActions.forEach(function(action) {
+                if (action.separatorBefore && menu.childElementCount > 0) {
+                    const divider = document.createElement('div');
+                    divider.className = 'quick-actions-divider';
+                    divider.setAttribute('role', 'separator');
+                    menu.appendChild(divider);
+                }
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `quick-actions-item${action.danger ? ' is-danger' : ''}`;
+                button.textContent = action.label;
+                button.setAttribute('role', 'menuitem');
+                button.onclick = function(event) {
+                    event.stopPropagation();
+                    closeQuickActionMenus();
+                    action.handler();
+                };
+                menu.appendChild(button);
+            });
+            wrapper.appendChild(menu);
+
+            toggle.onclick = function(event) {
+                event.stopPropagation();
+                const shouldOpen = !wrapper.classList.contains('is-open');
+                closeQuickActionMenus(wrapper);
+                wrapper.classList.toggle('is-open', shouldOpen);
+                toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+            };
+            return wrapper;
         }
 
         function createWorldAthleticsProfileIndicator(profile) {
@@ -6282,7 +6730,7 @@
             return button;
         }
 
-        function appendViewHeader(container, titleText, editAction = null, linkedProfile = null, analysisAction = null) {
+        function appendViewHeader(container, titleText, editAction = null, linkedProfile = null, analysisAction = null, quickActions = [], undoProfileName = '') {
             const headerRow = document.createElement('div');
             headerRow.className = 'view-header-row';
 
@@ -6299,20 +6747,38 @@
                 headerMain.appendChild(linkedProfileIndicator);
             }
 
+            const headerActions = document.createElement('div');
+            headerActions.className = 'view-header-actions';
+
             if (analysisAction) {
-                headerMain.appendChild(createAnalyticsIconButton(analysisAction));
+                headerActions.appendChild(createAnalyticsIconButton(analysisAction));
             }
 
+            const profileActions = quickActions.slice();
             if (editAction) {
-                headerMain.appendChild(createEditIconButton(editAction));
+                profileActions.unshift({ label: 'Bearbeiten', handler: editAction });
+            }
+
+            const profileActionsMenu = createProfileActionsMenu(profileActions);
+            if (profileActionsMenu) {
+                headerActions.appendChild(profileActionsMenu);
+            }
+
+            if (undoProfileName) {
+                headerActions.appendChild(createUndoIconButton(undoProfileName));
             }
 
             headerRow.appendChild(headerMain);
+            if (headerActions.childElementCount > 0) {
+                headerRow.appendChild(headerActions);
+            }
             container.appendChild(headerRow);
         }
 
         function createWorldAthleticsLinkEditor(options = {}) {
             const profile = options.profile || null;
+            const projectionOnly = options.mode === 'projection';
+            const showProjection = options.showProjection !== false;
             let selectedLink = normalizeWorldAthleticsLink(options.initialLink);
             let searchIsOpen = false;
             let searchTimer = null;
@@ -6729,10 +7195,54 @@
                 }, 0);
             }
 
+            function appendProjectionOptions(currentProfileLink) {
+                const projectionSection = document.createElement('div');
+                projectionSection.className = 'wa-projection-section';
+                const projectionLabel = document.createElement('div');
+                projectionLabel.className = 'wa-projection-label';
+                projectionLabel.textContent = 'Hochrechnung';
+                projectionSection.appendChild(projectionLabel);
+
+                const projectionOptions = document.createElement('div');
+                projectionOptions.className = 'wa-projection-options';
+                if (Object.keys(currentProfileLink.seasonBests).length > 0) {
+                    projectionOptions.appendChild(createProjectionOption('SB', function() {
+                        fillEmptyProfileValuesFromWorldAthletics(profile, 'season');
+                    }));
+                }
+                if (Object.keys(currentProfileLink.personalBests).length > 0) {
+                    projectionOptions.appendChild(createProjectionOption('PB', function() {
+                        fillEmptyProfileValuesFromWorldAthletics(profile, 'personal');
+                    }));
+                }
+                projectionOptions.appendChild(createProjectionOption('Zehnkampf', function() {
+                    renderDecathlonProjectionList();
+                }));
+                projectionSection.appendChild(projectionOptions);
+                editor.appendChild(projectionSection);
+            }
+
             function renderEditor() {
                 cancelPendingSearch();
                 cancelPendingProjection();
                 editor.innerHTML = '';
+
+                const currentProfileLink = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+                const canUseCurrentData = selectedLink
+                    && currentProfileLink
+                    && currentProfileLink.athleteId === selectedLink.athleteId;
+
+                if (projectionOnly) {
+                    if (canUseCurrentData) {
+                        appendProjectionOptions(currentProfileLink);
+                    } else {
+                        const status = document.createElement('div');
+                        status.className = 'wa-search-status';
+                        status.textContent = 'Nicht mit World Athletics verknüpft.';
+                        editor.appendChild(status);
+                    }
+                    return;
+                }
 
                 if (selectedLink) {
                     const summary = document.createElement('div');
@@ -6774,35 +7284,8 @@
                         appendSearchPanel();
                     }
 
-                    const currentProfileLink = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
-                    const canUseCurrentData = currentProfileLink
-                        && currentProfileLink.athleteId === selectedLink.athleteId;
-
-                    if (canUseCurrentData) {
-                        const projectionSection = document.createElement('div');
-                        projectionSection.className = 'wa-projection-section';
-                        const projectionLabel = document.createElement('div');
-                        projectionLabel.className = 'wa-projection-label';
-                        projectionLabel.textContent = 'Hochrechnung';
-                        projectionSection.appendChild(projectionLabel);
-
-                        const projectionOptions = document.createElement('div');
-                        projectionOptions.className = 'wa-projection-options';
-                        if (Object.keys(currentProfileLink.seasonBests).length > 0) {
-                            projectionOptions.appendChild(createProjectionOption('SB', function() {
-                                fillEmptyProfileValuesFromWorldAthletics(profile, 'season');
-                            }));
-                        }
-                        if (Object.keys(currentProfileLink.personalBests).length > 0) {
-                            projectionOptions.appendChild(createProjectionOption('PB', function() {
-                                fillEmptyProfileValuesFromWorldAthletics(profile, 'personal');
-                            }));
-                        }
-                        projectionOptions.appendChild(createProjectionOption('Zehnkampf', function() {
-                            renderDecathlonProjectionList();
-                        }));
-                        projectionSection.appendChild(projectionOptions);
-                        editor.appendChild(projectionSection);
+                    if (canUseCurrentData && showProjection) {
+                        appendProjectionOptions(currentProfileLink);
                     }
                 } else {
                     editor.appendChild(createSecondaryButton('Mit World Athletics verknüpfen', function() {
@@ -7808,12 +8291,472 @@
         const profiles = [];
         const rankings = [];
         const archiveFolderOrder = [];
+        const profileUndoStacks = new WeakMap();
+        const profileInputEditSessions = new WeakMap();
         let draggedProfileName = null;
         let draggedArchiveFolderName = null;
         let draggedArchiveProfileName = null;
         let dropIndicator = null;
         let sidebarMode = 'main';
         let activeArchiveFolder = '';
+
+        function cloneProfileState(profile) {
+            ensureProfileShape(profile);
+            return {
+                values: profile.values.slice(),
+                results: profile.results.slice(),
+                totalPoints: profile.totalPoints && typeof profile.totalPoints === 'object'
+                    ? Object.assign({}, profile.totalPoints)
+                    : profile.totalPoints
+            };
+        }
+
+        function restoreProfileState(profile, state) {
+            profile.values = state.values.slice();
+            profile.results = state.results.slice();
+            profile.totalPoints = state.totalPoints && typeof state.totalPoints === 'object'
+                ? Object.assign({}, state.totalPoints)
+                : state.totalPoints;
+            ensureProfileShape(profile);
+        }
+
+        function pushProfileUndoState(profile, state = null) {
+            if (!profile) {
+                return;
+            }
+            const snapshot = state || cloneProfileState(profile);
+            const stack = profileUndoStacks.get(profile) || [];
+            const serializedSnapshot = JSON.stringify(snapshot);
+            if (stack.length === 0 || JSON.stringify(stack[stack.length - 1]) !== serializedSnapshot) {
+                stack.push(snapshot);
+                if (stack.length > 15) {
+                    stack.shift();
+                }
+                profileUndoStacks.set(profile, stack);
+                const visibleUndoButton = document.querySelector('.undo-action-button');
+                if (visibleUndoButton && visibleUndoButton.dataset.profileName === profile.name) {
+                    visibleUndoButton.disabled = false;
+                }
+            }
+        }
+
+        function getDisplayedProfile(profileName) {
+            return profiles.find(function(profile) { return profile.name === profileName; }) || null;
+        }
+
+        function rerenderCurrentProfile(profileName) {
+            const scrollArea = getContentScrollArea();
+            const scrollTop = scrollArea ? scrollArea.scrollTop : 0;
+            displayProfileResults(profileName);
+            requestAnimationFrame(function() {
+                const currentScrollArea = getContentScrollArea();
+                if (currentScrollArea) {
+                    currentScrollArea.scrollTop = scrollTop;
+                }
+            });
+        }
+
+        function undoProfileChanges(profileName) {
+            const profile = profiles.find(function(candidate) { return candidate.name === profileName; });
+            const stack = profile && profileUndoStacks.get(profile);
+            if (!profile || !stack || stack.length === 0) {
+                showAppToast('Für dieses Profil gibt es nichts rückgängig zu machen.');
+                return false;
+            }
+            restoreProfileState(profile, stack.pop());
+            saveProfilesToLocalStorage();
+            if (document.querySelector('.center')?.textContent?.trim() === profileName) {
+                rerenderCurrentProfile(profileName);
+            }
+            showAppToast('Letzte Änderung rückgängig gemacht.');
+            return true;
+        }
+
+        function getUniqueProfileCopyName(sourceName) {
+            let suffix = 1;
+            let candidate = `${sourceName} Kopie`;
+            while (isReservedProfileName(candidate)) {
+                suffix += 1;
+                candidate = `${sourceName} Kopie ${suffix}`;
+            }
+            return candidate;
+        }
+
+        function openProfileDuplicateWindow(profileName) {
+            const sourceProfile = profiles.find(function(profile) {
+                return profile.name === profileName && profile.type === 'single';
+            });
+            if (!sourceProfile) {
+                return;
+            }
+
+            const modalParts = createUnifiedModal('Profil duplizieren', 'min(92vw, 500px)');
+            const modal = modalParts.modal;
+            const content = modalParts.content;
+            const section = createModalSection();
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Name des Profils';
+            input.value = getUniqueProfileCopyName(profileName);
+            styleModalField(input);
+            section.appendChild(input);
+
+            const sourceLink = normalizeWorldAthleticsLink(sourceProfile.worldAthletics);
+            content.appendChild(section);
+
+            const confirmButton = createPrimaryButton('Duplizieren');
+            confirmButton.onclick = function() {
+                const newName = sanitizeProfileName(input.value);
+                if (!newName) {
+                    showAppToast('Bitte einen Profilnamen eingeben.');
+                    input.focus();
+                    return;
+                }
+                if (newName.includes(' vs. ') || isReservedProfileName(newName)) {
+                    showAppToast('Dieser Profilname ist bereits vergeben oder nicht zulässig.');
+                    input.focus();
+                    input.select();
+                    return;
+                }
+
+                const createdName = addProfileToSidebar(newName, 'single');
+                const createdProfile = profiles.find(function(profile) { return profile.name === createdName; });
+                if (!createdProfile) {
+                    return;
+                }
+                restoreProfileState(createdProfile, cloneProfileState(sourceProfile));
+                if (sourceLink) {
+                    createdProfile.worldAthletics = JSON.parse(JSON.stringify(sourceLink));
+                } else {
+                    delete createdProfile.worldAthletics;
+                }
+                saveProfilesToLocalStorage();
+                closeModal(modal);
+                handleProfileButtonClick(createdName);
+                showAppToast('Profil wurde dupliziert.');
+            };
+            content.appendChild(confirmButton);
+            document.body.appendChild(modal);
+            bindEnterKeyToOk(modal, confirmButton);
+            window.setTimeout(function() {
+                input.focus();
+                input.select();
+            }, 0);
+        }
+
+        function recalculateComparisonProfileFromValues(profile) {
+            const athletes = getComparisonAthletes(profile.name);
+            ensureProfileShape(profile);
+            athletes.forEach(function(athlete, athleteIndex) {
+                let total = 0;
+                for (let disciplineIndex = 0; disciplineIndex < 10; disciplineIndex += 1) {
+                    const valueIndex = athleteIndex * 10 + disciplineIndex;
+                    const disciplineType = getDisciplineType(disciplineIndex + 1);
+                    const performance = parsePerformanceValue(profile.values[valueIndex], disciplineType);
+                    const abcValues = getABCValues(disciplineIndex + 1);
+                    const points = performance == null
+                        ? 0
+                        : calculateDecathlonPoints(disciplineType, performance, abcValues[0], abcValues[1], abcValues[2]);
+                    profile.results[valueIndex] = String(points);
+                    total += points;
+                }
+                profile.totalPoints[athlete] = total;
+            });
+        }
+
+        function getWorldAthleticsBestValues(link, type) {
+            const bestMap = type === 'pb' ? link.personalBests : link.seasonBests;
+            return WORLD_ATHLETICS_CODE_BY_INDEX.map(function(code) {
+                return bestMap[code] && bestMap[code].value ? bestMap[code].value : '';
+            });
+        }
+
+        function getRecommendedAdultDecathlons(decathlons) {
+            const currentYear = new Date().getFullYear();
+            const current = decathlons.filter(function(decathlon) {
+                return getWorldAthleticsPerformanceYear(decathlon.date) === currentYear;
+            }).sort(function(left, right) {
+                return new Date(right.date).getTime() - new Date(left.date).getTime();
+            });
+            const older = decathlons.filter(function(decathlon) {
+                return getWorldAthleticsPerformanceYear(decathlon.date) !== currentYear;
+            }).sort(function(left, right) {
+                return Number(right.mark) - Number(left.mark)
+                    || new Date(right.date).getTime() - new Date(left.date).getTime();
+            });
+            return current.concat(older.slice(0, Math.max(0, 5 - current.length)));
+        }
+
+        function fillEmptyComparisonProjectionValues(profile, athleteIndex, values, sourceType) {
+            if (!profile || profile.type !== 'comparison' || !Array.isArray(values)) {
+                return 0;
+            }
+            const undoState = cloneProfileState(profile);
+            let filledFields = 0;
+            values.slice(0, 10).forEach(function(value, disciplineIndex) {
+                const profileIndex = athleteIndex * 10 + disciplineIndex;
+                if (value && !String(profile.values[profileIndex] || '').trim()) {
+                    profile.values[profileIndex] = value;
+                    filledFields += 1;
+                }
+            });
+            if (filledFields === 0) {
+                showAppToast('Es gibt keine passenden leeren Felder.');
+                return 0;
+            }
+
+            pushProfileUndoState(profile, undoState);
+            recalculateComparisonProfileFromValues(profile);
+            saveProfilesToLocalStorage();
+            rerenderCurrentProfile(profile.name);
+            const sourceLabel = sourceType === 'personal'
+                ? 'PB'
+                : sourceType === 'season'
+                    ? 'SB'
+                    : 'Zehnkampfwerten';
+            showAppToast(`${filledFields} ${filledFields === 1 ? 'Feld wurde' : 'Felder wurden'} mit ${sourceLabel} gefüllt.`);
+            return filledFields;
+        }
+
+        function openSingleProfileProjectionWindow(profileName) {
+            const profile = profiles.find(function(candidate) {
+                return candidate.name === profileName && candidate.type === 'single';
+            });
+            const link = normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            if (!profile || !link) {
+                showAppToast('Für die Hochrechnung muss das Profil verknüpft sein.');
+                return;
+            }
+
+            const modalParts = createUnifiedModal('Hochrechnung', 'min(92vw, 520px)');
+            const projectionEditor = createWorldAthleticsLinkEditor({
+                profile: profile,
+                initialLink: link,
+                mode: 'projection'
+            });
+            modalParts.content.appendChild(projectionEditor.element);
+            document.body.appendChild(modalParts.modal);
+        }
+
+        function openComparisonProjectionWindow(profileName) {
+            const comparisonProfile = profiles.find(function(profile) {
+                return profile.name === profileName && profile.type === 'comparison';
+            });
+            if (!comparisonProfile) {
+                return;
+            }
+
+            const athletes = getComparisonAthletes(profileName);
+            const sourceProfiles = athletes.map(function(athlete) {
+                return profiles.find(function(profile) {
+                    return profile.type === 'single' && profile.name === athlete;
+                }) || null;
+            });
+            if (!sourceProfiles.some(function(profile) {
+                return normalizeWorldAthleticsLink(profile && profile.worldAthletics);
+            })) {
+                showAppToast('Für die Hochrechnung muss mindestens ein Athlet verknüpft sein.');
+                return;
+            }
+
+            const modalParts = createUnifiedModal('Hochrechnung', 'min(92vw, 560px)');
+            const modal = modalParts.modal;
+            const content = modalParts.content;
+
+            sourceProfiles.forEach(function(sourceProfile, athleteIndex) {
+                const athleteSection = document.createElement('section');
+                athleteSection.className = 'comparison-projection-athlete';
+
+                const athleteName = document.createElement('div');
+                athleteName.className = 'comparison-projection-athlete-name';
+                athleteName.textContent = athletes[athleteIndex];
+                athleteSection.appendChild(athleteName);
+
+                const editor = document.createElement('div');
+                athleteSection.appendChild(editor);
+                content.appendChild(athleteSection);
+
+                const link = normalizeWorldAthleticsLink(sourceProfile && sourceProfile.worldAthletics);
+
+                function createProjectionOption(label, onClick) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'wa-projection-option';
+                    button.textContent = label;
+                    button.onclick = onClick;
+                    return button;
+                }
+
+                function appendProjectionHeader(titleText, backAction) {
+                    const heading = document.createElement('div');
+                    heading.className = 'profile-import-heading-row';
+
+                    const backButton = document.createElement('button');
+                    backButton.type = 'button';
+                    backButton.className = 'profile-import-back';
+                    backButton.textContent = '‹';
+                    backButton.setAttribute('aria-label', 'Zurück');
+                    backButton.onclick = backAction;
+                    heading.appendChild(backButton);
+
+                    const title = document.createElement('p');
+                    title.className = 'profile-import-stage-title';
+                    title.textContent = titleText;
+                    heading.appendChild(title);
+                    editor.appendChild(heading);
+                }
+
+                function renderOptions() {
+                    editor.innerHTML = '';
+                    if (!link) {
+                        const status = document.createElement('div');
+                        status.className = 'wa-search-status';
+                        status.textContent = 'Nicht mit World Athletics verknüpft.';
+                        editor.appendChild(status);
+                        return;
+                    }
+
+                    const projectionSection = document.createElement('div');
+                    projectionSection.className = 'wa-projection-section';
+                    const projectionLabel = document.createElement('div');
+                    projectionLabel.className = 'wa-projection-label';
+                    projectionLabel.textContent = 'Hochrechnung';
+                    projectionSection.appendChild(projectionLabel);
+
+                    const projectionOptions = document.createElement('div');
+                    projectionOptions.className = 'wa-projection-options';
+                    if (Object.keys(link.seasonBests).length > 0) {
+                        projectionOptions.appendChild(createProjectionOption('SB', function() {
+                            fillEmptyComparisonProjectionValues(
+                                comparisonProfile,
+                                athleteIndex,
+                                getWorldAthleticsBestValues(link, 'sb'),
+                                'season'
+                            );
+                        }));
+                    }
+                    if (Object.keys(link.personalBests).length > 0) {
+                        projectionOptions.appendChild(createProjectionOption('PB', function() {
+                            fillEmptyComparisonProjectionValues(
+                                comparisonProfile,
+                                athleteIndex,
+                                getWorldAthleticsBestValues(link, 'pb'),
+                                'personal'
+                            );
+                        }));
+                    }
+                    projectionOptions.appendChild(createProjectionOption('Zehnkampf', renderDecathlonList));
+                    projectionSection.appendChild(projectionOptions);
+                    editor.appendChild(projectionSection);
+                }
+
+                function renderDecathlonPreview(decathlon) {
+                    editor.innerHTML = '';
+                    appendProjectionHeader('Zehnkampf übernehmen', renderDecathlonList);
+
+                    const selectedCompetition = document.createElement('div');
+                    selectedCompetition.className = 'profile-import-selected';
+                    const competitionLabel = document.createElement('strong');
+                    competitionLabel.textContent = `${decathlon.competition || 'Zehnkampf'} · ${formatWorldAthleticsCompetitionDate(decathlon.date)}`;
+                    selectedCompetition.appendChild(competitionLabel);
+                    editor.appendChild(selectedCompetition);
+
+                    const disciplineLabels = ['100 m', 'Weitsprung', 'Kugelstoß', 'Hochsprung', '400 m', '110 m Hürden', 'Diskuswurf', 'Stabhochsprung', 'Speerwurf', '1500 m'];
+                    const preview = document.createElement('div');
+                    preview.className = 'profile-import-preview';
+                    decathlon.componentValues.forEach(function(value, disciplineIndex) {
+                        const item = document.createElement('div');
+                        item.className = 'profile-import-preview-item';
+                        const label = document.createElement('span');
+                        label.textContent = disciplineLabels[disciplineIndex];
+                        item.appendChild(label);
+                        const mark = document.createElement('strong');
+                        mark.textContent = value;
+                        item.appendChild(mark);
+                        preview.appendChild(item);
+                    });
+                    editor.appendChild(preview);
+
+                    const actions = document.createElement('div');
+                    actions.className = 'profile-import-actions';
+                    const applyButton = createPrimaryButton('Leere Felder übernehmen');
+                    applyButton.onclick = function() {
+                        const filledFields = fillEmptyComparisonProjectionValues(
+                            comparisonProfile,
+                            athleteIndex,
+                            decathlon.componentValues,
+                            'decathlon'
+                        );
+                        if (filledFields > 0) {
+                            renderOptions();
+                        }
+                    };
+                    actions.appendChild(applyButton);
+                    editor.appendChild(actions);
+                }
+
+                async function renderDecathlonList() {
+                    editor.innerHTML = '';
+                    appendProjectionHeader('Zehnkampf auswählen', renderOptions);
+                    const status = document.createElement('div');
+                    status.className = 'wa-search-status';
+                    status.textContent = 'Vollständige Zehnkämpfe werden geprüft ...';
+                    editor.appendChild(status);
+
+                    try {
+                        const decathlons = getRecommendedAdultDecathlons(
+                            await fetchWorldAthleticsAdultDecathlonCandidates(link.athleteId)
+                        );
+                        editor.innerHTML = '';
+                        appendProjectionHeader('Zehnkampf auswählen', renderOptions);
+                        const resultStatus = document.createElement('div');
+                        resultStatus.className = 'wa-search-status';
+                        resultStatus.textContent = decathlons.length > 0
+                            ? `${decathlons.length} vollständige Zehnkämpfe verfügbar.`
+                            : 'Keine vollständigen Erwachsenen-Zehnkämpfe gefunden.';
+                        editor.appendChild(resultStatus);
+
+                        const list = document.createElement('div');
+                        list.className = 'profile-import-competition-list';
+                        decathlons.forEach(function(decathlon) {
+                            const button = document.createElement('button');
+                            button.type = 'button';
+                            button.className = 'profile-import-competition';
+
+                            const name = document.createElement('span');
+                            name.className = 'profile-import-competition-name';
+                            name.textContent = decathlon.competition || 'Zehnkampf';
+                            button.appendChild(name);
+
+                            const points = document.createElement('span');
+                            points.className = 'profile-import-competition-points';
+                            points.textContent = `${decathlon.mark} Pkt.`;
+                            button.appendChild(points);
+
+                            const meta = document.createElement('span');
+                            meta.className = 'profile-import-competition-meta';
+                            const location = getWorldAthleticsLocationLabel(decathlon.location);
+                            meta.textContent = [formatWorldAthleticsCompetitionDate(decathlon.date), location]
+                                .filter(Boolean)
+                                .join(' · ');
+                            button.appendChild(meta);
+                            button.onclick = function() {
+                                renderDecathlonPreview(decathlon);
+                            };
+                            list.appendChild(button);
+                        });
+                        editor.appendChild(list);
+                    } catch (error) {
+                        status.textContent = 'Die Zehnkämpfe konnten derzeit nicht geladen werden.';
+                        console.error('Hochrechnungen konnten nicht geladen werden:', error);
+                    }
+                }
+
+                renderOptions();
+            });
+
+            document.body.appendChild(modal);
+        }
 
         function saveRankingsToLocalStorage() {
             localStorage.setItem('rankings', JSON.stringify(rankings));
@@ -7872,7 +8815,7 @@
         function displayProfileResults(profileName) {
             hideWorldAthleticsPerformanceSuggestions();
             destroyAnalysisCharts();
-            const profile = profiles.find(p => p.name === profileName);
+            const profile = getDisplayedProfile(profileName);
             if (!profile) return;
             ensureProfileShape(profile);
 
@@ -7936,12 +8879,16 @@
         }
 
         function buildDescendingRanks(values) {
-            const sortedValues = Array.from(new Set(values.slice().sort(function(a, b) {
+            const sortedValues = values.map(function(value) {
+                const numericValue = Number(value);
+                return Number.isFinite(numericValue) ? numericValue : 0;
+            }).sort(function(a, b) {
                 return b - a;
-            })));
+            });
 
             return values.map(function(value) {
-                return sortedValues.indexOf(value) + 1;
+                const numericValue = Number(value);
+                return sortedValues.indexOf(Number.isFinite(numericValue) ? numericValue : 0) + 1;
             });
         }
 
@@ -7992,6 +8939,19 @@
                 return runningTotal;
             });
             return includeStart ? [0].concat(series) : series;
+        }
+
+        function getAnalysisCumulativeCarrySeries(results, values) {
+            let runningTotal = 0;
+            let hasStarted = false;
+            return Array.from({ length: 10 }, function(_, index) {
+                const points = getAnalysisPoint(results[index], values[index]);
+                if (points !== null) {
+                    runningTotal += points;
+                    hasStarted = true;
+                }
+                return hasStarted ? runningTotal : null;
+            });
         }
 
         function getVisibleAnalysisDisciplineCount(athleteEntries) {
@@ -8472,7 +9432,8 @@
             let activeTab = 'progress';
             const tabs = createAnalysisTabs([
                 { key: 'progress', label: 'Verlauf' },
-                { key: 'disciplines', label: 'Disziplinen' }
+                { key: 'disciplines', label: 'Disziplinen' },
+                { key: 'difference', label: 'Abstand' }
             ], activeTab, function(nextTab) {
                 activeTab = nextTab;
                 renderComparisonAnalysisChart();
@@ -8495,6 +9456,84 @@
                     { values: values1, results: results1 },
                     { values: values2, results: results2 }
                 ]);
+
+                if (activeTab === 'difference') {
+                    const card = createAnalysisChartCard('Abstand zur Führung', '');
+                    chartHost.appendChild(card);
+                    const cumulative1 = getAnalysisCumulativeCarrySeries(results1, values1);
+                    const cumulative2 = getAnalysisCumulativeCarrySeries(results2, values2);
+                    const leaders = Array.from({ length: visibleDisciplineCount }, function(_, index) {
+                        if (cumulative1[index] === null && cumulative2[index] === null) {
+                            return null;
+                        }
+                        return Math.max(cumulative1[index] || 0, cumulative2[index] || 0);
+                    });
+                    const defaults = getAnalysisChartDefaults();
+                    defaults.plugins.tooltip.callbacks = {
+                        label: function(context) {
+                            const value = context.parsed.y;
+                            return `${context.dataset.label}: ${value} P`;
+                        }
+                    };
+                    defaults.scales = {
+                        x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                        y: Object.assign(getAnalysisScaleDefaults(), {
+                            max: 0,
+                            grid: {
+                                color: function(context) {
+                                    return context.tick.value === 0 ? 'rgba(255, 255, 255, 0.38)' : 'rgba(255, 255, 255, 0.08)';
+                                }
+                            },
+                            title: { display: true, text: 'Abstand in Punkten', color: '#aeb8c0' }
+                        })
+                    };
+                    enableAnalysisLineFocus(defaults);
+                    createAnalysisChart(card, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({ length: visibleDisciplineCount }, function(_, index) {
+                                return getInputName(index + 1);
+                            }),
+                            datasets: [
+                                {
+                                    label: athlete1,
+                                    data: cumulative1.slice(0, visibleDisciplineCount).map(function(score, index) {
+                                        return score === null || leaders[index] === null ? null : score - leaders[index];
+                                    }),
+                                    analysisBaseColor: ANALYSIS_COLORS[0],
+                                    borderColor: ANALYSIS_COLORS[0],
+                                    backgroundColor: ANALYSIS_COLORS[0],
+                                    pointBackgroundColor: ANALYSIS_COLORS[0],
+                                    pointBorderColor: ANALYSIS_COLORS[0],
+                                    borderWidth: 2.5,
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    tension: 0,
+                                    spanGaps: false
+                                },
+                                {
+                                    label: athlete2,
+                                    data: cumulative2.slice(0, visibleDisciplineCount).map(function(score, index) {
+                                        return score === null || leaders[index] === null ? null : score - leaders[index];
+                                    }),
+                                    analysisBaseColor: ANALYSIS_COLORS[1],
+                                    borderColor: ANALYSIS_COLORS[1],
+                                    backgroundColor: ANALYSIS_COLORS[1],
+                                    pointBackgroundColor: ANALYSIS_COLORS[1],
+                                    pointBorderColor: ANALYSIS_COLORS[1],
+                                    borderWidth: 2.5,
+                                    borderDash: [7, 4],
+                                    pointRadius: 4,
+                                    pointHoverRadius: 6,
+                                    tension: 0,
+                                    spanGaps: false
+                                }
+                            ]
+                        },
+                        options: defaults
+                    }, `Abstand zur Führung zwischen ${athlete1} und ${athlete2}.`);
+                    return;
+                }
 
                 if (activeTab === 'disciplines') {
                     const card = createAnalysisChartCard(
@@ -8606,7 +9645,7 @@
                                 pointRadius: 4,
                                 pointHoverRadius: 6,
                                 borderWidth: 2.5,
-                                tension: 0.18,
+                                tension: 0,
                                 spanGaps: false
                             },
                             {
@@ -8624,7 +9663,7 @@
                                 pointHoverRadius: 6,
                                 borderWidth: 2.5,
                                 borderDash: [7, 4],
-                                tension: 0.18,
+                                tension: 0,
                                 spanGaps: false
                             }
                         ]
@@ -8655,7 +9694,8 @@
 
             const tabs = createAnalysisTabs([
                 { key: 'points', label: 'Verlauf' },
-                { key: 'places', label: 'Platzierung' }
+                { key: 'places', label: 'Platzierung' },
+                { key: 'difference', label: 'Abstand' }
             ], activeTab, function(nextTab) {
                 activeTab = nextTab;
                 renderRankingAnalysisChart();
@@ -8852,6 +9892,8 @@
                 chartHost.innerHTML = '';
                 if (activeTab === 'places') {
                     renderRankingPlacesChart();
+                } else if (activeTab === 'difference') {
+                    renderRankingDifferenceChart();
                 } else {
                     renderRankingPointsChart();
                 }
@@ -8990,7 +10032,7 @@
                                 pointHoverRadius: 6,
                                 borderWidth: 2.3,
                                 borderDash: getAnalysisLineDash(entryIndex),
-                                tension: 0.16,
+                                tension: 0,
                                 spanGaps: false
                             };
                         })
@@ -8998,6 +10040,80 @@
                     options: defaults,
                     plugins: [finalScoreLabelsPlugin]
                 }, `Kumulierter Punkteverlauf im Ranking ${ranking.name}.`);
+            }
+
+            function renderRankingDifferenceChart() {
+                const card = createAnalysisChartCard('Abstand zur Führung', '');
+                chartHost.appendChild(card);
+                const selectedEntries = getSelectedEntries();
+                appendRankingChartToolbar(card);
+                const visibleDisciplineCount = getVisibleAnalysisDisciplineCount(entries);
+                const cumulativeByEntry = entries.map(function(entry) {
+                    return getAnalysisCumulativeCarrySeries(entry.results, entry.values);
+                });
+                const leaderByDiscipline = Array.from({ length: visibleDisciplineCount }, function(_, disciplineIndex) {
+                    const availableScores = cumulativeByEntry.map(function(series) {
+                        return series[disciplineIndex];
+                    }).filter(function(value) { return value !== null; });
+                    return availableScores.length > 0 ? Math.max.apply(null, availableScores) : null;
+                });
+                const chartFrame = card.querySelector('.analysis-chart-frame');
+                chartFrame.style.height = `${Math.max(window.innerWidth <= 680 ? 520 : 600, selectedEntries.length * 25 + 170)}px`;
+                const defaults = getAnalysisChartDefaults();
+                defaults.plugins.legend.display = false;
+                defaults.plugins.tooltip.callbacks = {
+                    label: function(context) {
+                        const value = context.parsed.y;
+                        return `${context.dataset.label}: ${value === 0 ? '0' : value} P`;
+                    }
+                };
+                defaults.scales = {
+                    x: Object.assign(getAnalysisScaleDefaults(), { grid: { display: false } }),
+                    y: Object.assign(getAnalysisScaleDefaults(), {
+                        max: 0,
+                        grid: {
+                            color: function(context) {
+                                return context.tick.value === 0 ? 'rgba(255, 255, 255, 0.38)' : 'rgba(255, 255, 255, 0.08)';
+                            }
+                        },
+                        title: { display: true, text: 'Abstand in Punkten', color: '#aeb8c0' }
+                    })
+                };
+                enableAnalysisLineFocus(defaults);
+
+                createAnalysisChart(card, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({ length: visibleDisciplineCount }, function(_, index) {
+                            return getInputName(index + 1);
+                        }),
+                        datasets: selectedEntries.map(function(entry) {
+                            const entryIndex = entries.findIndex(function(candidate) { return candidate.name === entry.name; });
+                            const color = getEntryColor(entry.name);
+                            return {
+                                label: entry.name,
+                                data: cumulativeByEntry[entryIndex].slice(0, visibleDisciplineCount).map(function(score, disciplineIndex) {
+                                    return score === null || leaderByDiscipline[disciplineIndex] === null
+                                        ? null
+                                        : score - leaderByDiscipline[disciplineIndex];
+                                }),
+                                analysisBaseColor: color,
+                                borderColor: color,
+                                backgroundColor: color,
+                                pointBackgroundColor: color,
+                                pointBorderColor: color,
+                                pointStyle: getAnalysisPointStyle(entryIndex),
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                borderWidth: 2.3,
+                                borderDash: getAnalysisLineDash(entryIndex),
+                                tension: 0,
+                                spanGaps: false
+                            };
+                        })
+                    },
+                    options: defaults
+                }, `Abstand zur Führung im Ranking ${ranking.name}.`);
             }
 
             function renderRankingPlacesChart() {
@@ -9048,9 +10164,13 @@
                             return {
                                 label: entry.name,
                                 entryIndex: entryIndex,
-                                data: ranksByDiscipline.slice(0, visibleDisciplineCount).map(function(ranks, disciplineIndex) {
-                                    return hasAnalysisPerformance(entry.values[disciplineIndex]) ? ranks[entryIndex] : null;
-                                }),
+                                data: (function() {
+                                    let hasStarted = false;
+                                    return ranksByDiscipline.slice(0, visibleDisciplineCount).map(function(ranks, disciplineIndex) {
+                                        hasStarted = hasStarted || hasAnalysisPerformance(entry.values[disciplineIndex]);
+                                        return hasStarted ? ranks[entryIndex] : null;
+                                    });
+                                })(),
                                 analysisBaseColor: color,
                                 borderColor: color,
                                 backgroundColor: color,
@@ -9061,7 +10181,7 @@
                                 pointHoverRadius: 6,
                                 borderWidth: 2.3,
                                 borderDash: getAnalysisLineDash(entryIndex),
-                                tension: 0.12,
+                                tension: 0,
                                 spanGaps: false
                             };
                         })
@@ -9475,7 +10595,12 @@
                 openRankingWindow(ranking.name);
             }, null, entries.length >= 2 ? function() {
                 openRankingAnalysis(ranking.name);
-            } : null);
+            } : null, [{
+                label: 'Löschen',
+                danger: true,
+                separatorBefore: true,
+                handler: function() { confirmRankingDeletion(ranking.name); }
+            }]);
 
             if (entries.length === 0) {
                 const emptyState = document.createElement('div');
@@ -9509,14 +10634,7 @@
                     return cumulativeValues[disciplineIndex];
                 }));
             });
-            const disciplineTopRanksByIndex = disciplinePointsByIndex.map(function(pointValues) {
-                const uniqueValues = Array.from(new Set(pointValues.filter(function(value) {
-                    return value > 0;
-                }).sort(function(a, b) {
-                    return b - a;
-                }))).slice(0, 3);
-                return uniqueValues;
-            });
+            const totalRanks = buildDescendingRanks(entries.map(function(entry) { return entry.totalPoints; }));
 
             const headerRow = document.createElement('div');
             headerRow.className = 'ranking-row ranking-header';
@@ -9551,7 +10669,7 @@
 
                 const place = document.createElement('div');
                 place.className = 'ranking-place';
-                place.textContent = `${index + 1}.`;
+                place.textContent = `${totalRanks[index]}.`;
                 athleteCell.appendChild(place);
 
                 const name = document.createElement('div');
@@ -9569,12 +10687,11 @@
                     const cumulativeRank = cumulativeRanksByIndex[valueIndex][index];
 
                     if (entries.length > 1 && currentPoints > 0) {
-                        const topValues = disciplineTopRanksByIndex[valueIndex];
-                        if (topValues[0] === currentPoints) {
+                        if (disciplineRank === 1) {
                             valueCell.classList.add('is-best');
-                        } else if (entries.length >= 4 && topValues[1] === currentPoints) {
+                        } else if (disciplineRank === 2) {
                             valueCell.classList.add('is-second-best');
-                        } else if (entries.length >= 4 && topValues[2] === currentPoints) {
+                        } else if (disciplineRank === 3) {
                             valueCell.classList.add('is-third-best');
                         }
                     }
@@ -9635,7 +10752,7 @@
                 totalValue.textContent = `${entry.totalPoints} P`;
                 totalCell.appendChild(totalValue);
 
-                if (index !== 0) {
+                if (totalBehind > 0) {
                     const totalMeta = document.createElement('div');
                     totalMeta.className = 'ranking-total-meta';
                     totalMeta.textContent = `-${totalBehind} P`;
@@ -9656,9 +10773,34 @@
         function displaySingleProfile(profile) {
             const labelsContainer = document.querySelector('.labels-container');
             labelsContainer.innerHTML = '';
-            appendViewHeader(labelsContainer, profile.name, function() {
-                openProfileRenameWindow(profile.name);
-            }, profile);
+            const profileActions = [
+                {
+                    label: 'Hochrechnung',
+                    handler: function() { openSingleProfileProjectionWindow(profile.name); }
+                },
+                { label: 'Duplizieren', handler: function() { openProfileDuplicateWindow(profile.name); } }
+            ];
+            if (profile.archived !== true) {
+                profileActions.push({
+                    label: 'Archivieren',
+                    handler: function() { openArchiveProfileWindow(profile.name); }
+                });
+            }
+            profileActions.push({
+                label: 'Löschen',
+                danger: true,
+                separatorBefore: true,
+                handler: function() { confirmProfileDeletion(profile.name, true); }
+            });
+            appendViewHeader(
+                labelsContainer,
+                profile.name,
+                function() { openProfileRenameWindow(profile.name); },
+                profile,
+                null,
+                profileActions,
+                profile.name
+            );
 
             const contentSurface = document.createElement('div');
             contentSurface.className = 'profile-view-surface single-profile-surface';
@@ -9684,7 +10826,14 @@
                 `;
 
                 contentSurface.appendChild(label);
-                attachWorldAthleticsSuggestions(profile, i, label.querySelector('input.input'));
+                const performanceInput = label.querySelector('input.input');
+                const inputCluster = document.createElement('div');
+                inputCluster.className = 'single-performance-cluster';
+                performanceInput.replaceWith(inputCluster);
+                performanceInput.style.flex = 'none';
+                inputCluster.appendChild(performanceInput);
+                attachWorldAthleticsSuggestions(profile, i, performanceInput);
+                updateWorldAthleticsRecordHint(profile, i, performanceInput, inputCluster);
             }
 
             // Gesamtpunktzahl-Anzeige hinzufügen
@@ -9724,16 +10873,26 @@
                     <div class="comparison-athlete-name">${athlete1}</div>
                 </div>
                 <div class="comparison-header-center">
-                    <div class="comparison-header-badge">vs</div>
+                    <div class="comparison-header-actions"></div>
                 </div>
                 <div class="comparison-athlete-head is-right">
                     <div class="comparison-athlete-name">${athlete2}</div>
                 </div>
             `;
-            comparisonHeader.querySelector('.comparison-header-center')
-                .appendChild(createAnalyticsIconButton(function() {
+            const comparisonHeaderActions = comparisonHeader.querySelector('.comparison-header-actions');
+            comparisonHeaderActions.appendChild(createAnalyticsIconButton(function() {
                     openComparisonAnalysis(profile.name);
                 }));
+            comparisonHeaderActions.appendChild(createProfileActionsMenu([
+                { label: 'Hochrechnung', handler: function() { openComparisonProjectionWindow(profile.name); } },
+                {
+                    label: 'Löschen',
+                    danger: true,
+                    separatorBefore: true,
+                    handler: function() { confirmProfileDeletion(profile.name, true); }
+                }
+            ], `Aktionen für ${profile.name}`));
+            comparisonHeaderActions.appendChild(createUndoIconButton(profile.name));
             contentSurface.appendChild(comparisonHeader);
 
             const comparisonList = document.createElement('div');
@@ -9767,16 +10926,23 @@
                     </div>
                 `;
                 comparisonList.appendChild(label);
+                const firstInput = label.querySelector('.comparison-input-first');
+                const firstContainer = label.querySelector('.comparison-athlete-column.is-left .comparison-performance');
                 attachWorldAthleticsSuggestions(
                     athlete1Profile,
                     i,
-                    label.querySelector('.comparison-input-first')
+                    firstInput
                 );
+                updateWorldAthleticsRecordHint(athlete1Profile, i, firstInput, firstContainer);
+
+                const secondInput = label.querySelector('.comparison-input-second');
+                const secondContainer = label.querySelector('.comparison-athlete-column.is-right .comparison-performance');
                 attachWorldAthleticsSuggestions(
                     athlete2Profile,
                     i,
-                    label.querySelector('.comparison-input-second')
+                    secondInput
                 );
+                updateWorldAthleticsRecordHint(athlete2Profile, i, secondInput, secondContainer);
             }
 
             const totalLabel = document.createElement('div');
@@ -11684,6 +12850,11 @@
 
         window.addEventListener('resize', function() {
             updateInstallHintVisibility();
+            document.querySelectorAll('.comparison-performance.has-record-hint').forEach(function(container) {
+                const input = container.querySelector('.comparison-performance-input');
+                const hint = container.querySelector('.wa-record-hint');
+                positionComparisonRecordHint(input, container, hint);
+            });
             document.querySelectorAll('.ranking-view').forEach(function(rankingView) {
                 const scrollWrapper = rankingView.querySelector('.ranking-scroll');
                 if (scrollWrapper) {
@@ -12236,6 +13407,7 @@
             const worldAthleticsLinkEditor = createWorldAthleticsLinkEditor({
                 profile: profile,
                 initialLink: profile.worldAthletics,
+                showProjection: false,
                 getSearchSeed: function() {
                     return inputField.value;
                 }
