@@ -1,4 +1,4 @@
-const APP_VERSION = "v52";
+const APP_VERSION = "v53";
 const STATIC_CACHE = `zehnkampfrechner-static-${APP_VERSION}`;
 const RUNTIME_CACHE = `zehnkampfrechner-runtime-${APP_VERSION}`;
 const NAVIGATION_TIMEOUT_MS = 2000;
@@ -10,6 +10,7 @@ const CORE_ASSETS = [
   "./service-worker.js",
   "./vendor/chart.umd.min.js",
   "./imgs/analytics.png",
+  "./imgs/back.png",
   "./imgs/BHX.jpeg",
   "./imgs/appIcon.png",
   "./imgs/comparison.png",

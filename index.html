@@ -1475,10 +1475,9 @@
             transform: translateY(-1px);
         }
 
-        .undo-action-button {
-            color: #f4f7f9;
-            font: 500 25px/1 'Roboto', sans-serif;
-        }
+.undo-action-button {
+    color: #f4f7f9;
+}
 
         .undo-action-button:disabled {
             cursor: default;
@@ -6499,12 +6498,16 @@
             return button;
         }
 
-        function createUndoIconButton(profileName) {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'icon-action-button undo-action-button';
-            button.textContent = '↶';
-            button.setAttribute('aria-label', 'Letzte Änderung rückgängig machen');
+function createUndoIconButton(profileName) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'icon-action-button undo-action-button';
+    const icon = document.createElement('img');
+    icon.src = 'imgs/back.png';
+    icon.alt = '';
+    icon.draggable = false;
+    button.appendChild(icon);
+    button.setAttribute('aria-label', 'Letzte Änderung rückgängig machen');
             button.title = 'Rückgängig';
             button.dataset.profileName = profileName;
             const profile = profiles.find(function(candidate) { return candidate.name === profileName; });
