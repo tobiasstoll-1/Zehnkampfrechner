@@ -1196,7 +1196,8 @@
         }
 
         #archiveSection .archive-folder-entry > .sidebar-main-button > img,
-        #archiveSection .archive-profile-item > .sidebar-main-button > img {
+        #archiveSection .archive-profile-item > .sidebar-main-button > img,
+        #archiveSection .ranking-sidebar-item > .sidebar-main-button > img {
             display: block !important;
             width: 16px;
             height: 16px;
@@ -4043,15 +4044,10 @@
             }
 
             .analysis-inline-legend {
-                flex-wrap: nowrap;
-                overflow-x: auto;
+                flex-wrap: wrap;
+                gap: 8px 12px;
+                overflow: visible;
                 padding: 3px 1px;
-                scrollbar-width: none;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .analysis-inline-legend::-webkit-scrollbar {
-                display: none;
             }
 
             .analysis-inline-legend-item {
